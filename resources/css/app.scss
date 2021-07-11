@@ -1,0 +1,757 @@
+@use "@material/theme" with (
+ $primary: #0180FF,
+ $secondary: #0180FF,
+ $on-primary: #000000,
+ $on-secondary: #000000,
+ $background: #121212,
+);
+@use "@material/button";
+@use "@material/button/styles" as button-style;
+@use "@material/floating-label/mdc-floating-label";
+@use "@material/line-ripple/mdc-line-ripple";
+@use "@material/notched-outline/mdc-notched-outline";
+@use "@material/textfield";
+@use "@material/card";
+@use "@material/icon-button";
+@use "@material/checkbox";
+@use "@material/form-field";
+@use "@material/elevation/mdc-elevation";
+@use "@material/shape";
+@use "@material/list";
+@use "@material/menu-surface";
+@use "@material/menu";
+@use "@material/fab";
+@use "@material/list/mdc-list";
+@use "@material/menu-surface/mdc-menu-surface";
+@use "@material/menu/mdc-menu";
+@use "@material/select/mdc-select";
+@use "@material/textfield/helper-text";
+@use "@material/snackbar/mdc-snackbar";
+@use "@material/snackbar";
+@use "@material/switch";
+@use "@material/ripple";
+@use "@material/layout-grid/mdc-layout-grid";
+@use "@material/dialog";
+@use "@material/typography/mdc-typography";
+@use "@material/tooltip/styles";
+@use "@material/circular-progress/mdc-circular-progress";
+@use '@material/select';
+@use "@material/textfield/character-counter";
+@use "@material/textfield/icon";
+@use '@material/radio/styles' as radio-style;
+@use '@material/radio';
+@use "@material/data-table/data-table";
+@use "@material/data-table/styles" as tooltip-style;
+@use "@material/banner/styles" as banner-style;
+
+@import "filepond/dist/filepond.min.css";
+@import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+@include data-table.core-styles;
+@include data-table.theme-baseline;
+@include icon.icon-core-styles;
+@include character-counter.character-counter-core-styles;
+@include dialog.core-styles;
+@include switch.core-styles;
+@include helper-text.helper-text-core-styles;
+@include fab.core-styles;
+@include list.core-styles;
+@include icon-button.core-styles;
+@include checkbox.core-styles;
+@include form-field.core-styles;
+@include card.core-styles;
+@include textfield.core-styles;
+
+//Non-themed elements
+.profile_menu{
+  @include menu.width(350px);
+}
+.addclass_card{
+  @include card.shape-radius(10px);
+}
+.mdc-button{
+  @include button.shape-radius(15%);
+}
+.mdc-menu-surface{
+  @include menu-surface.shape-radius(12px);
+}
+.mdc-card{
+  @include card.shape-radius(12px);
+}
+.mdc-dialog{
+  @include dialog.shape-radius(12px);
+}
+.class-card {
+  transition: background-color 0.6s ease, color 0.7s ease, border-color 0.6s ease;
+}
+
+//Variables
+.theme-div{
+  --text-color: #000000;
+  --secondary-text-color: #666666;
+  --disabled-text-color: #00000061;
+  --text-gray-500: #6b7280;
+  --text-gray-600: #4B5563;
+  --text-gray-700: #374151;
+  --mdc-theme-text-primary-on-background: #000000;
+
+  --mdc-theme-primary: #0D6ED1;
+  --mdc-theme-secondary: #0D6ED1;
+  --mdc-theme-on-primary: #FFFFFF;
+  --mdc-theme-on-secondary: #FFFFFF;
+  --mdc-checkbox-unchecked-color: #000000;
+  --mdc-theme-background: #FFFFFF;
+  --sec-surface-background: #FFFFFF;
+  --ter-surface-background: #FFFFFF;
+  --mdc-checkbox-ink-color: #FFFFFF;
+
+  --card-green: #2c734f;
+  --card-yellow: #c7c614;
+  --card-red: #e6493b;
+  --card-blue: #235cb1;
+  --card-lime: #52a43c;
+  --card-orange: #e28111;
+  --card-indigo: #41a5c3;
+  --card-purple: #713bd1;
+  --color-red: #B00020;
+  --color-green: #008b00;
+
+
+  --border-100: #f4f5f7;
+  --border-200: #D2DCDC;
+  --card-outline: transparent;
+  --outlined-card-outline: #E0E0E0;
+  --menu-surface: #FFFFFF;
+  --dialog-surface: #FFFFFF;
+  --textfield-fill-color: whitesmoke;
+  --textfield-outline-color: #D4D4D4;
+  --textfield-hover-outline-color: #000000;
+  --textfield-label-color: #666666;
+  --textfield-icon-color: #666666;
+  --textfield-disabled: #FAFAFA;
+  --snackbar-fill-color: #333333;
+  --snackbar-ink-color: #FFFFFF;
+  --helper-text: #00000099;
+  --current-class: #FFFFFF;
+  --list-selected-item: #EBEBEB;
+}
+.theme-div.theme-dark{
+  --text-color: #FFFFFFDE;
+  --secondary-text-color: #FFFFFF99;
+  --disabled-text-color: #eaeaea61;
+  --text-gray-500: #FFFFFF99;
+  --text-gray-600: #FFFFFF99;
+  --text-gray-700: #FFFFFF99;
+  --mdc-theme-text-primary-on-background: #FFFFFFDE;
+
+  --mdc-theme-primary: #95CFFE;
+  --mdc-theme-secondary: #95CFFE;
+  --mdc-theme-on-primary: #000000;
+  --mdc-theme-on-secondary: #000000;
+  --mdc-checkbox-unchecked-color: #FFFFFFDE;
+  --mdc-theme-background: #1c1c1c;
+  --sec-surface-background: #232323;
+  --ter-surface-background: #2E2E2E;
+  --mdc-checkbox-ink-color: #000000;
+
+  --card-green: #235C3F;
+  --card-yellow: #9F9E10;
+  --card-red: #A32015;
+  --card-blue: #1C4A8E;
+  --card-lime: #428330;
+  --card-orange: #B5670E;
+  --card-indigo: #308199;
+  --card-purple: #51259F;
+  --color-red: #CF6679;
+  --color-green: #92D5BE;
+
+
+  --border-100: #333333;
+  --border-200: #2D2D2D;
+  --card-outline: #232323;
+  --outlined-card-outline: #232323;
+  --menu-surface: #2C2C2C;
+  --dialog-surface: #2E2E2E;
+  --textfield-fill-color: #2C2C2C;
+  --textfield-outline-color: #7D7467;
+  --textfield-hover-outline-color: #FFFFFFDE;
+  --textfield-label-color: #FFFFFFDE;
+  --textfield-icon-color: #FFFFFFDE;
+  --textfield-disabled: #FFFFFF61;
+  --snackbar-fill-color: #FFFFFFDE;
+  --snackbar-ink-color: #000000;
+  --helper-text: #E2E1E1;
+  --current-class: #232323;
+  --list-selected-item: #565656;
+}
+
+//Text colors
+
+.text-green{
+  color: var(--color-green);
+}
+.text-red{
+  color: var(--color-red);
+}
+
+//Descendent selector themed items
+
+.check_icon, .check_icon_sm{
+  filter: invert(51%) sepia(100%) saturate(322%) hue-rotate(73deg) brightness(97%) contrast(78%);
+}
+body.theme-dark .check_icon, body.theme-dark .check_icon_sm{
+  filter: invert(93%) sepia(15%) saturate(725%) hue-rotate(90deg) brightness(87%) contrast(88%);
+}
+.x_icon{
+  filter: invert(29%) sepia(75%) saturate(2596%) hue-rotate(341deg) brightness(84%) contrast(96%);
+}
+body.theme-dark .x_icon{
+  filter: invert(62%) sepia(24%) saturate(6120%) hue-rotate(311deg) brightness(92%) contrast(74%);
+}
+#link-icon-theme{
+  background-image: url('https://schedulist.xyz/images/icon/link-black.svg');
+}
+body.theme-dark #link-icon-theme{
+  background-image: url('https://schedulist.xyz/images/icon/link-white.svg');
+}
+.logoimage{
+  background-image: url('https://schedulist.xyz/images/logo/logo_dark.svg');
+}
+body.theme-dark .logoimage{
+  background-image: url('https://schedulist.xyz/images/logo/logo_light.svg');
+}
+.email_head{
+  color: #878787;
+}
+body.theme-dark .email_head{
+  color: #FFFFFF99;
+}
+.app-footer{
+  margin-top: 1.5rem;
+  background-color: #FFFFFF;
+  border-top: solid .7px #E8E9ED;
+}
+body.theme-dark .app-footer{
+  background-color: #1B1D1E;
+  border-top: none;
+}
+.footer-div{
+  background-color: #FFFFFF;
+}
+body.theme-dark .footer-div{
+  background-color: #1B1D1E;
+}
+
+//Variable themed items
+
+.mdc-typography.white{
+  color: white;
+}
+.mdc-icon-button.material-icons.colbutton{
+  color: white;
+}
+.no-theme.theme-border{
+  border-color: var(--mdc-theme-primary);
+}
+.mdc-card.class_Green{
+  @include card.fill-color(var(--card-green));
+}
+.mdc-card.class_Purple{
+  @include card.fill-color(var(--card-purple));
+}
+.mdc-card.class_Red{
+  @include card.fill-color(var(--card-red));
+}
+.mdc-card.class_Orange{
+  @include card.fill-color(var(--card-orange));
+}
+.mdc-card.class_Indigo{
+  @include card.fill-color(var(--card-indigo));
+}
+.mdc-card.class_Lime{
+  @include card.fill-color(var(--card-lime));
+}
+.mdc-card.class_Yellow{
+  @include card.fill-color(var(--card-yellow));
+}
+.mdc-card.class_Blue{
+  @include card.fill-color(var(--card-blue));
+}
+.theme-div, .base-bg{
+  background-color: var(--mdc-theme-background) !important;
+}
+.delete_account {
+  @include button.container-fill-color(var(--color-red));
+  @include button.ink-color(var(--mdc-theme-on-primary));
+}
+.text-error{
+  color: var(--color-red);
+  margin-top:-14px;
+  margin-bottom:-8px;
+}
+.modal-background{
+  background-color: var(--sec-surface-background);
+}
+.mdc-card.profile_menu{
+  @include card.fill-color(var(--ter-surface-background));
+}
+.border-t.border-gray-200, .section-border.border-200{
+  border-color: var(--border-200);
+}
+.border-t.border-gray-100, .section-border.border-100{
+  border-color: var(--border-100);
+}
+.mdc-card{
+  @include card.outline(var(--card-outline))
+}
+.mdc-card--outlined{
+  @include card.fill-color(var(--sec-surface-background));
+  @include card.outline(var(--outlined-card-outline))
+}
+.mdc-text-field{
+  @include textfield.ink-color(var(--text-color));
+  @include textfield.shape-radius(15%);
+  @include textfield.outline-shape-radius(15%);
+  @include textfield.outline-color(var(--textfield-outline-color));
+  @include textfield.disabled-fill-color(var(--textfield-disabled));
+}
+.mdc-text-field--filled, .mdc-select--filled > .mdc-select__anchor{
+  @include textfield.fill-color(var(--textfield-fill-color));
+  @include select.container-fill-color(var(--textfield-fill-color));
+}
+.mdc-text-field:not(.mdc-text-field--focused):not(.mdc-text-field--invalid){
+  @include textfield.label-color(var(--textfield-label-color));
+}
+.mdc-text-field.mdc-text-field--focused:not(.mdc-text-field--invalid){
+  @include textfield.label-color(var(--mdc-theme-primary));
+}
+.mdc-text-field--filled:not(.mdc-text-field--invalid){
+  @include textfield.placeholder-color(var(--text-color));
+  @include icon.leading-icon-color(var(--textfield-icon-color));
+  @include icon.trailing-icon-color(var(--textfield-icon-color));
+}
+.mdc-text-field--outlined:not(.mdc-text-field--invalid){
+  @include textfield.placeholder-color(var(--text-color));
+  @include textfield.hover-outline-color(var(--textfield-hover-outline-color));
+  @include icon.leading-icon-color(var(--textfield-icon-color));
+  @include icon.trailing-icon-color(var(--textfield-icon-color));
+}
+.mdc-text-field--invalid, .mdc-select--invalid{
+  $states : ("default": var(--color-red), "focus": var(--color-red));
+  @include textfield.bottom-line-color(var(--color-red));
+  @include textfield.hover-outline-color(var(--color-red));
+  @include textfield.focused-outline-color(var(--color-red));
+  @include textfield.hover-bottom-line-color(var(--color-red));
+  @include textfield.line-ripple-color(var(--color-red));
+  @include textfield.placeholder-color(var(--color-red));
+  @include textfield.label-color(var(--color-red));
+  @include select.icon-color(var(--color-red));
+  @include select.label-color($states);
+  @include select.dropdown-icon-color($states);
+  @include icon.trailing-icon-color(var(--color-red));
+}
+.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading, .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--trailing{
+  color: var(--color-red);
+}
+//Select Field
+.mdc-select{
+  @include select.filled-shape-radius(15%);
+  @include select.outline-shape-radius(15%);
+  @include select.outline-color(var(--textfield-outline-color));
+  @include select.ink-color(var(--text-color));
+}
+.mdc-select--filled:not(.mdc-select--invalid){
+  @include select.dropdown-icon-color(var(--textfield-icon-color));
+  @include select.icon-color(var(--textfield-icon-color));
+}
+.mdc-select:not(.mdc-select--invalid):not(.mdc-select--activated){
+  @include select.label-color(var(--textfield-label-color));
+
+}
+.mdc-select--activated:not(.mdc-select--invalid){
+  @include select.label-color(var(--mdc-theme-primary));
+}
+.mdc-select--outlined:not(.mdc-select--invalid){
+  $outlines : ("default": var(--textfield-outline-color), "hover": var(--textfield-hover-outline-color));
+  @include select.outline-color($outlines);
+  @include select.dropdown-icon-color(var(--textfield-icon-color));
+  @include select.icon-color(var(--textfield-icon-color));
+}
+.mdc-snackbar__action:not(:disabled){
+  color: var(--mdc-theme-primary);
+}
+.mdc-typography{
+  color: var(--text-color);
+}
+.menu-buttons{
+  @include button.height(44px);
+  @include button.ink-color(var(--text-color));
+}
+.text-error{
+  @include helper-text.helper-text-color(var(--color-red));
+}
+.mdc-typography.continue_with{
+  color: #6B7280;
+}
+body.theme-dark .mdc-typograpy.continue_with{
+  color: #FFFFFFDE;
+}
+.text-white {
+  @include button.ink-color(#FFFFFF);
+}
+.text-black {
+  @include button.ink-color(#FFFFFFDE);
+}
+.loginG {
+  @include button.ink-color(#000000);
+  @include button.container-fill-color(#FFFFFF);
+}
+.navbutton{
+  @include button.ink-color(#E2E8F0);
+  @include button.disabled-ink-color(#FFFFFFDE);
+  --mdc-theme-primary: #ffffff;
+}
+.join_class{
+  @include button.ink-color(#FFFFFFDE);
+  @include button.container-fill-color(#2D2E30);
+}
+.button_white{
+  --mdc-theme-primary: #FFFFFF;
+}
+.mdc-snackbar{
+  @include snackbar.fill-color(var(--snackbar-fill-color));
+  @include snackbar.label-ink-color(var(--snackbar-ink-color));
+}
+.mdc-text-field:not(.mdc-text-field--disabled)+.mdc-text-field-helper-line .mdc-text-field-helper-text{
+  color: var(--helper-text);
+}
+.mdc-dialog{
+  @include dialog.container-fill-color(var(--dialog-surface));
+}
+div.mdc-dialog__title{
+  color: var(--text-color) !important;
+}
+div.mdc-dialog__content{
+  color: var(--secondary-text-color) !important;
+}
+.current_class{
+  @include card.fill-color(var(--current-class));
+}
+.mdc-menu,.mdc-select__menu{
+  @include menu-surface.fill-color(var(--menu-surface));
+  @include menu-surface.ink-color(var(--text-color));
+}
+.mdc-list.dark-theme-list{
+  @include list.item-primary-text-ink-color(var(--text-color));
+  @include list.item-secondary-text-ink-color(var(--text-color));
+  @include list.item-selected-text-color(var(--text-color));
+  @include list.item-graphic-fill-color(var(--text-color));
+  color: var(--text-color);
+}
+.mdc-list-item--selected, .mdc-list-item--activated{
+  background-color: var(--list-selected-item);
+}
+body.theme-dark .mdc-icon-button:disabled{
+  color: #FFFFFF61;
+}
+.char_counter.mdc-text-field-character-counter{
+  @include character-counter.character-counter-color(var(--text-color));
+}
+.name_head{
+  color: var(--text-color);
+}
+.text-gray-500{
+  color: var(--text-gray-500) !important;
+}
+.text-gray-600{
+  color: var(--text-gray-600) !important;
+}
+.text-gray-700,{
+  color: var(--text-gray-700) !important;
+}
+.mdc-radio{
+  @include radio.unchecked-stroke-color(var(--text-color));
+}
+//Vue Element Themes
+.v-text-field--filled>.v-input__control>.v-input__slot{
+  background-color: var(--textfield-fill-color) !important;
+}
+#app .v-application .primary--text{
+  color: var(--mdc-theme-primary) !important;
+  caret-color: var(--mdc-theme-primary) !important;
+}
+div.v-application .primary{
+  background-color: #0D6ED1 !important;
+}
+body.theme-dark div.v-application .primary{
+  background-color: #1E1E1E !important;
+}
+div.v-application .accent{
+  background-color: var(--mdc-theme-primary) !important;
+}
+body.theme-div v-application .accent--text{
+  color: var(--mdc-theme-primary) !important;
+  caret-color: var(--mdc-theme-primary) !important;
+}
+body.theme-div .theme--light.v-card{
+  color: var(--text-color) !important;
+}
+body.theme-div .v-application .primary--text{
+  color: var(--mdc-theme-primary) !important;
+}
+body.theme-dark div.theme--light.v-picker__body{
+  background-color: #2C2C2C;
+}
+.theme--light.v-input, .theme--light.v-input input, .theme--light.v-input textarea{
+    color: var(--text-color) !important;
+}
+.v-time-picker-clock.theme--light {
+  background: #E0E0E0 !important;
+}
+body.theme-dark .v-time-picker-clock.theme--light{
+  background: #616161 !important;
+}
+.v-time-picker-clock__item{
+  color: var(--text-color);
+}
+div.theme--light.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
+  color: var(--text-color);
+}
+.theme--light.v-icon{
+  color: var(--textfield-icon-color) !important;
+}
+.v-label.v-label--active.theme--light{
+  color: var(--textfield-label-color);
+}
+button.theme--light.v-btn{
+  color: var(--text-color);
+}
+.v-date-picker-table button.v-btn.v-btn--active{
+  color: var(--mdc-theme-on-primary);
+}
+button.theme--light.v-btn.v-btn--disabled, .theme--light.v-btn.v-btn--disabled .v-btn__loading, .theme--light.v-btn.v-btn--disabled .v-icon{
+  color: rgba(0,0,0,.26) !important;
+}
+body.theme-dark button.theme--light.v-btn.v-btn--disabled, .theme--light.v-btn.v-btn--disabled .v-btn__loading, .theme--light.v-btn.v-btn--disabled .v-icon{
+  color: #FFFFFF61 !important;
+}
+button.theme--light.v-date-picker-table .v-date-picker-table--date__week, .theme--light.v-date-picker-table th{
+  color: rgba(0,0,0,.38) !important;
+}
+body.theme-dark button.theme--light.v-date-picker-table .v-date-picker-table--date__week, body.theme-dark .theme--light.v-date-picker-table th{
+  color: hsla(0,0%,100%,.5) !important;
+}
+.turbolinks-progress-bar{
+  background: #0D6ED1;
+}
+body.theme-dark .turbolinks-progress-bar{
+  background: #95CFFE;
+}
+.v-time-picker-clock__item.v-time-picker-clock__item--active.accent{
+  color: var(--mdc-theme-on-primary);
+}
+.mdc-typography.text-gray-800, .mdc-typography--subtitle1.text-gray-600,{
+  color: #FFFFFF99;
+}
+.edit-toprow{
+  border-bottom: solid 1px;
+  border-bottom-color: var(--border-200);
+  background-color: var(--sec-surface-background);
+}
+.char_counter.mdc-text-field-character-counter{
+  color: var(--text-color);
+}
+.check-label{
+  color: var(--text-color);
+}
+button.mdc-button:disabled:not(.navbutton){
+  color: var(--disabled-text-color);
+}
+button.mdc-button.navbutton:disabled{
+  color: #eaeaea61;
+}
+.mdc-text-field:not(.mdc-text-field--disabled) .char_counter.mdc-text-field-character-counter{
+  color: var(--text-color);
+}
+/* FilePond Style */
+body.theme-dark .filepond--panel-root {
+    background-color: var(--ter-surface-background);
+}
+.filepond--drop-label {
+    color: var(--text-color);
+}
+
+/* Agenda */
+.agenda-text-primary{
+  color: #FFFFFF;
+}
+.agenda-timeslot{
+  border-color: #DADCE0;
+}
+body.theme-dark .agenda-timeslot{
+  border-color: var(--mdc-theme-text-primary-on-background);
+}
+body.theme-dark .agenda-text-primary, .agenda-lemon .agenda-text-primary, .agenda-orange .agenda-text-primary, .agenda-teal .agenda-text-primary, .agenda-beige .agenda-text-primary {
+  color: #000000;
+}
+.agenda-text-secondary{
+  color: #FFFFFF99;
+}
+body.theme-dark .agenda-text-secondary, .agenda-lemon .agenda-text-secondary, .agenda-orange .agenda-text-secondary, .agenda-teal .agenda-text-secondary, .agenda-beige .agenda-text-secondary{
+  color: #1F2227;
+}
+.outer-agenda-container, .agenda-header, .agenda-padding{
+  background-color: var(--ter-surface-background);
+}
+.agenda-header{
+  margin-bottom: .15rem;
+}
+body.theme-dark .agenda-header{
+  margin-bottom: 0px;
+}
+.agenda-red{
+  background-color: #E6493B;
+}
+body.theme-dark .agenda-red{
+  background-color: #E67C73;
+}
+.agenda-green{
+  background-color: #2C734F;
+}
+body.theme-dark .agenda-green{
+  background-color: #61B18F;
+}
+.agenda-blue{
+  background-color: #1976D2;
+}
+body.theme-dark .agenda-blue{
+  background-color: #64B5F6;
+}
+.agenda-purple{
+  background-color: #6200EE;
+}
+body.theme-dark .agenda-purple{
+  background-color: #BB86FC;
+}
+.agenda-pink{
+  background-color: #DC4B82;
+}
+body.theme-dark .agenda-pink{
+  background-color: #ff7eb1;
+}
+.agenda-lav{
+  background-color: #9F84CF;
+}
+body.theme-dark .agenda-lav{
+  background-color: #B4A9D9;
+}
+.agenda-mint{
+  background-color: #047A6F;
+}
+body.theme-dark .agenda-mint{
+  background-color: #63ADA1;
+}
+.agenda-lemon{
+  background-color: #ffeb3b;
+}
+body.theme-dark .agenda-lemon{
+   background-color: #ffff72;
+}
+.agenda-orange{
+  background-color: #ff9800;
+}
+body.theme-dark .agenda-orange{
+  background-color: #ffc947;
+}
+.agenda-teal{
+  background-color: #42a5f5;
+}
+body.theme-dark .agenda-teal{
+  background-color: #80d6ff;
+}
+.agenda-beige{
+  background-color: #9e9e9e;
+}
+body.theme-dark .agenda-beige{
+  background-color: #CFCFCF;
+}
+.cb-red{
+  --mdc-checkbox-checked-color: #E6493B;
+  --mdc-checkbox-ink-color: #FFFFFF;
+}
+.cb-green{
+  --mdc-checkbox-checked-color: #2C734F;
+  --mdc-checkbox-ink-color: #FFFFFF;
+}
+.cb-blue{
+  --mdc-checkbox-checked-color: #1976D2;
+  --mdc-checkbox-ink-color: #FFFFFF;
+}
+body.theme-dark .cb-red{
+  --mdc-checkbox-checked-color: #E67C73;
+  --mdc-checkbox-ink-color: #000000;
+
+}
+body.theme-dark .cb-green{
+  --mdc-checkbox-checked-color: #61B18F;
+  --mdc-checkbox-ink-color: #000000;
+}
+body.theme-dark .cb-blue{
+  --mdc-checkbox-checked-color: #64B5F6;
+  --mdc-checkbox-ink-color: #000000;
+}
+.agenda-item-details, .agenda-color-picker{
+  background-color: var(--ter-surface-background);
+}
+.mdc-typography .agenda-date-active{
+  color: var(--mdc-theme-primary);
+}
+.agenda-sidebar{
+  border-left: 1px solid #E0E1E5;
+}
+body.theme-dark .agenda-sidebar{
+  border-left: 1px solid #FFFFFFDE;
+}
+.agenda-sidebar-text{
+  color: #3C4043;
+}
+body.theme-dark .agenda-sidebar-text{
+  color: var(--text-color);
+}
+.sidebar-line-header{
+  border-bottom: 1px solid #E0E1E5;
+}
+body.theme-dark .sidebar-line-header{
+  border-bottom: 1px solid #FFFFFFDE;
+}
+.day-selector{
+  color: black !important;
+  background-color: #D1D5DB;
+}
+.mdc-icon-button.day-selector.day-selector-selected{
+  color: var(--mdc-theme-on-primary) !important;
+  background-color: var(--mdc-theme-primary);
+}
+.day-selector:disabled{
+  background-color: #0d6ed169;
+  color: var(--mdc-theme-text-disabled-on-light);
+}
+body.theme-dark .mdc-icon-button.day-selector:disabled{
+  background-color: #95cffe70;
+  color: #00000052;
+}
+.mdc-checkbox{
+  @include checkbox.ink-color(--mdc-checkbox-ink-color);
+}
+.event-link-icon{
+  background-color: var(--mdc-theme-primary);
+  color: var(--mdc-theme-on-primary);
+}
+.share-link-box{
+  background-color: var(--ter-surface-background);
+  color: var(--text-color);
+  border: 0.5px solid #DADCE0;
+}
+body.theme-dark .share-link-box{
+  border: none;
+}
