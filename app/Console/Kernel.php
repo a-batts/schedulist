@@ -2,14 +2,17 @@
 
 namespace App\Console;
 
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use DB;
-use Mail;
-use Crypt;
-use Carbon\Carbon;
 use App\Jobs\SendText;
 
+use Carbon\Carbon;
+
+use Illuminate\Console\Scheduling\Schedule;
+
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class Kernel extends ConsoleKernel
 {
