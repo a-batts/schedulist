@@ -1120,3 +1120,7 @@ div.modal-skim{
   display: block;
   line-height: 1.4;
 }
+.event-share-info-div{
+  max-width: 400px;
+  width: 90%;
+}
