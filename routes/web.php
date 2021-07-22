@@ -52,17 +52,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('agenda', function() {
   return view('schedule')->with('initDate', Carbon::now());
 })->name('schedule');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('agenda/{month}/{day}/{year}', function($month, $day, $year) {
-  $initDate = Carbon::now();
-  $initDate->setDay($day)->setMonth($month)->setYear($year);
-  return view('schedule')->with('initDate', $initDate);
-});
-
 Route::middleware(['auth:sanctum', 'verified', 'verifyevent'])->get('agenda/invite/{id}/{user?}', function(Request $request, $id, $user = null) {
   if (! $request->hasValidSignature())
     abort(401);
   return view('schedule')->with('sharedEvent', Event::find($id));
 })->name('share-event');
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('agenda/{month}/{day}/{year}', function($month, $day, $year) {
+  $initDate = Carbon::now();
+  $initDate->setDay($day)->setMonth($month)->setYear($year);
+  return view('schedule')->with('initDate', $initDate);
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('user/profile', function() {
     return View::make('profile.show');

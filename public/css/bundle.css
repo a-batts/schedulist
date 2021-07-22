@@ -16743,3 +16743,7 @@ body.theme-dark .mdc-icon-button.day-selector:disabled {
 body.theme-dark .share-link-box {
   border: none;
 }
+
+.event-share-info-div {
+  background-color: var(--ter-surface-background);
+}
