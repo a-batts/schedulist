@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Schedule;
 
+use App\Jobs\SendEventInvitation;
+
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Subscription;
@@ -56,6 +58,11 @@ class EventShare extends Component
       $this->event->shared_with = implode(',', $sharedWith);
       $this->event->save();
       $this->sharedWith = User::whereIn('id', explode(',', $this->event->shared_with))->get();
+
+      //send email to user with generated link
+      $route = $this->generateRoute($this->event->id, $user->id);
+      $details = ['owner' => Auth::User(), 'eventName' => $this->event->name, 'route' => $route, 'email' => $user->email];
+      SendEventInvitation::dispatchNow($details);
     }
 
     public function unshare($id){
