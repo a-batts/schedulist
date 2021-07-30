@@ -5,7 +5,7 @@
 @open-invite-menu.window="invite = true"
 @close-invite-menu.window="invite = false"
 @open-invalid-event-menu.window="invalidError = true">
-    <div class="inset-0 bg-gray-500 opacity-75 modal-skim hidden" style="display: none" x-show="invite || invalidError" x-cloak></div>
+    <div class="inset-0 bg-gray-500 opacity-75 modal-skim hidden" style="display: none" x-show="invite" x-cloak></div>
     <div class="modal-container top-16 mdc-typography" x-show="invite" x-cloak wire:ignore>
         @isset($eventOwner)
           <div class="mdc-card mdc-card--outlined modal-card py-5">

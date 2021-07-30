@@ -19489,7 +19489,17 @@ if (document.getElementById("confirm-dialog") !== null) {
   window.confDialog = confDialog;
 }
 
-; //Icon Buttons Init
+;
+
+if (document.getElementById("unsub-dialog") !== null) {
+  var unsubDialog = function unsubDialog() {
+    unsubscribeDialog.open();
+  };
+
+  var unsubscribeDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_13__.MDCDialog(document.querySelector('.unsub-dialog'));
+  window.unsubDialog = unsubDialog;
+} //Icon Buttons Init
+
 
 var iconButtonRipples = [].forEach.call(document.querySelectorAll('.mdc-icon-button'), function (ele) {
   var btn = new _material_ripple__WEBPACK_IMPORTED_MODULE_8__.MDCRipple(ele);
