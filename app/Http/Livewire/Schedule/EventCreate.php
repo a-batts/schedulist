@@ -43,7 +43,7 @@ class EventCreate extends Component
 
     public function mount(){
       $this->event = new Event();
-      $this->event->date = Carbon::now()->addDay()->toDateString();
+      $this->event->date = Carbon::now()->toDateString();
       $this->event->start_time = Carbon::now()->format('H:i');
       $this->event->end_time = '23:59';
       $this->event->reoccuring = false;

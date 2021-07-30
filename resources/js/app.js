@@ -79,6 +79,14 @@ if (document.getElementById("confirm-dialog") !== null) {
   window.delDialog = delDialog;
   window.confDialog = confDialog;
 };
+if (document.getElementById("unsub-dialog") !== null){
+  var unsubscribeDialog = new MDCDialog(document.querySelector('.unsub-dialog'));
+  function unsubDialog(){
+    unsubscribeDialog.open();
+  }
+  window.unsubDialog = unsubDialog;
+}
+
 //Icon Buttons Init
 var iconButtonRipples = [].forEach.call(document.querySelectorAll('.mdc-icon-button'), (ele)=> {
   let btn = new MDCRipple(ele);

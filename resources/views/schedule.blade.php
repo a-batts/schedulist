@@ -43,7 +43,7 @@
               editMenu3: false,
               startTime: new Date().getHours() + ":" + (new Date().getMinutes() < 10 ? '0' : '') + new Date().getMinutes(),
               endTime: '23:59',
-              date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().substr(0, 10),
+              date: new Date().toISOString().substr(0, 10),
             }),
             methods: {
                 disablePastDates(val) {
@@ -61,7 +61,7 @@
                 resetInputs() {
                   this.startTime = new Date().getHours() + ":" + (new Date().getMinutes() < 10 ? '0' : '') + new Date().getMinutes();
                   this.endTime = '23:59';
-                  this.date = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().substr(0, 10);
+                  this.date = new Date().toISOString().substr(0, 10).toISOString().substr(0, 10);
                 }
             },
             watch: {
