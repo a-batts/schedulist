@@ -21,6 +21,11 @@
           <button class="mdc-icon-button float-right material-icons" aria-describedby="color-details" x-bind:disabled="! online" x-on:click="openColorPicker()">palette</button>
         </div>
       </template>
+      <template x-if="selectedItemData != null && selectedItemData['type'] == 'Event' && ! selectedItemData['isOwner']">
+        <div>
+          <button class="mdc-icon-button float-right material-icons" aria-describedby="unsub-details" x-bind:disabled="! online" x-on:click="$wire.emit('setDeleteEvent', `${selectedItemData['id']}`); unsubDialog()">block</button>
+        </div>
+      </template>
     </div>
   </div>
   <div>
