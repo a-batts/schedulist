@@ -121,7 +121,7 @@
           <td align="center" bgcolor="#f8f9fd" style="padding:0;Margin:0;background-color:#f8f9fd">
            <table bgcolor="transparent" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate !important;border-spacing:0px;background-color:transparent;border-top:1px solid #d4d4d4;border-radius:12px;border-right:1px solid #d4d4d4;border-left:1px solid #d4d4d4;border-image:initial;width:600px;border-bottom:1px solid #d4d4d4">
              <tr>
-              <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:35px;padding-bottom:35px">
+              <td align="left" style="Margin:0;padding-left:40px;padding-right:40px;padding-top:35px;padding-bottom:35px">
                <!--[if mso]><table style="width:558px" cellpadding="0" cellspacing="0"><tr><td style="width:34px" valign="top"><![endif]-->
                <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
                  <tr>
@@ -133,10 +133,10 @@
                    </table></td>
                  </tr>
                </table>
-               <!--[if mso]></td><td style="width:20px"></td><td style="width:518px" valign="top"><![endif]-->
+               <!--[if mso]></td><td style="width:20px"></td><td style="width:568px" valign="top"><![endif]-->
                <table cellpadding="0" cellspacing="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr>
-                  <td align="left" style="padding:0;Margin:0;width:518px">
+                  <td align="left" style="padding:0;Margin:0;width:468px">
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
                       <td align="center" style="padding:0;Margin:0;padding-top:25px;padding-bottom:25px"><h1 style="Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#212121">{{$ownerName}} just shared "{{$eventName}}" with you</h1></td>
@@ -150,10 +150,10 @@
               <td class="border: white 1px solid" style="padding:0;Margin:0">
                <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr>
-                  <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
+                  <td align="center" valign="top" style="padding:0;Margin:0;width:468px">
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#131313;font-size:16px">{{$ownerEmail}} invited you to add their event - {{$eventName}} - to your calendar.</p></td>
+                      <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;line-height:24px;color:#131313;font-size:16px">{{$ownerEmail}} invited you to add their event <span style="font-weight: 700">{{$eventName}}</span> to your calendar.</p></td>
                      </tr>
                    </table></td>
                  </tr>
