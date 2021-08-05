@@ -1,14 +1,13 @@
-<x-app-layout title="">
+<x-app-layout :title="$assignmentTitle">
   @push('meta')
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <title>{{$current_assignment_title}}</title>
   @endpush
   @push('fonts')
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
   @endpush
   <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
     <div class="mt-10 mdc-typography">
-      @livewire('assignments.assignment-content', ['assignment_string' => $assignment_string])
+      @livewire('assignments.assignment-content', ['assignment_string' => $assignmentString])
     </div>
   </div>
   @push('scripts')

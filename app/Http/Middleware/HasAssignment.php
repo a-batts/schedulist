@@ -3,10 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-use Crypt;
+
 use App\Models\Assignment;
+
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class HasAssignment
 {
@@ -15,19 +18,18 @@ class HasAssignment
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param $assignmentString
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $assignment_string)
+    public function handle(Request $request, Closure $next)
     {
-        $assignment_string = $request->route('assignment_string');
-        $intendedAssignment = Assignment::where('userid', Auth::user()->id)->where('url_string', $assignment_string)->first();
-        if ($intendedAssignment != null){
-          $current_assignment_title = Crypt::decryptString($intendedAssignment->assignment_name);
-          view()->share('current_assignment_title', $current_assignment_title);
+        $assignmentString = $request->route('assignment_string');
+        $assignment = Assignment::where('userid', Auth::user()->id)->where('url_string', $assignmentString)->first();
+        if ($assignment != null){
+          $assignmentTitle = Crypt::decryptString($assignment->assignment_name);
+          view()->share(['assignment' => $assignment->id, 'assignmentTitle' => $assignmentTitle]);
           return $next($request);
         }
-        else{
-          abort(404);
-        }
+        abort(403);
     }
 }

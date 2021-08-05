@@ -12,6 +12,7 @@
       @else
         <span class="mdc-select__ripple"></span>
         <span id="{{$text}}-label" class="mdc-floating-label @if($attributes->has('prefilled')) mdc-floating-label--float-above @endif" @if(!$attributes->has('prefilled')) wire:ignore @endif>{{$text}}</span>
+          <span class="mdc-line-ripple"></span>
       @endif
       <span class="mdc-select__selected-text-container" @if(! $attributes->has('prefilled')) wire:ignore @endif>
         <span id="demo-selected-text" class="mdc-select__selected-text">{{$default ?? ''}}</span>
@@ -36,7 +37,6 @@
       </span>
     </div>
 
-    <!-- Other elements from the select remain. -->
     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
       <ul class="mdc-list dark-theme-list pl-0" role="listbox" aria-label="">
         @if($default && ! in_array($default, $data))

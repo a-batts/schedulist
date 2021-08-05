@@ -82,32 +82,21 @@ Route::get('privacy-policy', function () {
   return view('privacy-policy');
 })->name('privacy-policy');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('assignments/all/late', function(){
-  return view('assignments.assignment', ['period' => null, 'due' => 'late']);
-});
+Route::get('assignments/assignment/{assignment_string}', function($assignmentString){
+  return view('assignments.assignment-page', ['assignmentString' => $assignmentString]);
+})->middleware(['auth:sanctum', 'verified', 'hasassignment:assignmentString']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('assignments/all/done', function(){
-  return view('assignments.assignment', ['period' => null, 'due' => 'done']);
-});
-
-Route::middleware(['auth:sanctum', 'verified'])->get('assignments/all', function(){
-  return redirect('assignments')->with(['period' => null, 'due' => null]);
-});
-
-Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{period?}/{due?}', function ($period = null, $due = null){
-  if ($due == 'late' || $due == 'done' || $due == null){
-    if($period == null || Classes::where(['userid' => Auth::user()->id, 'period' => $period])->exists())
-      return view('assignments.assignment', ['period' => $period, 'due' => $due]);
-    return redirect('assignments')->with(['period' => null, 'due' => null]);
+Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{class?}/{due?}', function ($class = -1, $due = 'Incomplete'){
+  if($class == 'all')
+    $class = -1;
+  if($class == -1 || Classes::where(['userid' => Auth::User()->id, 'id' => $class])->exists()){
+    if (ucfirst($due) != 'Incomplete' && ucfirst($due) != 'Completed')
+      abort(404);
+    return view('assignments.assignment-list', ['class' => $class, 'due' => ucfirst($due)]);
   }
   else
-    return redirect('assignments/'.$period)->with(['period' => $period, 'due' => null]);
-})->where(['period' => '[1-8]+', 'name' => '[a-z]+'])->name('assignments');
-
-
-Route::get('assignments/assignment/{assignment_string}', function($assignment_string){
-  return view('assignments.assignment-page', ['assignment_string' => $assignment_string]);
-})->middleware(['auth:sanctum', 'verified', 'hasassignment:assignment_string']);
+    return redirect('/assignments');
+})->where(['period' => '^[0-9]*$', 'name' => '[a-z]+'])->name('assignments');
 
 Route::get('assignments/assignment', function(){
   return abort(404);
