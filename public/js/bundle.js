@@ -19453,11 +19453,15 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_6__.default({
   cluster: "mt1",
   forceTLS: true
 });
+var tooltips = [];
 var switchControls = [].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
   return new _material_switch__WEBPACK_IMPORTED_MODULE_7__.MDCSwitch(el);
 }); //Register regular button ripples
 
-var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
+var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
+  return new _material_ripple__WEBPACK_IMPORTED_MODULE_8__.MDCRipple(el);
+});
+var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
   return new _material_ripple__WEBPACK_IMPORTED_MODULE_8__.MDCRipple(el);
 }); //Register MDCTextFields
 
@@ -19513,6 +19517,12 @@ var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function 
 var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
   return new _material_tooltip__WEBPACK_IMPORTED_MODULE_15__.MDCTooltip(el);
 });
+
+function initTooltip(e) {
+  if (document.getElementById(e) !== null) tooltips[e] = new _material_tooltip__WEBPACK_IMPORTED_MODULE_15__.MDCTooltip(document.getElementById(e));
+}
+
+window.initTooltip = initTooltip;
 
 if (document.querySelector('.mdc-banner') !== null) {
   var offlineBanner = new _material_banner__WEBPACK_IMPORTED_MODULE_16__.MDCBanner(document.querySelector('.mdc-banner'));
