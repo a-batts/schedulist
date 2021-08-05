@@ -44,12 +44,17 @@ window.Echo = new Echo({
      forceTLS: true
 });
 
+var tooltips = [];
+
 var switchControls = [].map.call(document.querySelectorAll('.mdc-switch'), function(el) {
   return new MDCSwitch(el);
 });
 
 //Register regular button ripples
-var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button-ripple'), function(el) {
+var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button'), function(el) {
+  return new MDCRipple(el);
+});
+var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'), function(el) {
   return new MDCRipple(el);
 });
 //Register MDCTextFields
@@ -100,6 +105,12 @@ var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function(
 var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function(el) {
   return new MDCTooltip(el);
 });
+
+function initTooltip(e){
+  if (document.getElementById(e) !== null)
+    tooltips[e] = new MDCTooltip(document.getElementById(e));
+}
+window.initTooltip = initTooltip;
 
 if (document.querySelector('.mdc-banner') !== null){
   var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));

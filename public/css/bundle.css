@@ -16366,6 +16366,10 @@ body.theme-dark .mdc-icon-button:disabled {
   color: var(--text-gray-700) !important;
 }
 
+body.theme-dark .text-gray-900 {
+  color: var(--text-gray-700);
+}
+
 .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
   border-color: var(--text-color);
 }
@@ -16746,4 +16750,12 @@ body.theme-dark .share-link-box {
 
 .event-share-info-div {
   background-color: var(--ter-surface-background);
+}
+
+.assignment-selected-card {
+  background-color: #D9D9D9;
+}
+
+body.theme-dark .assignment-selected-card {
+  background-color: #2E2E2E;
 }

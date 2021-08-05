@@ -311,26 +311,6 @@ body{
   .mdc-card{
     margin-right: 15px;
   }
-  .assignmentd_select{
-    margin-left: 5px;
-    width: 155px;
-  }
-  .assignment_group{
-    margin-left: 15px;
-  }
-}
-@media screen and (min-width: 640px) {
-  .assignmentc_select{
-    margin-left:auto;
-    width: 250px;
-  }
-  .mdc-typography--headline6.mb-20, .assignment_card{
-    margin-left: auto;
-  }
-  .assignmentd_select{
-    margin-left: 5px;
-    width: 205px;
-  }
 }
 @media screen and (max-width: 767px){
   .schedulist-logo-nav.justify-center{
@@ -854,12 +834,10 @@ button.mdc-button.navbutton{
   overflow: hidden;
   height: 100vh;
 }
-div.assignment_card_prim{
-  height: 72px;
-  padding-left: 20px;
+div.assignment-card-top{
+  height: 83px;
   padding-top: 18px;
-  padding-right: 20px;
-  display:block;
+  display: block;
 }
 .assignment_all_text{
   vertical-align: -1.5px;
@@ -880,9 +858,6 @@ div.assignment_card{
 div.assignment_add_leftrow{
   float:left;
   width:210px;
-}
-.assignment_description{
-  width: inherit;
 }
 .view_button{
   margin-top: -6px;
@@ -1123,5 +1098,11 @@ div.modal-skim{
 .event-share-info-div{
   max-width: 400px;
   width: 90%;
+}
+.assignment-filter-hl{
+  font-weight: 500;
+  font-size: 26px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 

@@ -91,7 +91,7 @@ class Agenda{
 
           $event = new Event([
             'id' => $assignment->id,
-            'start' => 'Due at'.$start->format('g:i A'),
+            'start' => 'Due at '.$start->format('g:i A'),
             'end' => null,
             'timestring' => 'Due '.$start->format('g:i A'),
             'type' => 'Assignment',
