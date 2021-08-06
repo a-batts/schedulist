@@ -80,7 +80,7 @@
           @elseif($currentClass instanceof \App\Models\Classes)
             <div class="mdc-layout-grid__cell">
               <span>
-                <div class="mdc-card class-card class_{{$currentClass->color}}">
+                <div class="mdc-card class-card background-{{strtolower($currentClass->color)}}">
                   <div>
                     <div class="card-left">
                         <h2 class="mdc-typography mdc-typography--headline6 class-header nunito white"><span class="material-icons-two-tone rec_icon">video_call</span>
@@ -156,7 +156,7 @@
             @if(!isset($currentClass->period) || $class->period != $currentClass->period)
               <div class="mdc-layout-grid__cell">
                 <span>
-                  <div class="mdc-card class-card class_{{$class->color}}">
+                  <div class="mdc-card class-card background-{{strtolower($class->color)}}">
                     <h2 class="mdc-typography mdc-typography--headline6 class-header white nunito">{{$class->period}}@if($class->period == 1)st period @elseif($class->period == 2)nd period @elseif($class->period == 3)rd period @else()th period @endif - {{$class->name}}</h2>
                     <p class="mdc-typography ml-2 white">{{Crypt::decryptString($class->teacher)}}@if($class->teacher_email != null)<button class="mdc-button mdc-button-ripple email_link  button_white">
                       <a href="mailto:{{Crypt::decryptString($class->teacher_email)}}">

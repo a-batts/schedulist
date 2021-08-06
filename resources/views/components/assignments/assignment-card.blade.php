@@ -43,11 +43,13 @@
       </div>
     </div>
   </div>
-  <div :id="`assignmentLink${assignment['id']}`" class="mdc-tooltip" role="tooltip" aria-hidden="true">
-    <div class="mdc-tooltip__surface">
-      Open assignment link
+  <template x-if="assignment['assignment_link'] != null">
+    <div :id="`assignmentLink${assignment['id']}`" class="mdc-tooltip" role="tooltip" aria-hidden="true">
+      <div class="mdc-tooltip__surface">
+        Open assignment link
+      </div>
     </div>
-  </div>
+  </template>
   <div :id="`assignmentToggle${assignment['id']}`" class="mdc-tooltip" role="tooltip" aria-hidden="true">
     <div class="mdc-tooltip__surface" x-text="assignment['status'] == 'inc' ? 'Mark assignment as completed' : 'Mark assignment as incomplete'">
     </div>

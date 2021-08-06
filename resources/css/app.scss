@@ -94,6 +94,7 @@
   --text-gray-600: #4B5563;
   --text-gray-700: #374151;
   --mdc-theme-text-primary-on-background: #000000;
+  --error: #B00020;
 
   --mdc-theme-primary: #0D6ED1;
   --mdc-theme-secondary: #0D6ED1;
@@ -104,18 +105,6 @@
   --sec-surface-background: #FFFFFF;
   --ter-surface-background: #FFFFFF;
   --mdc-checkbox-ink-color: #FFFFFF;
-
-  --card-green: #2c734f;
-  --card-yellow: #c7c614;
-  --card-red: #e6493b;
-  --card-blue: #235cb1;
-  --card-lime: #52a43c;
-  --card-orange: #e28111;
-  --card-indigo: #41a5c3;
-  --card-purple: #713bd1;
-  --color-red: #B00020;
-  --color-green: #008b00;
-
 
   --border-100: #f4f5f7;
   --border-200: #D2DCDC;
@@ -143,6 +132,7 @@
   --text-gray-600: #FFFFFF99;
   --text-gray-700: #FFFFFF99;
   --mdc-theme-text-primary-on-background: #FFFFFFDE;
+  --error: #CF6679;
 
   --mdc-theme-primary: #95CFFE;
   --mdc-theme-secondary: #95CFFE;
@@ -153,18 +143,6 @@
   --sec-surface-background: #232323;
   --ter-surface-background: #2E2E2E;
   --mdc-checkbox-ink-color: #000000;
-
-  --card-green: #235C3F;
-  --card-yellow: #9F9E10;
-  --card-red: #A32015;
-  --card-blue: #1C4A8E;
-  --card-lime: #428330;
-  --card-orange: #B5670E;
-  --card-indigo: #308199;
-  --card-purple: #51259F;
-  --color-red: #CF6679;
-  --color-green: #92D5BE;
-
 
   --border-100: #333333;
   --border-200: #2D2D2D;
@@ -185,13 +163,91 @@
   --list-selected-item: #565656;
 }
 
+//Base colors
+
+.background-beige{
+	background-color: #9e9e9e !important;
+}
+.background-blue{
+	background-color: #1976D2 !important;
+}
+.background-green{
+	background-color: #2C734F !important;
+}
+.background-lav{
+	background-color: #9F84CF !important;
+}
+.background-lemon{
+	background-color: #ffeb3b !important;
+}
+.background-mint{
+	background-color: #047A6F !important;
+}
+.background-orange{
+	background-color: #ff9800 !important;
+}
+.background-pink{
+	background-color: #DC4B82 !important;
+}
+.background-purple{
+	background-color: #6200EE !important;
+}
+.background-red{
+	background-color: #E6493B !important;
+}
+.background-teal{
+	background-color: #42a5f5 !important;
+}
+
+//Base colors dark theme
+
+body.theme-dark .background-beige{
+	background-color: #CFCFCF !important;
+}
+body.theme-dark .background-blue{
+	background-color: #64B5F6 !important;
+}
+body.theme-dark .background-green{
+	background-color: #61B18F !important;
+}
+body.theme-dark .background-lav{
+	background-color: #B4A9D9 !important;
+}
+body.theme-dark .background-lemon{
+	background-color: #ffff72 !important;
+}
+body.theme-dark .background-mint{
+	background-color: #63ADA1 !important;
+}
+body.theme-dark .background-orange{
+	background-color: #ffc947 !important;
+}
+body.theme-dark .background-pink{
+	background-color: #ff7eb1 !important;
+}
+body.theme-dark .background-purple{
+	background-color: #BB86FC !important;
+}
+body.theme-dark .background-red{
+	background-color: #E67C73 !important;
+}
+body.theme-dark .background-teal{
+	background-color: #80d6ff !important;
+}
+
 //Text colors
 
 .text-green{
-  color: var(--color-green);
+  color: #B00020;
 }
 .text-red{
-  color: var(--color-red);
+  color: #008b00;
+}
+body.theme-dark .text-green{
+  color: #CF6679;
+}
+body.theme-dark .text-red{
+  color: #92D5BE;
 }
 
 //Descendent selector themed items
@@ -253,39 +309,15 @@ body.theme-dark .footer-div{
 .no-theme.theme-border{
   border-color: var(--mdc-theme-primary);
 }
-.mdc-card.class_Green{
-  @include card.fill-color(var(--card-green));
-}
-.mdc-card.class_Purple{
-  @include card.fill-color(var(--card-purple));
-}
-.mdc-card.class_Red{
-  @include card.fill-color(var(--card-red));
-}
-.mdc-card.class_Orange{
-  @include card.fill-color(var(--card-orange));
-}
-.mdc-card.class_Indigo{
-  @include card.fill-color(var(--card-indigo));
-}
-.mdc-card.class_Lime{
-  @include card.fill-color(var(--card-lime));
-}
-.mdc-card.class_Yellow{
-  @include card.fill-color(var(--card-yellow));
-}
-.mdc-card.class_Blue{
-  @include card.fill-color(var(--card-blue));
-}
 .theme-div, .base-bg{
   background-color: var(--mdc-theme-background) !important;
 }
 .delete_account {
-  @include button.container-fill-color(var(--color-red));
+  @include button.container-fill-color(var(--error));
   @include button.ink-color(var(--mdc-theme-on-primary));
 }
 .text-error{
-  color: var(--color-red);
+  color: var(--error);
   margin-top:-14px;
   margin-bottom:-8px;
 }
@@ -337,21 +369,21 @@ body.theme-dark .footer-div{
   @include icon.trailing-icon-color(var(--textfield-icon-color));
 }
 .mdc-text-field--invalid, .mdc-select--invalid{
-  $states : ("default": var(--color-red), "focus": var(--color-red));
-  @include textfield.bottom-line-color(var(--color-red));
-  @include textfield.hover-outline-color(var(--color-red));
-  @include textfield.focused-outline-color(var(--color-red));
-  @include textfield.hover-bottom-line-color(var(--color-red));
-  @include textfield.line-ripple-color(var(--color-red));
-  @include textfield.placeholder-color(var(--color-red));
-  @include textfield.label-color(var(--color-red));
-  @include select.icon-color(var(--color-red));
+  $states : ("default": var(--error), "focus": var(--error));
+  @include textfield.bottom-line-color(var(--error));
+  @include textfield.hover-outline-color(var(--error));
+  @include textfield.focused-outline-color(var(--error));
+  @include textfield.hover-bottom-line-color(var(--error));
+  @include textfield.line-ripple-color(var(--error));
+  @include textfield.placeholder-color(var(--error));
+  @include textfield.label-color(var(--error));
+  @include select.icon-color(var(--error));
   @include select.label-color($states);
   @include select.dropdown-icon-color($states);
-  @include icon.trailing-icon-color(var(--color-red));
+  @include icon.trailing-icon-color(var(--error));
 }
 .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading, .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--trailing{
-  color: var(--color-red);
+  color: var(--error);
 }
 //Select Field
 .mdc-select{
@@ -388,7 +420,7 @@ body.theme-dark .footer-div{
   @include button.ink-color(var(--text-color));
 }
 .text-error{
-  @include helper-text.helper-text-color(var(--color-red));
+  @include helper-text.helper-text-color(var(--error));
 }
 .mdc-typography.continue_with{
   color: #6B7280;
@@ -611,72 +643,6 @@ body.theme-dark .agenda-text-secondary, .agenda-lemon .agenda-text-secondary, .a
 }
 body.theme-dark .agenda-header{
   margin-bottom: 0px;
-}
-.agenda-red{
-  background-color: #E6493B;
-}
-body.theme-dark .agenda-red{
-  background-color: #E67C73;
-}
-.agenda-green{
-  background-color: #2C734F;
-}
-body.theme-dark .agenda-green{
-  background-color: #61B18F;
-}
-.agenda-blue{
-  background-color: #1976D2;
-}
-body.theme-dark .agenda-blue{
-  background-color: #64B5F6;
-}
-.agenda-purple{
-  background-color: #6200EE;
-}
-body.theme-dark .agenda-purple{
-  background-color: #BB86FC;
-}
-.agenda-pink{
-  background-color: #DC4B82;
-}
-body.theme-dark .agenda-pink{
-  background-color: #ff7eb1;
-}
-.agenda-lav{
-  background-color: #9F84CF;
-}
-body.theme-dark .agenda-lav{
-  background-color: #B4A9D9;
-}
-.agenda-mint{
-  background-color: #047A6F;
-}
-body.theme-dark .agenda-mint{
-  background-color: #63ADA1;
-}
-.agenda-lemon{
-  background-color: #ffeb3b;
-}
-body.theme-dark .agenda-lemon{
-   background-color: #ffff72;
-}
-.agenda-orange{
-  background-color: #ff9800;
-}
-body.theme-dark .agenda-orange{
-  background-color: #ffc947;
-}
-.agenda-teal{
-  background-color: #42a5f5;
-}
-body.theme-dark .agenda-teal{
-  background-color: #80d6ff;
-}
-.agenda-beige{
-  background-color: #9e9e9e;
-}
-body.theme-dark .agenda-beige{
-  background-color: #CFCFCF;
 }
 .cb-red{
   --mdc-checkbox-checked-color: #E6493B;
