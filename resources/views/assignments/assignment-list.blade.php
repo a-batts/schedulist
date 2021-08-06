@@ -7,8 +7,8 @@
   @endpush
   <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
     <div class="mt-4"></div>
-    @livewire('assignments.assignment-create')
     @livewire('assignments.assignment-list', ['class' => $class, 'due' => $due])
+    @livewire('assignments.assignment-create')
   </div>
   <x-offline-banner/>
 </x-app-layout>

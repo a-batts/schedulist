@@ -459,7 +459,7 @@ div.forgotPassword{
   width: 100%;
   justify-content: space-around;
 }
-.fab_button{
+.fab_button, .fab-button{
   position: fixed;
   right: 25px;
   bottom: 25px;
