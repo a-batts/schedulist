@@ -29,7 +29,7 @@
     </div>
   </div>
   <div>
-    <div class="w-4 h-4 float-left mt-2.5 rounded-full" x-bind:class="`${'agenda-' + getItemColor(selectedItemData['id'], selectedItemData['color'])}`"></div>
+    <div class="w-4 h-4 float-left mt-2.5 rounded-full" x-bind:class="`${'background-' + getItemColor(selectedItemData['id'], selectedItemData['color'])}`"></div>
     <span class="ml-5 uppercase font-bold text-2xl" x-text="selectedItemData['title']"></span>
     <p><span class="ml-9 text-sm md:text-base" x-text="dateString"></span> ⋅ <span class="text-sm md:text-base" x-text="selectedItemData['timestring']"></span></p>
     <div wire:ignore>
