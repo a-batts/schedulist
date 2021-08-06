@@ -6,6 +6,7 @@ use App\Models\Classes;
 use App\Models\Assignment;
 
 use Carbon\Carbon;
+use Carbon\Exceptions;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -16,24 +17,26 @@ use Livewire\Component;
 
 class AssignmentCreate extends Component
 {
-    public $assignmentModal = false;
-    public $usersClasses;
+    public $assignment;
 
-    public $name;
-    public $classId;
-    public $date;
-    public $time;
-    public $link;
-    public $description;
+    public array $classes = [['id' => -1, 'name' => 'No Class']];
 
-    protected $listeners = ['updateTime', 'updateDate'];
+    public array $errorMessages = [];
+
+    protected $listeners = ['setTime', 'setDate'];
+
+    protected $messages = [
+        'url' => 'Make sure the link is a valid URL',
+    ];
 
     protected $rules = [
-        'name' => 'required',
-        'classId' => 'required',
-        'date' => 'required',
-        'time' => 'required',
-        'description' => 'required'
+        'assignment.assignment_name' => 'required',
+        'assignment.classid' => 'nullable',
+        'assignment.due' => 'required',
+        'assignment.assignment_link' => 'url|nullable',
+        'assignment.description' => 'required',
+        'assignment.status' => 'required',
+        'assignment.userid' => 'required',
     ];
 
     /**
@@ -41,55 +44,81 @@ class AssignmentCreate extends Component
      * @return void
      */
     public function mount(){
-      $this->usersClasses = Classes::where('userid', Auth::user()->id)->orderBy('period', 'asc')->get();
-      $this->time = "23:59";
-      $this->date = Carbon::now()->addDay()->toDateString();
+      $this->assignment = new Assignment;
+      $this->assignment->status = 'inc';
+      $this->assignment->due = Carbon::now()->setTime('23', '59', '59')->toString();
+      $this->assignment->userid = Auth::User()->id;
+
+      $classes = Classes::where('userid', Auth::User()->id)->get();
+      foreach($classes as $class){
+        array_push($this->classes, ['id' => $class->id, 'name' => $class->name]);
+      }
     }
 
-    /**
-     * Update time from Vue
-     * @param string $value
-     * @return void
-     */
-    public function updateTime($value){
-      $this->time = $value;
-    }
-
-    /**
-     * Update date from Vue
-     * @param  string $value
-     * @return void
-     */
-    public function updateDate($value){
-      $this->date = $value;
-    }
-
-    public function setClass($value){
-      $classId = Classes::where('userid', Auth::user()->id)->where('period', $value)->first();
-      $this->classId = $classId->id;
-    }
-
-    public function save(){
+    public function create(){
       $this->validate();
+      $assignment = $this->assignment;
 
-      $assignment = new Assignment;
-      $assignment->assignment_name = Crypt::encryptString($this->name);
-      $assignment->userid = Auth::User()->id;
-      $assignment->classid = $this->classId;
-      $assignment->due = new Carbon($this->date.' '.$this->time);
-      $assignment->description = Crypt::encryptString($this->description);
-      if ($this->link != null)
-        $assignment->assignment_link = Crypt::encryptString($this->link);
-      $assignment->status = 'inc';
+      if ($assignment->classid == -1)
+        $assignment->classid = null;
+
+      $assignment->due = Carbon::parse($assignment->due);
       $assignment->url_string = Str::random(16);
+      $assignment->assignment_name = Crypt::encryptString($assignment->assignment_name);
+      $assignment->description = Crypt::encryptString($assignment->description);
+      if (! preg_match('.*[a-zA-Z].*', $assignment_link))
+        $assignment->link = null;
+      if ($assignment->assignment_link != null)
+        $assignment->assignment_link = Crypt::encryptString($assignment->assignment_link);
+
       $assignment->save();
 
+      $this->resetAssignment();
       $this->emit('refreshAssignments');
-      $this->dispatchBrowserEvent('close-assignment-modal');
-      $this->emit('toastMessage', 'Assignment was successfully added');
+      $this->dispatchBrowserEvent('close-dialog');
+      $this->emit('toastMessage', 'Assignment was successfully created');
+    }
+
+    public function resetAssignment(){
+      $this->assignment = new Assignment;
+      $this->assignment->status = 'inc';
+      $this->assignment->due = Carbon::now()->setTime('23', '59', '59')->toString();
+      $this->assignment->userid = Auth::User()->id;
+    }
+
+    public function setClass($val){
+      if (Classes::where('id', $val)->where('userid', Auth::User()->id)->exists() || $val == -1)
+        $this->assignment->classid = $val;
+    }
+
+    public function setDate($val){
+      $date = explode('-', $val);
+      try { $this->assignment->due = Carbon::parse($this->assignment->due)->setDate($date[0], $date[1], $date[2])->toString(); }
+      catch(Exceptions\InvalidFormatException $e){
+        $this->addError('assignment.due', 'Invalid date inputted');
+      }
+    }
+
+    public function setTime($val){
+      $time = explode(':', $val);
+      try { $this->assignment->due = Carbon::parse($this->assignment->due)->setTime($time[0], $time[1])->toString(); }
+      catch(Exceptions\InvalidFormatException $e){
+        $this->addError('assignment.due', 'Invalid time inputted');
+      }
+    }
+
+    /**
+     * Validate updated properties
+     * @param  mixed $propertyName
+     * @return void
+     */
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
     }
 
     public function render(){
-        return view('livewire.assignments.assignment-create');
+      $this->errorMessages = $this->getErrorBag()->toArray();
+
+      return view('livewire.assignments.assignment-create');
     }
 }
