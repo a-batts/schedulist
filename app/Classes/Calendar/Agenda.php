@@ -101,7 +101,7 @@ class Agenda{
             'left' => 0,
             'link' => route('assignmentPage').'/'.$assignment->url_string,
             'className' => $className,
-            'url' => $link,
+            'url' => $link ?? null,
             'height' => 1,
             'color' => 'green',
           ], $date);

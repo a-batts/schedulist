@@ -1,5 +1,5 @@
 <div class="mdc-typograpy pt-8" x-data="assignmentList()" x-init="$nextTick(() => { loadTooltips() }); $watch('due', value => updateUrl()); $watch('query', value => loadTooltips());"
-  @update-assignments.window="assignments = @this.assignments">
+  @update-assignments.window="assignments = @this.assignments" wire:ignore>
   <div class="lg:float-left lg:mr-5 w-full px-3 lg:px-0 mb-5 lg:w-2/5">
     <label class="mdc-text-field mdc-text-field--filled w-full mdc-text-field--with-leading-icon">
       <span class="mdc-text-field__ripple"></span>

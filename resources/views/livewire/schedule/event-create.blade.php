@@ -65,7 +65,7 @@ class="mdc-typography">
     </div>
   </x-ui.modal>
 
-  <div class="fab_button" x-show.transition="showingButton">
+  <div class="fab-button" x-show.transition="showingButton">
     <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Event" x-on:click="dialog = true; vueApp.resetInputs()">
       <div class="mdc-fab__ripple"></div>
       <span class="material-icons mdc-fab__icon">add</span>
@@ -100,6 +100,5 @@ class="mdc-typography">
         }
       }
     }
-
   </script>
 @endpush

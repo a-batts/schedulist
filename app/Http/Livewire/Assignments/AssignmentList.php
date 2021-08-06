@@ -47,7 +47,15 @@ class AssignmentList extends Component
         $assignments[$key]['due_time'] = $due->format('g:i A');
         $assignments[$key]['due_date'] = $due->format('M j');
         $assignments[$key]['description'] = Crypt::decryptString($value['description']);
-        $assignments[$key]['class_name'] = $this->classes[array_search($value['classid'], array_column($this->classes, 'id'))]['name'];
+        if ($value['classid'] != null){
+          $k = array_search($value['classid'], array_column($this->classes, 'id'));
+          if ($k == false)
+            $assignments[$key]['class_name'] = 'Deleted Class';
+          else
+            $assignments[$key]['class_name'] = $this->classes[$k]['name'];
+        }
+        else
+          $assignments[$key]['class_name'] = 'No Class';
 
         try{
           $assignments[$key]['assignment_link'] = Crypt::decryptString($value['assignment_link']);

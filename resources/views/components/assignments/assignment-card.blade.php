@@ -10,7 +10,7 @@
       </div>
       <div class="float-right">
         <button class="mdc-icon-button material-icons z-20 float-right" type="button" x-text="assignment['status'] == 'inc' ? 'check_circle' : 'unpublished'" @click="event.stopPropagation(); @this.updateStatus(assignment['id'])" :aria-describedby="`assignmentToggle${assignment['id']}`"></button>
-        <template x-if="assignment['assignment_link'] != null">
+        <template x-if="assignment['assignment_link'] != null && assignment['assignment_link'].match('.*[a-zA-Z].*')">
           <div class="float-right">
             <a :href="assignment['assignment_link']" target="_blank"><button class="mdc-icon-button material-icons z-20" type="button" @click="event.stopPropagation();" :aria-describedby="`assignmentLink${assignment['id']}`">launch</button></a>
           </div>
