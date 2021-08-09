@@ -96,7 +96,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{class?}/{due?
   }
   else
     return redirect('/assignments');
-})->where(['period' => '^[0-9]*$', 'name' => '[a-z]+'])->name('assignments');
+})->where(['name' => '[a-z]+'])->name('assignments');
 
 Route::get('assignments/assignment', function(){
   return abort(404);
