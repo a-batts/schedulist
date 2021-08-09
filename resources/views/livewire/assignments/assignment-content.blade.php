@@ -1,7 +1,7 @@
 <div class="py-16 w-full roboto" x-data="">
   <div class="w-full pt-4 pb-8 px-2 sm:px-6 rounded-b-lg text-white" style="background-color: #242323">
     <a @click="window.history.back()"><button class="mdc-icon-button material-icons mr-2 align-top" aria-describedby="back-label">arrow_back</button></a>
-    <span class="font-medium text-xl inline-block mt-3 sm:mt-0 sm:text-4xl md:text-6xl truncate">{{Crypt::decryptString($assignment->assignment_name)}}</span>
+    <span class="font-medium text-xl inline-block mt-3 sm:mt-0 sm:text-4xl md:text-6xl truncate pb-1">{{Crypt::decryptString($assignment->assignment_name)}}</span>
     <button class="mdc-icon-button material-icons float-right md:mr-7" @click="$dispatch('display-edit-menu'); fixBody()" aria-describedby="edit-label">edit</button>
     <div class="ml-4 md:ml-14 mt-4">
       <div class="rounded-full w-8 h-8 background-{{$classColor}} float-left text-center align-bottom leading-8"><span class="material-icons text-lg inline-block">class</span></div>
