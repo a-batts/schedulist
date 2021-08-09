@@ -1,5 +1,5 @@
 <div>
-  <div class="mdc-card mx-auto mdc-card--outlined mt-3 roboto" :class="{'md:-mx-3': selectedAssignment == assignment['id']}">
+  <div class="mdc-card mdc-card--outlined mt-3 roboto mx-2 md:mx-auto" :class="{'md:-mx-3': selectedAssignment == assignment['id']}">
     <div class="mdc-card__primary-action assignment-card-top px-6 md:px-8" tabindex="0" @click="selectedAssignment == assignment['id'] ? selectedAssignment = -1 : selectedAssignment = assignment['id']"
      :class="{'assignment-selected-card': selectedAssignment == assignment['id']}">
       <div class="float-left">
