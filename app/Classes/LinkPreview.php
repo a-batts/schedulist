@@ -4,6 +4,9 @@ namespace App\Classes;
 
 use Dusterio\LinkPreview\Client;
 
+/**
+ * Get An Image and Title Preview of Link
+ */
 class LinkPreview{
 
   private string $link;
@@ -26,7 +29,10 @@ class LinkPreview{
   }
 
   public function withExisting(string $image, string $text){
-    $this->previewImage = $image;
+    if ($image == 'style=background-image:url();')
+      $this->previewImage = 'id=link-icon-theme';
+    else
+      $this->previewImage = $image;
     $this->text = $text;
     return $this;
   }

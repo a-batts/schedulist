@@ -1,4 +1,4 @@
-<nav style="background-color:#242323; z-index:5" x-data="{ open: false, mobile: false }" class="mdc-elevation--z6 mdc-typography w-screen fixed" data-turbo-permanent>
+<nav style="background-color:#242323; z-index:5" x-data="{ open: false, mobile: false }" class="@if(! Request::is('assignments/assignment*')) mdc-elevation--z6 @endif mdc-typography w-screen fixed" data-turbolinks-permanent>
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 ">
     <div class="relative flex items-center justify-between" style="height: 4.2rem">
       <div class="absolute inset-y-0 left-0 flex items-center md:hidden">

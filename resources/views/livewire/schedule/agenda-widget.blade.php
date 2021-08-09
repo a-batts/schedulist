@@ -96,7 +96,7 @@ class="w-full"
           <template x-for="(item, index) in currentDayData" :key="index">
             <div class="mdc-card mdc-card--outlined agenda-item mx-0 ml-12 mr-2 absolute"
             x-on:click="setSelectedItem(index)"
-            x-bind:class="`${'agenda-' + getItemColor(item['id'], item['color'])} ${'agenda-item-' + index  }`"
+            x-bind:class="`${'background-' + getItemColor(item['id'], item['color'])} ${'agenda-item-' + index  }`"
             x-bind:style="`top: ${item['top']}px;
             left: ${item['left']}px;
             height: calc(${item['bottom']}px - ${item['top']}px);

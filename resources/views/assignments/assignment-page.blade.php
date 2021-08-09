@@ -5,11 +5,9 @@
   @push('fonts')
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
   @endpush
-  <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
-    <div class="mt-10 mdc-typography">
-      @livewire('assignments.assignment-content', ['assignment_string' => $assignmentString])
-    </div>
-  </div>
+
+  @livewire('assignments.assignment-content', ['assignmentString' => $assignmentString])
+
   @push('scripts')
     <script src="https://cdn.jsdelivr.net/gh/livewire/vue@v0.3.x/dist/livewire-vue.js"></script>
     <script>
