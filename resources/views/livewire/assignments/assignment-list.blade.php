@@ -112,7 +112,7 @@
     </template>
     <template x-if="due == 'Completed'">
       <div>
-        <p class="assignment-filter-hl px-4 lg:px-0">All completed assignments</p>
+        <p class="assignment-filter-hl px-4 lg:px-">All completed assignments</p>
         <template x-for="assignment in filteredAssignments.sort((firstEl, secondEl) => new Date(secondEl['due']).getTime() - new Date(firstEl['due']).getTime())">
           <div>
             <template x-if="assignment['status'] == 'done' && (filterClass == assignment['classid'] || filterClass == '-1')">
