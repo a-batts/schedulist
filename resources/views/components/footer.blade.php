@@ -17,9 +17,6 @@
     </div>
     <div class="logoimage w-28 mt-7 ml-8 mb-1 h-10">
     </div>
-    <p class="w-80 ml-8 mdc-typography--subtitle1 mt-2">
-      Helpful organization for online classes
-    </p>
     <div class="md:hidden md:mt-10 md:mr-16 ml-6 mt-5 pb-4">
       <a href="{{ route('privacy-policy') }}">
         <button class="mdc-button">

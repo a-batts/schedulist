@@ -175,8 +175,8 @@ body{
   .assignment-page-left span{
     display: inline-block;
   }
-  div.assignment_link{
-    height: 80px;
+  div.assignment-link{
+    height: 90px;
     width: calc(100% - 25px);
     max-width: 370px;
   }
@@ -190,7 +190,7 @@ body{
     padding-left: 10px;
     padding-right: 10px;
   }
-  div.edit_assignment_link.assignment_link{
+  div.edit_assignment-link.assignment-link{
     max-width: 370px;
     width: 100%;
     margin-top: 18px;
@@ -253,11 +253,11 @@ body{
     margin-top: 25px;
     margin-right: -25px;
   }
-  div.assignment_link{
+  div.assignment-link{
     height: 90px;
     width: 390px;
   }
-  div.edit_assignment_link.assignment_link{
+  div.edit_assignment-link.assignment-link{
     margin-left: 0px;
     max-width: 370px;
     width: 100%;
@@ -894,9 +894,9 @@ div.v-text-field .v-input__slot{
   margin-left: 54px;
   margin-right: 40px;
 }
-.assignment_link{
+.assignment-link{
 }
-.assignment_link_image{
+.assignment-link-image{
   height: 88px;
   width: 90px;
   border-radius: 10px;
@@ -1104,4 +1104,8 @@ div.modal-skim{
   font-size: 26px;
   padding-top: 16px;
   padding-bottom: 16px;
+}
+.material-icons.text-lg{
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
