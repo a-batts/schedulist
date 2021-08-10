@@ -120,16 +120,18 @@ data-turbolinks-permanent>
             </div>
           </div>
         @else
-          <a href="{{ route('register') }}" class="hidden md:block">
-            <button class="mdc-button mdc-button-ripple">
-              <span class="mdc-button__ripple"></span>Sign Up
-            </button>
-          </a>
-          <a href="{{ route('login') }}">
-            <button class="mdc-button mdc-button-ripple mdc-button--raised ml-3">
-              <span class="mdc-button__ripple"></span>Sign In
-            </button>
-          </a>
+          <div>
+            <a href="{{ route('login') }}">
+              <button class="mdc-button mdc-button-ripple mdc-button--raised ml-3 float-right">
+                <span class="mdc-button__ripple"></span>Sign In
+              </button>
+            </a>
+            <a href="{{ route('register') }}" class="hidden md:block float-right">
+              <button class="mdc-button mdc-button-ripple">
+                <span class="mdc-button__ripple"></span>Sign Up
+              </button>
+            </a>
+          </div>
         @endif
       </div>
     </div>
