@@ -63,7 +63,7 @@
 @include textfield.core-styles;
 
 //Non-themed elements
-.profile_menu{
+.profile-menu{
   @include menu.width(350px);
 }
 .addclass_card{
@@ -324,7 +324,7 @@ body.theme-dark .footer-div{
 .modal-background{
   background-color: var(--sec-surface-background);
 }
-.mdc-card.profile_menu{
+.mdc-card.profile-menu{
   @include card.fill-color(var(--ter-surface-background));
 }
 .border-t.border-gray-200, .section-border.border-200{
@@ -438,7 +438,7 @@ body.theme-dark .mdc-typograpy.continue_with{
   @include button.ink-color(#000000);
   @include button.container-fill-color(#FFFFFF);
 }
-.navbutton{
+.navbar-button{
   @include button.ink-color(#E2E8F0);
   @include button.disabled-ink-color(#FFFFFFDE);
   --mdc-theme-primary: #ffffff;
@@ -599,10 +599,10 @@ body.theme-dark .turbolinks-progress-bar{
 .check-label{
   color: var(--text-color);
 }
-button.mdc-button:disabled:not(.navbutton){
+button.mdc-button:disabled:not(.navbar-button){
   color: var(--disabled-text-color);
 }
-button.mdc-button.navbutton:disabled{
+button.mdc-button.navbar-button:disabled{
   color: #eaeaea61;
 }
 .mdc-text-field:not(.mdc-text-field--disabled) .char_counter.mdc-text-field-character-counter{
