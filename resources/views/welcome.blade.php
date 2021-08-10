@@ -26,6 +26,8 @@
           </style>
         @endif
         <!-- Scripts -->
+        <script src="{{ mix('js/scripts.js') }}" defer></script>
+        <script src="{{ mix('js/bundle.js') }}" defer></script>
         <script src="{{ mix('js/turbo.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
@@ -68,38 +70,6 @@
         </div>
 
         @livewireScripts
-        <script src="{{ asset('js/bundle.js?v=5') }}" defer data-turbolinks-suppress-warning></script>
         <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
-        <script src="{{ asset('js/scripts.js?v=5') }}" async></script>
-        <script>
-          var currentTheme = getCookieValue('theme');
-          var themer = document.getElementById('themer');
-
-          if (currentTheme == "dark" && ! themer.classList.contains('theme-dark')){
-            themer.classList.add('theme-dark');
-          }
-          else if (currentTheme == "light" && themer.classList.contains('theme-dark')){
-            themer.classList.remove('theme-dark');
-          }
-          if (currentTheme == "auto"){
-            if (window.matchMedia &&
-                window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                  themer.classList.add('theme-dark');
-            }
-            else {
-              themer.classList.remove('theme-dark');
-            }
-            window.matchMedia('(prefers-color-scheme: dark)')
-              .addEventListener('change', event => {
-                if (event.matches) {
-                  themer.classList.add('theme-dark');
-                } else {
-                  themer.classList.remove('theme-dark');
-                };
-                Turbolinks.clearCache();
-            })
-          }
-
-        </script>
     </body>
 </html>

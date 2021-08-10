@@ -1,6 +1,4 @@
-/*
-Define simple text styles (colors, fornts, etc)
-                                              */
+html, body { height: 100% }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -285,9 +283,6 @@ body{
   }
 }
 @media screen and (max-width: 639px) {
-  .regbutton{
-    display:none;
-  }
   .assignmentc_select{
     margin-left: 15px;
     width: 160px;
@@ -618,7 +613,7 @@ p.inlinerror{
 .back-icon{
   margin-left:-12px;
 }
-.mdc-card.profile_menu{
+.mdc-card.profile-menu{
   margin-top:285px;
   margin-right: -5px;
   padding-top:20px;
@@ -643,40 +638,27 @@ p.inlinerror{
   text-transform: unset !important;
   letter-spacing: normal;
 }
-.dropdownlinks{
-  display:block;
-}
 .menu-buttons{
   width: 100%;
 }
-.menubutton-p{
+.menu-button-text{
   text-align: left;
   width: 100%;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 15px;
   letter-spacing: normal;
-}
-.right_button{
-  margin-left: 10px;
 }
 .logintext{
   font-family: 'Nunito';
   font-size: 35px;
   font-weight: 500;
 }
-button.mdc-button.navbutton{
+button.mdc-button.navbar-button{
   text-transform: unset !important;
   letter-spacing: normal;
-  font-size: 22px;
+  font-size: 20px;
   font-family: 'Nunito', sans-serif;
-  font-weight: 700
-}
-.nava{
-  margin-left:8px;
-  margin-right:8px;
-}
-.test {
-  display:block;
+  font-weight: 700;
 }
 .class-card{
   width: 100%;
@@ -1108,4 +1090,32 @@ div.modal-skim{
 .material-icons.text-lg{
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+.mdc-button.mobile-dropdown-button{
+  text-transform: none;
+  letter-spacing: normal;
+  color: white;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+.mdc-button.mobile-dropdown-button .material-icons.mdc-button__icon{
+  font-size: 20px;
+  margin-right: 24px;
+  margin-top: 6px;
+  margin-left: 16px;
+}
+.mdc-button.mobile-dropdown-button.mobile-dropdown-selected{
+  background-color: #3636365C;
+}
+.mobile-menu{
+  height: 100%;
+  min-height: -webkit-fill-available;
+}
+.mobile-menu-top{
+  height: 10vh;
 }
