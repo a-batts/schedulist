@@ -4,7 +4,7 @@
       {{$title}}
     </div>
     <div class="text-gray-600 text-left text-sm mt-4">
-      {{$description}}
+      {{$description ?? ''}}
     </div>
 
     {{$slot}}
