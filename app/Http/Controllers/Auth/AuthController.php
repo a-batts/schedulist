@@ -53,46 +53,29 @@ class AuthController extends Controller
         catch (Exception $e) {
             return 'error';
         }
-      } else {
+      }
+      else {
           try {
+            $socialite = Socialite::driver('google')->user();
 
+            $data = $socialite->user;
 
-              $newUser = Socialite::driver('google')->user();
-              $googleExistUser = User::where('google_email',$newUser->email)->first();
-              $existUser = User::where('email',$newUser->email)->first();
-
-
-              if($googleExistUser) {
-                  $googleExistUser->google_id = $newUser->id;
-                  $googleExistUser->save();
-                  Auth::loginUsingId($googleExistUser->id);
-              }
-              elseif($existUser) {
-                  if ($existUser->google_id != 0){
-                    $existUser->google_id = $newUser->id;
-                    $existUser->save();
-                    Auth::loginUsingId($existUser->id);
-                  }
-                  else{
-                    return redirect('login')->withErrors([
-                          'email' => ['Sign in with your email and password to enable Google sign in.']
-                    ]);
-                  }
-              }
-              else {
-                  $user = new User;
-                  $toSplit = $newUser->name;
-                  $splitName = explode(' ', $toSplit, 2);
-                  $user->firstname = $splitName[0];
-                  $user->lastname = $splitName[1];
-                  $user->email = $newUser->email;
-                  $user->google_email = $newUser->email;
-                  $user->google_id = $newUser->id;
-                  $user->password = null;
-                  $user->save();
-                  Auth::loginUsingId($user->id);
-              }
-              return redirect()->intended(route('dashboard'));
+            $existingUser = User::where('email', $socialite->getEmail())->first();
+            if (User::where('google_email', $socialite->getEmail())->exists()){
+              $gUser = User::where('google_email', $socialite->getEmail())->first();
+              Auth::loginUsingId($gUser->id);
+              return redirect()->to('/app');
+            }
+            if ($existingUser != null && $existingUser->google_id != null && $existingUser->google_id != 0){
+              Auth::loginUsingId($existingUser->id);
+              return redirect()->to('/app');
+            }
+            else if ($existingUser != null){
+              return redirect()->route('confirm-link')->with('data', (array) $data);
+            }
+            else {
+              return redirect('/login/set-password')->with('data', (array) $data);
+            }
           }
           catch (Exception $e) {
               return 'error';
