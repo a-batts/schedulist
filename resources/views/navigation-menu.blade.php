@@ -75,14 +75,14 @@ data-turbolinks-permanent>
             <div class="flex-shrink-0">
               <button aria-describedby="switchacct-tooltip" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition duration-150 ease-in-out profilebutton"
               id="user-menu" @click="profileMenu = !profileMenu" aria-label="User menu" aria-haspopup="true">
-                <img class="h-8 w-8 rounded-full object-cover" src="http://{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               </button>
             </div>
             <div class="origin-top-right absolute right-0 mt-2 mdc-card mdc-card-outlined profile-menu"
             x-show.transition="profileMenu" @click.away="profileMenu = false" x-cloak>
               <div class="dropdowncontainer mb-4">
                 <div class="dropdown_left">
-                  <img class="h-12 w-12 rounded-full object-cover" src="http://{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                  <img class="h-12 w-12 rounded-full object-cover" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
                 </div>
                 <div class="dropdown_right">
                   <h6 class="name_head font-medium text-base nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
@@ -112,7 +112,7 @@ data-turbolinks-permanent>
               </a>
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button class="mdc-button mdc-button-ripple mdc-button--outlined popup-signout" onclick="event.preventDefault(); this.closest('form').submit();">
+                <button class="mdc-button mdc-button-ripple mdc-button--outlined popup-signout g_id_signout" onclick="event.preventDefault(); this.closest('form').submit(); google.accounts.id.disableAutoSelect();">
                   <span class="mdc-button__ripple"></span>
                   Sign Out
                 </button>
@@ -153,7 +153,7 @@ data-turbolinks-permanent>
           </div>
           <div class="block mt-4 px-6">
             @if (Auth::check())
-              <img class="h-16 w-16 rounded-full object-cover float-left" src="http://{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+              <img class="h-16 w-16 rounded-full object-cover float-left" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               <div class="inline-block ml-6 mt-2">
                 <h6 class="name_head font-medium text-lg nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
                 <h1 class="email_head text-sm">{{ Auth::User()->email}}</h1>
