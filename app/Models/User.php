@@ -87,8 +87,8 @@ class User extends Authenticatable implements FilamentUser
       return 'profile_photo_path';
     }
 
-    public static function getFilamentAvatar(){
-      return $this->profile_photo_path;
+    public function getFilamentAvatar(){
+      return $this->getProfilePhotoUrlAttribute();
     }
 
     public function isFilamentAdmin(){

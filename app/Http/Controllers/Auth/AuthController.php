@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use Exception;
+use Google_Client;
 
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -89,12 +92,39 @@ class AuthController extends Controller
                   $user->save();
                   Auth::loginUsingId($user->id);
               }
-              return redirect()->to('/app');
+              return redirect()->intended(route('dashboard'));
           }
           catch (Exception $e) {
               return 'error';
           }
 
         }
+    }
+
+    public function handleOneTapCallback(){
+      $token = $_POST["credential"];
+      $client = new Google_Client(['client_id' => '827540481261-uhs04f4uecph0vpigh7tcek6jdfp7ggl.apps.googleusercontent.com']);
+      $payload = $client->verifyIdToken($token);
+      if (! $payload)
+        return redirect()->to('/');
+
+      $data = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $token)[1]))));
+
+      $existingUser = User::where('email', $data->email)->first();
+      if (User::where('google_email', $data->email)->exists()){
+        $gUser = User::where('google_email', $data->email)->first();
+        Auth::loginUsingId($gUser->id);
+        return redirect()->to('/app');
+      }
+      if ($existingUser != null && $existingUser->google_id != null && $existingUser->google_id != 0){
+        Auth::loginUsingId($existingUser->id);
+        return redirect()->to('/app');
+      }
+      else if ($existingUser != null){
+        return redirect()->route('confirm-link')->with('data', (array) $data);
+      }
+      else {
+        return redirect('/login/set-password')->with('data', (array) $data);
+      }
     }
 }
