@@ -10,6 +10,8 @@
         <link rel="manifest" href="{{ asset('/site.webmanifest') }}">
         <meta name="theme-color" content="#0180FF">
 
+        <script src="{{ mix('js/theme-engine.js') }}"></script>
+
         @stack('meta')
 
         <title>{{$title ?? 'Schedulist'}}</title>
@@ -25,6 +27,7 @@
         <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
         <link rel="stylesheet" href="{{ mix('css/styles.css') }}">
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
         <!-- Scripts -->
         <script src="{{ mix('js/turbo.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>

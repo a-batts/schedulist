@@ -19,12 +19,7 @@
                 <span class="mdc-notched-outline__trailing"></span>
               </span>
             </label>
-            @if ($errors->has('email'))
-              @foreach ($errors->get('email') as $message)
-              <div class="mdc-text-field-helper-line">
-                <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="my-helper-id" aria-hidden="true"><p class="text-error">{{ $message }}</p></div>
-              @endforeach
-            @endif
+            <x-ui.validation-hint :message="$errors->first('email')" for="email"/>
           </div>
 
           <div class="flex items-center justify-end mt-12">

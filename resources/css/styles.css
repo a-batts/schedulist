@@ -374,8 +374,7 @@ input[type=number] {
 All other CSS code below
       ********
                         */
-.continue_with {
-    color: #6b7280;
+.continue-with {
     display: grid;
     width: 100%;
     align-items: center;
@@ -385,8 +384,8 @@ All other CSS code below
     margin-top:25px;
     margin-bottom:25px;
 }
-.continue_with:before,
-.continue_with:after {
+.continue-with:before,
+.continue-with:after {
     content: '';
     border-top: .5px solid;
 }
@@ -441,10 +440,10 @@ span.mdc-notched-outline__notch.border_rem{
 .but_nevermind{
   margin-right:20px;
 }
-div.forgotPassword{
-  float:right;
-  margin-top:13px;
-  margin-bottom:20px;
+div.forgot-password{
+  float: right;
+  margin-top: 11px;
+  margin-bottom: 20px;
 }
 .loginbutton, .loginG{
   width:200px;
