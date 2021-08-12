@@ -249,6 +249,9 @@ body.theme-dark .text-red{
 body.theme-dark .text-green{
   color: #92D5BE;
 }
+.text-primary{
+  color: var(--mdc-theme-primary);
+}
 
 //Descendent selector themed items
 
@@ -732,4 +735,10 @@ body.theme-dark .share-link-box{
 }
 body.theme-dark .assignment-selected-card{
   background-color: #2E2E2E;
+}
+.continue-with{
+  color: #6b7280;
+}
+body.theme-dark .continue-with{
+  color: var(--secondary-text-color);
 }

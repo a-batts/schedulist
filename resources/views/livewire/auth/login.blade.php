@@ -1,13 +1,13 @@
 <x-guest-layout title="Login">
   <div class="pt-12 pb-6">
-    <x-ui.auth-card title="Sign in to your account">
+    <x-ui.auth-card title="Sign in to Schedulist">
       <form method="POST" action="{{ route('login') }}"
       x-data="{
         passwordField: 'password',
       }">
         @csrf
         <div class="mt-6">
-          <label class="mdc-text-field mdc-text-field--outlined login-form email @error('email') mdc-text-field--invalid @enderror">
+          <label class="mdc-text-field mdc-text-field--outlined w-full @error('email') mdc-text-field--invalid @enderror">
             <input type="email" class="mdc-text-field__input" aria-labelledby="email-label" name="email" wire:model.lazy="email" required autofocus>
             <span class="mdc-notched-outline">
               <span class="mdc-notched-outline__leading"></span>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="mt-5 mb-2">
-          <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon login-form @error('password') mdc-text-field--invalid @enderror">
+          <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full @error('password') mdc-text-field--invalid @enderror">
             <input class="mdc-text-field__input" aria-labelledby="password-label" name="password" :type="passwordField" autocomplete="current-password" wire:model.lazy="password" required />
             <button class="mdc-icon-button material-icons mdc-text-field__icon--trailing mdc-text-field__icon icontoggle" @click="passwordField === 'password' ? passwordField = 'text' : passwordField = 'password'" type="button" tabindex="0">
               <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">visibility_off</i>
