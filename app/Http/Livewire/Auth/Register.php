@@ -33,12 +33,12 @@ class Register extends Component
     /** @var string */
     public $passwordConfirmation;
 
-    public bool $requiredFilled = false;
-
     public $gradeLevel;
     public $school;
     public $errorMessages;
-    private $possibleGrades = ['es', 'ms', 'hs', 'university', 'other'];
+
+    public $gradeOptions = ['Elementary School (K-5 or K-6)', 'Middle School (6-8 or 7-8)', 'High School (9-12)', 'University', 'Other'];
+    private $levels = ['es', 'ms', 'hs', 'university', 'other'];
 
     protected $messages = [
       'password.regex' => 'Double check that your password is 10+ characters and contains an uppercase letter, number, and special character',
@@ -59,13 +59,7 @@ class Register extends Component
     }
 
     public function create(){
-        $this->validate([
-            'firstName' => ['required', 'max:50'],
-            'lastName' => ['required', 'max:50'],
-            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/'],
-            'passwordConfirmation' => ['required', 'string', 'same:password'],
-            'gradeLevel' => ['required'],
-        ]);
+        $this->validate();
 
         $user = User::create([
             'firstname' => $this->firstName,
@@ -83,22 +77,17 @@ class Register extends Component
         return redirect()->intended(route('dashboard'));
     }
 
-    public function setGradeLevel($grade){
+    public function setGradeLevel($input){
       $this->resetErrorBag('gradeLevel');
-      if (in_array($grade, $this->possibleGrades)){
-        $this->gradeLevel = $grade;
-        if (isset($this->firstName, $this->lastName, $this->email, $this->password, $this->passwordConfirmation, $this->gradeLevel))
-          $this->requiredFilled = true;
-      }
+      $index = array_search($input, $this->gradeOptions);
+      if ($index)
+        $this->gradeLevel = $this->levels[$index];
       else
         $this->addError('gradeLevel', 'Invalid grade level');
     }
 
     public function updated($propertyName){
       $this->validateOnly($propertyName);
-
-      if (isset($this->firstName, $this->lastName, $this->email, $this->password, $this->passwordConfirmation, $this->gradeLevel))
-        $this->requiredFilled = true;
     }
 
     public function render(){

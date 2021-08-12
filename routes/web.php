@@ -28,7 +28,7 @@ use App\Http\Livewire\Contact\ContactForm;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/app', function () {
@@ -36,7 +36,19 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/app', function () {
 })->name('dashboard');
 
 Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
-Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('googleCallback');;
+
+Route::get('login/callback/google', [AuthController::class, 'handleGoogleCallback']);
+
+Route::match(['post'], 'login/callback/onetap', [AuthController::class, 'handleOneTapCallback']);
+
+Route::get('login/set-password', function(){
+  return view('auth.set-password');
+})->name('set-password');
+
+Route::get('login/confirm-password', function (){
+  return view('auth.confirm-linking');
+})->name('confirm-link');
+
 
 Route::get('contact', ContactForm::class)->name('contact');
 
