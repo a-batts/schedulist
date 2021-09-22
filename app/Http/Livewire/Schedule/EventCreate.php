@@ -3,11 +3,11 @@
 namespace App\Http\Livewire\Schedule;
 
 use App\Models\Event;
-
+use App\Models\EventUser;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
 use Livewire\Component;
@@ -69,12 +69,34 @@ class EventCreate extends Component
       $this->event->days = implode(',', $explode);
 
       $event = $this->event;
-      $event->user_id = Auth::User()->id;
+      $event->owner = Auth::user()->id;
+
+      if ($event->frequency != null){
+        switch($event->frequency){
+          case 'Day':
+            $event->frequency = 1;
+            break;
+          case 'Week':
+            $event->frequency = 7;
+            break;
+          case 'Two Weeks':
+            $event->frequency = 14;
+            break;
+          case 'Month':
+            $event->frequency = 31;
+            break;
+        }
+      }
+
+      $event->name = Crypt::encryptString($event->name);
 
       $event->save();
       $this->emit('updateAgendaData');
       $this->dispatchBrowserEvent('close-dialog');
       $this->emit('toastMessage', 'Event was successfully created');
+
+      $eventUser = new EventUser(['user_id' => Auth::user()->id, 'event_id' => $event->id, 'accepted' => true]);
+      $eventUser->save();
     }
 
     public function setCategory($category){

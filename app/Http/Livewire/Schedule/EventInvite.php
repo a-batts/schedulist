@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Schedule;
 
 use App\Models\User;
 use App\Models\Event;
+use App\Models\EventUser;
 use App\Models\Subscription;
 
 use Carbon\Carbon;
@@ -24,32 +25,30 @@ class EventInvite extends Component
 
     public bool $invalid = false;
 
+    public $invite;
+
     public bool $showingInviteMenu = false;
 
     public function mount($sharedEvent, $invalidEvent){
       if (isset($sharedEvent)){
-        $subscribed = Subscription::where('user_id', Auth::User()->id)->first();
-        $subscribedEvents = explode(',', $subscribed->events);
-        if ($invalidEvent)
+        $this->invite = EventUser::where(['event_id' => $sharedEvent->id, 'user_id' => Auth::user()->id])->first();
+        if ($this->invite == null || $this->invite->accepted || $invalidEvent)
           $this->invalid = true;
-        elseif ($sharedEvent->user_id != Auth::User()->id && ! in_array($sharedEvent->id, $subscribedEvents)){
+        else {
           $this->event = $sharedEvent;
           $this->eventDate = Carbon::parse($this->event->date);
-          $this->eventTimes =  Carbon::parse($this->event->start_time)->format('g:i A').' - '.Carbon::parse($this->event->end_time)->format('g:i A');
-          $this->eventOwner = User::find($this->event->user_id);
+          $this->eventTimes =  Carbon::parse($this->event->start_time)->format('g:i A') . ' - ' . Carbon::parse($this->event->end_time)->format('g:i A');
+          $this->eventOwner = User::find($this->event->owner);
           $this->showingInviteMenu = true;
         }
       }
     }
 
     public function addEvent(){
-      $event = $this->event;
-      $subscribed = Subscription::where('user_id', Auth::User()->id)->first();
-      $subscribedEvents = explode(',', $subscribed->events);
-      if (! in_array($event->id, $subscribedEvents))
-        array_push($subscribedEvents, $event->id);
-      $subscribed->events = implode(',', $subscribedEvents);
-      $subscribed->save();
+      $invite = $this->invite;
+      $invite->accepted = true;
+      $invite->save();
+
       $this->dispatchBrowserEvent('close-invite-menu');
       $this->emit('updateAgendaData');
     }

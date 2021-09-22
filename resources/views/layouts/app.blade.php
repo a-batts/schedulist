@@ -39,7 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
   </head>
   <body class="font-sans antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer" @if(Request::is('assignments/assignment*')) style="height: 98.5vh" @endif>
-    <div class="content-div min-h-screen" @if(! Request::is('app')) id="makefixed" @endif wire:ignore.self>
+    <div class="content-div min-h-screen" id="makefixed" wire:ignore.self>
       <header>
         @livewire('navigation-menu')
       </header>
@@ -48,7 +48,9 @@
       <x-pwa-snackbar/>
 
       <main class="min-h-screen">
-        {{ $slot }}
+        <div id="main" class="relative">
+            {{ $slot }}
+        </div>
       </main>
 
       @if (! Request::is('agenda*'))

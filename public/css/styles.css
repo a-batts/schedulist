@@ -77,10 +77,6 @@ a:active, a:focus, .v-picker__body button:active, .v-picker__body button:focus, 
   -moz-outline-style: none;
 }
 
-html{
-
-}
-
 body{
   justify-content: center;
   align-items: center;
@@ -496,12 +492,11 @@ div.forgot-password{
   margin-left: -5px;
   margin-right: 55px;
   margin-bottom: 40px;
+  width: 100%;
 }
 .addbutton, .action-submit-button{
   margin-top: 6px;
-  margin-right: 25px;
   float: right;
-  width: calc( 100vw - 3000px );
 }
 .closebutton, .close-and-title{
   float: left;
@@ -656,7 +651,7 @@ button.mdc-button.navbar-button{
   text-transform: unset !important;
   letter-spacing: normal;
   font-size: 20px;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito';
   font-weight: 700;
 }
 .class-card{
@@ -875,8 +870,6 @@ div.v-text-field .v-input__slot{
   margin-left: 54px;
   margin-right: 40px;
 }
-.assignment-link{
-}
 .assignment-link-image{
   height: 88px;
   width: 90px;
@@ -1007,8 +1000,6 @@ div.livewire-helper.mdc-text-field-helper-line{
   width: 50px;
   padding-left: 5px;
 }
-.agenda-current-date{
-}
 .agenda-item-details{
   width: 100vw;
   max-width: 480px;
@@ -1117,5 +1108,13 @@ div.modal-skim{
 }
 .mobile-menu-top{
   height: 10vh;
+}
+.dual-dashboard-cards{
+  min-height: 20rem;
+}
+div.assignment-card-dashboard{
+  min-height: 83px;
+  padding-top: 18px;
+  display: block;
 }
 

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Events;
 use App\Models\Classes;
-use App\Models\ClassTime;
+use App\Models\ClassSchedule;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -37,8 +37,8 @@ class ClassCard extends Component
     public function getSchedule(){
       $this->currentTime = Carbon::now()->format('Hi');
 
-      if(ClassTime::where('id', Auth::User()->schedule_id)->first() != null && Auth::User()->schedule_id != null){
-        $usersSchedule = ClassTime::where('id', Auth::User()->schedule_id)->first()->toArray();
+      if(ClassSchedule::where('id', Auth::User()->schedule_id)->first() != null && Auth::User()->schedule_id != null){
+        $usersSchedule = ClassSchedule::where('id', Auth::User()->schedule_id)->first()->toArray();
         $this->scheduleType = $usersSchedule['schedule_type'];
       }
       else{

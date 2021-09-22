@@ -42,7 +42,7 @@
         @if($default && ! in_array($default, $data))
           <li class="mdc-list-item mdc-list-item--selected" aria-selected="true"
           @isset($var) wire:click="set{{$var}}('{{$default}}')" @endisset
-          @isset($alpine) @click="{{$alpine}} = '{{$default}}'" @endisset
+          @isset($alpine)x-on:click="{{$alpine}} = '{{$default}}'" @endisset
           data-value="{{$default}}" role="option">
             <span class="mdc-list-item__ripple"></span>
             <span class="mdc-list-item__text">
@@ -53,7 +53,7 @@
         @foreach($data as $item)
           <li class="mdc-list-item @if($item == $default) mdc-list-item--selected @endif" aria-selected="{{$item == $default}}" data-value="{{$item}}"
            @isset($var) wire:click="set{{$var}}('{{$item}}')" @endisset
-           @isset($alpine) @click="{{$alpine}} = '{{$item}}'" @endisset
+           @isset($alpine) x-on:click="{{$alpine}} = '{{$item}}'" @endisset
            role="option">
             <span class="mdc-list-item__ripple"></span>
             <span class="mdc-list-item__text">

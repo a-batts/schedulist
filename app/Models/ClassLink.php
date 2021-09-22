@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassTime extends Model
+class ClassLink extends Model
 {
     use HasFactory;
+    
+    protected $table = 'class_links';
 
-    protected $table = 'class_times';
+    protected $guarded = ['id', 'class_id'];
 
-    protected $guarded = ['day'];
 }

@@ -7,7 +7,7 @@ use App\Models\Event;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
 use Livewire\Component;
@@ -57,7 +57,6 @@ class EventEdit extends Component
     }
 
     public function edit(){
-      $this->resetValidation();
       $this->validate();
 
       $explode = [];
@@ -66,11 +65,31 @@ class EventEdit extends Component
       $this->event->days = implode(',', $explode);
 
       $event = $this->event;
-      if ($event->user_id == Auth::User()->id)
+
+      if ($event->frequency != null) {
+        switch ($event->frequency) {
+          case 'Day':
+            $event->frequency = 1;
+            break;
+          case 'Week':
+            $event->frequency = 7;
+            break;
+          case 'Two Weeks':
+            $event->frequency = 14;
+            break;
+          case 'Month':
+            $event->frequency = 31;
+            break;
+        }
+      }
+
+      if ($event->owner == Auth::user()->id){
+        $this->emit('updateAgendaData');
+        $this->emit('toastMessage', 'Event was successfully updated');
         $event->save();
-      $this->emit('updateAgendaData');
+      }
       $this->dispatchBrowserEvent('close-dialog');
-      $this->emit('toastMessage', 'Event was successfully updated');
+
     }
 
     public function setCategory($category){
@@ -135,7 +154,23 @@ class EventEdit extends Component
       $event = Event::find($id);
       $this->clearValidation();
       $this->dayOfWeekValue = $this->getDayOfWeekValue();
-      if ($event->user_id == Auth::User()->id)
+      switch ($event->frequency) {
+        case 1:
+          $event->frequency = 'Day';
+          break;
+        case 7:
+          $event->frequency = 'Week';
+          break;
+        case 14:
+          $event->frequency = 'Two Weeks';
+          break;
+        case 31:
+          $event->frequency = 'Month';
+          break;
+      }
+      $event->name = Crypt::decryptString($event->name);
+
+      if ($event->owner == Auth::User()->id)
         $this->event = $event;
       $this->dispatchBrowserEvent('update-content');
     }
