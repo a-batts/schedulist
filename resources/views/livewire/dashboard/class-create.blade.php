@@ -1,304 +1,163 @@
-<div class="mdc-typography" x-data="{
-  addModal: @entangle('addClassModal'),
-  showingLinks: @entangle('showingMoreLinks'),
-  errorMessages: @entangle('errorMessages'),
-  field1: '',
-  field1name: '',
-  field2: '',
-  field2name: '',
-  offline: false
-}"
-@close-add-modal.window="addModal = false; undoFixBody()"
-@offline.window="offline = true"
-@online.window="offline = false">
-  @if (Auth::User()->num_classes < 10)
+<div class="mdc-typography" x-data="classCreate()">
   <div class="fab_button">
-    <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Class" @click="addModal = true; fixBody()" wire:offline.attr="disabled">
+    <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Class" @click="newClass()" wire:offline.attr="disabled">
       <div class="mdc-fab__ripple"></div>
       <span class="material-icons mdc-fab__icon">add</span>
       <span class="mdc-fab__label">Add Class</span>
     </button>
   </div>
-  @endif
-  @if (session()->has('success'))
-  <div class="mdc-snackbar mdc-snackbar--leading submit-snackbar" id="submit-snackbar">
-    <div class="mdc-snackbar__surface">
-      <div class="mdc-snackbar__label" role="status" aria-live="polite">New class was successfully added!</div>
-      <div class="mdc-snackbar__actions">
-        <button type="button" class="mdc-button mdc-snackbar__action" wire:click="undoCreate({{session()->get( 'success' )}})">
-          <div class="mdc-button__ripple"></div>
-          <div class="mdc-button__label">Undo</div>
-        </button>
-      </div>
-    </div>
-  </div>
-  @endif
-  <div class="inset-0 bg-gray-500 opacity-75 modal_skim" style="display: none" id="createskim" x-show="addModal" x-cloak></div>
-  <div class="add_class_div" x-show.transition="addModal" x-cloak>
-    <form wire:submit.prevent="save">
-      <div class="mdc-card mdc-card--outlined addclass_card">
-        <div class="toprowcontainer">
-          <div class="closebutton">
-            <button class="mdc-icon-button close-icon material-icons closeleft" type="reset" aria-describedby="close-tooltip" @click="$dispatch('close-add-modal')" aria-label="close">close</button>
-            <h1 class="closeright mdc-typography--headline6 nunito">New Class</h1>
-          </div>
-          <div id="close-tooltip" class="mdc-tooltip" role="tooltip" aria-hidden="true">
-            <div class="mdc-tooltip__surface">
-              Close
-            </div>
-          </div>
-          <div class="addbutton">
-            <button class="mdc-button mdc-button--raised mdc-button-ripple" type="submit" aria-label="Add" x-bind:disabled="offline || ! navigator.onLine" wire:ignore>
-              <span class="mdc-button__ripple"></span>Add
-            </button>
-          </div>
-        </div>
-      <div>
-        @if($errors->any())
-           <div class="alertmessage" style="height: {{count($errors) * 24 + 20}}px">
-             <div style="width:24px; float:left">
-               <span class="material-icons">error</span>
-             </div>
-             <div style="width: calc(100% - 24px); float:right">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li class="addmessage ml-2" wire:key="{{$error}}">{{$error}}</li>
-                @endforeach
-              </ul>
-            </div>
-          </div>
-        @endif
-      </div>
-        <div class="double mb-6">
-          <label class="mdc-text-field mdc-text-field--filled double_left @error('newclass.name') mdc-text-field--invalid @enderror">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="text" class="mdc-text-field__input" aria-labelledby="name-label" maxlength="255" wire:ignore wire:model.lazy="newclass.name" required>
-            <span class="mdc-floating-label" wire:ignore>Class Name</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-
-          <label class="mdc-text-field mdc-text-field--filled double_right @error('newclass.teacher') mdc-text-field--invalid @enderror">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="text" class="mdc-text-field__input" aria-labelledby="teacher-label" maxlength="255" wire:ignore wire:model.lazy="newclass.teacher" required>
-            <span class="mdc-floating-label" wire:ignore>Teacher</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-        </div>
-        <div class="select-textfield-row mb-3">
-          <div class="textfield-right-container">
-            <label class="mdc-text-field mdc-text-field--filled textfield-right @error('newclass.class_link') mdc-text-field--invalid @enderror">
-              <span class="mdc-text-field__ripple" wire:ignore></span>
-              <input type="url" class="mdc-text-field__input" aria-labelledby="class-label" maxlength="255" wire:ignore wire:model.lazy="newclass.class_link" required>
-              <span class="mdc-floating-label" wire:ignore>Class Link</span>
-              <span class="mdc-line-ripple" wire:ignore></span>
-            </label>
-            <div class="mdc-text-field-helper-line textfield-right-label" style="height: 15px" wire:ignore>
-              <div class="mdc-text-field-helper-text" id="my-helper-id" aria-hidden="true">Blackboard Collaborate, Google Meet or Zoom</div>
-            </div>
-          </div>
-          <div class="select-left-container">
-            <div class="mdc-select mdc-select--filled mdc-select--required period-select @error('newclass.period') mdc-select--invalid @enderror">
-              <div class="mdc-select__anchor reduceselectsize" aria-required="true" wire:ignore>
-                <span class="mdc-select__ripple"></span>
-                <span class="mdc-select__selected-text-container">
-                  <span class="mdc-select__selected-text"></span>
-                </span>
-                <span class="mdc-select__dropdown-icon">
-                  <svg
-                      class="mdc-select__dropdown-icon-graphic"
-                      viewBox="7 10 10 5">
-                    <polygon
-                        class="mdc-select__dropdown-icon-inactive"
-                        stroke="none"
-                        fill-rule="evenodd"
-                        points="7 10 12 15 17 10">
-                    </polygon>
-                    <polygon
-                        class="mdc-select__dropdown-icon-active"
-                        stroke="none"
-                        fill-rule="evenodd"
-                        points="7 15 12 10 17 15">
-                    </polygon>
-                  </svg>
-                </span>
-                <span class="mdc-floating-label">Period</span>
-                <span class="mdc-line-ripple"></span>
-              </div>
-
-              <div class="mdc-select__menu mdc-menu mdc-menu-surface @error('newclass.period') mdc-select__menu--invalid @enderror">
-                <ul class="mdc-list dark-theme-list" wire:ignore>
-                  @foreach($hasclass as $checkclass)
-                  <li class="mdc-list-item" wire:click="setPeriod({{$checkclass}})" data-value="{{$checkclass}}" wire:key="{{$checkclass}}">
-                    <span class="mdc-list-item__ripple"></span>
-                    <span class="mdc-list-item__text">{{$checkclass}}</span>
-                  </li>
-                  @endforeach
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Class color picker dropdown -->
-        <div class="mdc-select mdc-select--filled mdc-select--required mdc-select--with-leading-icon colorselect mb-6 mt-2 @error('newclass.color') mdc-select--invalid @enderror">
-          <div class="mdc-select__anchor" aria-required="true" wire:ignore>
-            <i class="material-icons mdc-select__icon">palette</i>
-            <span class="mdc-select__ripple"></span>
-            <span class="mdc-select__selected-text-container">
-              <span id="demo-selected-text" class="mdc-select__selected-text"></span>
-            </span>
-            <span class="mdc-select__dropdown-icon">
-              <svg
-                  class="mdc-select__dropdown-icon-graphic"
-                  viewBox="7 10 10 5">
-                <polygon
-                    class="mdc-select__dropdown-icon-inactive"
-                    stroke="none"
-                    fill-rule="evenodd"
-                    points="7 10 12 15 17 10">
-                </polygon>
-                <polygon
-                    class="mdc-select__dropdown-icon-active"
-                    stroke="none"
-                    fill-rule="evenodd"
-                    points="7 15 12 10 17 15">
-                </polygon>
-              </svg>
-            </span>
-            <span class="mdc-floating-label">Class Color</span>
-            <span class="mdc-line-ripple"></span>
-          </div>
-
-          <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth @error('newclass.color') mdc-select__menu--invalid @enderror">
-            <ul class="mdc-list dark-theme-list" wire:ignore>
-              <li class="mdc-list-item" data-value="Red" wire:click="setColor('Red')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Red</span>
-              </li>
-              <li class="mdc-list-item" data-value="Orange"  wire:click="setColor('Orange')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Orange</span>
-              </li>
-              <li class="mdc-list-item" data-value="Yellow"  wire:click="setColor('Yellow')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Yellow</span>
-              </li>
-              <li class="mdc-list-item" data-value="Green"  wire:click="setColor('Green')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Green</span>
-              </li>
-              <li class="mdc-list-item" data-value="Lime"  wire:click="setColor('Lime')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Lime</span>
-              </li>
-              <li class="mdc-list-item" data-value="Blue"  wire:click="setColor('Blue')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Blue</span>
-              </li>
-              <li class="mdc-list-item" data-value="Indigo"  wire:click="setColor('Indigo')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Indigo</span>
-              </li>
-              <li class="mdc-list-item" data-value="Purple"  wire:click="setColor('Purple')">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">Purple</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon mb-6 @error('newclass.teacher_email') mdc-text-field--invalid @enderror">
-          <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" aria-hidden="true" wire:ignore>email</i>
-          <span class="mdc-text-field__ripple" wire:ignore></span>
-          <input type="email" class="mdc-text-field__input" wire:model.lazy="newclass.teacher_email" wire:ignore>
-          <span class="mdc-floating-label" wire:ignore>Teacher Email</span>
-          <span class="mdc-line-ripple" wire:ignore></span>
+  <x-ui.modal alpine="addDialog" title="New Class" action="Add" classes="top-3 bottom-3" wire:submit.prevent="create">
+    <div>
+      <div class="w-1/2 pr-1.5 float-left">
+        <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['class.name'] != undefined}" wire:ignore>
+          <span class="mdc-text-field__ripple"></span>
+          <span class="mdc-floating-label " id="new-class-name-label">Class Name</span>
+          <input class="mdc-text-field__input" wire:model.lazy="class.name" type="text" aria-labelledby="new-class-name-label" required>
+          <span class="mdc-line-ripple"></span>
         </label>
-        <div class="double mb-6">
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon double_left @error('newclass.g_classroom') mdc-text-field--invalid @enderror">
-            <img class="material-icons mdc-text-field__icon mdc-text-field__icon--leading classroom_icon" src="/images/icon/vendor/classroom.svg" aria-hidden="true" wire:ignore>
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="url" class="mdc-text-field__input" wire:model.lazy="newclass.g_classroom" wire:ignore>
-            <span class="mdc-floating-label" wire:ignore>Google Classroom</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon double_right @error('newclass.blackboard') mdc-text-field--invalid @enderror">
-            <img class="material-icons mdc-text-field__icon mdc-text-field__icon--leading classroom_icon" src="/images/icon/vendor/bb.svg" aria-hidden="true">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="url" class="mdc-text-field__input" wire:model.lazy="newclass.blackboard" wire:ignore>
-            <span class="mdc-floating-label" wire:ignore>Blackboard</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
+        <x-ui.validation-hint :message="$errorMessages" for="class.name"/>
+      </div>
+      <div class="w-1/2 pl-1.5 float-right">
+        <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['class.teacher'] != undefined}" wire:ignore>
+          <span class="mdc-text-field__ripple"></span>
+          <span class="mdc-floating-label " id="new-class-teacher-label">Teacher</span>
+          <input class="mdc-text-field__input" wire:model.lazy="class.teacher" type="text" aria-labelledby="new-class-teacher-label" required>
+          <span class="mdc-line-ripple"></span>
+        </label>
+        <x-ui.validation-hint :message="$errorMessages" for="class.teacher"/>
+      </div>
+    </div>
+    <div>
+      <div class="w-1/2 pr-1.5 float-left">
+        <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['class.teacher_email'] != undefined}" wire:ignore>
+          <span class="mdc-text-field__ripple"></span>
+          <span class="mdc-floating-label " id="teacher-email-label">Teacher Email</span>
+          <input class="mdc-text-field__input" wire:model.lazy="class.teacher_email" type="text" aria-labelledby="teacher-email-label">
+          <span class="mdc-line-ripple"></span>
+        </label>
+        <x-ui.validation-hint :message="$errorMessages" for="class.teacher_email"/>
+      </div>
+    </div>
+    <div>
+      <div class="w-2/3 pr-1.5 float-left">
+        <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['class.class_location'] != undefined}" wire:ignore>
+          <span class="mdc-text-field__ripple"></span>
+          <span class="mdc-floating-label " id="new-class-location-label">Class Location</span>
+          <input class="mdc-text-field__input" wire:model.lazy="class.class_location" type="text" aria-labelledby="new-class-location-label">
+          <span class="mdc-line-ripple"></span>
+        </label>
+        <x-ui.validation-hint :message="$errorMessages" for="class.class_location"/>
+      </div>
+      <div class="w-1/3 pl-1.5 float-right">
+        <label class="mdc-text-field mdc-text-field--filled w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['class.period'] != undefined}" wire:ignore>
+          <span class="mdc-text-field__ripple"></span>
+          <span class="mdc-floating-label" id="new-class-period-label">Period</span>
+          <input class="mdc-text-field__input" wire:model.lazy="class.period" type="text" aria-labelledby="new-class-period-label">
+          <span class="mdc-line-ripple"></span>
+        </label>
+        <x-ui.validation-hint :message="$errorMessages" for="class.period"/>
+      </div>
+    </div>
+    <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['class.video_link'] != undefined}" wire:ignore>
+      <span class="mdc-text-field__ripple"></span>
+      <span class="mdc-floating-label " id="vid-link-label">Video Link</span>
+      <input class="mdc-text-field__input" wire:model.lazy="class.video_link" type="text" aria-labelledby="vid-link-label">
+      <span class="mdc-line-ripple"></span>
+    </label>
+    <x-ui.validation-hint :message="$errorMessages" for="class.video_link"/>
+    <div class="text-lg font-medium text-gray-700 ml-1">Color</div>
+    <div class="mx-auto py-3 mb-2 px-auto">
+      @foreach ($colorOptions as $color)
+        <div class="background-{{$color}} mdc-icon-button rounded-full h-11 w-11 mx-1" x-bind:class="{'border-white border-solid border-3': color == '{{$color}}'}" @click="setColor('{{$color}}')">
+          <div class="mdc-icon-button__ripple"></div>
         </div>
-        <div class="double">
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon mb-5 double_left @error('newclass.textbook') mdc-text-field--invalid @enderror">
-            <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading"aria-hidden="true">book</i>
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="url" class="mdc-text-field__input" wire:model.lazy="newclass.textbook" wire:ignore>
-            <span class="mdc-floating-label" wire:ignore>Textbook</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon mb-5 double_right @error('newclass.ap_classroom') mdc-text-field--invalid @enderror">
-            <img class="material-icons mdc-text-field__icon mdc-text-field__icon--leading classroom_icon" src="/images/icon/vendor/cb.svg" aria-hidden="true">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input type="url" class="mdc-text-field__input" wire:model.lazy="newclass.ap_classroom" wire:ignore>
-            <span class="mdc-floating-label" wire:ignore>AP Classroom</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-        </div>
-          <div class="additional_links_switch" wire:ignore>
-            <div class="mdc-switch">
-              <div class="mdc-switch__track"></div>
-              <div class="mdc-switch__thumb-underlay">
-                <div class="mdc-switch__thumb"></div>
-                <input type="checkbox" id="morelinks_switch" class="mdc-switch__native-control" role="switch" x-bind:checked="showingLinks" @click="showingLinks = !showingLinks">
+      @endforeach
+    </div>
+    <div wire:ignore>
+      <template x-if="numberLinks > 0">
+        <template x-for="i in numberLinks">
+          <div>
+            <div class="w-1/3 pr-1.5 float-left">
+              <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['links_'+(i-1)+'_name'] != undefined}" wire:ignore>
+                <span class="mdc-text-field__ripple"></span>
+                <span class="mdc-floating-label " :id="`link-${i}-name`">Link Name</span>
+                <input class="mdc-text-field__input"  type="text" :aria-labelledby="`link-${i}-name`" @keyup="@this.setLink(i, class['links'][i - 1]['name'], class['links'][i - 1]['link'])">
+                <span class="mdc-line-ripple"></span>
+              </label>
+              <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg mdc-text-field-helper-text--persistent h-5 ml-1 mt-0.5 mb-0.5 text-error" aria-hidden="true">
+                <template x-if="errorMessages['links_'+(i-1)+'_name'] != null">
+                  <span x-text="errorMessages['links_'+(i-1)+'_name'][0]"></span>
+                </template>
               </div>
             </div>
-            <label for="basic-switch" class="ml-3">Add additional links</label>
+            <div class="w-2/3 pl-1.5 float-right">
+              <div class="float-left link-field-left">
+                <label class="mdc-text-field mdc-text-field--filled w-full " x-bind:class="{'mdc-text-field--invalid': errorMessages['links_'+(i-1)+'_url'] != undefined}" wire:ignore>
+                  <span class="mdc-text-field__ripple"></span>
+                  <span class="mdc-floating-label " :id="`link-${i}-url`">URL</span>
+                  <input class="mdc-text-field__input" type="text" :aria-labelledby="`link-${i}-url`" @keyup="@this.setLink(i, class['links'][i - 1]['name'], class['links'][i - 1]['link'])">
+                  <span class="mdc-line-ripple"></span>
+                </label>
+                <div class="mdc-text-field-helper-text mdc-text-field-helper-text--validation-msg mdc-text-field-helper-text--persistent h-5 ml-1 mt-0.5 mb-0.5 text-error" aria-hidden="true">
+                  <template x-if="errorMessages['links_'+(i-1)+'_url'] != null">
+                    <span x-text="errorMessages['links_'+(i-1)+'_url'][0]"></span>
+                  </template>
+                </div>
+              </div>
+              <div class="float-left w-12">
+                <template x-if="i != numberLinks">
+                  <button class="mdc-icon-button material-icons ml-3 text-gray-600 mt-1" type="button" @click="removeLink(i)">
+                    <div class="mdc-icon-button__ripple"></div>
+                    remove_circle_outline
+                  </button>
+                </template>
+              </div>
+            </div>
           </div>
-          <div x-show="showingLinks" x-cloak wire:ignore.self>
-            <div class="double">
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_left @error('newclass.linkone') mdc-text-field--invalid @enderror">
-                <span class="mdc-text-field__ripple" wire:ignore></span>
-                <input type="url" class="mdc-text-field__input" x-model="field1" wire:model.lazy="newclass.linkone" wire:ignore>
-                <span class="mdc-floating-label" wire:ignore>Link One</span>
-                <span class="mdc-line-ripple" wire:ignore></span>
-              </label>
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_right">
-                <span class="mdc-text-field__ripple" wire:ignore></span>
-                <input type="text" class="mdc-text-field__input" x-model="field1name" wire:model.lazy="newclass.linkone_name" wire:ignore maxlength="50">
-                <span class="mdc-floating-label" wire:ignore>Link Name</span>
-                <span class="mdc-line-ripple" wire:ignore></span>
-              </label>
-            </div>
-            <div class="double">
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_left" x-bind:class="{'mdc-text-field--disabled': !field1 || !field1name, 'mdc-text-field--invalid': errorMessages['newclass.linktwo'] != undefined}" wire:ignore>
-                <span class="mdc-text-field__ripple"></span>
-                <input type="url" class="mdc-text-field__input" x-model="field2" x-bind:disabled="!field1 || !field1name" wire:model.lazy="newclass.linktwo" >
-                <span class="mdc-floating-label">Link Two</span>
-                <span class="mdc-line-ripple"></span>
-              </label>
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_right" x-bind:class="{'mdc-text-field--disabled': !field1 || !field1name, 'mdc-text-field--invalid': errorMessages['newclass.linktwo_name'] != undefined}" wire:ignore>
-                <span class="mdc-text-field__ripple"></span>
-                <input type="text" class="mdc-text-field__input" x-model="field2name" x-bind:disabled="!field1 || !field1name" wire:model.lazy="newclass.linktwo_name" maxlength="50">
-                <span class="mdc-floating-label">Link Name</span>
-                <span class="mdc-line-ripple"></span>
-              </label>
-            </div>
-            <div class="double">
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_left" x-bind:class="{'mdc-text-field--disabled': !field1 || !field1name || !field2 || !field2name, 'mdc-text-field--invalid': errorMessages['newclass.linkthree'] != undefined}" wire:ignore>
-                <span class="mdc-text-field__ripple"></span>
-                <input type="url" class="mdc-text-field__input" x-bind:disabled="!field1 || !field1name || !field2 || !field2name" wire:model.lazy="newclass.linkthree">
-                <span class="mdc-floating-label">Link Three</span>
-                <span class="mdc-line-ripple"></span>
-              </label>
-              <label class="mdc-text-field mdc-text-field--filled mb-5 double_right @error('newclass.linkthree_name') mdc-text-field--invalid @enderror" x-bind:class="{'mdc-text-field--disabled': !field1 || !field1name || !field2 || !field2name, 'mdc-text-field--invalid': errorMessages['newclass.linkthree_name'] != undefined}" wire:ignore>
-                <span class="mdc-text-field__ripple"></span>
-                <input type="text" class="mdc-text-field__input" x-bind:disabled="!field1 || !field1name || !field2 || !field2name" wire:model.lazy="newclass.linkthree_name" maxlength="50">
-                <span class="mdc-floating-label">Link Name</span>
-                <span class="mdc-line-ripple"></span>
-              </label>
-            </div>
-        </div>
-      </form>
+        </template>
+      </template>
+      <button class="mdc-button mdc-button--icon-leading" type="button" @click="addLink" :disabled="numberLinks > 9">
+        <span class="mdc-button__ripple"></span>
+        <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle_outline</i>
+        <span class="mdc-button__label">Add New Link</span>
+      </button>
     </div>
-  </div>
+  </x-ui.modal>
 </div>
+
+@push('scripts')
+  <script>
+    function classCreate(){
+      return{
+        color: '',
+        addDialog: false,
+        errorMessages: @entangle('errorMessages'),
+        numberLinks: 0,
+        class: -1,
+        addLink: function(){
+          if (this.numberLinks < 10){
+            this.numberLinks ++;
+            this.class.links[this.numberLinks - 1] = {'name': '', 'link': ''};
+          }
+        },
+        newClass: function(){
+          fixBody();
+          this.class = JSON.parse(JSON.stringify(@this.class));
+          this.class['links'] = [];
+          this.class.links[0] = {'name': '', 'link': ''};
+          this.numberLinks = 1;
+          this.addDialog = true;
+        },
+        removeLink: function(pos){
+          this.class.links.splice(pos - 1, 1);
+          this.numberLinks--;
+          @this.removeLink(pos);
+        },
+        setColor: function(color){
+          this.color = color;
+          @this.setColor(color);
+        }
+      }
+    }
+  </script>
+@endpush

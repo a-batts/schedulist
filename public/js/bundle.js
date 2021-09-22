@@ -19453,6 +19453,10 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_6__.default({
   cluster: "mt1",
   forceTLS: true
 });
+
+var bodyScroll = __webpack_require__(/*! body-scroll-toggle */ "./node_modules/body-scroll-toggle/index.js");
+
+window.bodyScroll = bodyScroll;
 var tooltips = [];
 var switchControls = [].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
   return new _material_switch__WEBPACK_IMPORTED_MODULE_7__.MDCSwitch(el);
@@ -19579,6 +19583,98 @@ if (document.querySelector('.suggestions-menu') !== null) {
   var suggestionsMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_19__.MDCMenu(document.querySelector('.suggestions-menu'));
   window.suggestionsMenu = suggestionsMenu;
 }
+
+/***/ }),
+
+/***/ "./node_modules/body-scroll-toggle/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/body-scroll-toggle/index.js ***!
+  \**************************************************/
+/***/ (function(module) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_567__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_567__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__nested_webpack_require_567__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__nested_webpack_require_567__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__nested_webpack_require_567__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __nested_webpack_require_567__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+	var originalStyles, scrollContainer, scrollTop;
+
+	scrollContainer = document.scrollingElement || document.documentElement;
+
+	scrollTop = null;
+
+	originalStyles = null;
+
+	module.exports = {
+	  toggle: function() {
+	    if (scrollTop) {
+	      return disable();
+	    } else {
+	      return enable();
+	    }
+	  },
+	  disable: function() {
+	    scrollTop = scrollContainer.scrollTop;
+	    originalStyles = document.body.style.cssText;
+	    return document.body.style.cssText = ';' + ("overflow: hidden; position: fixed; height:   100%; width:    100%; top:      " + (-scrollTop) + "px; ");
+	  },
+	  enable: function() {
+	    document.body.style.cssText = originalStyles;
+	    return scrollContainer.scrollTop = scrollTop;
+	  }
+	};
+
+
+/***/ })
+/******/ ])
+});
+;
 
 /***/ }),
 

@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class branding.app extends Component
+class BrandingApp extends Component
 {
     /**
      * Create a new component instance.

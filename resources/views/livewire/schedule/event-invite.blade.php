@@ -10,7 +10,7 @@
         @isset($eventOwner)
           <div class="mdc-card mdc-card--outlined modal-card py-5">
             <img src="{{$eventOwner->profile_photo_url}}" class="rounded-full w-28 h-28 mt-1 ml-auto mr-auto">
-            <p class="text-center text-xl mt-6"> <span class="font-medium">{{$eventOwner->firstname}} {{$eventOwner->lastname}}</span> shared <span class="font-medium">"{{$event->name}}"</span></p>
+            <p class="text-center text-xl mt-6"> <span class="font-medium">{{$eventOwner->firstname}} {{$eventOwner->lastname}}</span> shared <span class="font-medium">"{{Crypt::decryptString($event->name)}}"</span></p>
             <p class="text-center">with you</p>
             <div class="event-share-info-div mdc-card mdc-card--outlined mt-6 ml-auto mr-auto py-3 px-4 rounded-lg">
               <div>

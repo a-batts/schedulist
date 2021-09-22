@@ -29,17 +29,18 @@ Livewire.on('stoploading', function (stop) {
 });
 
 function fixBody() {
-  var element = document.getElementById("makefixed");
-  element.classList.add("noscroll");
-  document.getElementById("footer").style.display = "none";
+  pos = window.scrollY;
+  window.pos = pos;
+  document.body.style.position = 'fixed';
+  document.getElementById('main').style.top = `-${pos}px`;
 }
 
 window.fixBody = fixBody;
 
 function undoFixBody() {
-  var element = document.getElementById("makefixed");
-  element.classList.remove("noscroll");
-  document.getElementById("footer").style.display = "block";
+  document.body.style.position = '';
+  document.getElementById('main').style.top = '';
+  window.scrollTo(0, window.pos);
 }
 
 window.undoFixBody = undoFixBody;

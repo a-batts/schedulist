@@ -6,8 +6,7 @@ use App\Jobs\SendEventInvitation;
 
 use App\Models\User;
 use App\Models\Event;
-use App\Models\Subscription;
-
+use App\Models\EventUser;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,7 +39,7 @@ class EventShare extends Component
     }
 
     public function share(){
-      if ($this->query == Auth::User()->email){
+      if ($this->query == Auth::user()->email){
         $this->clearValidation();
         $this->addError('query', 'You are already the owner of this event');
         return;
@@ -52,34 +51,28 @@ class EventShare extends Component
         return;
       }
       $this->query = '';
-      $sharedWith = explode(',', $this->event->shared_with);
-      if (! in_array($user->id, $sharedWith))
-        array_push($sharedWith, $user->id);
-      $this->event->shared_with = implode(',', $sharedWith);
-      $this->event->save();
-      $this->sharedWith = User::whereIn('id', explode(',', $this->event->shared_with))->get();
+
+      if (! EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists()){
+        $eventUser = new EventUser(['user_id' => $user->id, 'event_id' => $this->event->id, 'accepted' => false]);
+        $eventUser->save();
+        $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
+      }
+      else{
+        $this->addError('query', 'This event has already been shared with that user');
+        return;
+      }
+      
 
       //send email to user with generated link
       $route = $this->generateRoute($this->event->id, $user->id);
-      $details = ['owner' => Auth::User(), 'eventName' => $this->event->name, 'route' => $route, 'email' => $user->email];
+      $details = ['owner' => Auth::user(), 'eventName' => $this->event->name, 'route' => $route, 'email' => $user->email];
       SendEventInvitation::dispatchNow($details);
     }
 
     public function unshare($id){
-      $sharedWith = explode(',', $this->event->shared_with);
-      if (in_array($id, $sharedWith))
-        unset($sharedWith[array_search($id, $sharedWith)]);
-      $this->event->shared_with = implode(',', $sharedWith);
-      $this->event->save();
-      $subscribeList = Subscription::where('user_id', $id)->first();
-      if ($subscribeList != null){
-        $subscribedEvents = explode(',', $subscribeList->events);
-        if (in_array($this->event->id, $subscribedEvents))
-          unset($subscribedEvents[array_search($this->event->id, $subscribedEvents)]);
-        $subscribeList->events = implode(',', $subscribedEvents);
-        $subscribeList->save();
-      }
-      $this->sharedWith = User::whereIn('id', explode(',', $this->event->shared_with))->get();
+      $sharedEvent = EventUser::where(['user_id' => $id, 'event_id' => $this->event->id])->first();
+      $sharedEvent->delete();
+      $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
     }
 
     /**
@@ -87,15 +80,14 @@ class EventShare extends Component
      * @param int $id
      */
     public function setEvent($id){
-      $this->event = Event::where('id', $id)->where('user_id', Auth::User()->id)->firstOrFail();
+      $this->event = Event::where('id', $id)->where('owner', Auth::User()->id)->firstOrFail();
       $this->clearValidation();
       $this->dispatchBrowserEvent('open-share-modal');
       if($this->event->public)
         $this->publicLink = $this->generateRoute($this->event->id);
       else
         $this->publicLink = null;
-      $this->sharedWith = User::whereIn('id', explode(',', $this->event->shared_with))->get();
-
+      $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
     }
 
     public function makePublic(){

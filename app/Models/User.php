@@ -123,4 +123,20 @@ class User extends Authenticatable implements FilamentUser
       return ($this->password !== null);
     }
 
+    public function assignments(){
+      return $this->hasMany(Assignment::class, 'userid');
+    }
+
+    public function classes(){
+      return $this->hasMany(Classes::class, 'userid');
+    }
+
+    public function classSchedule(){
+      return $this->belongsToMany(ClassSchedule::class)->limit(1);
+    }
+
+    public function events(){
+      return $this->belongsToMany(Event::class)->wherePivot('accepted', 1);
+    }
+
 }

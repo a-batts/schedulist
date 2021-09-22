@@ -12,4 +12,8 @@ class Classes extends Model
     protected $table = 'classes';
 
     protected $guarded = ['id', 'userid'];
+
+    public function links(){
+      return $this->hasMany(ClassLink::class, 'class_id');
+    }
 }

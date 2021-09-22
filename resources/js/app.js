@@ -44,6 +44,9 @@ window.Echo = new Echo({
      forceTLS: true
 });
 
+const bodyScroll = require('body-scroll-toggle');
+window.bodyScroll = bodyScroll;
+
 var tooltips = [];
 
 var switchControls = [].map.call(document.querySelectorAll('.mdc-switch'), function(el) {
