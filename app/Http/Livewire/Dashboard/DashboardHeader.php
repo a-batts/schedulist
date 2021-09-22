@@ -2,67 +2,82 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Models\ClassTime;
-
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 
-class DashboardHeader extends Component
+  class DashboardHeader extends Component
 {
-    public $timeString;
-    public $blockString;
-
-    public $currentBlock;
+    public $dayOfWeekString;
+    public string $greeting;
 
     protected $listeners = ['updateCurrentBlock' => 'setCurrentBlock'];
 
-    /**
-     * Gets string for the time of day greeting
-     * @return [type]
-     */
-    public function getTimeString(){
-      $now = Carbon::now()->format('G');
-      if ($now >= 4 && $now < 12)
-        $this->timeString = "Good Morning";
-      elseif ($now >= 12 && $now < 16)
-        $this->timeString = "Good Afternoon";
-      elseif ($now >= 16 && $now < 19)
-        $this->timeString = "Good Evening";
-      else
-        $this->timeString = "Have a Good Night";
-    }
-
-    public function setCurrentBlock($newBlock){
-      $this->currentBlock = $newBlock;
+    public function mount(){
+      $this->greeting = $this->getGreeting();
+      $this->dayOfWeekString = $this->getDayOfWeekString();
     }
 
     /**
-     * Get block string to display
-     * @param int $blockNumber
-     * @return string
+     * Returns the current block for the day of the week, or null if the schedule type is not block
+     * @return string|null
      */
-    public function getBlockString  ($blockNumber){
-      $userSchedule = ClassTime::where('id', Auth::User()->schedule_id)->first();
-      if (Auth::User()->schedule_id == null)
+    public function getDayOfWeekString(){
+      $classSchedule = Auth::User()->classSchedule->first();
+      if ($classSchedule == null)
         return null;
-      if ($userSchedule->schedule_type == "block" && $blockNumber != "off"){
-        $blockString = "You have your ";
-        if($userSchedule->block_style == "number")
-          $blockString .= $blockNumber;
-        elseif($userSchedule->block_style == "letter")
-          $blockString .= chr(ord('A') + $blockNumber - 1);
-        $blockString .= " day classes today";
-
-        return $blockString;
+      if ($classSchedule->schedule_type == 'block'){
+        $range = CarbonPeriod::create($classSchedule->schedule_start, Carbon::now());
+        $count = $classSchedule->start_block - 1;
+        foreach ($range as $i){
+          if (!$i->isWeekend())
+            $count++;
+        }
+        $currentBlock = $count % $classSchedule->number_blocks;
+        if ($currentBlock == 0)
+          $currentBlock = 3;
+        return 'You have your '.chr(ord('A') + $currentBlock - 1).' classes today';
       }
     }
 
+    /**
+     * Get greeting string
+     * @return string
+     */
+    public function getGreeting(){
+      $now = Carbon::now()->format('G');
+      switch ($now) {
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+          return 'Good morning';
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+          return 'Good afternoon';
+        case 16:
+        case 17:
+        case 18:
+          return 'Good evening';
+        default:
+          return 'Have a good night';
+      }
+    }
+
+    public function refresh(){
+      $this->greeting = $this->getGreeting();
+      $this->dayOfWeekString = $this->getDayOfWeekString();
+    }
+
     public function render(){
-        $this->blockString = $this->getBlockString($this->currentBlock);
-        $this->getTimeString();
-        return view('livewire.dashboard.dashboard-header');
+      return view('livewire.dashboard.dashboard-header');
     }
 }

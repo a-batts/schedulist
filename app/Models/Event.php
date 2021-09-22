@@ -12,4 +12,8 @@ class Event extends Model
     protected $table = 'events';
 
     protected $guarded = ['date'];
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
 }

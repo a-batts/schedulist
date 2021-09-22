@@ -47,7 +47,7 @@ class AgendaWidget extends Component
     /**
      * Get month period for specified date
      * @param  Carbon $date
-     * @return array
+     * @return CarbonPeriod
      */
     public function getMonthPeriod(Carbon $date){
       $start = $date->startOfMonth()->toDateString();

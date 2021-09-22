@@ -1,6 +1,7 @@
 <div x-data="eventCreate()"
 x-init="days.push($wire.dayOfWeekValue); currentDay = $wire.dayOfWeekValue; init($watch)"
 x-on:swap-button-state.window="showingButton = !showingButton"
+x-on:close-dialog.window="dialog = false"
 x-on:toggle-day.window="
 if(! days.includes(event.detail.newDay))
   days.push(event.detail.newDay)
@@ -9,7 +10,7 @@ var index = days.indexOf(event.detail.oldDay);
 if (index !== -1)
   days.splice(index, 1);"
 class="mdc-typography">
-  <x-ui.modal alpine="dialog" title="New Event" action="Add" classes="-top-16" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.create()">
+  <x-ui.modal alpine="dialog" title="New Event" action="Add" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.create()">
     <label class="mdc-text-field mdc-text-field--filled w-4/5" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="event-name-label">Event Name</span>

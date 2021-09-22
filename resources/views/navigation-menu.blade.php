@@ -155,7 +155,7 @@ data-turbolinks-permanent>
             @if (Auth::check())
               <img class="h-16 w-16 rounded-full object-cover float-left" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               <div class="inline-block ml-6 mt-2">
-                <h6 class="name_head font-medium text-lg nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
+                <h6 class="name_head font-medium text-lg text-white">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
                 <h1 class="email_head text-sm">{{ Auth::User()->email}}</h1>
               </div>
             @endif

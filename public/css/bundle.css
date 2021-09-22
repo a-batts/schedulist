@@ -15786,46 +15786,57 @@ a.mdc-evolution-list-item {
 
 .background-beige {
   background-color: #9e9e9e !important;
+  color: white;
 }
 
 .background-blue {
   background-color: #1976D2 !important;
+  color: white;
 }
 
 .background-green {
   background-color: #2C734F !important;
+  color: white;
 }
 
 .background-lav {
   background-color: #9F84CF !important;
+  color: white;
 }
 
 .background-lemon {
   background-color: #ffeb3b !important;
+  color: black;
 }
 
 .background-mint {
   background-color: #047A6F !important;
+  color: white;
 }
 
 .background-orange {
   background-color: #ff9800 !important;
+  color: white;
 }
 
 .background-pink {
   background-color: #DC4B82 !important;
+  color: white;
 }
 
 .background-purple {
   background-color: #6200EE !important;
+  color: white;
 }
 
 .background-red {
   background-color: #E6493B !important;
+  color: white;
 }
 
 .background-teal {
   background-color: #42a5f5 !important;
+  color: white;
 }
 
 body.theme-dark .background-beige {
@@ -15890,6 +15901,14 @@ body.theme-dark .text-green {
 
 .text-primary {
   color: var(--mdc-theme-primary);
+}
+
+.text-inherit {
+  color: inherit !important;
+}
+
+body.theme-dark .text-gray-400 {
+  color: var(--secondary-text-color);
 }
 
 .check_icon, .check_icon_sm {
@@ -16728,4 +16747,17 @@ body.theme-dark .assignment-selected-card {
 
 body.theme-dark .continue-with {
   color: var(--secondary-text-color);
+}
+
+.assignment-card-icon.material-icons {
+  font-size: 8rem;
+  color: #CACACA;
+}
+
+body.theme-dark .assignment-card-icon.material-icons {
+  color: var(--secondary-text-color);
+}
+
+.link-field-left {
+  width: calc(100% - 3.5rem);
 }

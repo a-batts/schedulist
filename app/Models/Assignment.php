@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Classes;
 use Carbon\Carbon;
-use Crypt;
-use Dusterio\LinkPreview\Client;
 
 class Assignment extends Model
 {
@@ -18,8 +16,13 @@ class Assignment extends Model
     protected $guarded = ['id', 'userid', 'classid'];
 
     public function getClassNameAttribute($value){
-        $currentperiod = Classes::where('id', $this->classid)->first();
-        return $currentperiod->name;
+      if ($this->classid)
+        return 'No Class';
+
+      $class = Classes::where('id', $this->classid)->first();
+      if ($class != null)
+        return 'Deleted Class';
+      return null;
     }
 
     public function getDueDateAttribute($value){

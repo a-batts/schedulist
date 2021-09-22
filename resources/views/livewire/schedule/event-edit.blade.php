@@ -10,7 +10,7 @@ if (index !== -1)
 x-on:update-content.window="updateContent($wire)"
 x-on:close-dialog="edit = false"
 class="mdc-typography">
-    <x-ui.modal alpine="edit" title="Edit Event" action="Save" classes="-top-16" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.edit()">
+    <x-ui.modal alpine="edit" title="Edit Event" action="Save" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.edit()">
     <label class="mdc-text-field mdc-text-field--filled w-4/5" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label mdc-floating-label--float-above" id="event-name-label">Event Name</span>

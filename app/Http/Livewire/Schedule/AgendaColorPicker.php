@@ -16,7 +16,7 @@ class AgendaColorPicker extends Component
 
     public function updateEventColor($data){
       $event = Event::find($data['id']);
-      if ($event->user_id == Auth::User()->id){
+      if ($event->owner == Auth::User()->id){
         if (in_array($data['color'], $this->validColors)){
           $event->color = $data['color'];
           $event->save();
