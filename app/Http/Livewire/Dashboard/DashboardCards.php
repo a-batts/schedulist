@@ -89,7 +89,7 @@ class DashboardCards extends Component {
         $this->events->push($each);
       }
     }
-    $this->events->take(8);
+    $this->events = $this->events->take(8);
   }
 
   public function render() {
