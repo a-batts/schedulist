@@ -1,11 +1,10 @@
 <?php
 
-namespace App\View\Components\UI;
+namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class Modal extends Component
-{
+class Modal extends Component {
     public $alpine;
     public $submit;
     public $title;
@@ -17,8 +16,7 @@ class Modal extends Component
      *
      * @return void
      */
-    public function __construct($alpine, $submit = null, $title, $action, $classes)
-    {
+    public function __construct($alpine, $submit = null, $title, $action, $classes) {
         $this->alpine = $alpine;
         $this->submit = $submit;
         $this->title = $title;
@@ -31,8 +29,7 @@ class Modal extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
-    {
+    public function render() {
         return view('components.ui.modal');
     }
 }

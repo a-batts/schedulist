@@ -171,6 +171,9 @@ class ClassScheduleHelper {
   public function termInProgress($dateTime = null) {
     if ($dateTime == null) $dateTime = $this->dt;
 
+    if (Auth::User()->classSchedule()->first() == null)
+      return false;
+
     $user = Auth::User();
     $startTerm = Carbon::parse($user->year_start_date);
     $endTerm = Carbon::parse($user->year_end_date);

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\View\Components\UI;
+namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class Tooltip extends Component
-{
+class Tooltip extends Component {
     public $id;
     public $text;
 
@@ -14,8 +13,7 @@ class Tooltip extends Component
      *
      * @return void
      */
-    public function __construct($tooltipId, $text)
-    {
+    public function __construct($tooltipId, $text) {
         $this->id = $tooltipId;
         $this->text = $text;
     }
@@ -25,8 +23,7 @@ class Tooltip extends Component
      *
      * @return \Illuminate\Contracts\View\View|string
      */
-    public function render()
-    {
+    public function render() {
         return view('components.ui.tooltip');
     }
 }
