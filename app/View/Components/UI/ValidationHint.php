@@ -5,16 +5,15 @@ namespace App\View\Components\Ui;
 use Illuminate\View\Component;
 
 class ValidationHint extends Component {
-    public $message;
+    public $for;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($message, $for) {
-        if (isset($message[$for]))
-            $this->message = $message[$for][0];
+    public function __construct($for) {
+        $this->for = $for;
     }
 
     /**
