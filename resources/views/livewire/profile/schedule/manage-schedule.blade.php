@@ -55,8 +55,14 @@ class="mdc-typography" wire:ignore>
           </template>
         </div>
       </template>
+      <template x-if="classes.length == 0">
+        <div class="flex flex-col items-center">
+          <p class="mx-0 mt-10 text-center select-none material-icons text-12xl assignment-card-icon">school</p>
+            <p class="mt-1 text-lg font-medium text-center text-gray-600">Once you add a class you can start making your schedule</p>
+        </div>
+      </template>
     </div>
-    <button class="float-right mt-8 mb-2 mr-4 mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="saveSchedule()" wire:ignore>
+    <button class="float-right mt-8 mb-2 mr-4 mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="saveSchedule()" x-bind:disabled="classes.length == 0" wire:ignore>
       <span class="mdc-button__ripple"></span>Save Schedule
     </button>
   </x-ui.settings-card>

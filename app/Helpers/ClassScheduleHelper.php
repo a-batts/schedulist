@@ -59,7 +59,10 @@ class ClassScheduleHelper {
       if ($dt->isWeekend())
         return '|';
       $range = CarbonPeriod::create(Carbon::parse($classSchedule['schedule_start']), $dt);
-      $count = $classSchedule['start_block'] - 1;
+      if ($classSchedule['start_block'] != null)
+        $count = $classSchedule['start_block'] - 1;
+      else
+        $count = 0;
       foreach ($range as $i) {
         if (!$i->isWeekend())
           $count++;
