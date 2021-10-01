@@ -22,7 +22,7 @@ x-init="
           </span>
           <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" autocomplete="qekfk" wire:model.debounce.50ms="query" wire:keydown.enter.prevent="share()">
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="query"/>
+        <x-ui.validation-error :message="$errorMessages" for="query"/>
       </div>
       <div class="mt-5">
         @if($sharedWith->count() > 0)

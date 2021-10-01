@@ -17,9 +17,9 @@ class="mdc-typography">
       <input class="mdc-text-field__input" wire:model.lazy="event.name" type="text" aria-labelledby="event-name-label" required>
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-hint :message="$errorMessages" for="event.name"/>
+    <x-ui.validation-error :message="$errorMessages" for="event.name"/>
     <x-ui.select text="Event Category" var="Category" type="filled" :data="$categories" :default="$event->category" class="w-4/5" prefilled required/>
-    <x-ui.validation-hint :message="$errorMessages" for="event.category"/>
+    <x-ui.validation-error :message="$errorMessages" for="event.category"/>
 
     @livewire('schedule.event-edit-picker-vue')
 
@@ -45,7 +45,7 @@ class="mdc-typography">
 
     <div class="py-3" x-show.transition="reoccuring" x:cloak>
       <x-ui.select text="Repeat every" alpine="frequency" type="filled" :default="$event->frequency" :data="$frequencies" x-bind:class="{'mdc-select--invalid': errorMessages['event.frequency'] != undefined}" class="w-3/5" required prefilled/>
-      <x-ui.validation-hint :message="$errorMessages" for="event.frequency"/>
+      <x-ui.validation-error :message="$errorMessages" for="event.frequency"/>
       <div wire:ignore>
         <template x-if="frequency == 'Week' || frequency == 'Two Weeks'">
           <div class="mt-5 ml-1">
@@ -62,7 +62,7 @@ class="mdc-typography">
 
         </template>
       </div>
-      <x-ui.validation-hint :message="$errorMessages" for="event.days"/>
+      <x-ui.validation-error :message="$errorMessages" for="event.days"/>
     </div>
   </x-ui.modal>
 </div>

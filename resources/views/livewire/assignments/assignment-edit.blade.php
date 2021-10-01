@@ -40,7 +40,7 @@
             <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" x-model="title" type="text" aria-labelledby="assignment-name-label" required>
             <span class="mdc-line-ripple"></span>
           </label>
-          <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_name"/>
+          <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_name"/>
         </div>
         <div class="w-1/2 pl-1.5 float-right">
           <div class="w-full mdc-select mdc-select--filled" wire:ignore>
@@ -92,7 +92,7 @@
       <div class="block mb-3 -mt-1 h-14">
         @livewire('assignments.assignment-edit-due', ['time' => $time, 'date' => $date])
       </div>
-      <x-ui.validation-hint :message="$errorMessages" for="assignment.due"/>
+      <x-ui.validation-error :message="$errorMessages" for="assignment.due"/>
   
       <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
         <span class="mdc-text-field__ripple"></span>
@@ -100,7 +100,7 @@
         <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
         <span class="mdc-line-ripple"></span>
       </label>
-      <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_link"/>
+      <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_link"/>
 
       <div class="w-full pt-4 pb-8">
         <div class="left-0 right-0 mx-auto">
@@ -116,7 +116,7 @@
         ="descriptionInput()"></textarea>
         <span class="mdc-line-ripple"></span>
       </label>
-      <x-ui.validation-hint :message="$errorMessages" for="assignment.description"/>
+      <x-ui.validation-error :message="$errorMessages" for="assignment.description"/>
     </x-ui.modal>
   </div>
 </div>

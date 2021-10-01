@@ -19,7 +19,7 @@
               </span>
             </label>
           </div>
-          <x-ui.validation-hint :message="$errors->first('email')" for="email"/>
+          <x-ui.validation-error :message="$errors->first('email')" for="email"/>
 
           <div class="mt-4">
             <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full" wire:ignore>
@@ -60,7 +60,7 @@
                 <span class="mdc-notched-outline__trailing"></span>
               </span>
             </label>
-            <x-ui.validation-hint :message="$errors->first('password_confirmation')" for="passwordConfirmation"/>
+            <x-ui.validation-error :message="$errors->first('password_confirmation')" for="passwordConfirmation"/>
           </div>
 
           <div class="flex items-center justify-end mt-8">

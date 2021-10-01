@@ -24,7 +24,7 @@ class="mdc-typography">
           <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" type="text" aria-labelledby="assignment-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_name"/>
+        <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_name"/>
       </div>
       <div class="w-1/2 pl-1.5 float-right">
         <div class="mdc-select mdc-select--filled w-full" wire:ignore>
@@ -76,7 +76,7 @@ class="mdc-typography">
     <div class="h-14 -mt-1 block">
       @livewire('assignments.assignment-due')
     </div>
-    <x-ui.validation-hint :message="$errorMessages" for="assignment.due"/>
+    <x-ui.validation-error :message="$errorMessages" for="assignment.due"/>
 
     <label class="mdc-text-field mdc-text-field--filled w-full mt-1" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
@@ -84,14 +84,14 @@ class="mdc-typography">
       <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_link"/>
+    <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_link"/>
 
     <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
       <span class="mdc-floating-label" id="assignment-description-label">Assignment Description</span>
       <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" required></textarea>
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-hint :message="$errorMessages" for="assignment.description"/>
+    <x-ui.validation-error :message="$errorMessages" for="assignment.description"/>
   </x-ui.modal>
 </div>
 
