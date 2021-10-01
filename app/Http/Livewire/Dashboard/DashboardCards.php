@@ -83,7 +83,7 @@ class DashboardCards extends Component {
 
       if ($each->frequency == 31)
         $repeatsToday = ($eventDate > $date && Carbon::now()->setDay($eventDate->format('j'))->between($date->copy()->startOfWeek(), $date->copy()->endOfWeek()) && in_array($dayIso, $days));
-      else (if $each->frequency != null)
+      elseif ($each->frequency != null)
         $repeatsToday = (($eventDate->diffInDays($date) % $each->frequency == 0 || $eventDate->diffInDays($date) % $each->frequency < 7 && $eventDate->diffInDays($date) % $each->frequency > -7) && in_array($dayIso, $days));
       else
         $repeatsToday = false;
