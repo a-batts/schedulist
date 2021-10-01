@@ -46,6 +46,12 @@ class Assignment extends Model {
     return null;
   }
 
+  public function getIsLateAttribute() {
+    if (Carbon::parse($this->due) < Carbon::now())
+      return true;
+    return false;
+  }
+
   public function reminders() {
     return $this->hasMany(AssignmentReminder::class);
   }

@@ -5,6 +5,7 @@
   'assignments.assignment-edit' => 'App\\Http\\Livewire\\Assignments\\AssignmentEdit',
   'assignments.assignment-edit-due' => 'App\\Http\\Livewire\\Assignments\\AssignmentEditDue',
   'assignments.assignment-list' => 'App\\Http\\Livewire\\Assignments\\AssignmentList',
+  'assignments.assignment-reminder' => 'App\\Http\\Livewire\\Assignments\\AssignmentReminder',
   'auth.confirm-password' => 'App\\Http\\Livewire\\Auth\\ConfirmPassword',
   'auth.login' => 'App\\Http\\Livewire\\Auth\\Login',
   'auth.password-picker' => 'App\\Http\\Livewire\\Auth\\PasswordPicker',

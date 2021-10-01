@@ -7,16 +7,16 @@ use Dusterio\LinkPreview\Client;
 /**
  * Get An Image and Title Preview of Link
  */
-class LinkPreview{
+class LinkPreview {
 
   private string $link;
   private string $previewImage;
   private string $text;
 
-  public function __construct(string $link){
+  public function __construct(string $link) {
     $this->link = $link;
     $this->previewImage = 'id=link-icon-theme';
-    $this->text="Unable to Load Preview";
+    $this->text = "Unable to Load Preview";
   }
 
   /**
@@ -25,10 +25,10 @@ class LinkPreview{
    * @return $this
    */
   public static function create(string $link) {
-      return new self($link);
+    return new self($link);
   }
 
-  public function withExisting(string $image, string $text){
+  public function withExisting(string $image, string $text) {
     if ($image == 'style=background-image:url();')
       $this->previewImage = 'id=link-icon-theme';
     else
@@ -41,7 +41,7 @@ class LinkPreview{
    * Generate new preview image and text when nonexistant
    * @return $this
    */
-  public function withoutExisting(){
+  public function withoutExisting() {
     $this->updatePreview($this->link);
     return $this;
   }
@@ -50,7 +50,7 @@ class LinkPreview{
    * Return error on validation failure
    * @return $this
    */
-  public function withError(){
+  public function withError() {
     $this->previewImage = 'id=link-icon-theme';
     $this->text = 'Invalid URL';
     return $this;
@@ -61,15 +61,15 @@ class LinkPreview{
    * @param  string $link
    * @return $this
    */
-  public function updatePreview(string $link){
+  public function updatePreview(string $link) {
     $this->link = $link;
 
-    if ($this->link == null || $this->link == ''){
+    if ($this->link == null || $this->link == '') {
       $this->previewImage = 'id=link-icon-theme';
       $this->text = 'Unable to Load Preview';
       return $this;
     }
-    if (substr($link, 0, 7) != 'http://' && substr($link, 0, 8) != 'https://' || strlen($link) <= 9 || str_contains($link, ' ')){
+    if (substr($link, 0, 7) != 'http://' && substr($link, 0, 8) != 'https://' || strlen($link) <= 9 || str_contains($link, ' ')) {
       $this->previewImage = 'id=link-icon-theme';
       $this->text = 'Invalid URL';
       return $this;
@@ -78,10 +78,9 @@ class LinkPreview{
     $client = new Client($link);
     $client->getParser('general')->getReader()->config(['connect_timeout' => 2, 'allow_redirects' => ['max' => 5]]);
 
-    try{
+    try {
       $preview = $client->getPreview('general');
-    }
-    catch (\Dusterio\LinkPreview\Exceptions\ConnectionErrorException $e){
+    } catch (\Dusterio\LinkPreview\Exceptions\ConnectionErrorException $e) {
       $this->text = 'Unable to Load Preview';
       return $this;
     }
@@ -89,24 +88,23 @@ class LinkPreview{
 
     $this->text = $preview['title'];
 
-    if (@get_headers($preview['cover']) == false){
+    if (@get_headers($preview['cover']) == false) {
       $this->previewImage = 'id=link-icon-theme';
     }
-    $this->previewImage = 'style=background-image:url('.$preview['cover'].');';
+    $this->previewImage = 'style=background-image:url(' . $preview['cover'] . ');';
 
     return $this;
   }
 
-  public function getLink(){
+  public function getLink() {
     return $this->link;
   }
 
-  public function getPreview(){
+  public function getPreview() {
     return $this->previewImage;
   }
 
-  public function getText(){
+  public function getText() {
     return $this->text;
   }
-
 }

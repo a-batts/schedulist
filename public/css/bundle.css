@@ -15911,6 +15911,18 @@ body.theme-dark .text-gray-400 {
   color: var(--secondary-text-color);
 }
 
+.theme-text-primary {
+  color: var(--text-color);
+}
+
+.theme-text-secondary {
+  color: black;
+}
+
+body.theme-dark .theme-text-secondary {
+  color: var(--secondary-text-color);
+}
+
 .check_icon, .check_icon_sm {
   filter: invert(51%) sepia(100%) saturate(322%) hue-rotate(73deg) brightness(97%) contrast(78%);
 }

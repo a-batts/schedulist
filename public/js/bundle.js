@@ -19471,7 +19471,13 @@ var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'
 
 var textFields = [].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
   return new _material_textfield__WEBPACK_IMPORTED_MODULE_9__.MDCTextField(el);
-}); //Select menus
+});
+
+function initTextField(e) {
+  if (document.getElementById(e) !== null) tooltips[e] = new _material_textfield__WEBPACK_IMPORTED_MODULE_9__.MDCTextField(document.getElementById(e));
+}
+
+window.initTextField = initTextField; //Select menus
 
 var selectElements = [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
   return new _material_select__WEBPACK_IMPORTED_MODULE_10__.MDCSelect(el);
@@ -19582,6 +19588,15 @@ if (document.querySelector('.delete-assignment-conf') !== null) {
 if (document.querySelector('.suggestions-menu') !== null) {
   var suggestionsMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_19__.MDCMenu(document.querySelector('.suggestions-menu'));
   window.suggestionsMenu = suggestionsMenu;
+}
+
+if (document.querySelector('.manage-reminders-dialog') !== null) {
+  var reminderDiag = new _material_dialog__WEBPACK_IMPORTED_MODULE_13__.MDCDialog(document.querySelector('.manage-reminders-dialog'));
+  reminderDiag.scrimClickAction = '';
+  var button = document.getElementById('reminder-button');
+  button.addEventListener('click', function () {
+    reminderDiag.open();
+  });
 }
 
 /***/ }),
