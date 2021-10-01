@@ -8,144 +8,142 @@ use App\Models\Assignment;
 use App\Models\Classes;
 
 use Carbon\Carbon;
+use Carbon\Exceptions;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 use Livewire\Component;
 
-class AssignmentEdit extends Component
-{
-    public Assignment $assignment;
+class AssignmentEdit extends Component {
+  public Assignment $assignment;
 
-    public $classPeriod;
-    public $title;
-    public $time;
-    public $date;
-    public $link = "";
+  public array $classes = [['id' => -1, 'name' => 'No Class']];
 
-    public $classes;
-    public $originalClass;
+  public array $errorMessages = [];
 
-    public $errorMessages = [];
+  protected $preview;
 
-    protected $preview;
+  protected $messages = [
+    'url' => 'Make sure the link is a valid URL',
+  ];
 
-    protected $rules = [
-        'title' => 'required',
-        'assignment.description' => 'required',
-        'link' => 'nullable|url',
-    ];
+  protected $rules = [
+    'assignment.assignment_name' => 'required',
+    'assignment.classid' => 'nullable',
+    'assignment.due' => 'required',
+    'assignment.assignment_link' => 'url|nullable',
+    'assignment.description' => 'required',
+    'assignment.status' => 'required',
+    'assignment.userid' => 'required',
+  ];
 
-    protected $listeners = ['refreshEditModal' => '$refresh', 'setTime', 'setDate'];
+  protected $listeners = ['refreshEditModal' => '$refresh', 'setTime', 'setDate'];
 
-    /**
-     * Mount component
-     * @return void
-     */
-    public function mount(){
-      $this->originalClass = Classes::where('id', $this->assignment->classid)->first();
-      $this->classes = Classes::where('userid', Auth::user()->id)->orderBy('period', 'asc')->whereNotIn('id', [$this->assignment->classid])->get();
-      if(isset($this->assignment->assignment_link))
-        $this->link = Crypt::decryptString($this->assignment->assignment_link);
-      $this->title = Crypt::decryptString($this->assignment->assignment_name);
-      $this->assignment->description = Crypt::decryptString($this->assignment->description);
+  /**
+   * Mount component
+   * @return void
+   */
+  public function mount() {
+    $classes = Classes::where('userid', Auth::User()->id)->get();
+    foreach ($classes as $class) {
+      array_push($this->classes, ['id' => $class->id, 'name' => $class->name]);
+    }
 
-      $this->classPeriod = $this->assignment->classid;
-      $this->time = Carbon::parse($this->assignment->due)->format('G:i');
-      $this->date = Carbon::parse($this->assignment->due)->format('Y-m-d');
+    if (isset($this->assignment->assignment_link))
+      $this->assignment->assignment_link = Crypt::decryptString($this->assignment->assignment_link);
+    $this->assignment->assignment_name = Crypt::decryptString($this->assignment->assignment_name);
+    $this->assignment->description = Crypt::decryptString($this->assignment->description);
+    $this->time = Carbon::parse($this->assignment->due)->format('G:i');
+    $this->date = Carbon::parse($this->assignment->due)->format('Y-m-d');
+  }
 
-      $this->preview = LinkPreview::create($this->link);
+  /**
+   * Save updated assignment
+   * @return void
+   */
+  public function edit() {
+    $this->validate();
 
-      if(($this->assignment->link_description == null) || ($this->assignment->link_image == null))
-        $this->preview = $this->preview->withoutExisting();
+    $assignment = $this->assignment;
+    if ($assignment->assignment_link == null) {
+      $assignment->link_image = null;
+      $assignment->link_description = null;
+    } else {
+      $this->preview = LinkPreview::create($assignment->assignment_link)->updatePreview($assignment->assignment_link);
+      $assignment->assignment_link = Crypt::encryptString($assignment->assignment_link);
+      $assignment->link_image = $this->preview->getPreview();
+      $assignment->link_description = $this->preview->getText();
+    }
+    $assignment->assignment_name = Crypt::encryptString($assignment->assignment_name);
+    $assignment->description = Crypt::encryptString($assignment->description);
+    $assignment->due = Carbon::parse($assignment->due);
+
+    $assignment->save();
+
+    $this->dispatchBrowserEvent('hide-edit-menu');
+    $this->emit('toastMessage', 'Changes successfully saved');
+
+    $assignment->assignment_link = Crypt::decryptString($assignment->assignment_link);
+    $assignment->assignment_name = Crypt::decryptString($assignment->assignment_name);
+    $assignment->description = Crypt::decryptString($assignment->description);
+
+    $this->emit('refreshAssignmentPage');
+  }
+
+  /**
+   * Delete assignment
+   * @return void
+   */
+  public function delete() {
+    $this->assignment->delete();
+    $this->redirect('assignments');
+    $this->emit('toastMessage', 'Assignment was deleted');
+  }
+
+  /**
+   * Validates updated properties
+   * @param  mixed $propertyName
+   * @return void
+   */
+  public function updated($propertyName) {
+    $this->validateOnly($propertyName);
+  }
+
+  public function setClass($val) {
+    if (Classes::where('id', $val)->where('userid', Auth::User()->id)->exists() || $val == -1)
+      $this->assignment->classid = $val;
+  }
+
+  public function setDate($val) {
+    $date = explode('-', $val);
+    try {
+      $this->assignment->due = Carbon::parse($this->assignment->due)->setDate($date[0], $date[1], $date[2])->toString();
+    } catch (Exceptions\InvalidFormatException $e) {
+      $this->addError('assignment.due', 'Invalid date inputted');
+    }
+  }
+
+  public function setTime($val) {
+    $time = explode(':', $val);
+    try {
+      $this->assignment->due = Carbon::parse($this->assignment->due)->setTime($time[0], $time[1])->toString();
+    } catch (Exceptions\InvalidFormatException $e) {
+      $this->addError('assignment.due', 'Invalid time inputted');
+    }
+  }
+
+  public function render() {
+    $this->errorMessages = $this->getErrorBag()->toArray();
+    if ($this->assignment->assignment_link != null) {
+      if (!$this->errorBag->has('assignment.link'))
+        $this->preview = LinkPreview::create($this->assignment->assignment_link)->updatePreview($this->assignment->assignment_link);
       else
-        $this->preview = $this->preview->withExisting($this->assignment->link_image, $this->assignment->link_description);
+        $this->preview = LinkPreview::create($this->assignment->assignment_link)->withError();
     }
+    $this->emit('setTime', Carbon::parse($this->assignment->due)->format('G:i'));
+    $this->emit('setDate', Carbon::parse($this->assignment->due)->format('Y-m-d'));
 
-    /**
-     * Validates updated properties
-     * @param  mixed $propertyName
-     * @return void
-     */
-    public function updated($propertyName){
-        $this->validateOnly($propertyName);
-    }
-
-    public function setTime($value){
-      $this->time = $value;
-    }
-
-    public function setDate($value){
-      $this->date = $value;
-    }
-
-    /**
-     * Save updated assignment
-     * @return void
-     */
-     public function save(){
-       $validatedData = $this->validate();
-       $assignment = $this->assignment;
-       if($this->link == null){
-         $assignment->assignment_link = null;
-         $assignment->link_image = null;
-         $assignment->link_description = null;
-       }
-       else{
-         $this->preview = LinkPreview::create($this->link)->updatePreview($this->link);
-         $assignment->assignment_link = Crypt::encryptString($this->link);
-         $assignment->link_image = $this->preview->getPreview();
-         $assignment->link_description = $this->preview->getText();
-       }
-
-       $assignment->assignment_name = Crypt::encryptString($this->title);
-       $assignment->description = Crypt::encryptString($assignment->description);
-       $assignment->classid = $this->classPeriod;
-       $assignment->due = new Carbon($this->date.' '.$this->time);
-
-       $assignment->save();
-       $assignment->description = Crypt::decryptString($assignment->description);
-       $this->emit('refreshAssignmentPage');
-       $this->dispatchBrowserEvent('hide-edit-menu');
-       $this->emit('toastMessage', 'Changes successfully saved');
-     }
-
-    /**
-     * Delete assignment
-     * @return void
-     */
-    public function delete(){
-       $this->assignment->delete();
-       $this->emit('navigate', '/assignments');
-       $this->emit('toastMessage', 'Assignment was deleted');
-    }
-
-    /**
-     * Enable or disable notifications
-     * @return void
-     */
-    public function toggleNotification(){
-        $assignment = $this->assignment;
-        $assignment->description = Crypt::encryptString($assignment->description);
-        if ($assignment->notifications_disabled == null)
-          $assignment->notifications_disabled = 'yes';
-        else
-          $assignment->notifications_disabled = null;
-        $assignment->save();
-    }
-
-    public function render(){
-        $this->errorMessages = $this->getErrorBag()->toArray();
-        if(! $this->errorBag->has('link'))
-          $this->preview = LinkPreview::create($this->link)->updatePreview($this->link);
-        else
-          $this->preview = LinkPreview::create($this->link)->withError();
-
-        $this->emit('setTime', $this->time);
-        $this->emit('setDate', $this->date);
-        if ($this->title == null)
-          $this->dispatchBrowserEvent('cleared-field');
-        return view('livewire.assignments.assignment-edit')->with('preview', $this->preview);
-    }
+    return view('livewire.assignments.assignment-edit')->with('preview', $this->preview);
+  }
 }

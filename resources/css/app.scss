@@ -269,6 +269,15 @@ body.theme-dark .text-green{
 body.theme-dark .text-gray-400{
   color: var(--secondary-text-color);
 }
+.theme-text-primary{
+  color: var(--text-color);
+}
+.theme-text-secondary{
+  color: black;
+}
+body.theme-dark .theme-text-secondary{
+  color: var(--secondary-text-color);
+}
 
 //Descendent selector themed items
 
