@@ -173,8 +173,10 @@ class Agenda {
       $eventIsToday = ($eventDate->toDateString() == $date->toDateString());
       if ($each->frequency == 31)
         $repeatsToday = ($eventDate > $date && Carbon::now()->setDay($eventDate->format('j'))->between($date->copy()->startOfWeek(), $date->copy()->endOfWeek()) && in_array($dayIso, $days));
-      else
+      else if ($each->frequency != null)
         $repeatsToday = (($eventDate->diffInDays($date) % $each->frequency == 0 || $eventDate->diffInDays($date) % $each->frequency < 7 && $eventDate->diffInDays($date) % $each->frequency > -7) && in_array($dayIso, $days));
+      else
+        $repeatsToday = false;
 
       if ($eventIsToday || ($each->reoccuring && $repeatsToday)) {
         if (isset($each->frequency)) {
