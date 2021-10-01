@@ -20,7 +20,7 @@ x-data="{
             <span class="mdc-notched-outline__trailing"></span>
           </span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="password"/>
+        <x-ui.validation-error :message="$errorMessages" for="password"/>
 
         <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-7 w-full" :class="{'mdc-text-field--invalid': errorMessages['passwordConfirmation'] != undefined}" wire:ignore>
           <input class="mdc-text-field__input" aria-labelledby="passwordconf-label" :type="passwordField" autofill="new-password" wire:model.lazy="passwordConfirmation" required />
@@ -35,7 +35,7 @@ x-data="{
             <span class="mdc-notched-outline__trailing"></span>
           </span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="passwordConfirmation"/>
+        <x-ui.validation-error :message="$errorMessages" for="passwordConfirmation"/>
 
         <div>
           <button class="mdc-button mdc-button-ripple mdc-button--raised float-right mt-6" wire:ignore>

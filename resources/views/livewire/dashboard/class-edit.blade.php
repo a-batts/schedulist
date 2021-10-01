@@ -15,7 +15,7 @@ class="overflow-y-auto roboto">
           <input class="mdc-text-field__input" wire:model.lazy="selClass.name" x-model="selClass.name" type="text" aria-labelledby="class-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="selClass.name"/>
+        <x-ui.validation-error :message="$errorMessages" for="selClass.name"/>
       </div>
       <div class="w-1/2 pl-1.5 float-right">
         <label class="mdc-text-field mdc-text-field--filled w-full mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['selClass.teacher'] != undefined}" wire:ignore>
@@ -24,7 +24,7 @@ class="overflow-y-auto roboto">
           <input class="mdc-text-field__input" wire:model.lazy="selClass.teacher" x-model="selClass.teacher" type="text" aria-labelledby="class-teacher-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="selClass.teacher"/>
+        <x-ui.validation-error :message="$errorMessages" for="selClass.teacher"/>
       </div>
     </div>
     <div>
@@ -35,7 +35,7 @@ class="overflow-y-auto roboto">
           <input class="mdc-text-field__input" wire:model.lazy="selClass.teacher_email" x-model="selClass.teacher_email" type="text" aria-labelledby="teacher-email-label">
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="selClass.teacher_email"/>
+        <x-ui.validation-error :message="$errorMessages" for="selClass.teacher_email"/>
       </div>
     </div>
     <div>
@@ -46,7 +46,7 @@ class="overflow-y-auto roboto">
           <input class="mdc-text-field__input" wire:model.lazy="selClass.class_location" x-model="selClass.class_location" type="text" aria-labelledby="class-location-label">
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="selClass.class_location"/>
+        <x-ui.validation-error :message="$errorMessages" for="selClass.class_location"/>
       </div>
       <div class="w-1/3 pl-1.5 float-right">
         <label class="mdc-text-field mdc-text-field--filled w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['selClass.period'] != undefined, 'mdc-text-field--label-floating': selClass.period != null}" wire:ignore>
@@ -55,7 +55,7 @@ class="overflow-y-auto roboto">
           <input class="mdc-text-field__input" wire:model.lazy="selClass.period" x-model="selClass.period" type="text" aria-labelledby="class-period-label">
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="selClass.period"/>
+        <x-ui.validation-error :message="$errorMessages" for="selClass.period"/>
       </div>
     </div>
     <label class="mdc-text-field mdc-text-field--filled w-full mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['selClass.video_link'] != undefined}" wire:ignore>
@@ -64,7 +64,7 @@ class="overflow-y-auto roboto">
       <input class="mdc-text-field__input" wire:model.lazy="selClass.video_link" x-model="selClass.video_link" type="text" aria-labelledby="vid-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-hint :message="$errorMessages" for="selClass.video_link"/>
+    <x-ui.validation-error :message="$errorMessages" for="selClass.video_link"/>
     <div class="text-lg font-medium text-gray-700 ml-1">Color</div>
     <div class="mx-auto py-3 mb-2 px-auto">
       @foreach ($colorOptions as $color)

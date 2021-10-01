@@ -17,7 +17,7 @@
               <span class="mdc-notched-outline__trailing"></span>
             </span>
           </label>
-          <x-ui.validation-hint :message="$errorMessages" for="firstName"/>
+          <x-ui.validation-error :message="$errorMessages" for="firstName"/>
         </div>
         <div class="float-right w-1/2 pl-2">
           <label class="mdc-text-field mdc-text-field--outlined w-full" :class="{'mdc-text-field--invalid': errorMessages['lastName'] != undefined}" wire:ignore>
@@ -30,7 +30,7 @@
               <span class="mdc-notched-outline__trailing"></span>
             </span>
           </label>
-          <x-ui.validation-hint :message="$errorMessages" for="lastName"/>
+          <x-ui.validation-error :message="$errorMessages" for="lastName"/>
         </div>
       </div>
       <div class="">
@@ -44,7 +44,7 @@
             <span class="mdc-notched-outline__trailing"></span>
           </span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="email"/>
+        <x-ui.validation-error :message="$errorMessages" for="email"/>
       </div>
       <div>
         <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-4 w-full" :class="{'mdc-text-field--invalid': errorMessages['password'] != undefined}" wire:ignore>
@@ -89,7 +89,7 @@
           <span class="mdc-notched-outline__trailing"></span>
         </span>
       </label>
-      <x-ui.validation-hint :message="$errorMessages" for="passwordConfirmation"/>
+      <x-ui.validation-error :message="$errorMessages" for="passwordConfirmation"/>
       <div class="mt-4">
         <label class="mdc-text-field mdc-text-field--outlined w-full" :class="{'mdc-text-field--invalid': errorMessages['school'] != undefined}" wire:ignore>
         <input type="text" class="mdc-text-field__input" aria-labelledby="school_name" wire:model.lazy="school">
@@ -101,10 +101,10 @@
           <span class="mdc-notched-outline__trailing"></span>
         </span>
       </label>
-      <x-ui.validation-hint :message="$errorMessages" for="school"/>
+      <x-ui.validation-error :message="$errorMessages" for="school"/>
 
       <x-ui.select :data="$gradeOptions" text="Grade Level" var="GradeLevel" type="outlined" class="w-full mt-4" required/>
-      <x-ui.validation-hint :message="$errorMessages" for="gradeLevel"/>
+      <x-ui.validation-error :message="$errorMessages" for="gradeLevel"/>
 
       <div class="mt-12 logincontainer">
         <button class="mdc-button mdc-button-ripple mdc-button--raised loginbutton" wire:ignore>
