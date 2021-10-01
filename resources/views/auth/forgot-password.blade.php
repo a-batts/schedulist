@@ -19,7 +19,7 @@
                 <span class="mdc-notched-outline__trailing"></span>
               </span>
             </label>
-            <x-ui.validation-hint :message="$errors->first('email')" for="email"/>
+            <x-ui.validation-error :message="$errors->first('email')" for="email"/>
           </div>
 
           <div class="flex items-center justify-end mt-12">

@@ -4,7 +4,7 @@ namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class ValidationHint extends Component {
+class ValidationError extends Component {
     public $for;
 
     /**
@@ -22,6 +22,6 @@ class ValidationHint extends Component {
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
     public function render() {
-        return view('components.ui.validation-hint');
+        return view('components.ui.validation-error');
     }
 }

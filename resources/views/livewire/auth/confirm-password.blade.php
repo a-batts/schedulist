@@ -19,7 +19,7 @@ x-data="{
             <span class="mdc-notched-outline__trailing"></span>
           </span>
         </label>
-        <x-ui.validation-hint :message="$errorMessages" for="password"/>
+        <x-ui.validation-error :message="$errorMessages" for="password"/>
 
         <div>
           <button class="mdc-button mdc-button-ripple mdc-button--raised float-right mt-6" wire:ignore>
