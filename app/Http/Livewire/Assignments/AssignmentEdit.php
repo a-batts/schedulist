@@ -115,6 +115,10 @@ class AssignmentEdit extends Component {
       $this->assignment->classid = $val;
   }
 
+  public function getDate() {
+    return Carbon::parse($this->assignment->due)->toDateString();
+  }
+
   public function setDate($val) {
     $date = explode('-', $val);
     try {
@@ -122,6 +126,10 @@ class AssignmentEdit extends Component {
     } catch (Exceptions\InvalidFormatException $e) {
       $this->addError('assignment.due', 'Invalid date inputted');
     }
+  }
+
+  public function getTime() {
+    return Carbon::parse($this->assignment->due)->format('H:i');
   }
 
   public function setTime($val) {
@@ -132,6 +140,8 @@ class AssignmentEdit extends Component {
       $this->addError('assignment.due', 'Invalid time inputted');
     }
   }
+
+
 
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();

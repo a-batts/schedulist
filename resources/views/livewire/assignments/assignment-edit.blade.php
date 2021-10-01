@@ -1,4 +1,4 @@
-<div x-data="editMenu()" x-init="init($watch)"
+<div x-data="editMenu()" x-init="init($watch, $wire)"
 @display-edit-menu.window="editMenu = true"
 @hide-edit-menu.window="editMenu = false; undoFixBody()">
   <div class="mdc-dialog delete-assignment-conf" style="z-index: 70" wire:ignore>
@@ -29,12 +29,12 @@
   <div>
     <x-ui.modal alpine="editMenu" title="Edit Assignment" action="Save" classes="top-4" wire:submit.prevent="edit">
       <x-slot name="topAction">
-        <button class="mdc-icon-button float-left -mt-1 mr-3 material-icons" type="button" aria-describedby="delete-class" aria-label="close" x-on:click="editMenu = false; openAssignmentDialog();">delete</button>
+        <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" x-on:click="editMenu = false; openAssignmentDialog();">delete</button>
         <x-ui.tooltip tooltip-id="delete-class" text="Delete Class"/>
       </x-slot>
       <div>
         <div class="w-1/2 pr-1.5 float-left">
-          <label class="mdc-text-field mdc-text-field--filled w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+          <label class="w-full mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-name-label">Assignment Name</span>
             <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" x-model="title" type="text" aria-labelledby="assignment-name-label" required>
@@ -43,7 +43,7 @@
           <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_name"/>
         </div>
         <div class="w-1/2 pl-1.5 float-right">
-          <div class="mdc-select mdc-select--filled w-full" wire:ignore>
+          <div class="w-full mdc-select mdc-select--filled" wire:ignore>
             <div class="mdc-select__anchor"
                  role="button"
                  aria-haspopup="listbox"
@@ -89,12 +89,12 @@
         </div>
       </div>
   
-      <div class="h-14 -mt-1 mb-3 block">
+      <div class="block mb-3 -mt-1 h-14">
         @livewire('assignments.assignment-edit-due', ['time' => $time, 'date' => $date])
       </div>
       <x-ui.validation-hint :message="$errorMessages" for="assignment.due"/>
   
-      <label class="mdc-text-field mdc-text-field--filled w-full mt-1" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+      <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
         <span class="mdc-text-field__ripple"></span>
         <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-link-label">Assignment Link</span>
         <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
@@ -102,15 +102,15 @@
       </label>
       <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_link"/>
 
-      <div class="pt-4 pb-8 w-full">
-        <div class="mx-auto left-0 right-0">
+      <div class="w-full pt-4 pb-8">
+        <div class="left-0 right-0 mx-auto">
          @if($assignment->assignment_link != '')
            <x-link-preview :preview="$preview"/>
          @endif
         </div>
        </div>
   
-      <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" x-ref="descriptionContainer" wire:ignore>
+      <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" x-ref="descriptionContainer" wire:ignore>
         <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-description-label">Assignment Description</span>
         <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" x-ref="descriptionBox" required 
         ="descriptionInput()"></textarea>
@@ -127,7 +127,7 @@ function editMenu(){
     editMenu: false,
     errorMessages: @entangle('errorMessages'),
     title: @this.assignment.assignment_name,
-    init: function($watch){
+    init: function($watch, $wire){
       $watch('title', newtitle => {
         if (newtitle != '')
           document.title = newtitle
@@ -139,6 +139,10 @@ function editMenu(){
       container.style.height = (descriptionBox.scrollHeight + 40) + 'px';
       if (descriptionBox.scrollHeight == 0)
         container.style.height = '184px';
+      $wire.getTime()
+        .then(result => { vueApp.time = result});
+      $wire.getDate()
+        .then(result => { vueApp.date = result });
     },
     descriptionInput: function(){
       var descriptionBox = this.$refs.descriptionBox;
