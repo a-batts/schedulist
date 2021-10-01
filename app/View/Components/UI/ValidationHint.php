@@ -1,11 +1,10 @@
 <?php
 
-namespace App\View\Components\UI;
+namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class ValidationHint extends Component
-{
+class ValidationHint extends Component {
     public $message;
 
     /**
@@ -13,10 +12,9 @@ class ValidationHint extends Component
      *
      * @return void
      */
-    public function __construct($message, $for)
-    {
-        if(isset($message[$for]))
-          $this->message = $message[$for][0];
+    public function __construct($message, $for) {
+        if (isset($message[$for]))
+            $this->message = $message[$for][0];
     }
 
     /**
@@ -24,8 +22,7 @@ class ValidationHint extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
-    {
+    public function render() {
         return view('components.ui.validation-hint');
     }
 }
