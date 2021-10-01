@@ -1,4 +1,4 @@
-<div x-data="editMenu()" x-init="init()"
+<div x-data="editMenu()" x-init="init($watch)"
 @display-edit-menu.window="editMenu = true"
 @hide-edit-menu.window="editMenu = false; undoFixBody()">
   <div class="mdc-dialog delete-assignment-conf" style="z-index: 70" wire:ignore>
@@ -8,8 +8,9 @@
         aria-modal="true"
         aria-labelledby="my-dialog-title"
         aria-describedby="my-dialog-content">
+        <div class="mdc-dialog__title">Really delete assignment?</div>
         <div class="mdc-dialog__content" id="my-dialog-content">
-          Really delete this assignment?
+          It will be completely deleted and will not be recoverable.
         </div>
         <div class="mdc-dialog__actions">
           <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="cancel">
@@ -26,56 +27,31 @@
     <div class="mdc-dialog__scrim"></div>
   </div>
   <div>
-    <div x-show="editMenu" x-transition:enter="ease-out duration-100" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-    x-transition:leave="ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="assignment-edit-div base-bg" x-cloak>
-      <form wire:submit.prevent="save">
-        <div class="edit-toprow">
-          <button class="mdc-icon-button edit-dia-buttons material-icons float-left" style="margin-right: 5px" x-on:click="editMenu = false" type="button" onclick="undoFixBody()">close</button>
-          <span class="mdc-typography--headline6 nunito edit-title">Edit Assignment</span>
-          <div id="demo-menu" class="mdc-menu-surface--anchor float-right">
-            <button class="mdc-icon-button edit-dia-buttons more material-icons ml-2" type="button" x-on:click="moreMenu.open = true">more_vert</button>
-            <div class="mdc-menu mdc-menu-surface edit-more-menu" wire:ignore>
-              <ul class="mdc-list dark-theme-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
-                <li class="mdc-list-item" role="menuitem" onclick="openAssignmentDialog()">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">Delete Assignment</span>
-                </li>
-                <li class="mdc-list-item" role="menuitem" wire:click="toggleNotification()">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">@if($assignment->notifications_disabled == null)Disable Notifications @else()Enable Notifications @endif</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <button class="mdc-button mdc-button--raised mdc-button-ripple float-right assignment_save_button" wire:ignore>
-            <span class="mdc-button__ripple"></span>
-            <span class="mdc-button__label">Save</span>
-          </button>
-        </div>
-        <div class="assignment-e-forms">
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--label-floating w-full mt-4 @error('title') mdc-text-field--invalid @enderror"
-            x-data="{  }"
-            x-init="$watch('title', newtitle => document.title = newtitle)"
-            @cleared-field.window="document.title = 'Untitled Assignment'">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input wire:model="title" type="text" class="mdc-text-field__input" aria-labelledby="name-label" required wire:ignore>
-            <span class="mdc-floating-label mdc-floating-label--float-above" wire:ignore>Title</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
+    <x-ui.modal alpine="editMenu" title="Edit Assignment" action="Save" classes="top-4" wire:submit.prevent="edit">
+      <x-slot name="topAction">
+        <button class="mdc-icon-button float-left -mt-1 mr-3 material-icons" type="button" aria-describedby="delete-class" aria-label="close" x-on:click="editMenu = false; openAssignmentDialog();">delete</button>
+        <x-ui.tooltip tooltip-id="delete-class" text="Delete Class"/>
+      </x-slot>
+      <div>
+        <div class="w-1/2 pr-1.5 float-left">
+          <label class="mdc-text-field mdc-text-field--filled w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-name-label">Assignment Name</span>
+            <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" x-model="title" type="text" aria-labelledby="assignment-name-label" required>
+            <span class="mdc-line-ripple"></span>
           </label>
-          <div class="mdc-text-field-helper-line h-2.5">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="my-helper-id" aria-hidden="true"><p class="text-error">@error('title') A name for the assignment is required @enderror</p></div>
-          </div>
-          <div class="mdc-select mdc-select--filled mdc-select--required edit-class-sel mt-5" style="width: 100%" wire:ignore>
+          <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_name"/>
+        </div>
+        <div class="w-1/2 pl-1.5 float-right">
+          <div class="mdc-select mdc-select--filled w-full" wire:ignore>
             <div class="mdc-select__anchor"
                  role="button"
                  aria-haspopup="listbox"
-                 aria-expanded="false"
-                 aria-required="true"
-                 aria-labelledby="select-label demo-selected-text">
+                 aria-expanded="false">
               <span class="mdc-select__ripple"></span>
-              <span id="select-label" class="mdc-floating-label mdc-floating-label--float-above" style="transform: translateY(-106%) scale(0.75)">Class Period</span>
+              <span class="mdc-floating-label mdc-floating-label--float-above">Class</span>
               <span class="mdc-select__selected-text-container">
-                <span id="demo-selected-text" class="mdc-select__selected-text">{{$originalClass->period.': '.$originalClass->name}}</span>
+                <span class="mdc-select__selected-text"></span>
               </span>
               <span class="mdc-select__dropdown-icon">
                 <svg
@@ -98,59 +74,50 @@
               <span class="mdc-line-ripple"></span>
             </div>
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-              <ul class="mdc-list dark-theme-list">
-                <li class="mdc-list-item mdc-list-item--selected" data-value="{{$originalClass->id}}" wire:click="$set('classperiod', {{$originalClass->id}})">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">{{$originalClass->period.': '.$originalClass->name}}</span>
-                </li>
-                <li class="mdc-list-divider" role="separator"></li>
-                @foreach($classes as $class)
-                <li class="mdc-list-item" data-value="{{$class->id}}" wire:click="$set('classperiod', {{$class->id}})">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">{{$class->period}}: {{$class->name}}</span>
-                </li>
+              <ul class="mdc-list dark-theme-list" role="listbox">
+                @foreach($classes as $x)
+                  <li class="mdc-list-item @if($x['id'] == $assignment->classid) mdc-list-item--selected @endif" role="option" data-value="{{$x['id']}}" wire:click="setClass({{$x['id']}})">
+                    <span class="mdc-list-item__ripple"></span>
+                    <span class="mdc-list-item__text">
+                      {{$x['name']}}
+                    </span>
+                  </li>
                 @endforeach
               </ul>
             </div>
           </div>
         </div>
-        <div class="assignment-e-forms-right">
-          <div class="-mt-2">
-            @livewire('assignments.assignment-edit-due', ['time' => $time, 'date' => $date])
-          </div>
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--label-floating w-full mt-2 @error('link') mdc-text-field--invalid @enderror">
-            <span class="mdc-text-field__ripple" wire:ignore></span>
-            <input wire:model.lazy="link" type="text" class="mdc-text-field__input" aria-labelledby="link-label" wire:ignore>
-            <span class="mdc-floating-label mdc-floating-label--float-above" wire:ignore>Link</span>
-            <span class="mdc-line-ripple" wire:ignore></span>
-          </label>
-          @error('link')
-            <div class="mdc-text-field-helper-line" wire:ignore>
-              <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" aria-hidden="true"><p class="text-error">Double check that the link is a valid URL</p></div>
-            </div>
-          @enderror
+      </div>
+  
+      <div class="h-14 -mt-1 mb-3 block">
+        @livewire('assignments.assignment-edit-due', ['time' => $time, 'date' => $date])
+      </div>
+      <x-ui.validation-hint :message="$errorMessages" for="assignment.due"/>
+  
+      <label class="mdc-text-field mdc-text-field--filled w-full mt-1" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+        <span class="mdc-text-field__ripple"></span>
+        <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-link-label">Assignment Link</span>
+        <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
+        <span class="mdc-line-ripple"></span>
+      </label>
+      <x-ui.validation-hint :message="$errorMessages" for="assignment.assignment_link"/>
 
-          <div class="pt-10">
-            @if($link != '')
-              <x-link-preview :preview="$preview"/>
-            @endif
-          </div>
-
+      <div class="pt-4 pb-8 w-full">
+        <div class="mx-auto left-0 right-0">
+         @if($assignment->assignment_link != '')
+           <x-link-preview :preview="$preview"/>
+         @endif
         </div>
-        <div class="assignment-e-forms">
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--label-floating mdc-text-field--with-internal-counter mt-5 w-full @error('assignment.description') mdc-text-field--invalid @enderror" x-ref="descriptionContainer" wire:ignore>
-            <span class="mdc-floating-label mdc-floating-label--float-above" wire:ignorewire:ignore>Description</span>
-            <textarea wire:model="assignment.description" class="mdc-text-field__input edit_description h-full" aria-labelledby="my-label-id" rows="6" x-ref="descriptionBox" required @input="descriptionInput()"></textarea>
-            <span class="mdc-line-ripple"></span>
-          </label>
-          @error('assignment.description')
-            <div class="mdc-text-field-helper-line mb-10" wire:ignore>
-              <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" aria-hidden="true"><p class="text-error">A description for the assignment is required</p></div>
-            </div>
-          @enderror
-        </div>
-      </form>
-    </div>
+       </div>
+  
+      <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" x-ref="descriptionContainer" wire:ignore>
+        <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-description-label">Assignment Description</span>
+        <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" x-ref="descriptionBox" required 
+        ="descriptionInput()"></textarea>
+        <span class="mdc-line-ripple"></span>
+      </label>
+      <x-ui.validation-hint :message="$errorMessages" for="assignment.description"/>
+    </x-ui.modal>
   </div>
 </div>
 @push('scripts')
@@ -158,9 +125,15 @@
 function editMenu(){
   return {
     editMenu: false,
-    errors: @this.errorMessages,
-    title: @entangle('title'),
-    init: function(){
+    errorMessages: @entangle('errorMessages'),
+    title: @this.assignment.assignment_name,
+    init: function($watch){
+      $watch('title', newtitle => {
+        if (newtitle != '')
+          document.title = newtitle
+        else
+          document.title = 'Untitled Assignment'
+      });
       var descriptionBox = this.$refs.descriptionBox;
       var container = this.$refs.descriptionContainer;
       container.style.height = (descriptionBox.scrollHeight + 40) + 'px';

@@ -49,9 +49,11 @@ class DashboardCards extends Component {
     $activeClass = $scheduleHelper->getActiveClass();
     if ($activeClass == null) {
       $next =  $scheduleHelper->getNextClass(Carbon::now());
-      $this->nextClass = $next['class'];
-      $nextDay = $next['day'];
-      $this->nextClass->timestring = $this->formatTime($this->nextClass->startTime) . ' on ' . $nextDay;
+      if ($next != null) {
+        $this->nextClass = $next['class'];
+        $nextDay = $next['day'];
+        $this->nextClass->timestring = $this->formatTime($this->nextClass->startTime) . ' on ' . $nextDay;
+      }
       return;
     }
     $activeClass->teacher = Crypt::decryptString($activeClass->teacher);

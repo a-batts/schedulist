@@ -547,8 +547,8 @@ div.modal_skim{
 }
 .closeright, .modal-title{
   float: left;
-  margin-top: 9px;
-  margin-left: 25px;
+  margin-top: -8px;
+  margin-bottom: 0px;
   font-size: 19px;
 }
 .select-textfield-row{
@@ -1116,4 +1116,7 @@ div.assignment-card-dashboard{
   min-height: 83px;
   padding-top: 18px;
   display: block;
+}
+.new-reminder-textfield{
+  width: 104px;
 }

@@ -85,6 +85,8 @@ class ClassScheduleHelper {
       return $this->getFirstClass($dt->addDay());
 
     $class = Classes::find($classes[0]);
+    if ($class == null)
+      return $this->getFirstClass($dt->addDay());
     return [
       'class' => $class,
       'day' => $dt->format('D, F jS')
@@ -96,7 +98,7 @@ class ClassScheduleHelper {
    * @param  Carbon $dt
    * @param  int|null $currentClassId [optional]
    * class from provided date to search after
-   * @return Classes|bool                 Returns the object of next class or false if none exists
+   * @return array|False             Returns array of next class or false if none exists
    */
   public function getNextClass(Carbon $dt, $currentClassId = null) {
     $classSchedule = Auth::User()->classSchedule->first();
@@ -143,9 +145,11 @@ class ClassScheduleHelper {
    * @param  array  $classes
    * @param  array  $times
    * @param  Carbon $dt
-   * @return int active class id
+   * @return Classes|null active class object or null
    */
   public function searchForActiveClass($classes, $times, Carbon $dt) {
+    if (count($times) < 2)
+      return null;
     $currentTime = $dt->format('Hi');
     for ($i = 1; $i <= count($times); $i += 2) {
       if ($currentTime + 2 >= $times[$i - 1] && $currentTime - 2 <= $times[$i]) {
@@ -171,7 +175,7 @@ class ClassScheduleHelper {
     $startTerm = Carbon::parse($user->year_start_date);
     $endTerm = Carbon::parse($user->year_end_date);
 
-    if ($dateTime > $startTerm && $dateTime < $endTerm && $dateTime >= Carbon::parse(Auth::user()->classSchedule->first()->schedule_start)->setHours(0)->setMinutes(0))
+    if ($dateTime >= $startTerm && $dateTime <= $endTerm && $dateTime >= Carbon::parse(Auth::user()->classSchedule->first()->schedule_start)->setHours(0)->setMinutes(0)->toDateString())
       return true;
     return false;
   }

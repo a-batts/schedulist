@@ -2,8 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\SendAssignmentReminder;
 use App\Jobs\SendText;
-
+use App\Models\AssignmentReminder;
 use Carbon\Carbon;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -14,8 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 
-class Kernel extends ConsoleKernel
-{
+class Kernel extends ConsoleKernel {
     /**
      * The Artisan commands provided by your application.
      *
@@ -26,41 +26,18 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Array of carriers to determine email
-     * @var array
-     */
-    protected $carriers = [
-      'Verizon Wireless' => '@vtext.com',
-      'T-Mobile' => '@tmomail.net',
-      'AT&T Wireless' => '@txt.att.net',
-      'Sprint' => '@messaging.sprintpcs.com',
-      'Google (Grand Central) BWI - Bandwidth.com - SVR' => null,
-    ];
-
-    /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
+    protected function schedule(Schedule $schedule) {
         $schedule->call(function () {
-            $fromTime = Carbon::now()->addHour();
-            $toTime = Carbon::now()->addHour()->addMinutes(5);
-            $messagesToSend = DB::table('assignments')->whereDate('due', $fromTime->toDateString())->whereTime('due', '>=' , $fromTime->toTimeString())->whereTime('due', '<=' , $toTime->toTimeString())->where(['status' => 'inc', 'notifications_disabled' => null])->get();
-            foreach ($messagesToSend as $item){
-              $message = 'Reminder: Your assignment "'. Crypt::decryptString($item->assignment_name).'" is due in one hour.';
-              $user = DB::table('users')->where('id', $item->userid)->first();
-              $email = $user->phone.$this->carriers[$user->carrier];
-
-              $userSettings = DB::table('user_settings')->where('user_id', $user->id)->first();
-              $details = ['email' => $email, 'message' => $message];
-              SendText::dispatch($details);
-
+            $pending = AssignmentReminder::where('reminder_time', '>', Carbon::now()->subMinutes(1)->toDateTimeString())->where('reminder_time', '<=', Carbon::now()->addMinutes(1)->toDateTimeString())->with(['assignment', 'assignment.user'])->get();
+            foreach ($pending as $reminder) {
+                SendAssignmentReminder::dispatch($reminder);
             }
-
-        })->everyFiveMinutes()->sendOutputTo(storage_path('logerror.txt'));
+        })->everyMinute()->sendOutputTo(storage_path('logerror.txt'));
     }
 
     /**
@@ -68,9 +45,8 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
-    {
-        $this->load(__DIR__.'/Commands');
+    protected function commands() {
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
