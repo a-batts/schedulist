@@ -37,7 +37,7 @@ class DashboardHeader extends Component {
       }
       $currentBlock = $count % $classSchedule->number_blocks;
       if ($currentBlock == 0)
-        $currentBlock = 3;
+        $currentBlock = $classSchedule->number_blocks;
       return 'You have your ' . chr(ord('A') + $currentBlock - 1) . ' classes today';
     }
   }
