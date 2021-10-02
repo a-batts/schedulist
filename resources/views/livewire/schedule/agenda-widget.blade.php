@@ -6,26 +6,26 @@ x-init="initDate($wire)"
 id="agenda"
 class="w-full"
 >
-  <div class="pb-3 pt-2 -mt-4 mdc-elevation--z2 w-full md:pr-5 agenda-header mdc-typograpy">
-    <p class="text-3xl font-bold uppercase text-gray-700 ml-8 -mb-12 mt-4" x-text="month"></p>
-    <div class="agenda-current-date text-gray-500 ml-2">
-      <p class="text-sm font-bold uppercase ml-24 mt-4 w-10 text-center" x-text="dayOfWeek" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
-      <p class="text-xl tracking-wide ml-24 w-10 text-center" x-text="day" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
+  <div class="w-full pt-2 pb-3 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header mdc-typograpy">
+    <p class="mt-4 ml-8 -mb-12 text-3xl font-bold text-gray-700 uppercase" x-text="month"></p>
+    <div class="ml-2 text-gray-500 agenda-current-date">
+      <p class="w-10 mt-4 ml-24 text-sm font-bold text-center uppercase" x-text="dayOfWeek" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
+      <p class="w-10 ml-24 text-xl tracking-wide text-center" x-text="day" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
     </div>
-    <div class="float-right -mt-12 mr-3">
+    <div class="float-right mr-3 -mt-12">
       <button class="mdc-icon-button material-icons" wire:ignore @click="resetDate()" x-bind:disabled="date.toDateString() == new Date().toDateString()" aria-describedby="jump-today">today</button>
-      <button class="mdc-icon-button material-icons -ml-1" wire:ignore @click="backwardDay()" aria-describedby="backward-day">chevron_left</button>
-      <button class="mdc-icon-button material-icons -ml-1" wire:ignore @click="forwardDay()" aria-describedby="forward-day">chevron_right</button>
-      <button class="mdc-icon-button material-icons -ml-1" wire:ignore @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
+      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="backwardDay()" aria-describedby="backward-day">chevron_left</button>
+      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="forwardDay()" aria-describedby="forward-day">chevron_right</button>
+      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
     </div>
   </div>
-  <div class="float-right w-full sm:w-72 agenda-sidebar overflow-y-scroll" x-show.transition.origin.center.right="showingMenu" x-cloak>
+  <div class="float-right w-full overflow-y-scroll sm:w-72 agenda-sidebar" x-show.transition.origin.center.right="showingMenu" x-cloak>
     <div class="px-5 pt-5 pb-2 sidebar-line-header">
-      <p class="font-medium text-lg ml-2 mb-2 mdc-typography nunito">Agenda Options</p>
-      <a href="{{route('schedule-settings')}}"><button class="mdc-icon-button material-icons float-right -mt-12 -mr-4" wire:ignore aria-describedby="settings">settings</button></a>
+      <p class="mb-2 ml-2 text-lg font-medium mdc-typography nunito">Agenda Options</p>
+      <a href="{{route('schedule-settings')}}"><button class="float-right -mt-12 -mr-4 mdc-icon-button material-icons" wire:ignore aria-describedby="settings">settings</button></a>
     </div>
-    <div class="px-5 pb-5 pt-2">
-      <p class="font-medium mt-2 ml-2 mb-2 mdc-typography">Filter Displayed Events</p>
+    <div class="px-5 pt-2 pb-5">
+      <p class="mt-2 mb-2 ml-2 font-medium mdc-typography">Filter Displayed Events</p>
       <div>
         <div class="mdc-checkbox mdc-checkbox--touch cb-green" @click="filterToggle('Assignment')">
           <input type="checkbox"
@@ -42,7 +42,7 @@ class="w-full"
           </div>
           <div class="mdc-checkbox__ripple"></div>
         </div>
-        <label for="checkbox-2" class="-ml-2 w-full mr-2 agenda-filter-label">Assignments</label>
+        <label for="checkbox-2" class="w-full mr-2 -ml-2 agenda-filter-label">Assignments</label>
       </div>
       <div class="-mt-2">
         <div class="mdc-checkbox mdc-checkbox--touch cb-red" @click="filterToggle('Class')">
@@ -60,7 +60,7 @@ class="w-full"
           </div>
           <div class="mdc-checkbox__ripple"fi></div>
         </div>
-        <label for="checkbox-1" class="-ml-2 w-full mr-2 agenda-filter-label">Classes</label>
+        <label for="checkbox-1" class="w-full mr-2 -ml-2 agenda-filter-label">Classes</label>
       </div>
       <div class="-mt-2">
         <div class="mdc-checkbox mdc-checkbox--touch cb-blue" @click="filterToggle('Event')">
@@ -78,33 +78,34 @@ class="w-full"
           </div>
           <div class="mdc-checkbox__ripple"fi></div>
         </div>
-        <label for="checkbox-3" class="-ml-2 w-full mr-2 agenda-filter-label">Other Events</label>
+        <label for="checkbox-3" class="w-full mr-2 -ml-2 agenda-filter-label">Other Events</label>
       </div>
     </div>
   </div>
   <div class="sm:px-6 lg:px-8 agenda-padding" wire:ignore>
-    <div class="mdc-typography outer-agenda-container relative overflow-y-scroll" style="height: calc(100vh - 154px);">
+    <div class="relative overflow-y-scroll mdc-typography outer-agenda-container" style="height: calc(100vh - 154px);">
       <div class="inner-agenda-container">
         @for ($i=0; $i < 24; $i++)
           <div class="float-left agenda-clockslot">
-            <p class="text-xs align-middle text-gray-500">@if($i == 12) 12 PM @elseif($i == 0) @else {{($i % 12)}} @if($i < 12) AM @else PM @endif @endif</p>
+            <p class="text-xs text-gray-500 align-middle">@if($i == 12) 12 PM @elseif($i == 0) @else {{($i % 12)}} @if($i < 12) AM @else PM @endif @endif</p>
           </div>
-          <div class="agenda-timeslot float-right"></div>
+          <div class="float-right agenda-timeslot"></div>
         @endfor
 
         <template x-if="currentDayData != null">
           <template x-for="(item, index) in currentDayData" :key="index">
-            <div class="mdc-card mdc-card--outlined agenda-item mx-0 ml-12 mr-2 absolute"
+            <div class="absolute mx-0 ml-12 mr-2 mdc-card mdc-card--outlined agenda-item"
             x-on:click="setSelectedItem(index)"
             x-bind:class="`${'background-' + getItemColor(item['id'], item['color'])} ${'agenda-item-' + index  }`"
             x-bind:style="`top: ${item['top']}px;
             left: ${item['left']}px;
             height: calc(${item['bottom']}px - ${item['top']}px);
             width: calc(100% - ${item['left'] + 55}px);
-            z-index: ${item['height']}`"
+            z-index: ${item['height']};
+            min-height: 60px;`"
             x-show="! filter.includes(`${item['type']}`)">
               <div class="mdc-card__primary-action px-5 pt-2.5 pb-2 h-full" tabindex="0">
-                <p class="agenda-text-primary font-medium truncate" x-text="item['title']"></p>
+                <p class="font-medium truncate agenda-text-primary" x-text="item['title']"></p>
                 <p class="agenda-text-secondary mdc-typography--body2">
                   <span x-text="item['start']"></span>
                   <template x-if="item['end'] != null">
