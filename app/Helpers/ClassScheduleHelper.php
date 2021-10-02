@@ -85,17 +85,21 @@ class ClassScheduleHelper {
 
     $daySchedule = $this->getDaySchedule($classScheduleArray, $dt);
     $daySchedule = explode('|', $daySchedule);
-    $classes = explode(',', $daySchedule[0]);
 
-    if (!isset($daySchedule) || $daySchedule == 'async')
+    if (!isset($daySchedule) || $daySchedule == 'async' || !isset($daySchedule[1]))
       return $this->getFirstClass($dt->addDay(), $classSchedule);
+
+    $classes = explode(',', $daySchedule[0]);
+    $times = explode(',', $daySchedule[1]);
 
     $class = Classes::find($classes[0]);
     if ($class == null)
       return $this->getFirstClass($dt->addDay(), $classSchedule);
+    $class->startTime = $times[0];
+    $class->endTime = $times[1];
     return [
       'class' => $class,
-      'day' => $dt->format('D, F jS')
+      'day' => $dt->format('D, F jS'),
     ];
   }
 
@@ -140,7 +144,7 @@ class ClassScheduleHelper {
     $class->endTime = $times[$i + 1];
     return [
       'class' => $class,
-      'day' => $dt->format('D, F jS')
+      'day' => $dt->format('D, F jS'),
     ];
   }
 

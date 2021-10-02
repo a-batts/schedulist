@@ -52,6 +52,7 @@ class DashboardCards extends Component {
       if ($next != null) {
         $this->nextClass = $next['class'];
         $nextDay = $next['day'];
+        //dd($this->nextClass->startTime);
         $this->nextClass->timestring = $this->formatTime($this->nextClass->startTime) . ' on ' . $nextDay;
       }
       return;
