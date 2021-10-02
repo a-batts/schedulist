@@ -92,11 +92,17 @@ class ClassScheduleHelper {
     $classes = explode(',', $daySchedule[0]);
     $times = explode(',', $daySchedule[1]);
 
-    $class = Classes::find($classes[0]);
+    $lowestIndex = 0;
+    for ($i = 0; $i < count($times); $i++) {
+      if ($times[$lowestIndex] > $times[$i])
+        $lowestIndex = $i;
+    }
+    $class = Classes::find($classes[$lowestIndex / 2]);
     if ($class == null)
       return $this->getFirstClass($dt->addDay(), $classSchedule);
-    $class->startTime = $times[0];
-    $class->endTime = $times[1];
+
+    $class->startTime = $times[$lowestIndex];
+    $class->endTime = $times[$lowestIndex + 1];
     return [
       'class' => $class,
       'day' => $dt->format('D, F jS'),
