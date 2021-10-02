@@ -25,9 +25,8 @@ class ClassScheduleHelper {
    */
   public function getActiveClass() {
     $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($this->dt))
+    if ($classSchedule == null || !$this->termInProgress($this->dt, $classSchedule))
       return false;
-    $classSchedule = $classSchedule->toArray();
 
     $daySchedule = $this->getDaySchedule($classSchedule, $this->dt);
 
@@ -49,8 +48,11 @@ class ClassScheduleHelper {
   public function getDaySchedule($classSchedule, Carbon $dt = null) {
     if ($dt == null) $dt = $this->dt;
 
-    if (!$this->termInProgress($dt))
+    if (!$this->termInProgress($dt, $classSchedule))
       return '|';
+
+    if (!is_array($classSchedule))
+      $classSchedule = $classSchedule->toArray();
 
     if ($classSchedule['schedule_type'] == 'fixed' || $classSchedule['schedule_type'] == 'custom') {
       $dayOfWeek = $dt->format('N');
@@ -74,22 +76,23 @@ class ClassScheduleHelper {
     return $daySchedule;
   }
 
-  public function getFirstClass(Carbon $dt) {
-    $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($dt))
+  public function getFirstClass(Carbon $dt, $classSchedule = null) {
+    if ($classSchedule == null)
+      $classSchedule = Auth::User()->classSchedule->first();
+    if ($classSchedule == null || !$this->termInProgress($dt, $classSchedule))
       return false;
-    $classSchedule = $classSchedule->toArray();
+    $classScheduleArray = $classSchedule->toArray();
 
-    $daySchedule = $this->getDaySchedule($classSchedule, $dt);
+    $daySchedule = $this->getDaySchedule($classScheduleArray, $dt);
     $daySchedule = explode('|', $daySchedule);
     $classes = explode(',', $daySchedule[0]);
 
     if (!isset($daySchedule) || $daySchedule == 'async')
-      return $this->getFirstClass($dt->addDay());
+      return $this->getFirstClass($dt->addDay(), $classSchedule);
 
     $class = Classes::find($classes[0]);
     if ($class == null)
-      return $this->getFirstClass($dt->addDay());
+      return $this->getFirstClass($dt->addDay(), $classSchedule);
     return [
       'class' => $class,
       'day' => $dt->format('D, F jS')
@@ -105,10 +108,8 @@ class ClassScheduleHelper {
    */
   public function getNextClass(Carbon $dt, $currentClassId = null) {
     $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($dt))
+    if ($classSchedule == null || !$this->termInProgress($dt, $classSchedule))
       return false;
-
-    $classSchedule = $classSchedule->toArray();
 
     $daySchedule = $this->getDaySchedule($classSchedule, $dt);
 
@@ -121,7 +122,7 @@ class ClassScheduleHelper {
     if (isset($currentClassId)) {
       $classIndex = array_search($currentClassId, $classes);
       if (!isset($classes[$classIndex + 1]))
-        return $this->getFirstClass($dt->addDay());
+        return $this->getFirstClass($dt->addDay(), $classSchedule);
       $classIndex++;
       $i = $classIndex * 2;
     } else {
@@ -132,7 +133,7 @@ class ClassScheduleHelper {
         }
       }
       if (!isset($classIndex))
-        return $this->getFirstClass($dt->addDay());
+        return $this->getFirstClass($dt->addDay(), $classSchedule);
     }
     $class = Classes::find($classes[$classIndex]);
     $class->startTime = $times[$i];
@@ -171,17 +172,19 @@ class ClassScheduleHelper {
    * @param  Carbon  $dateTime
    * @return bool
    */
-  public function termInProgress($dateTime = null) {
+  public function termInProgress($dateTime = null, $classSchedule = null) {
     if ($dateTime == null) $dateTime = $this->dt;
 
-    if (Auth::User()->classSchedule()->first() == null)
+    if ($classSchedule == null) $classSchedule = Auth::User()->classSchedule()->first();
+
+    if ($classSchedule == null)
       return false;
 
     $user = Auth::User();
     $startTerm = Carbon::parse($user->year_start_date);
     $endTerm = Carbon::parse($user->year_end_date);
 
-    if ($dateTime >= $startTerm && $dateTime <= $endTerm && $dateTime >= Carbon::parse(Auth::user()->classSchedule->first()->schedule_start)->setHours(0)->setMinutes(0)->toDateString())
+    if ($dateTime >= $startTerm && $dateTime <= $endTerm && $dateTime >= Carbon::parse($classSchedule['schedule_start'])->setHours(0)->setMinutes(0)->toDateString())
       return true;
     return false;
   }
