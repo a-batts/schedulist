@@ -236,7 +236,10 @@ class ManageSchedule extends Component {
             $block['times'][$index] = Carbon::createFromFormat('g:i A', $time)->format('Hi');
         }
         $times = implode(',', $block['times']);
-        $schedule->{'block_' . $i} = $classes . '|' . $times;
+        if ($classes != null && $times != null)
+          $schedule->{'block_' . $i} = $classes . '|' . $times;
+        else
+          $schedule->{'block_' . $i} = null;
       }
     }
     if ($schedule->schedule_type == 'fixed')
@@ -265,7 +268,10 @@ class ManageSchedule extends Component {
       if ($type == 'start') {
         if ($time == null)
           $blockArray['times'][$index * 2] = '';
-        elseif ($blockArray['times'][$index * 2 + 1] == '')
+        elseif (!isset($blockArray['times'][$index * 2 + 1])) {
+          $blockArray['times'][$index * 2] = $newTime;
+          $blockArray['times'][$index * 2 + 1] = '';
+        } elseif ($blockArray['times'][$index * 2 + 1] == '')
           $blockArray['times'][$index * 2] = $newTime;
         else {
           $start = Carbon::createFromFormat('g:i A', $newTime);
@@ -278,7 +284,10 @@ class ManageSchedule extends Component {
       } else {
         if ($time == null)
           $blockArray['times'][$index * 2 + 1] = '';
-        elseif ($blockArray['times'][$index * 2] == '')
+        elseif (!isset($blockArray['times'][$index * 2])) {
+          $blockArray['times'][$index * 2 + 1] = $newTime;
+          $blockArray['times'][$index * 2] = '';
+        } elseif ($blockArray['times'][$index * 2] == '')
           $blockArray['times'][$index * 2 + 1] = $newTime;
         else {
           $start = Carbon::createFromFormat('g:i A', $blockArray['times'][$index * 2]);
