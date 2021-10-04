@@ -125,7 +125,7 @@ class Agenda {
     if (!isset($daySchedule) || $daySchedule == 'async')
       return $agenda;
     $daySchedule = explode('|', $daySchedule);
-    if (count($daySchedule) != 2)
+    if (count($daySchedule) < 2)
       return $agenda;
     $classes = explode(',', $daySchedule[0]);
     $times = explode(',', $daySchedule[1]);

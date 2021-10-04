@@ -70,6 +70,11 @@ class ManageSchedule extends Component {
       $schedule->schedule_start = Carbon::now()->toDateTimeString();
       $schedule->save();
 
+      $user = Auth::User();
+      $user->year_start_date = Carbon::now()->toDateString();
+      $user->year_end_date = Carbon::now()->addYear()->toDateString();
+      $user->save();
+
       if (Auth::User()->classSchedule()->first() == null)
         DB::table('class_schedule_user')->insert([
           'user_id' => Auth::User()->id,

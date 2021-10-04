@@ -31,9 +31,11 @@ class SendAssignmentReminder implements ShouldQueue {
     protected $carriers = [
         'Verizon Wireless' => '@vtext.com',
         'T-Mobile' => '@tmomail.net',
+        'T-Mobile USA, Inc.' => '@tmomail.net',
         'AT&T Wireless' => '@txt.att.net',
         'Sprint' => '@messaging.sprintpcs.com',
         'Google (Grand Central) BWI - Bandwidth.com - SVR' => null,
+
     ];
 
     /**

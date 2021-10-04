@@ -129,7 +129,7 @@
   <script>
     function classCreate(){
       return{
-        color: '',
+        color: 'pink',
         addDialog: false,
         errorMessages: @entangle('errorMessages'),
         numberLinks: 0,

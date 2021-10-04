@@ -9,11 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
-class ClassCreate extends Component
-{
+class ClassCreate extends Component {
   public Classes $class;
 
-  public $color;
+  public $color = 'pink';
 
   private $colorOptions = ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige'];
 
@@ -21,22 +20,22 @@ class ClassCreate extends Component
 
   public array $links = [];
 
-  public function rules(){
+  public function rules() {
     return [
-        'class.name' => 'required',
-        'class.teacher' => 'required',
-        'class.teacher_email' => 'nullable',
-        'class.video_link' => 'nullable|url',
-        'class.class_location' => 'nullable',
-        'class.period' => ['nullable'/*, new UniquePeriod()*/],
+      'class.name' => 'required',
+      'class.teacher' => 'required',
+      'class.teacher_email' => 'nullable',
+      'class.video_link' => 'nullable|url',
+      'class.class_location' => 'nullable',
+      'class.period' => ['nullable'/*, new UniquePeriod()*/],
     ];
   }
 
-  public function mount(){
+  public function mount() {
     $this->class = new Classes();
   }
 
-  public function create(){
+  public function create() {
     $this->validate();
 
     $class = $this->class;
@@ -49,7 +48,7 @@ class ClassCreate extends Component
     if ($class->period == '') $class->period = null;
     $class->color = $this->color;
 
-    foreach($this->links as $link){
+    foreach ($this->links as $link) {
       $newLink = new ClassLink;
       $newLink->class_id = $class->id;
       $newLink->name = $link['name'];
@@ -65,25 +64,27 @@ class ClassCreate extends Component
     $this->class = new Classes();
   }
 
-  public function removeLink($index){
-    unset($this->links[$index-1]);
+  public function removeLink($index) {
+    unset($this->links[$index - 1]);
   }
 
-  public function setColor($color){
+  public function setColor($color) {
     $this->color = $color;
   }
 
-  public function setLink($index, $name, $url){
-    $index --;
-    $validator = Validator::make(['links_'.$index.'_name' => $name, 'links_'.$index.'_url' => $url],
-    [
-      'links_'.$index.'_name' => 'required',
-      'links_'.$index.'_url' => 'required|url',
-    ],
-    [
-      'required' => 'Required',
-      'url' => 'This URL is invalid',
-      ])->validate();
+  public function setLink($index, $name, $url) {
+    $index--;
+    $validator = Validator::make(
+      ['links_' . $index . '_name' => $name, 'links_' . $index . '_url' => $url],
+      [
+        'links_' . $index . '_name' => 'required',
+        'links_' . $index . '_url' => 'required|url',
+      ],
+      [
+        'required' => 'Required',
+        'url' => 'This URL is invalid',
+      ]
+    )->validate();
     $this->links[$index] = array('name' => $name, 'url' => $url);
   }
 
@@ -93,10 +94,10 @@ class ClassCreate extends Component
    * @return void
    */
   public function updated($propertyName) {
-      $this->validateOnly($propertyName);
+    $this->validateOnly($propertyName);
   }
 
-  public function render(){
+  public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
 
     return view('livewire.dashboard.class-create')->with('colorOptions', $this->colorOptions);
