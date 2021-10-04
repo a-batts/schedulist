@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Assignments;
 
 use App\Models\Classes;
 use App\Models\Assignment;
+use App\Models\AssignmentReminder;
 
 use Carbon\Carbon;
 use Carbon\Exceptions;
@@ -65,8 +66,8 @@ class AssignmentCreate extends Component {
     $assignment->url_string = Str::random(16);
     $assignment->assignment_name = Crypt::encryptString($assignment->assignment_name);
     $assignment->description = Crypt::encryptString($assignment->description);
-    if (!preg_match('.*[a-zA-Z].*', $assignment->link))
-      $assignment->link = null;
+    //if (!preg_match('.*[a-zA-Z].*', $assignment->link))
+    //$assignment->link = null;
     if ($assignment->assignment_link != null)
       $assignment->assignment_link = Crypt::encryptString($assignment->assignment_link);
 
@@ -78,7 +79,7 @@ class AssignmentCreate extends Component {
     $this->emit('toastMessage', 'Assignment was successfully created');
 
     $due = $assignment->due->copy();
-    $reminder = new AssignmentReminder();
+    $reminder = new AssignmentReminder;
     $reminder->assignment_id = $assignment->id;
     $reminder->reminder_time = $due->subHours(1);
     $reminder->save();
