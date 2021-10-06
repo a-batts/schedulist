@@ -36,6 +36,8 @@ class DashboardCards extends Component {
     if ($first > 12) {
       $first -= 12;
       $second .= 'PM';
+    } else if ($first == 12) {
+      $second .= 'PM';
     } else if ($first == 0) {
       $first = 12;
       $second .= 'AM';
