@@ -1,11 +1,13 @@
 <div class="py-4">
-  <div class="mdc-card mdc-card--outlined w-full sm:max-w-lg mt-6 px-8 py-6 overflow-hidden mx-auto roboto">
-    <div class="font-semibold text-4xl text-center">
+  <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined sm:max-w-lg roboto">
+    <div class="text-4xl font-medium">
       {{$title}}
     </div>
-    <div class="text-gray-600 text-left text-sm mt-4">
+    <div class="mt-3 text-base text-left text-gray-600">
       {{$description ?? ''}}
     </div>
+
+    <div class="mt-5 border-t border-gray-200"></div>
 
     {{$slot}}
 
