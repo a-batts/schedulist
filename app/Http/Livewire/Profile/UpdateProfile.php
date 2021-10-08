@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Profile;
 
+use App\Helpers\CarrierEmailHelper;
 use Exception;
 
 use App\Jobs\SendText;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 use Livewire\Component;
@@ -16,13 +16,11 @@ use Twilio\Rest\Client;
 
 class UpdateProfile extends Component {
   public $state = [];
-  public $phoneError = false;
-  public $showingPhoneConfirmation = false;
-  public $verificationCodeInput;
+
+  public $verificationCodeInput = '';
   public $formattedPhoneNumber;
 
-  public $hasProfilePicture = false;
-  public $profileURL;
+  public array $errorMessages;
 
   protected $listeners = ['refreshProfileCard' => '$refresh'];
 
@@ -48,23 +46,8 @@ class UpdateProfile extends Component {
     'state.phone.digits' => 'Must be 10 digits long and not include dashes'
   ];
 
-  protected $carriers = [
-    'Verizon Wireless' => '@vtext.com',
-    'T-Mobile' => '@tmomail.net',
-    'T-Mobile USA, Inc.' => '@tmomail.net',
-    'AT&T Wireless' => '@txt.att.net',
-    'Sprint' => '@messaging.sprintpcs.com',
-    'Google (Grand Central) BWI - Bandwidth.com - SVR' => null,
-
-  ];
-
-  /**
-   * Mount Component
-   * @return void
-   */
   public function mount() {
     $this->state = Auth::user()->withoutRelations()->toArray();
-    $this->verificationCodeInput = '';
   }
 
   /**
@@ -85,18 +68,117 @@ class UpdateProfile extends Component {
       $this->addError('verificationCodeInput', 'The verification code should be six numbers long');
   }
 
+
+  /**
+   * Display phone number confirmation and text user
+   * @return void
+   */
+  public function showPhoneConfirmation() {
+    $code = rand(100000, 999999);
+    $this->sendTextMessage($code);
+
+    $phoneNumber = $this->state['phone'];
+    $this->formattedPhoneNumber = '(' . substr($phoneNumber, 0, 3) . ') ' . substr($phoneNumber, 3, 3) . '-' . substr($phoneNumber, 6, 10);
+    $this->dispatchBrowserEvent('display-phone-verification');
+
+    DB::table('two_factor_codes')->insert([
+      'user_id' => Auth::user()->id,
+      'two_factor_code' => $code,
+    ]);
+  }
+
+  /**
+   * Check verification code and save number
+   * @return void
+   */
+  public function confirmVerification() {
+    $user = Auth::user();
+    $verify = DB::table('two_factor_codes')->where('user_id', Auth::user()->id)->first();
+
+    if ($this->verificationCodeInput == $verify->two_factor_code) {
+      $this->dispatchBrowserEvent('hide-phone-verification');
+      $this->emit('toastMessage', 'Phone number successfully verified');
+
+      $user->phone = $this->state['phone'];
+      $user->carrier = $this->state['carrier'];
+      $user->save();
+    } else
+      $this->addError('verificationCodeInput', 'The verification code you inputted is incorrect');
+    $this->reset('verificationCodeInput');
+  }
+
+  /**
+   * Send verification code textf
+   * @param  int $code
+   * @return void
+   */
+  public function sendTextMessage($code) {
+    if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
+      $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
+    else {
+      $message = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
+      $email = $this->state['phone'] . CarrierEmailHelper::getCarrierEmail($this->state['carrier']);
+      $details = ['email' => $email, 'message' => $message];
+      SendText::dispatchSync($details);
+      $this->dispatchBrowserEvent('start-countdown');
+    }
+  }
+
+  /**
+   * Cancels phone number validation and resets
+   * @return void
+   */
+  public function cancelValidation() {
+    $this->state['phone'] = Auth::user()->phone;
+  }
+
+  /**
+   * Sends new verification code to user
+   * @return void
+   */
+  public function resendAndCount() {
+    $code = rand(100000, 999999);
+    $this->sendTextMessage($code);
+    DB::table('two_factor_codes')->insert([
+      'user_id' => Auth::user()->id,
+      'two_factor_code' => $code,
+    ]);
+    $this->emit('toastMessage', 'A new verification code was sent');
+  }
+
+  /**
+   * Validates phone number using Twilio
+   * @param  string $number
+   * @return bool
+   */
+  public function validatePhoneNumber($number) {
+    $sid = config('twilio.account_sid');
+    $token = config('twilio.auth_token');
+    $twilio = new Client($sid, $token);
+
+    try {
+      $phone_number = $twilio->lookups->v1->phoneNumbers($number)->fetch(["countryCode" => "US", "type" => ["carrier"]]);
+    } catch (Exception $e) {
+      if ($e->getStatusCode() == 404) {
+        $this->addError('state.phone', 'The phone number provided is invalid');
+        return false;
+      } else {
+        throw $e;
+      }
+    }
+    $this->state['carrier'] = $phone_number->carrier['name'];
+    return true;
+  }
+
   /**
    * Save the user's updated profile information
    * @return void
    */
   public function save() {
     $user = Auth::user();
-    if (
-      $user->firstname == $this->state['firstname'] && $user->lastname == $this->state['lastname']
-      && $user->email == $this->state['email'] && $user->school == $this->state['school'] && $user->grade_level == $this->state['grade_level'] && $user->phone == $this->state['phone']
-    ) {
+    if ($user->withoutRelations()->toArray() == $this->state)
       $this->emit('toastMessage', 'No changes were made');
-    } else {
+    else {
       $this->validate();
       $user->forceFill([
         'firstname' => $this->state['firstname'],
@@ -112,116 +194,14 @@ class UpdateProfile extends Component {
       $this->emit('toastMessage', 'Profile changes saved');
       $this->emit('refresh-navigation-menu');
       if (Auth::user()->phone != $this->state['phone']) {
-        DB::table('two_factor_codes')->where('user_id', Auth::User()->id)->delete();
-
-        $this->validatePhoneNumber($this->state['phone']);
-        if (!$this->phoneError && isset($this->state['carrier']) && $this->state['carrier'] != null && isset($this->carriers[$this->state['carrier']])) {
+        DB::table('two_factor_codes')->where('user_id', Auth::user()->id)->delete();
+        $validated = $this->validatePhoneNumber($this->state['phone']);
+        if ($validated && CarrierEmailHelper::getCarrierEmail($this->state['carrier']) != null)
           $this->showPhoneConfirmation();
-        } else {
-          $this->addError('state.phone', 'The phone number provided is not compatible.');
-          return;
-        }
+        else
+          $this->addError('state.phone', 'The phone number you entered is not compatible.');
       }
     }
-  }
-
-  /**
-   * Display phone number confirmation and text user
-   * @return void
-   */
-  public function showPhoneConfirmation() {
-    $phoneNumber = $this->state['phone'];
-    $this->formattedPhoneNumber = '(' . substr($phoneNumber, 0, 3) . ') ' . substr($phoneNumber, 3, 3) . '-' . substr($phoneNumber, 6, 10);
-    $this->showingPhoneConfirmation = true;
-    $this->emit('fixBody');
-    $code = rand(100000, 999999);
-    $this->sendTextMessage($code);
-
-    DB::table('two_factor_codes')->insert([
-      'user_id' => Auth::User()->id,
-      'two_factor_code' => $code,
-    ]);
-  }
-
-  /**
-   * Check verification code and save number
-   * @return void
-   */
-  public function confirmVerification() {
-    $user = Auth::User();
-
-    $verify = DB::table('two_factor_codes')->where('user_id', Auth::User()->id)->first();
-
-    if ($this->verificationCodeInput == $verify->two_factor_code) {
-      $user->phone = $this->state['phone'];
-      $user->carrier = $this->state['carrier'];
-      $user->save();
-      $this->showingPhoneConfirmation = false;
-      $this->emit('undofix');
-      $this->emit('toastMessage', 'Phone number successfully verified');
-    } else {
-      $this->addError('verificationCodeInput', 'The verification code you inputted is incorrect');
-    }
-    $this->reset('verificationCodeInput');
-  }
-
-  /**
-   * Send verification code textf
-   * @param  int $code
-   * @return void
-   */
-  public function sendTextMessage($code) {
-    $message = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
-    $email = $this->state['phone'] . $this->carriers[$this->state['carrier']];
-    $details = ['email' => $email, 'message' => $message];
-    SendText::dispatchNow($details);
-    $this->emit('countdownFunction');
-  }
-
-  /**
-   * Cancels phone number validation and resets
-   * @return void
-   */
-  public function cancelValidation() {
-    $this->state['phone'] = Auth::User()->phone;
-  }
-
-  /**
-   * Sends new verification code to user
-   * @return void
-   */
-  public function resendAndCount() {
-    $code = rand(100000, 999999);
-    $this->sendTextMessage($code);
-    DB::table('two_factor_codes')->insert([
-      'user_id' => Auth::User()->id,
-      'two_factor_code' => $code,
-    ]);
-    $this->emit('toastMessage', 'A new verification code was sent');
-  }
-
-  /**
-   * Validates phone number using Twilio
-   * @param  string $number
-   * @return void
-   */
-  public function validatePhoneNumber($number) {
-    $sid = config('twilio.account_sid');
-    $token = config('twilio.auth_token');
-    $twilio = new Client($sid, $token);
-
-    try {
-      $phone_number = $twilio->lookups->v1->phoneNumbers($number)->fetch(["countryCode" => "US", "type" => ["carrier"]]);
-    } catch (Exception $e) {
-      if ($e->getStatusCode() == 404) {
-        $this->addError('state.phone', 'The phone number provided is invalid');
-        $this->phoneError = true;
-        return;
-      } else {
-        throw $e;
-      }
-    }
-    $this->state['carrier'] = $phone_number->carrier['name'];
   }
 
   /**
@@ -233,10 +213,7 @@ class UpdateProfile extends Component {
   }
 
   public function render() {
-    if (Auth::User()->profile_photo_path != null)
-      $this->hasProfilePicture = true;
-    else
-      $this->hasProfilePicture = false;
+    $this->errorMessages = $this->getErrorBag()->toArray();
     return view('livewire.profile.update-profile');
   }
 }
