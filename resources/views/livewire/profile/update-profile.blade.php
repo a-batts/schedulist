@@ -17,9 +17,9 @@ class="roboto" id="profile_settings">
       <p class="mt-1 text-gray-600">Set or change your profile picture</p>
       <p class="mt-1 text-sm text-gray-500"><span class="inline-block"><span class="inline-block mt-1 mr-3 align-text-bottom material-icons text-inherit" style="vertical-align: -5px">public</span>Other Schedulist users will be able to view the picture you select.</span></p>
       <div>
-        <div class="block w-full mx-0 mt-5">
-          <div class="w-32 mx-auto h-30">
-            <img class="rounded-full w-30 h-30" src="{{Auth::User()->profile_photo_url}}"/>
+        <div class="block w-full mt-5">
+          <div class="w-full">
+            <img class="w-24 h-24 mx-auto rounded-full" src="{{Auth::User()->profile_photo_url}}"/>
           </div>
           <div class="block text-center mt-7">
             <button class="inline-block mdc-button mdc-button--outlined mdc-button-ripple" type="button" @click="$dispatch('open-photo-dialog')" wire:ignore>
