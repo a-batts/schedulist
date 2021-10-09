@@ -26,6 +26,7 @@ import { MDCTooltip } from '@material/tooltip';
 import { MDCRadio } from '@material/radio';
 import { MDCDataTable } from '@material/data-table';
 import { MDCBanner } from '@material/banner';
+import { MDCList } from '@material/list';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -114,6 +115,13 @@ var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function 
 var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
   return new MDCTooltip(el);
 });
+
+var lists = [].map.call(document.querySelectorAll('.mdc-list'), function (el) {
+  var list = new MDCList(el);
+  const listItemRipples = list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
+  return list;
+})
+
 
 function initTooltip(e) {
   if (document.getElementById(e) !== null)

@@ -8,7 +8,7 @@ Livewire.on('navigate', function (url) {
   Turbo.visit(url);
 });
 
-function startLoading(){
+function startLoading() {
   Turbo.controller.adapter.progressBar.setValue(0);
   Turbo.controller.adapter.progressBar.show();
 }
@@ -17,7 +17,7 @@ Livewire.on('startloading', function (start) {
   startLoading();
 });
 
-function stopLoading(){
+function stopLoading() {
   Turbo.controller.adapter.progressBar.setValue(100);
   Turbo.controller.adapter.progressBar.hide();
 }
@@ -66,15 +66,6 @@ function countdownClock(e) {
   }
 }
 
-Livewire.on('countdownFunction', function (e) {
-  var countdownText = document.getElementById('countdown-time');
-  countdownText.innerHTML = ' (90)';
-  document.getElementById('countdown-button').disabled = true;
-  sleep(1000).then(function () {
-    countdownClock(90);
-  });
-});
-
 //Disable scroll
 
 function preventDefault(e) {
@@ -92,7 +83,7 @@ try {
   window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
     get: function () { supportsPassive = true; }
   }));
-} catch(e) {}
+} catch (e) { }
 
 var wheelOpt = supportsPassive ? { passive: false } : false;
 var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
