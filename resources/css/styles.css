@@ -1120,3 +1120,16 @@ div.assignment-card-dashboard{
 .new-reminder-textfield{
   width: 104px;
 }
+.mdc-list--two-line .security-list.mdc-list-item{
+  height: 80px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.security-list-text.mdc-list-item__text{
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.mdc-list--two-line.mdc-list--icon-list.security-list .mdc-list-item__graphic{
+  margin-top: auto;
+  margin-bottom: auto;
+}
