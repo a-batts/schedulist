@@ -17,6 +17,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "google/apiclient": "^2.10",
         "guzzlehttp/guzzle": "^7.1",
+        "ipinfo/ipinfo": "^2.3",
+        "ipinfo/ipinfolaravel": "^2.1",
         "laravel/framework": "^8.9",
         "laravel/jetstream": "^2.0",
         "laravel/sanctum": "^2.6",

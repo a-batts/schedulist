@@ -2,101 +2,93 @@
 
 namespace App\Http\Livewire\Profile;
 
-use Livewire\Component;
-use Auth;
-use App\Model\Users;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
+use Illuminate\Support\Facades\Route;
 
-class UpdatePassword extends Component
-{
-    public $currentPassword;
-    public $newPassword;
-    public $newPasswordComf;
+class UpdatePassword extends Component {
 
-    function rules(){
-      return [
-          'currentPassword' => 'nullable|string',
-          'newPassword' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
-          'newPasswordComf' => 'required|string|same:newPassword'
-      ];
-    }
+  public $password;
+  public $passwordConfirmation;
 
-    protected $messages = [
-        'newPassword.required' => 'A new password is required',
-        'newPassword.regex' => 'Must be at least 10 characters and contain one uppercase letter, a number and a symbol',
-        'newPasswordComf.required' => 'Make sure to confirm your new password',
-        'newPasswordComf.same' => 'Passwords don\'t match'
+  public bool $settingNewPassword = false;
+
+  public array $errorMessages;
+
+  function rules() {
+    return [
+      'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
+      'passwordConfirmation' => 'required|string|same:password'
     ];
+  }
 
-    /**
-     * Mount Component
-     * @return void
-     */
-    public function mount(){
-      $this->currentPassword = '';
-      $this->newPassword = '';
-      $this->newPasswordComf = '';
-    }
+  protected $messages = [
+    'password.required' => 'A new password is required',
+    'password.regex' => 'Must be at least 10 characters and contain one uppercase letter, a number and a symbol',
+    'passwordConfirmation.required' => 'Make sure to confirm your password',
+    'passwordConfirmation.same' => 'Password confirmation does not match',
+  ];
 
-    /**
-     * Validate updated properties
-     * @param  mixed $propertyName
-     * @return void
-     */
-    public function updated($propertyName){
-        $this->validateOnly($propertyName);
-    }
+  /**
+   * Mount Component
+   * @return void
+   */
+  public function mount() {
+    if (!isset(Auth::user()->password) || Auth::user()->password == '')
+      $this->settingNewPassword = true;
+  }
 
-    /**
-     * Validate that the old password is entered
-     * @return void
-     */
-    public function updatedCurrentPassword(){
-      if($this->currentPassword == null || $this->currentPassword == '')
-        $this->addError('currentPassword', 'Your old password is required');
-    }
+  public function updatedPassword($value) {
+    $this->clearValidation('password');
 
-    /**
-     * Save the new password on validation
-     * @return void
-     */
-    public function save(){
-      $this->validate();
+    if (strlen($value) < 10)
+      $this->addError('password', 'Password is too short, needs to be at least 10 characters');
+    elseif (!preg_match('/[a-z]+/', $value))
+      $this->addError('password', 'Your password needs at least one lowercase letter');
+    elseif (!preg_match('/[A-Z]+/', $value))
+      $this->addError('password', 'Your password needs at least one uppercase letter');
+    elseif (!preg_match('/[0-9]+/', $value))
+      $this->addError('password', 'Your password needs at least one number');
+    elseif (!preg_match('/[@$!%*?&]+/', $value))
+      $this->addError('password', 'Your password needs at least special character');
+  }
+
+  public function updatedPasswordConfirmation($value) {
+    $this->clearValidation('password');
+
+    if ($value != $this->password)
+      $this->addError('passwordConfirmation', 'Password confirmation does not match');
+  }
+
+  public function save() {
+    $this->validate();
+
+    if (Hash::check($this->password, Auth::user()->password)) {
+      $this->addError('password', 'Your new password should be different than your old password');
+    } elseif ($this->password == $this->passwordConfirmation) {
       $user = Auth::user();
-      //Check to see if password is being updated or if password is being set
-      if (Auth::user()->password != null){
-        if($this->currentPassword == null || $this->currentPassword == ''){
-          $this->addError('currentPassword', 'Your old password is required');
-          return;
-        }
-        if(! Hash::check($this->currentPassword, $user->password)){
-          $this->addError('currentPassword', 'The inputted password does not match your current one');
-          return;
-        }
-        elseif($this->currentPassword == $this->newPassword){
-          $this->addError('newPassword', 'Make sure your new password is not the same as the old one.');
-          return;
-        }
-        else{
-          $user->forceFill([
-              'password' => Hash::make($this->newPassword),
-          ])->save();
-          $this->emit('toastMessage', 'Password successfully updated');
-          $this->reset(['oldPassword', 'newPassword', 'newPasswordComf']);
-        }
+      $user->forceFill([
+        'password' => Hash::make($this->password),
+      ])->save();
+      $this->emit('toastMessage', 'Password successfully updated');
+      $this->reset(['password', 'passwordConfirmation']);
+      if ($this->settingNewPassword) {
+        return redirect()->route('profile');
       }
-      //Password does not exist condition
-      else{
-        $user->forceFill([
-            'password' => Hash::make($this->newPassword),
-        ])->save();
-        $this->emit('toastMessage', 'Password successfully set');
-        $this->reset(['oldPassword', 'newPassword', 'newPasswordComf']);
+    } else
+      $this->addError('passwordConfirmation', 'Password confirmation does not match');
+  }
 
-      }
-    }
+  public function render() {
+    if (!$this->settingNewPassword)
+      $title = 'Update Account Password';
+    else
+      $title = 'Set Account Password';
 
-    public function render(){
-        return view('livewire.profile.update-password');
-    }
+    $this->errorMessages = $this->getErrorBag()->toArray();
+    return view('livewire.profile.update-password')
+      ->layout('layouts.app')
+      ->layoutData(['title' => $title]);
+  }
 }

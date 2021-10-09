@@ -1,7 +1,7 @@
 <div class="mdc-typography mdc-card mdc-card--outlined options_card">
-  <h4 class="mdc-typography mdc-typography--headline5 mt-2 nunito">Your Devices</h4>
-  <p class="mdc-typography mdc-typography--body2 text-gray-600 mt-1">You are currently signed in to all the devices listed below. If desired, you may sign out of all of your other browser sessions across your devices. If you are concerned your account is compromised, you should also change your password.</p>
-  <div class="border-t border-gray-200 mt-5"></div>
+  <h4 class="mt-2 mdc-typography mdc-typography--headline5 nunito">Your Devices</h4>
+  <p class="mt-1 text-gray-600 mdc-typography mdc-typography--body2">You are currently signed in to all the devices listed below. If desired, you may sign out of all of your other browser sessions across your devices. If you are concerned your account is compromised, you should also change your password.</p>
+  <div class="mt-5 border-t border-gray-200"></div>
   @if (count($this->sessions) > 0)
       <div class="mt-5 space-y-6">
           <!-- Other Browser Sessions -->
@@ -23,7 +23,7 @@
                       </div>
 
                       <div>
-                          <div class="mdc-typography--subtitle2 text-gray-500">
+                          <div class="text-gray-500 mdc-typography--subtitle2">
                               {{ $session->ip_address }}, {{ $session->agent->browser() }}
 
                               @if ($session->is_current_device)
@@ -41,7 +41,7 @@
   @endif
 
   <div class="mt-5">
-      <button class="mdc-button mdc-button--raised mdc-button-ripple tfa-button mt-5" wire:click="confirmLogout" wire:ignore>
+      <button class="mt-5 mdc-button mdc-button--raised mdc-button-ripple tfa-button" wire:click="confirmLogout" wire:ignore>
         <span class="mdc-button__ripple"></span>
         Sign Out Other Devices
       </button>
@@ -52,7 +52,7 @@
   <!-- Logout Other Devices Confirmation Modal -->
   <x-jet-dialog-modal wire:model="confirmingLogout">
       <x-slot name="title">
-          <h4 class="mdc-typography ninito logintext mt-2 nunito">Confirm Password</h4>
+          <h4 class="mt-2 mdc-typography ninito logintext nunito">Confirm Password</h4>
       </x-slot>
 
       <x-slot name="content">
@@ -75,11 +75,11 @@
               </div>
 
           </div>
-          <button class="mdc-button mdc-button--raised mdc-button-ripple tfa-button mt-10 ml-3 mb-4" wire:click="logoutOtherBrowserSessions" wire:ignore wire:loading.attr="disabled">
+          <button class="mt-10 mb-4 ml-3 mdc-button mdc-button--raised mdc-button-ripple tfa-button" wire:click="logoutOtherBrowserSessions" wire:ignore wire:loading.attr="disabled">
             <span class="mdc-button__ripple"></span>
               {{ __('Continue') }}
           </button>
-          <button class="mdc-button mdc-button-ripple mt-10 tfa-button" wire:click="$toggle('confirmingLogout')" wire:ignore wire:loading.attr="disabled">
+          <button class="mt-10 mdc-button mdc-button-ripple tfa-button" wire:click="$toggle('confirmingLogout')" wire:ignore wire:loading.attr="disabled">
             <span class="mdc-button__ripple"></span>
               {{ __('Nevermind') }}
           </button>
