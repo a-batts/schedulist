@@ -1,20 +1,18 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-
-use App\Models\Event;
-use App\Models\Classes;
-
-use Carbon\Carbon;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Contact\ContactForm;
+use App\Http\Livewire\Profile\LogoutOtherSessions;
+use App\Http\Livewire\Profile\TwoFactorAuth;
+use App\Http\Livewire\Profile\UpdatePassword;
+use App\Models\Classes;
+use App\Models\Event;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,4 +109,24 @@ Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{class?}/{due?
 
 Route::get('assignments/assignment', function () {
   return abort(404);
-})->name('assignmentPage');
+})->middleware(['auth:sanctum', 'verified'])->name('assignmentPage');
+
+Route::get('user/account', function () {
+  return view('profile.settings');
+})->middleware(['auth:sanctum', 'verified'])->name('profile');
+
+Route::get('account', function () {
+  return redirect('user/account');
+})->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified', 'haspassword', 'password.confirm'])->group(function () {
+  Route::get('user/account/update-password', UpdatePassword::class)->name('account.update-password');
+  Route::get('user/account/two-factor', TwoFactorAuth::class)->name('account.two-factor');
+});
+
+Route::get('user/account/manage-devices', LogoutOtherSessions::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.manage-devices');
+Route::get('user/account/set-password', UpdatePassword::class)->middleware(['auth:sanctum', 'verified', 'haspassword:not'])->name('account.set-password');
+
+Route::get('forgot-password', function () {
+  return view('auth.forgot-password');
+})->name('password.request');

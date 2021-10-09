@@ -90,6 +90,17 @@
       'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
   ),
+  'ipinfo/ipinfolaravel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'ipinfo\\ipinfolaravel\\ipinfolaravelServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'ipinfolaravel' => 'ipinfo\\ipinfolaravel\\Facades\\ipinfolaravel',
+    ),
+  ),
   'jenssegers/agent' => 
   array (
     'providers' => 
