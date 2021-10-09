@@ -66,7 +66,7 @@ window.initPond = initPond;
 @open-photo-dialog.window="photoDialog = true; fixBody(); initPond()"
 >
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="photoDialog" x-cloak></div>
-  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-20 modal-container mdc-typography" x-show.transition="photoDialog" x-cloak>
+  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-12 modal-container mdc-typography" x-show.transition="photoDialog" x-cloak>
     <div class="mdc-card mdc-card--outlined modal-card">
       <div class="top-row-container">
         <div class="close-and-title">
@@ -91,7 +91,7 @@ window.initPond = initPond;
         </div>
         
       </div>
-      <div class="mt-8 text-center" wire:ignore>
+      <div class="pb-6 mt-8 text-center" wire:ignore>
         <button class="inline-block mdc-button mdc-button--outlined mdc-button--icon-leading" x-bind:disabled="! @this.hasProfilePicture" wire:click="removeProfilePhoto()">
           <span class="mdc-button__ripple"></span>
           <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
