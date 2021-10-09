@@ -1,4 +1,4 @@
-<x-guest-layout title="Confirm Account Passowrd">
+<x-guest-layout title="Confirm Account Password">
   <div class="py-12">
     @php
       $userData = session()->get('data');
