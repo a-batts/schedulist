@@ -37,12 +37,12 @@ class AuthController extends Controller {
         $newUser = Socialite::driver('google')->user();
         $existUser = User::where('google_email', $newUser->email)->first();
         if ($existUser) {
-          return redirect('user/profile');
+          return redirect()->route('profile');
         } else {
           $user->google_email = $newUser->email;
           $user->google_id = $newUser->id;
           $user->save();
-          return redirect('user/profile');
+          return redirect()->route('profile');
         }
       } catch (Exception $e) {
         return 'error';
@@ -57,11 +57,11 @@ class AuthController extends Controller {
         if (User::where('google_email', $socialite->getEmail())->exists()) {
           $gUser = User::where('google_email', $socialite->getEmail())->first();
           Auth::loginUsingId($gUser->id);
-          return redirect()->to('/app');
+          return redirect()->route('dashboard');
         }
         if ($existingUser != null && $existingUser->google_id != null && $existingUser->google_id != 0) {
           Auth::loginUsingId($existingUser->id);
-          return redirect()->to('/app');
+          return redirect()->route('dashboard');
         } else if ($existingUser != null) {
           return redirect()->route('confirm-link')->with('data', (array) $data);
         } else {
@@ -86,11 +86,11 @@ class AuthController extends Controller {
     if (User::where('google_email', $data->email)->exists()) {
       $gUser = User::where('google_email', $data->email)->first();
       Auth::loginUsingId($gUser->id);
-      return redirect()->to('/app');
+      return redirect()->route('dashboard');
     }
     if ($existingUser != null && $existingUser->google_id != null && $existingUser->google_id != 0) {
       Auth::loginUsingId($existingUser->id);
-      return redirect()->to('/app');
+      return redirect()->route('dashboard');
     } else if ($existingUser != null) {
       return redirect()->route('confirm-link')->with('data', (array) $data);
     } else {
