@@ -42,17 +42,17 @@
           <span class="mdc-line-ripple"></span>
         </div>
         <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-          <ul class="mdc-list dark-theme-list" role="listbox">
-            <li class="mdc-list-item @if($class == -1) mdc-list-item--selected @endif" @if($class == -1) aria-selected="true" @else aria-selected="false" @endif @click="filterClass = -1; updateUrl()" role="option" data-value="-1">
-              <span class="mdc-list-item__ripple"></span>
-              <span class="mdc-list-item__text">
+          <ul class="mdc-deprecated-list dark-theme-list" role="listbox">
+            <li class="mdc-deprecated-list-item @if($class == -1) mdc-deprecated-list-item--selected @endif" @if($class == -1) aria-selected="true" @else aria-selected="false" @endif @click="filterClass = -1; updateUrl()" role="option" data-value="-1">
+              <span class="mdc-deprecated-list-item__ripple"></span>
+              <span class="mdc-deprecated-list-item__text">
                 All Classes
               </span>
             </li>
             @foreach($classes as $x)
-              <li class="mdc-list-item @if($class == $x['id']) mdc-list-item--selected @endif" @if($class == $x['id']) aria-selected="true" @else aria-selected="false" @endif @click="filterClass = {{$x['id']}}; updateUrl()" role="option" data-value="{{$x['id']}}">
-                <span class="mdc-list-item__ripple"></span>
-                <span class="mdc-list-item__text">
+              <li class="mdc-deprecated-list-item @if($class == $x['id']) mdc-deprecated-list-item--selected @endif" @if($class == $x['id']) aria-selected="true" @else aria-selected="false" @endif @click="filterClass = {{$x['id']}}; updateUrl()" role="option" data-value="{{$x['id']}}">
+                <span class="mdc-deprecated-list-item__ripple"></span>
+                <span class="mdc-deprecated-list-item__text">
                   {{$x['name']}}
                 </span>
               </li>

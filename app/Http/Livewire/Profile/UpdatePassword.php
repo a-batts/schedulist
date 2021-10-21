@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Illuminate\Support\Facades\Route;
+use App\Actions\Core\NotifyUser;
 
 class UpdatePassword extends Component {
 
@@ -68,14 +69,31 @@ class UpdatePassword extends Component {
       $this->addError('password', 'Your new password should be different than your old password');
     } elseif ($this->password == $this->passwordConfirmation) {
       $user = Auth::user();
+      if (!$this->settingNewPassword) {
+        $userSettings = Auth::user()->settings()->first();
+        if ($userSettings->account_alert_texts === 1) {
+          $message = ('The password for your Schedulist account was just updated. If that wasn\'t you, you should recover your password as soon as possible.');
+          $notification = NotifyUser::createNotification($message, Auth::user())->sendText()->addText(route('password.request'));
+        }
+        if ($userSettings->account_alert_emails === 1) {
+          $message = [
+            'alert' => 'Password was changed',
+            'body' => 'Your Schedulist password was just changed. If this was you, you can safely ignore this message. If you did not just update your password, someone else has access to your account, and you should reset your password as soon as possible.',
+            'link' => route('password.request'),
+            'link_title' => 'Password reset',
+            'subject' => 'Security alert - Account password changed',
+          ];
+          $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+        }
+      }
+
       $user->forceFill([
         'password' => Hash::make($this->password),
       ])->save();
       $this->emit('toastMessage', 'Password successfully updated');
       $this->reset(['password', 'passwordConfirmation']);
-      if ($this->settingNewPassword) {
+      if ($this->settingNewPassword)
         return redirect()->route('profile');
-      }
     } else
       $this->addError('passwordConfirmation', 'Password confirmation does not match');
   }
@@ -85,8 +103,8 @@ class UpdatePassword extends Component {
       $title = 'Update Account Password';
     else
       $title = 'Set Account Password';
-
     $this->errorMessages = $this->getErrorBag()->toArray();
+
     return view('livewire.profile.update-password')
       ->layout('layouts.app')
       ->layoutData(['title' => $title]);

@@ -58,11 +58,11 @@ class="mdc-typography">
             <span class="mdc-line-ripple"></span>
           </div>
           <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-            <ul class="mdc-list dark-theme-list" role="listbox">
+            <ul class="mdc-deprecated-list dark-theme-list" role="listbox">
               @foreach($classes as $x)
-                <li class="mdc-list-item" role="option" data-value="{{$x['id']}}" wire:click="setClass({{$x['id']}})">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+                <li class="mdc-deprecated-list-item" role="option" data-value="{{$x['id']}}" wire:click="setClass({{$x['id']}})">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     {{$x['name']}}
                   </span>
                 </li>

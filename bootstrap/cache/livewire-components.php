@@ -20,7 +20,7 @@
   'dashboard.dashboard-header' => 'App\\Http\\Livewire\\Dashboard\\DashboardHeader',
   'profile.delete-user-data' => 'App\\Http\\Livewire\\Profile\\DeleteUserData',
   'profile.logout-other-sessions' => 'App\\Http\\Livewire\\Profile\\LogoutOtherSessions',
-  'profile.manage-texts' => 'App\\Http\\Livewire\\Profile\\ManageTexts',
+  'profile.notification-settings' => 'App\\Http\\Livewire\\Profile\\NotificationSettings',
   'profile.schedule.manage-schedule' => 'App\\Http\\Livewire\\Profile\\Schedule\\ManageSchedule',
   'profile.schedule.year-dates' => 'App\\Http\\Livewire\\Profile\\Schedule\\YearDates',
   'profile.security-settings' => 'App\\Http\\Livewire\\Profile\\SecuritySettings',

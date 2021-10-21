@@ -3,18 +3,14 @@
 namespace App\Models;
 
 use App\Helpers;
-
 use App\Helpers\HasProfilePhoto;
-
 use Filament\Models\Concerns\IsFilamentUser;
 use Filament\Models\Contracts\FilamentUser;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -136,5 +132,9 @@ class User extends Authenticatable implements FilamentUser {
 
   public function events() {
     return $this->belongsToMany(Event::class)->wherePivot('accepted', 1);
+  }
+
+  public function settings() {
+    return $this->hasOne(UserSettings::class);
   }
 }

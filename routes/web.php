@@ -115,9 +115,14 @@ Route::get('user/account', function () {
   return view('profile.settings');
 })->middleware(['auth:sanctum', 'verified'])->name('profile');
 
+/* Route::get('user/profile', function () {
+  return redirect('user/account');
+})->middleware(['auth:sanctum', 'verified']); */
+
 Route::get('account', function () {
   return redirect('user/account');
 })->middleware(['auth:sanctum', 'verified']);
+
 
 Route::middleware(['auth:sanctum', 'verified', 'haspassword', 'password.confirm'])->group(function () {
   Route::get('user/account/update-password', UpdatePassword::class)->name('account.update-password');
