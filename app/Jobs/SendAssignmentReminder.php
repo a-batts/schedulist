@@ -2,16 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Helpers\CarrierEmailHelper;
 use App\Models\Assignment;
 use App\Models\AssignmentReminder;
 use App\Models\User;
-use Crypt;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Crypt;
 
 class SendAssignmentReminder implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -23,20 +24,6 @@ class SendAssignmentReminder implements ShouldQueue {
     protected int $reminderId;
 
     protected $timeTillDue;
-
-    /**
-     * Key value pair of carriers and associated email addresses 
-     * @var array
-     */
-    protected $carriers = [
-        'Verizon Wireless' => '@vtext.com',
-        'T-Mobile' => '@tmomail.net',
-        'T-Mobile USA, Inc.' => '@tmomail.net',
-        'AT&T Wireless' => '@txt.att.net',
-        'Sprint' => '@messaging.sprintpcs.com',
-        'Google (Grand Central) BWI - Bandwidth.com - SVR' => null,
-
-    ];
 
     /**
      * Create a new job instance.
@@ -59,7 +46,7 @@ class SendAssignmentReminder implements ShouldQueue {
     public function handle() {
         if ($this->assignment->status == 'inc' && $this->owner->phone != null && !$this->sent) {
             $message = 'Reminder: Your assignment "' . Crypt::decryptString($this->assignment->assignment_name) . '" is due in ' . $this->timeTillDue . ' hours';
-            $email = $this->owner->phone . $this->carriers[$this->owner->carrier];
+            $email = $this->owner->phone . CarrierEmailHelper::getCarrierEmail($this->owner->carrier);
             $details = ['email' => $email, 'message' => $message];
 
             SendText::dispatch($details);

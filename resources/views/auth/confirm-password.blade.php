@@ -16,6 +16,7 @@
                     <label class="w-full mt-8 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" wire:ignore>
                         <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"  name="password" required autocomplete="current-password"/>
                         <button class="mdc-icon-button material-icons mdc-text-field__icon--trailing mdc-text-field__icon" @click="passwordField === 'password' ? passwordField = 'text' : passwordField = 'password'" type="button" tabindex="0">
+                            <div class="mdc-icon-button__ripple"></div>
                             <i class="material-icons mdc-icon-button__icon" x-text="passwordField == 'password' ? 'visibility' : 'visibility_off'"></i>
                         </button>
                         <span class="mdc-notched-outline">

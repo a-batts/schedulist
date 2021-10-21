@@ -1,4 +1,4 @@
-<nav class="z-10 w-screen fixed" style="background-color: #242323"
+<nav class="fixed z-10 w-screen" style="background-color: #242323"
 x-data="{
   profileMenu: false,
   mobileMenu: false,
@@ -23,18 +23,18 @@ x-data="{
 x-init="init($watch)"
 :class="{'rounded-b-lg': mobileMenu}"
 data-turbolinks-permanent>
-  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+  <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between" style="height: 4.2rem">
       <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
-        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:text-white transition duration-150 ease-in-out mdc-icon-button material-icons" aria-label="Main menu" aria-expanded="false" @click="mobileMenu = !mobileMenu">menu</button>
+        <button class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-white focus:outline-none focus:text-white mdc-icon-button material-icons" aria-label="Main menu" aria-expanded="false" @click="mobileMenu = !mobileMenu"><div class="mdc-icon-button__ripple"></div>menu</button>
       </div>
-      <div class="flex-1 flex items-center justify-center absolute md:relative schedulist-logo-nav sm:items-stretch sm:justify-start">
+      <div class="absolute flex items-center justify-center flex-1 md:relative schedulist-logo-nav sm:items-stretch sm:justify-start">
         <div class="flex-shrink-0">
-          <img src="{{ asset('images/logo/logo_light.svg') }}" width="140px" class="border-none mb-3" alt="Schedulist Logo"></img>
+          <img src="{{ asset('images/logo/logo_light.svg') }}" width="140px" class="mb-3 border-none" alt="Schedulist Logo"></img>
         </div>
       </div>
       <div class="absolute w-full">
-        <div class="hidden md:flex items-center justify-center w-full space-x-2 left-0 right-0 mx-auto">
+        <div class="left-0 right-0 items-center justify-center hidden w-full mx-auto space-x-2 md:flex">
           @if (Auth::check())
             <div>
               <a href="{{ route('dashboard') }}" class="mx-2">
@@ -69,42 +69,42 @@ data-turbolinks-permanent>
         </div>
       </div>
       <!-- Profile menu -->
-      <div class="pt-4 pb-3 border-gray-700 profile-button-icon hidden md:block z-20">
+      <div class="z-20 hidden pt-4 pb-3 border-gray-700 profile-button-icon md:block">
         @if (Auth::check())
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <button aria-describedby="switchacct-tooltip" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition duration-150 ease-in-out profilebutton"
+              <button aria-describedby="switchacct-tooltip" class="flex items-center max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white profilebutton"
               id="user-menu" @click="profileMenu = !profileMenu" aria-label="User menu" aria-haspopup="true">
-                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               </button>
             </div>
-            <div class="origin-top-right absolute right-0 mt-2 mdc-card mdc-card-outlined profile-menu"
+            <div class="absolute right-0 mt-2 origin-top-right mdc-card mdc-card-outlined profile-menu"
             x-show.transition="profileMenu" @click.away="profileMenu = false" x-cloak>
-              <div class="dropdowncontainer mb-4">
+              <div class="mb-4 dropdowncontainer">
                 <div class="dropdown_left">
-                  <img class="h-12 w-12 rounded-full object-cover" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                  <img class="object-cover w-12 h-12 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
                 </div>
                 <div class="dropdown_right">
-                  <h6 class="name_head font-medium text-base nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
-                  <h1 class="email_head text-xs">{{ Auth::User()->email}}</h1>
+                  <h6 class="text-base font-medium name_head nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
+                  <h1 class="text-xs email_head">{{ Auth::User()->email}}</h1>
                 </div>
               </div>
               <div class="section-border border-100"></div>
-              <a href="{{ route('profile') }}" class="text-md block lowercase-text" @click="profileMenu = false">
+              <a href="{{ route('profile') }}" class="block text-md lowercase-text" @click="profileMenu = false">
                 <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
                   <span class="mdc-button__ripple"></span>
                   <p class="menu-button-text">Account Settings</p>
                 </button>
               </a>
               @if(Auth::User()->canAccessFilament())
-                <a href="{{ route('filament.dashboard') }}" class="text-md block lowercase-text" @click="profileMenu = false" data-turbolinks="false">
+                <a href="{{ route('filament.dashboard') }}" class="block text-md lowercase-text" @click="profileMenu = false" data-turbolinks="false">
                   <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
                     <span class="mdc-button__ripple"></span>
                     <p class="menu-button-text">Admin Dashboard</p>
                   </button>
                 </a>
               @endif
-              <a href="{{ route('themes') }}" class=" text-md block lowercase-text" @click="profileMenu = false">
+              <a href="{{ route('themes') }}" class="block  text-md lowercase-text" @click="profileMenu = false">
                 <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
                   <span class="mdc-button__ripple"></span>
                   <p class="menu-button-text">Change Theme</p>
@@ -122,11 +122,11 @@ data-turbolinks-permanent>
         @else
           <div>
             <a href="{{ route('login') }}">
-              <button class="mdc-button mdc-button-ripple mdc-button--raised ml-3 float-right">
+              <button class="float-right ml-3 mdc-button mdc-button-ripple mdc-button--raised">
                 <span class="mdc-button__ripple"></span>Sign In
               </button>
             </a>
-            <a href="{{ route('register') }}" class="hidden md:block float-right">
+            <a href="{{ route('register') }}" class="hidden float-right md:block">
               <button class="mdc-button mdc-button-ripple">
                 <span class="mdc-button__ripple"></span>Sign Up
               </button>
@@ -136,38 +136,38 @@ data-turbolinks-permanent>
       </div>
     </div>
     <!-- Mobile menu list -->
-    <div class="md:hidden fixed z-20 w-screen left-0 top-0 mobile-menu" style="background-color: #242323" x-show.transition="mobileMenu" x-cloak>
+    <div class="fixed top-0 left-0 z-20 w-screen md:hidden mobile-menu" style="background-color: #242323" x-show.transition="mobileMenu" x-cloak>
       <div class="px-2 text-white">
         <div class="pt-3">
           <div class="block mobile-menu-top">
-            <button class="mdc-icon-button material-icons float-left" @click="mobileMenu = false">
+            <button class="float-left mdc-icon-button material-icons" @click="mobileMenu = false">
               <div class="mdc-icon-button__ripple"></div>close
             </button>
             @if (Auth::check())
               <a href="{{route('profile')}}">
-                <button class="mdc-icon-button material-icons float-right">
+                <button class="float-right mdc-icon-button material-icons">
                   <div class="mdc-icon-button__ripple"></div>account_circle
                 </button>
               </a>
             @endif
           </div>
-          <div class="block mt-4 px-6">
+          <div class="block px-6 mt-4">
             @if (Auth::check())
-              <img class="h-16 w-16 rounded-full object-cover float-left" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
-              <div class="inline-block ml-6 mt-2">
-                <h6 class="name_head font-medium text-lg text-white">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
-                <h1 class="email_head text-sm">{{ Auth::User()->email}}</h1>
+              <img class="float-left object-cover w-16 h-16 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+              <div class="inline-block mt-2 ml-6">
+                <h6 class="text-lg font-medium text-white name_head">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
+                <h1 class="text-sm email_head">{{ Auth::User()->email}}</h1>
               </div>
             @endif
           </div>
         </div>
-        <div class="border-t border-gray-100 mt-12"></div>
-        <div class="pl-4 pr-12 pt-8">
+        <div class="mt-12 border-t border-gray-100"></div>
+        <div class="pt-8 pl-4 pr-12">
           @if(Auth::check())
             <a href="{{route('dashboard')}}">
               <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if(Request::is('app')) mobile-dropdown-selected @endif">
                 <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true">dashboard</i>
+                <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true">dashboard</i>
                 <span>Dashboard</span>
                 </span>
               </button>
@@ -175,7 +175,7 @@ data-turbolinks-permanent>
             <a href="{{route('assignments')}}">
               <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if(Request::is('assignments')) mobile-dropdown-selected @endif">
                 <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true">assignment</i>
+                <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true">assignment</i>
                 <span>Assignments</span>
                 </span>
               </button>
@@ -183,7 +183,7 @@ data-turbolinks-permanent>
             <a href="{{route('schedule')}}">
               <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if(Request::is('agenda')) mobile-dropdown-selected @endif">
                 <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true">calendar_today</i>
+                <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true">calendar_today</i>
                 <span>Schedule</span>
                 </span>
               </button>
@@ -192,29 +192,29 @@ data-turbolinks-permanent>
           <a href="{{route('themes')}}">
             <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if(Request::is('user/theme')) mobile-dropdown-selected @endif">
               <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true" x-text="themeicon"></i>
+              <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true" x-text="themeicon"></i>
               <span>Theme</span>
               </span>
             </button>
           </a>
           @if(Auth::check())
-            <div class="absolute pr-12 pt-8 bottom-0 w-screen">
+            <div class="absolute bottom-0 w-screen pt-8 pr-12">
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button" onclick="event.preventDefault(); this.closest('form').submit();">
                   <span class="mdc-button__ripple"></span>
-                  <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true">logout</i>
+                  <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true">logout</i>
                   <span>Sign out</span>
                   </span>
                 </button>
               </form>
             </div>
           @else
-            <div class="absolute pr-12 pt-8 bottom-0 w-screen">
+            <div class="absolute bottom-0 w-screen pt-8 pr-12">
               <a href="{{ route('login') }}">
                 <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button">
                   <span class="mdc-button__ripple"></span>
-                  <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2" aria-hidden="true">login</i>
+                  <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true">login</i>
                   <span>Sign in</span>
                   </span>
                 </button>

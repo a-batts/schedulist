@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 use Twilio\Rest\Client;
+use App\Actions\Core\NotifyUser;
 
 class UpdateProfile extends Component {
   public $state = [];
@@ -117,9 +118,7 @@ class UpdateProfile extends Component {
       $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
     else {
       $message = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
-      $email = $this->state['phone'] . CarrierEmailHelper::getCarrierEmail($this->state['carrier']);
-      $details = ['email' => $email, 'message' => $message];
-      SendText::dispatchSync($details);
+      $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
       $this->dispatchBrowserEvent('start-countdown');
     }
   }

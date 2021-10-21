@@ -55,11 +55,11 @@
         <span class="mdc-line-ripple"></span>
       </div>
       <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-        <ul class="mdc-list dark-theme-list" role="listbox" aria-label="Starting week selection">
+        <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Starting week selection">
           @if($userSchedule != null && $userSchedule->schedule_type == 'block')
             @for ($i=0; $i < $numberOfBlocks; $i++)
-              <li class="mdc-list-item @if($currentBlock == $i + 1) mdc-list-item--selected @endif" aria-selected="false" wire:click="setTodayBlock('{{$labels[$i]}}')" wire:key="block{{$labels[$i]}}" data-value="{{$labels[$i]}}" role="option">
-              <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">{{$labels[$i]}}</span>
+              <li class="mdc-deprecated-list-item @if($currentBlock == $i + 1) mdc-deprecated-list-item--selected @endif" aria-selected="false" wire:click="setTodayBlock('{{$labels[$i]}}')" wire:key="block{{$labels[$i]}}" data-value="{{$labels[$i]}}" role="option">
+              <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">{{$labels[$i]}}</span>
               </li>
             @endfor
           @endif
