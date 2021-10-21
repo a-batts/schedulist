@@ -50,9 +50,9 @@ window.bodyScroll = bodyScroll;
 
 var tooltips = [];
 
-var switchControls = [].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
-  return new MDCSwitch(el);
-});
+for (const el of document.querySelectorAll('.mdc-switch')) {
+  const switchControl = new MDCSwitch(el);
+}
 
 //Register regular button ripples
 var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
@@ -103,9 +103,10 @@ if (document.getElementById("unsub-dialog") !== null) {
 }
 
 //Icon Buttons Init
-var iconButtonRipples = [].forEach.call(document.querySelectorAll('.mdc-icon-button'), (ele) => {
-  let btn = new MDCRipple(ele);
+var iconButtonRipples = [].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
+  let btn = new MDCRipple(el);
   btn.unbounded = true;
+  return btn;
 });
 //Checkbox Init
 var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
@@ -116,7 +117,7 @@ var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (
   return new MDCTooltip(el);
 });
 
-var lists = [].map.call(document.querySelectorAll('.mdc-list'), function (el) {
+var lists = [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
   var list = new MDCList(el);
   const listItemRipples = list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
   return list;
