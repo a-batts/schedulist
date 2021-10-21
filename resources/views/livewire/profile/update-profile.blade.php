@@ -67,7 +67,7 @@ class="roboto" id="profile_settings">
           </span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
-        <input class="mdc-text-field__input" wire:model.debounce.250ms="state.email" type="email" autocomplete="email" aria-labelledby="email-label" required>
+        <input class="mdc-text-field__input" wire:model.debounce.250ms="state.email" type="email" autocomplete="email" aria-labelledby="email-label" id="profile-email-input" required>
       </label>
       <x-ui.validation-error for="state.email"/>
       <div class="w-full">
@@ -80,7 +80,7 @@ class="roboto" id="profile_settings">
               </span>
               <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input class="mdc-text-field__input" wire:model.debounce.250ms="state.phone" type="text" autocomplete="phone" aria-labelledby="phone-label">
+            <input class="mdc-text-field__input" wire:model.debounce.250ms="state.phone" type="text" autocomplete="phone" aria-labelledby="phone-label" id="profile-phone-input">
           </label>
           <x-ui.validation-error for="state.phone"/>
         </div>
@@ -133,26 +133,26 @@ class="roboto" id="profile_settings">
             </div>
     
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fixed">
-              <ul class="mdc-list dark-theme-list">
-                <li class="mdc-list-item @if(Auth::user()->grade_level=="es") mdc-list-item--selected @endif" wire:click="setGrade('es')" data-value="es">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">Elementary School (K-5/6)</span>
+              <ul class="mdc-deprecated-list dark-theme-list">
+                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="es") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('es')" data-value="es">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">Elementary School (K-5/6)</span>
                 </li>
-                <li class="mdc-list-item @if(Auth::user()->grade_level=="ms") mdc-list-item--selected @endif" wire:click="setGrade('ms')" data-value="ms">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">Middle School (6/7-8)</span>
+                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="ms") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('ms')" data-value="ms">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">Middle School (6/7-8)</span>
                 </li>
-                <li class="mdc-list-item @if(Auth::user()->grade_level=="hs") mdc-list-item--selected @endif" wire:click="setGrade('hs')" data-value="hs">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">High School (9-12)</span>
+                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="hs") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('hs')" data-value="hs">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">High School (9-12)</span>
                 </li>
-                <li class="mdc-list-item @if(Auth::user()->grade_level=="university") mdc-list-item--selected @endif" wire:click="setGrade('university')" data-value="university">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">College/University</span>
+                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="university") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('university')" data-value="university">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">College/University</span>
                 </li>
-                <li class="mdc-list-item @if(Auth::user()->grade_level=="other") mdc-list-item--selected @endif" wire:click="setGrade('other')" data-value="other">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">Other</span>
+                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="other") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('other')" data-value="other">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">Other</span>
                 </li>
               </ul>
             </div>

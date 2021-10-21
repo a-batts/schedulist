@@ -1,57 +1,28 @@
 <x-app-layout style="mt-10" title="Account Settings">
     @push('meta')
-      <meta name="turbolinks-cache-control" content="no-cache">
+        <meta name="turbolinks-cache-control" content="no-cache">
     @endpush
     @push('fonts')
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone" rel="stylesheet" type="text/css"
+            media="print" onload="this.media='all'">
     @endpush
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Profile') }}
         </h2>
     </x-slot>
 
 
     <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-          <div class="mt-10"></div>
-            @livewire('profile.update-profile')
-
-            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
-                <x-jet-section-border />
-                <div class="mt-10 sm:mt-0">
-                    @livewire('profile.update-password')
-                </div>
-            @endif
-
-            <x-jet-section-border />
-
-            <div class="mt-10 sm:mt-0">
-                @livewire('profile.social-logins')
-            </div>
+        <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             @if (Auth::User()->phone != null)
-              <x-jet-section-border />
-
-              <div class="mt-10 sm:mt-0">
-                  @livewire('profile.manage-texts')
-              </div>
-            @endif
-
-            @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
                 <x-jet-section-border />
 
                 <div class="mt-10 sm:mt-0">
-                    @livewire('profile.two-factor-authentication-form')
+                    @livewire('profile.notification-settings')
                 </div>
             @endif
-
-
-            <x-jet-section-border />
-
-            <div class="mt-10 sm:mt-0">
-                @livewire('profile.logout-other-browser-sessions-form')
-            </div>
 
             <x-jet-section-border />
 

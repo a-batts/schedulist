@@ -45,11 +45,11 @@
             <span class="mdc-line-ripple" wire:ignore></span>
           </label>
           <div class="mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth suggestions-menu mt-14" wire:ignore.self>
-            <ul class="mdc-list dark-theme-list">
+            <ul class="mdc-deprecated-list dark-theme-list">
               @foreach($suggestions as $i => $suggestion)
-                <li class="mdc-list-item" data-value="{{$suggestion['id']}}" wire:click="useExistingSchedule({{$suggestion['id']}})" wire:key="{{$suggestion['id']}}">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">{{$suggestion['type']}} - {{$suggestion['location']}}</span>
+                <li class="mdc-deprecated-list-item" data-value="{{$suggestion['id']}}" wire:click="useExistingSchedule({{$suggestion['id']}})" wire:key="{{$suggestion['id']}}">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">{{$suggestion['type']}} - {{$suggestion['location']}}</span>
                 </li>
               @endforeach
             </ul>
@@ -125,21 +125,21 @@
                       <span class="mdc-line-ripple"></span>
                     </div>
                     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-                      <ul class="mdc-list dark-theme-list" role="listbox" aria-label="Starting week selection" wire:ignore>
-                        <li class="mdc-list-item" aria-selected="false" wire:click="setNumberBlocks(1)" data-value="1" role="option">
-                          <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">1</span>
+                      <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Starting week selection" wire:ignore>
+                        <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberBlocks(1)" data-value="1" role="option">
+                          <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">1</span>
                         </li>
-                        <li class="mdc-list-item" aria-selected="false" wire:click="setNumberBlocks(2)" data-value="2" role="option">
-                        <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">2</span>
+                        <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberBlocks(2)" data-value="2" role="option">
+                        <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">2</span>
                         </li>
-                        <li class="mdc-list-item" aria-selected="false" wire:click="setNumberBlocks(3)" data-value="3" role="option">
-                          <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">3</span>
+                        <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberBlocks(3)" data-value="3" role="option">
+                          <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">3</span>
                         </li>
-                        <li class="mdc-list-item" aria-selected="false" wire:click="setNumberBlocks(4)" data-value="4" role="option">
-                          <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">4</span>
+                        <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberBlocks(4)" data-value="4" role="option">
+                          <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">4</span>
                         </li>
-                        <li class="mdc-list-item" aria-selected="false" wire:click="setNumberBlocks(5)" data-value="5" role="option">
-                          <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">5</span>
+                        <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberBlocks(5)" data-value="5" role="option">
+                          <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">5</span>
                         </li>
                       </ul>
                     </div>
@@ -177,10 +177,10 @@
                       <span class="mdc-line-ripple"></span>
                     </div>
                     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth ">
-                      <ul class="mdc-list dark-theme-list" role="listbox" aria-label="Starting week selection">
+                      <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Starting week selection">
                         @for ($i=1; $i <= $numberOfBlockDays; $i++)
-                          <li class="mdc-list-item" aria-selected="false" wire:click="setStartingWeek({{$i}})" data-value="{{$i}}" role="option" wire:key="b{{$i}}">
-                            <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">{{$i}}</span>
+                          <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setStartingWeek({{$i}})" data-value="{{$i}}" role="option" wire:key="b{{$i}}">
+                            <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">{{$i}}</span>
                           </li>
                         @endfor
                       </ul>
@@ -229,10 +229,10 @@
             <span class="mdc-line-ripple"></span>
           </div>
           <div class="mdc-select__menu mdc-menu mdc-menu-surface w-12">
-            <ul class="mdc-list dark-theme-list" role="listbox" aria-label="Number of classes select" wire:ignore>
+            <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Number of classes select" wire:ignore>
               @for ($i=1; $i <= 10; $i++)
-                <li class="mdc-list-item" aria-selected="false" wire:click="setNumberClasses({{$i}})" data-value="{{$i}}" role="option" wire:key="{{$i}}">
-                  <span class="mdc-list-item__ripple"></span><span class="mdc-list-item__text">{{$i}}</span>
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberClasses({{$i}})" data-value="{{$i}}" role="option" wire:key="{{$i}}">
+                  <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">{{$i}}</span>
                 </li>
               @endfor
             </ul>

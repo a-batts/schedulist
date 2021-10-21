@@ -70,7 +70,7 @@ window.initPond = initPond;
     <div class="mdc-card mdc-card--outlined modal-card">
       <div class="top-row-container">
         <div class="close-and-title">
-          <button class="float-left mdc-icon-button close-icon material-icons" type="button" aria-describedby="close-profile-photo-modal" x-on:click="photoDialog = false; undoFixBody()" aria-label="close">close</button>
+          <button class="float-left mdc-icon-button close-icon material-icons" type="button" aria-describedby="close-profile-photo-modal" x-on:click="photoDialog = false; undoFixBody()" aria-label="close"><div class="mdc-icon-button__ripple"></div>close</button>
         </div>
       </div>
       <div class="mx-auto -mt-8 text-center">

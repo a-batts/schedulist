@@ -38,25 +38,25 @@
     </div>
 
     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-      <ul class="mdc-list dark-theme-list pl-0" role="listbox" aria-label="">
+      <ul class="mdc-deprecated-list dark-theme-list pl-0" role="listbox" aria-label="">
         @if($default && ! in_array($default, $data))
-          <li class="mdc-list-item mdc-list-item--selected" aria-selected="true"
+          <li class="mdc-deprecated-list-item mdc-deprecated-list-item--selected" aria-selected="true"
           @isset($var) wire:click="set{{$var}}('{{$default}}')" @endisset
           @isset($alpine)x-on:click="{{$alpine}} = '{{$default}}'" @endisset
           data-value="{{$default}}" role="option">
-            <span class="mdc-list-item__ripple"></span>
-            <span class="mdc-list-item__text">
+            <span class="mdc-deprecated-list-item__ripple"></span>
+            <span class="mdc-deprecated-list-item__text">
               {{$default}}
             </span>
           </li>
         @endif
         @foreach($data as $item)
-          <li class="mdc-list-item @if($item == $default) mdc-list-item--selected @endif" aria-selected="{{$item == $default}}" data-value="{{$item}}"
+          <li class="mdc-deprecated-list-item @if($item == $default) mdc-deprecated-list-item--selected @endif" aria-selected="{{$item == $default}}" data-value="{{$item}}"
            @isset($var) wire:click="set{{$var}}('{{$item}}')" @endisset
            @isset($alpine) x-on:click="{{$alpine}} = '{{$item}}'" @endisset
            role="option">
-            <span class="mdc-list-item__ripple"></span>
-            <span class="mdc-list-item__text">
+            <span class="mdc-deprecated-list-item__ripple"></span>
+            <span class="mdc-deprecated-list-item__text">
               {{$item}}
             </span>
           </li>

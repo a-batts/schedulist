@@ -66,34 +66,34 @@
             </div>
 
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth @error('reason') mdc-select__menu--invalid @enderror">
-              <ul class="mdc-list dark-theme-list" role="listbox" aria-label="Contact reason selection" wire:ignore>
-                <li class="mdc-list-item" aria-selected="false" wire:click="setReason('General Feedback')" data-value="General Feedback" role="option">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+              <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Contact reason selection" wire:ignore>
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('General Feedback')" data-value="General Feedback" role="option">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     General feedback
                   </span>
                 </li>
-                <li class="mdc-list-item" aria-selected="false" wire:click="setReason('Feature Suggestion')" data-value="Feature Suggestion" role="option">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('Feature Suggestion')" data-value="Feature Suggestion" role="option">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     New feature suggestion
                   </span>
                 </li>
-                <li class="mdc-list-item" aria-selected="false" wire:click="setReason('Account Issues')" data-value="Account Issues" role="option">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('Account Issues')" data-value="Account Issues" role="option">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     Account or login problems
                   </span>
                 </li>
-                <li class="mdc-list-item" aria-selected="false" wire:click="setReason('Bug Reports')" data-value="Bug Reports" role="option">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('Bug Reports')" data-value="Bug Reports" role="option">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     Bug report
                   </span>
                 </li>
-                <li class="mdc-list-item" aria-selected="false" wire:click="setReason('Other')" data-value="Other" role="option">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">
+                <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('Other')" data-value="Other" role="option">
+                  <span class="mdc-deprecated-list-item__ripple"></span>
+                  <span class="mdc-deprecated-list-item__text">
                     Other reason
                   </span>
                 </li>
