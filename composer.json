@@ -31,6 +31,7 @@
         "react/event-loop": "^1.1",
         "react/http": "^1.3",
         "team-reflex/discord-php": "^6.0",
+        "torann/geoip": "^3.0",
         "twilio/sdk": "^6.15"
     },
     "require-dev": {
