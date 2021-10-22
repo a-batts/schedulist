@@ -74,9 +74,9 @@ class UpdateProfile extends Component {
    * Display phone number confirmation and text user
    * @return void
    */
-  public function showPhoneConfirmation() {
+  public function showPhoneConfirmation($number) {
     $code = rand(100000, 999999);
-    $this->sendTextMessage($code);
+    $this->sendTextMessage($code, $number);
 
     $phoneNumber = $this->state['phone'];
     $this->formattedPhoneNumber = '(' . substr($phoneNumber, 0, 3) . ') ' . substr($phoneNumber, 3, 3) . '-' . substr($phoneNumber, 6, 10);
@@ -113,12 +113,20 @@ class UpdateProfile extends Component {
    * @param  int $code
    * @return void
    */
-  public function sendTextMessage($code) {
+  public function sendTextMessage($code, $number) {
+    $sid = config('twilio.account_sid');
+    $token = config('twilio.auth_token');
+    $twilio = new Client($sid, $token);
+
     if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
       $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
     else {
-      $message = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
-      $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
+      $body = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
+      $message = $twilio->messages->create(
+        $number,
+        ['body' => $body, 'from' => '+15715208808']
+      );
+
       $this->dispatchBrowserEvent('start-countdown');
     }
   }
@@ -196,7 +204,7 @@ class UpdateProfile extends Component {
         DB::table('two_factor_codes')->where('user_id', Auth::user()->id)->delete();
         $validated = $this->validatePhoneNumber($this->state['phone']);
         if ($validated && CarrierEmailHelper::getCarrierEmail($this->state['carrier']) != null)
-          $this->showPhoneConfirmation();
+          $this->showPhoneConfirmation($this->state['phone']);
         else
           $this->addError('state.phone', 'The phone number you entered is not compatible.');
       }
