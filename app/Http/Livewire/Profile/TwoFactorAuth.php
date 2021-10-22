@@ -9,6 +9,7 @@ use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\ConfirmsPasswords;
 use Livewire\Component;
+use App\Actions\Core\NotifyUser;
 
 class TwoFactorAuth extends Component {
     use ConfirmsPasswords;
@@ -41,6 +42,22 @@ class TwoFactorAuth extends Component {
 
         $this->showingQrCode = true;
         $this->showingRecoveryCodes = true;
+
+        $userSettings = Auth::user()->settings()->first();
+        if ($userSettings->account_alert_texts === 1) {
+            $message = ('Two factor authentication was just turned on for your account. You\'ll need to enter a 2FA code for future sign ins.');
+            $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
+        }
+        if ($userSettings->account_alert_emails === 1) {
+            $message = [
+                'alert' => 'Two factor authentication turned on',
+                'body' => 'Two factor authentication was just turned on for your account. You\'ll need to enter a code from your 2FA app for future sign ins. If you haven\'t already, make sure to save a copy of your backup codes in a safe place. You can also turn 2FA back off at any time in account security settings.',
+                'link' => route('account.two-factor'),
+                'link_title' => '2FA Settings',
+                'subject' => 'Security alert - 2FA enabled',
+            ];
+            $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+        }
     }
 
     public function changeTwoFactorDevice(EnableTwoFactorAuthentication $enable, DisableTwoFactorAuthentication $disable) {
@@ -88,6 +105,22 @@ class TwoFactorAuth extends Component {
             $this->ensurePasswordIsConfirmed();
 
         $disable(Auth::user());
+
+        $userSettings = Auth::user()->settings()->first();
+        if ($userSettings->account_alert_texts === 1) {
+            $message = ('Two factor authentication was just turned on for your account. You\'ll need to enter a 2FA code for future sign ins.');
+            $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
+        }
+        if ($userSettings->account_alert_emails === 1) {
+            $message = [
+                'alert' => 'Two factor authentication turned off',
+                'body' => 'Two factor authentication was just turned off for your account. You can turn it back on at any time in account security settings.',
+                'link' => route('account.two-factor'),
+                'link_title' => '2FA Settings',
+                'subject' => 'Security alert - 2FA disabled',
+            ];
+            $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+        }
     }
 
     /**
