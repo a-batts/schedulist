@@ -53,8 +53,10 @@ class NotifyUser {
      */
     public function sendText() {
         $user = $this->user;
-        $details = ['email' => $user->phone . CarrierEmailHelper::getCarrierEmail($user->carrier), 'message' => $this->message];
-        SendText::dispatchSync($details);
+        if ($user->phone != null) {
+            $details = ['email' => $user->phone . CarrierEmailHelper::getCarrierEmail($user->carrier), 'message' => $this->message];
+            SendText::dispatchSync($details);
+        }
         return $this;
     }
 
