@@ -14,6 +14,8 @@ class NotificationSettings extends Component {
     'userSettings.account_alert_texts' => 'boolean|required',
   ];
 
+  protected $listeners = ['refreshNotificationOptions' => '$refresh'];
+
   /**
    * Mount component
    * @return void
@@ -25,11 +27,7 @@ class NotificationSettings extends Component {
       $userSettings->user_id = Auth::user()->id;
       $userSettings->save();
     }
-
     $this->userSettings = $userSettings;
-
-    //$this->accountAlertMessages = boolval($this->userSettings->account_texts_enabled);
-    //$this->assignmentAlertMessages = boolval($this->userSettings->assignment_texts_enabled);
   }
 
   /**
@@ -39,23 +37,31 @@ class NotificationSettings extends Component {
    */
   public function toggle($component) {
     $userSettings = $this->userSettings;
-    $userSettings[$component] = !$userSettings[$component];
-    $userSettings->save();
+    if ($userSettings[$component] != null) {
+      $userSettings[$component] = !$userSettings[$component];
+      $userSettings->save();
+      $this->emit('toastMessage', 'Preferences were saved');
+    }
 
-    $this->emit('toastMessage', 'Preferences were saved');
-
-    if ($component == 'account_alert_texts' && $userSettings->account_alert_texts === false) {
-      $message = ('SMS account alerts were just disabled for your Schedulist account. If this wasn\'t you, reset your password ASAP.');
-      $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
-    } elseif ($component == 'account_alert_emails' && $userSettings->account_alert_emails === false) {
-      $message = [
-        'alert' => 'Account status emails were disabled',
-        'body' => 'Email alerts for important security alerts about your Schedulist account were just turned off. If that wasn\'t you, you should reset your password as soon as possible.',
-        'link' => route('profile'),
-        'link_title' => 'Go to account settings',
-        'subject' => 'Security alert - Account status emails disabled',
-      ];
-      $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+    switch ($component) {
+      case 'account_alert_texts':
+        if ($userSettings->account_alert_texts === false) {
+          $message = ('SMS account alerts were just disabled for your Schedulist account. If this wasn\'t you, reset your password ASAP.');
+          NotifyUser::createNotification($message, Auth::user())->sendText();
+        }
+        break;
+      case 'account_alert_emails':
+        if ($userSettings->account_alert_emails === false) {
+          $message = [
+            'alert' => 'Account status emails were disabled',
+            'body' => 'Email alerts for important security alerts about your Schedulist account were just turned off. If that wasn\'t you, you should reset your password as soon as possible.',
+            'link' => route('profile'),
+            'link_title' => 'Go to account settings',
+            'subject' => 'Security alert - Account status emails disabled',
+          ];
+          NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+        }
+        break;
     }
   }
 
@@ -69,6 +75,7 @@ class NotificationSettings extends Component {
   }
 
   public function render() {
-    return view('livewire.profile.notification-settings ');
+    $this->hasPhoneNumber = isset(Auth::user()->phone);
+    return view('livewire.profile.notification-settings');
   }
 }
