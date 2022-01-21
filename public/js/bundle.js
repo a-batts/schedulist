@@ -16111,7 +16111,6 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_6__["default"]({
 var bodyScroll = __webpack_require__(/*! body-scroll-toggle */ "./node_modules/body-scroll-toggle/index.js");
 
 window.bodyScroll = bodyScroll;
-var tooltips = [];
 
 var _iterator = _createForOfIteratorHelper(document.querySelectorAll('.mdc-switch')),
     _step;
@@ -16138,6 +16137,7 @@ var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'
 var textFields = [].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
   return new _material_textfield__WEBPACK_IMPORTED_MODULE_9__.MDCTextField(el);
 });
+var tooltips = [];
 
 function initTextField(e) {
   if (document.getElementById(e) !== null) tooltips[e] = new _material_textfield__WEBPACK_IMPORTED_MODULE_9__.MDCTextField(document.getElementById(e));
@@ -16191,7 +16191,7 @@ var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function 
   var check = new _material_checkbox__WEBPACK_IMPORTED_MODULE_14__.MDCCheckbox(el);
 }); //Tooltips Init
 
-var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
+var mdcTooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
   return new _material_tooltip__WEBPACK_IMPORTED_MODULE_15__.MDCTooltip(el);
 });
 var lists = [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {

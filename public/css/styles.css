@@ -1133,3 +1133,9 @@ div.assignment-card-dashboard{
   margin-top: auto;
   margin-bottom: auto;
 }
+.material-icons{
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
