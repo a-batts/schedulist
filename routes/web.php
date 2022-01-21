@@ -117,9 +117,9 @@ Route::get('user/account', function () {
   return view('profile.settings');
 })->middleware(['auth:sanctum', 'verified'])->name('profile');
 
-/* Route::get('user/profile', function () {
+Route::get('user/profile', function () {
   return redirect('user/account');
-})->middleware(['auth:sanctum', 'verified']); */
+})->middleware(['auth:sanctum', 'verified']);
 
 Route::get('account', function () {
   return redirect('user/account');
