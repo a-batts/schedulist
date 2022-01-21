@@ -53,7 +53,7 @@
             <div class="inline-block w-full pt-4 mt-4 border-t border-gray-200">
                 <div class="inline-block float-left w-1/2 mt-1">
                     <p class="text-xl">Backup codes</p>
-                    <p class="hidden text-sm text-gray-500 md:block">6 backup codes are currently active for your account. You can view the current codes or generate new ones.</p>
+                    <p class="hidden text-sm text-gray-500 md:block">8 backup codes are currently active for your account. You can view the current codes or generate new ones.</p>
                 </div>
                 <div class="float-right mt-3">
                     <span wire:click="{{$showingRecoveryCodes ? 'regenerateRecoveryCodes' : 'showRecoveryCodes'}}">

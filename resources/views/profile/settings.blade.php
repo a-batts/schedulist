@@ -13,5 +13,11 @@
         <div class="mt-10 sm:mt-0">
             @livewire('profile.notification-settings')
         </div>
+        <x-jet-section-border />
+        @if(Auth::user()->hasPassword)
+            <div class="mt-10 sm:mt-0">
+                @livewire('profile.manage-data')
+            </div>
+        @endif
     </div>
 </x-app-layout>

@@ -3,7 +3,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Contact\ContactForm;
+use App\Http\Livewire\Profile\DeleteAccount;
 use App\Http\Livewire\Profile\LogoutOtherSessions;
+use App\Http\Livewire\Profile\MyData;
 use App\Http\Livewire\Profile\TwoFactorAuth;
 use App\Http\Livewire\Profile\UpdatePassword;
 use App\Models\Classes;
@@ -127,10 +129,12 @@ Route::get('account', function () {
 Route::middleware(['auth:sanctum', 'verified', 'haspassword', 'password.confirm'])->group(function () {
   Route::get('user/account/update-password', UpdatePassword::class)->name('account.update-password');
   Route::get('user/account/two-factor', TwoFactorAuth::class)->name('account.two-factor');
+  Route::get('user/my-data', MyData::class)->name('account.manage-data');
 });
 
 Route::get('user/account/manage-devices', LogoutOtherSessions::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.manage-devices');
 Route::get('user/account/set-password', UpdatePassword::class)->middleware(['auth:sanctum', 'verified', 'haspassword:not'])->name('account.set-password');
+Route::get('user/account/delete-account', DeleteAccount::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.delete-account');
 
 Route::get('forgot-password', function () {
   return view('auth.forgot-password');
