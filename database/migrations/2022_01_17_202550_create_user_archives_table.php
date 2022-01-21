@@ -4,14 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTimestampsToClassSchedulesTable extends Migration {
+class CreateUserArchivesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up() {
-        Schema::table('class_schedules', function (Blueprint $table) {
+        Schema::create('user_archives', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('filename');
+            $table->string('backup_contains');
             $table->timestamps();
         });
     }
@@ -22,8 +26,6 @@ class AddTimestampsToClassSchedulesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('class_schedules', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('user_archives');
     }
 }

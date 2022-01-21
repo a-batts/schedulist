@@ -74,6 +74,7 @@ document.addEventListener("turbolinks:before-cache", function () {
   var hide = [].map.call(document.querySelectorAll('.mdc-deprecated-list-item__ripple'), function (el) {
     el.style.display = 'none';
   });
+  document.getElementById('dataDownload').style.display = 'none';
   enableScroll();
 });
 document.addEventListener("turbolinks:load", function () {

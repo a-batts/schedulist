@@ -48,8 +48,6 @@ window.Echo = new Echo({
 const bodyScroll = require('body-scroll-toggle');
 window.bodyScroll = bodyScroll;
 
-var tooltips = [];
-
 for (const el of document.querySelectorAll('.mdc-switch')) {
   const switchControl = new MDCSwitch(el);
 }
@@ -65,6 +63,8 @@ var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'
 var textFields = [].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
   return new MDCTextField(el);
 });
+
+var tooltips = [];
 
 function initTextField(e) {
   if (document.getElementById(e) !== null)
@@ -113,7 +113,7 @@ var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function 
   let check = new MDCCheckbox(el);
 });
 //Tooltips Init
-var tooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
+var mdcTooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
   return new MDCTooltip(el);
 });
 
