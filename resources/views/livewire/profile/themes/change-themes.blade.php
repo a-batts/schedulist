@@ -1,12 +1,10 @@
-<div class="mdc-card mdc-card--outlined options_card"
-x-data="theme()">
-  <h4 class="mdc-typography mdc-typography--headline5 nunito mt-2">Change theme</h4>
-  <p class="mdc-typography mdc-typography--body2 text-gray-600 mt-1">Set the website theme to dark, light or to match system settings.</p>
-  <div>
+<div x-data="theme()">
+  <x-ui.settings-card title="Change theme"
+  description="Set the website theme to dark, light or to match your device's theme.">
     <div class="mdc-layout-grid">
       <div class="mdc-layout-grid__inner">
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-2-phone">
-          <img src="{{ asset('images/theme/light.svg') }}" width="150px" class="no-theme light-opt m-auto" x-bind:class="{'theme-border': theme == 'light'}"></img>
+          <img src="{{ asset('images/theme/light.svg') }}" width="150px" class="m-auto no-theme light-opt" x-bind:class="{'theme-border': theme == 'light'}"></img>
           <div class="mdc-form-field">
             <div class="mdc-radio">
               <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" x-bind:checked="theme == 'light'" @click="setTheme('light')">
@@ -20,7 +18,7 @@ x-data="theme()">
           </div>
         </div>
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-2-phone">
-          <img src="{{ asset('images/theme/dark.svg') }}" width="150px" class="no-theme dark-opt m-auto" x-bind:class="{'theme-border': theme == 'dark'}"></img>
+          <img src="{{ asset('images/theme/dark.svg') }}" width="150px" class="m-auto no-theme dark-opt" x-bind:class="{'theme-border': theme == 'dark'}"></img>
           <div class="mdc-form-field">
             <div class="mdc-radio">
               <input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios" x-bind:checked="theme == 'dark'" @click="setTheme('dark')">
@@ -34,7 +32,7 @@ x-data="theme()">
           </div>
         </div>
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-2-phone">
-          <img src="{{ asset('images/theme/auto.svg') }}" width="150px" style="margin:auto" class="no-theme auto-opt m-auto" x-bind:class="{'theme-border': theme == 'auto'}"></img>
+          <img src="{{ asset('images/theme/auto.svg') }}" width="150px" style="margin:auto" class="m-auto no-theme auto-opt" x-bind:class="{'theme-border': theme == 'auto'}"></img>
           <div class="mdc-form-field">
             <div class="mdc-radio">
               <input class="mdc-radio__native-control" type="radio" id="radio-3" name="radios" x-bind:checked="theme == 'auto'" @click="setTheme('auto')">
@@ -49,7 +47,7 @@ x-data="theme()">
         </div>
       </div>
     </div>
-  </div>
+  </x-ui.settings-card>
 </div>
 @push('scripts')
   <script>
