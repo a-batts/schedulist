@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\Profile;
 
+use App\Models\Event;
+use App\Models\EventUser;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
@@ -20,6 +23,29 @@ class DeleteAccount extends Component {
     public $password = '';
 
     /**
+     * Deletes all of the associated data for a specified user
+     *
+     * @param integer $userId
+     * @return void
+     */
+    public function deleteData(int $userId) {
+        //Delete assignments
+        Auth::user()->assignments()->delete();
+        //Delete classes
+        $classes = Auth::user()->classes()->with('links')->get();
+        foreach ($classes as $class)
+            $class->links()->delete();
+        Auth::user()->classes()->delete();
+        //Delete class schedule
+        DB::table('class_schedule_user')->where('user_id', $userId)->delete();
+        //Delete events and access to shared events
+        Event::where('owner', $userId)->delete();
+        EventUser::where('user_id', $userId)->delete();
+        //Delete user settings
+        Auth::user()->settings()->delete();
+    }
+
+    /**
      * Delete the current user.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -32,10 +58,11 @@ class DeleteAccount extends Component {
 
         if (!Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('This password does not match our records.')],
+                'password' => ['The password entered does not match your current password.'],
             ]);
         }
 
+        $this->deleteData(Auth::user()->id);
         $deleter->delete(Auth::user()->fresh());
         $auth->logout();
 
@@ -43,7 +70,7 @@ class DeleteAccount extends Component {
             $request->session()->invalidate();
             $request->session()->regenerateToken();
         }
-        return redirect('/');
+        return redirect()->route('landing');
     }
 
     /**
