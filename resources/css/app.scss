@@ -274,7 +274,7 @@ body.theme-dark .text-gray-400{
   color: var(--secondary-text-color);
 }
 .theme-text-primary{
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 .theme-text-secondary{
   color: black;
