@@ -78,10 +78,10 @@ data-turbolinks-permanent>
                 <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               </button>
             </div>
-            <div class="absolute right-0 mt-4 origin-top-right mdc-card mdc-card-outlined profile-menu"
+            <div class="absolute right-0 mt-6 origin-top-right mdc-card mdc-card-outlined profile-menu"
             x-show.transition="profileMenu" @click.away="profileMenu = false" x-cloak>
               <div class="mb-4">
-                <div class="w-full px-2">
+                <div class="w-full py-2">
                   <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" class="rounded-full"></div>
                   <p class="mx-auto mt-3 text-xl font-medium text-center">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
                   <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{Auth::user()->email}}</p>
@@ -90,14 +90,14 @@ data-turbolinks-permanent>
               <div class="section-border border-100"></div>
               <div class="flex flex-col items-center">
                 <div>
-                  <a class="mt-4 mdc-button mdc-button--outlined lowercase-text" href="{{ route('profile') }}" @click="profileMenu = false">
+                  <a class="mt-6 mdc-button mdc-button--outlined lowercase-text" href="{{ route('profile') }}" @click="profileMenu = false">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
                     <span class="mdc-button__label">Account Settings</span>
                   </a>
                 </div>
               </div>
-              <div class="pt-6 pb-2">
+              <div class="pb-2 pt-7">
                 <div class="float-left">
                   <a href="{{ route('themes') }}" class="mdc-icon-button material-icons" @click="profileMenu = false">
                     <div class="mdc-icon-button__ripple"></div>
@@ -108,7 +108,7 @@ data-turbolinks-permanent>
                 <div class="float-right">
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="mt-2 mdc-button mdc-button--icon-leading theme-text-primary">
+                    <button class="mt-2 mdc-button mdc-button--icon-leading theme-text-primary lowercase-text">
                       <span class="mdc-button__ripple"></span>
                       <span class="mdc-button__focus-ring"></span>
                       <i class="material-icons mdc-button__icon text-inherit" aria-hidden="true">logout</i>
