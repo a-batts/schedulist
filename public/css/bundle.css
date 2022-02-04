@@ -19733,7 +19733,7 @@ body.theme-dark .text-gray-400 {
 }
 
 .theme-text-primary {
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 .theme-text-secondary {

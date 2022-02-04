@@ -618,14 +618,6 @@ p.inlinerror{
   z-index: 159;
   position: absolute;
 }
-.dropdown_left{
-  float:left;
-  width:48px;
-}
-.dropdown_right{
-  float:right;
-  width:212px;
-}
 .popup-signout{
   margin-top:8px;
   float:right;
