@@ -12,7 +12,7 @@ x-data="{
       return getCookieValue('theme');
     return 'auto';
   },
-  get themeicon() {
+  get themeIcon() {
     if (this.theme == 'dark')
       return 'dark_mode';
     else if (this.theme == 'light')
@@ -78,45 +78,45 @@ data-turbolinks-permanent>
                 <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               </button>
             </div>
-            <div class="absolute right-0 mt-2 origin-top-right mdc-card mdc-card-outlined profile-menu"
+            <div class="absolute right-0 mt-4 origin-top-right mdc-card mdc-card-outlined profile-menu"
             x-show.transition="profileMenu" @click.away="profileMenu = false" x-cloak>
-              <div class="mb-4 dropdowncontainer">
-                <div class="dropdown_left">
-                  <img class="object-cover w-12 h-12 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
-                </div>
-                <div class="dropdown_right">
-                  <h6 class="text-base font-medium name_head nunito">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
-                  <h1 class="text-xs email_head">{{ Auth::User()->email}}</h1>
-                </div>
+              <div class="mb-4">
+                <div class="w-full px-2">
+                  <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" class="rounded-full"></div>
+                  <p class="mx-auto mt-3 text-xl font-medium text-center">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
+                  <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{Auth::user()->email}}</p>
+              </div>
               </div>
               <div class="section-border border-100"></div>
-              <a href="{{ route('profile') }}" class="block text-md lowercase-text" @click="profileMenu = false">
-                <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
-                  <span class="mdc-button__ripple"></span>
-                  <p class="menu-button-text">Account Settings</p>
-                </button>
-              </a>
-              @if(Auth::User()->canAccessFilament())
-                <a href="{{ route('filament.dashboard') }}" class="block text-md lowercase-text" @click="profileMenu = false" data-turbolinks="false">
-                  <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
+              <div class="flex flex-col items-center">
+                <div>
+                  <a class="mt-4 mdc-button mdc-button--outlined lowercase-text" href="{{ route('profile') }}" @click="profileMenu = false">
                     <span class="mdc-button__ripple"></span>
-                    <p class="menu-button-text">Admin Dashboard</p>
-                  </button>
-                </a>
-              @endif
-              <a href="{{ route('themes') }}" class="block  text-md lowercase-text" @click="profileMenu = false">
-                <button class="mdc-button mdc-button-ripple lowercase-text menu-buttons">
-                  <span class="mdc-button__ripple"></span>
-                  <p class="menu-button-text">Change Theme</p>
-                </button>
-              </a>
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="mdc-button mdc-button-ripple mdc-button--outlined popup-signout g_id_signout" onclick="event.preventDefault(); this.closest('form').submit(); google.accounts.id.disableAutoSelect();">
-                  <span class="mdc-button__ripple"></span>
-                  Sign Out
-                </button>
-              </form>
+                    <span class="mdc-button__focus-ring"></span>
+                    <span class="mdc-button__label">Account Settings</span>
+                  </a>
+                </div>
+              </div>
+              <div class="pt-6 pb-2">
+                <div class="float-left">
+                  <a href="{{ route('themes') }}" class="mdc-icon-button material-icons" @click="profileMenu = false">
+                    <div class="mdc-icon-button__ripple"></div>
+                    <span class="mdc-icon-button__focus-ring"></span>
+                    <span x-text="themeIcon"></span>
+                  </a>
+                </div>
+                <div class="float-right">
+                  <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="mt-2 mdc-button mdc-button--icon-leading theme-text-primary">
+                      <span class="mdc-button__ripple"></span>
+                      <span class="mdc-button__focus-ring"></span>
+                      <i class="material-icons mdc-button__icon text-inherit" aria-hidden="true">logout</i>
+                      <span class="mdc-button__label text-inherit">Sign out</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         @else
@@ -192,7 +192,7 @@ data-turbolinks-permanent>
           <a href="{{route('themes')}}">
             <button class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if(Request::is('user/theme')) mobile-dropdown-selected @endif">
               <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true" x-text="themeicon"></i>
+              <span class="mdc-button__label"><i class="inline-block ml-2 material-icons mdc-button__icon" aria-hidden="true" x-text="themeIcon"></i>
               <span>Theme</span>
               </span>
             </button>
