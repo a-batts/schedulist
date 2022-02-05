@@ -1,4 +1,4 @@
-<footer class="absolute z-20 clear-both w-full py-10 mt-5 border-t border-gray-200 px-15">
+<footer class="absolute clear-both w-full py-10 mt-5 border-t border-gray-200 px-15">
   <div class="flex flex-row flex-wrap content-start space-x-10 sm:space-x-16">
     <div class="w-32 my-0 mt-2 ml-8 logo-image lg:ml-16"></div>
     <div class="flex space-x-10 sm:space-x-16">
