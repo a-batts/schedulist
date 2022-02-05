@@ -20654,3 +20654,11 @@ body.theme-dark .assignment-card-icon.material-icons {
 .link-field-left {
   width: calc(100% - 3.5rem);
 }
+
+.nav-border {
+  border-color: #D2DCDC;
+}
+
+body.theme-dark .nav-border {
+  border-color: #2D2D2D;
+}
