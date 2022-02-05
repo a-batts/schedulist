@@ -167,6 +167,19 @@
   --list-selected-item: #565656;
 }
 
+.show-light{
+  display: block;
+}
+body.theme-dark .show-light{
+  display: none;
+}
+.show-dark{
+  display: none;
+}
+body.theme-dark .show-dark{
+  display: block;
+}
+
 //Base colors
 
 .background-beige{
@@ -303,10 +316,10 @@ body.theme-dark .x_icon{
 body.theme-dark #link-icon-theme{
   background-image: url('https://schedulist.xyz/images/icon/link-white.svg');
 }
-.logoimage{
+.logo-image{
   background-image: url('https://schedulist.xyz/images/logo/logo_dark.svg');
 }
-body.theme-dark .logoimage{
+body.theme-dark .logo-image{
   background-image: url('https://schedulist.xyz/images/logo/logo_light.svg');
 }
 .email_head{
