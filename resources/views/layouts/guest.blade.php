@@ -39,7 +39,7 @@
       x-data="{
         aboveContent: false,
         scrolled: function(){
-          if (window.scrollY > 99.2) 
+          if (window.scrollY > 36) 
             this.aboveContent = true
           else
             this.aboveContent = false
@@ -58,7 +58,7 @@
         }
       }"
       @scroll.window="scrolled()">
-        <nav class="fixed z-10 w-screen py-4 border-gray-200 base-bg" x-bind:class="{'border-b': aboveContent}">
+        <nav class="fixed z-10 w-screen py-4 nav-border base-bg" x-bind:class="{'border-b': aboveContent}">
           <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between" style="height: 4.2rem">
               <div class="absolute flex items-center justify-center flex-1 md:relative schedulist-logo-nav sm:items-stretch sm:justify-start">
