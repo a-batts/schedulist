@@ -1,46 +1,52 @@
-<div>
-  <div class="content__div" style="background-image: url({{ asset('images/plane.svg') }}); background-repeat: no-repeat; background-position: center;">
-      <h2 class="mdc-typography mdc-typography--headline3 contact_head mt-5">Contact Us</h2>
-      <p class="mdc-typography mdc-typography--caption2 text-center">Just fill out this form to send a message to the Schedulist team</p>
-      <div>
+<div>  
+  <div class="content__div">
+    <div class="py-4">
+      <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined sm:max-w-xl roboto">
+        <div class="text-5xl font-medium">Contact Us</div>
+        <div class="mt-3 text-base text-left text-gray-600">Just fill out this form to send a message to the Schedulist team.</div>
+        <div class="mt-5 border-t border-gray-200"></div>      
         <form wire:submit.prevent="submit" x-data="{
           disableSubmit: false,
           resetCharacterCounter(){
             document.querySelector('.char_counter').innerHTML = '0 / 250';
           }
         }">
-          @csrf
-          <label class="mdc-text-field mdc-text-field--filled @error('name') mdc-text-field--invalid @enderror @if($name) mdc-text-field--label-floating @endif login-form mt-10">
-            <span class="mdc-text-field__ripple"></span>
-            <span class="mdc-floating-label @if($name) mdc-floating-label--float-above @endif" id="name-label" wire:ignore>Full Name</span>
+          <label class="mdc-text-field mdc-text-field--outlined @error('name') mdc-text-field--invalid @enderror @if($name) mdc-text-field--label-floating @endif login-form mt-10">
+            <span class="mdc-notched-outline" wire:ignore>
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label mdc-floating-label--float-above" id="name-label">Full Name</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
             <input class="mdc-text-field__input" type="text" aria-labelledby="name-label" autocomplete="name" wire:model.lazy="name" required wire:ignore>
-            <span class="mdc-line-ripple"></span>
           </label>
-          @error('name')
-          <div class="livewire-helper mdc-text-field-helper-line">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="name-error" aria-hidden="true"><p class="text-error">{{ $message }}</p></div>
-          </div>
-          @enderror
-          <label class="mdc-text-field mdc-text-field--filled @error('email') mdc-text-field--invalid @enderror @if($email) mdc-text-field--label-floating @endif login-form mt-7">
-            <span class="mdc-text-field__ripple"></span>
-            <span class="mdc-floating-label @if($email) mdc-floating-label--float-above @endif" id="email-label">Your Email</span>
+          <x-ui.validation-error for="name"/>
+          <label class="mdc-text-field mdc-text-field--outlined @error('email') mdc-text-field--invalid @enderror @if($email) mdc-text-field--label-floating @endif login-form mt-5">
+            <span class="mdc-notched-outline" wire:ignore>
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label mdc-floating-label--float-above" id="email-label">Your Email</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
             <input class="mdc-text-field__input" type="email" aria-labelledby="email-label" autocomplete="email" wire:model.debounce.500ms="email" wire:ignore>
-            <span class="mdc-line-ripple"></span>
           </label>
-          @error('email')
-          <div class="livewire-helper mdc-text-field-helper-line">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="email-error" aria-hidden="true"><p class="text-error">{{ $message }}</p></div>
-          </div>
-          @enderror
-          <div class="mdc-select mdc-select--required mdc-select--filled login-form mt-7 @error('reason') mdc-select--invalid @enderror">
+          <x-ui.validation-error for="email"/>
+          <div class="mdc-select mdc-select--required mdc-select--outlined mt-5 @error('reason') mdc-select--invalid @enderror login-form">
             <div class="mdc-select__anchor"
                  role="button"
                  aria-haspopup="listbox"
                  aria-expanded="false"
                  aria-required="true"
-                 aria-labelledby="demo-label demo-selected-text" wire:ignore>
-              <span class="mdc-select__ripple"></span>
-              <span id="demo-label" class="mdc-floating-label">Reason For Contacting</span>
+                 aria-labelledby="reason-label" wire:ignore>
+              <span class="mdc-notched-outline">
+                <span class="mdc-notched-outline__leading"></span>
+                <span class="mdc-notched-outline__notch">
+                  <span id="reason-label" class="mdc-floating-label">Reason For Contacting</span>
+                </span>
+                <span class="mdc-notched-outline__trailing"></span>
+              </span>
               <span class="mdc-select__selected-text-container">
                 <span id="demo-selected-text" class="mdc-select__selected-text"></span>
               </span>
@@ -62,9 +68,7 @@
                   </polygon>
                 </svg>
               </span>
-              <span class="mdc-line-ripple"></span>
             </div>
-
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth @error('reason') mdc-select__menu--invalid @enderror">
               <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Contact reason selection" wire:ignore>
                 <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setReason('General Feedback')" data-value="General Feedback" role="option">
@@ -100,30 +104,27 @@
               </ul>
             </div>
           </div>
-          @error('reason')
-          <div class="livewire-helper mdc-text-field-helper-line ml-1">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="reason-error" aria-hidden="true"><p class="text-error">{{ $message }}</p></div>
-          </div>
-          @enderror
-          <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea ml-1 mdc-text-field--with-internal-counter login-form mt-7 @error('message') mdc-text-field--invalid @enderror">
-            <span class="mdc-floating-label" id="my-label-id" wire:ignore>What's On Your Mind?</span>
-            <textarea class="mdc-text-field__input" aria-labelledby="my-label-id" rows="6" maxlength="250" wire:model.debounce.500ms="message" required wire:ignore></textarea>
+          <x-ui.validation-error for="reason"/>
+          <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea ml-1 mdc-text-field--with-internal-counter login-form mt-5 @error('message') mdc-text-field--invalid @enderror">
+            <span class="mdc-notched-outline" wire:ignore>
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span id="message-label" class="mdc-floating-label">What's your message?</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <textarea class="mdc-text-field__input" aria-labelledby="message-label" rows="6" maxlength="250" wire:model.debounce.500ms="message" required wire:ignore></textarea>
             <div class="char_counter mdc-text-field-character-counter" wire:ignore>0 / 250</div>
-            <span class="mdc-line-ripple" wire:ignore></span>
           </label>
-          @error('message')
-          <div class="livewire-helper mdc-text-field-helper-line ml-1">
-            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="reason-error" aria-hidden="true"><p class="text-error">{{ $message }}</p></div>
-          </div>
-          @enderror
+          <x-ui.validation-error for="message"/>
           <div class="mt-10">
-            <button class="mdc-button send_button mdc-button-ripple mdc-button mdc-button--raised float-right mb-6" type="submit" wire:ignore @disable-send-button.window="disableSubmit = true; resetCharacterCounter()" x-bind:disabled="disableSubmit">
+            <button class="float-right mb-6 mdc-button send_button mdc-button-ripple mdc-button--raised" type="submit" wire:ignore @disable-send-button.window="disableSubmit = true; resetCharacterCounter()" x-bind:disabled="disableSubmit">
               <span class="mdc-button__ripple"></span>
-              <i class="material-icons mdc-button__icon" aria-hidden="true">send</i>
-              Send Email</button>
+              <i class="material-icons mdc-button__icon" aria-hidden="true">send</i>Send Email
+            </button>
           </div>
         </form>
       </div>
-      <br>
+    </div>    
   </div>
 </div>
