@@ -109,10 +109,6 @@ body{
   .assignment_card.addclass_card{
     margin-top: -54px;
   }
-  .content__div{
-    margin-left: 3%;
-    margin-right: 3%;
-  }
   .editclass_card{
     width: 100%;
   }
@@ -193,11 +189,6 @@ body{
 @media screen and (min-width: 601px) {
   .loginCard{
     width:420px;
-  }
-  .content__div{
-    width: 450px;
-    margin: auto;
-    margin-bottom: 20px;
   }
   .phone_confirmation, .addclass_card, .schedule_dialog{
     width:600px;
@@ -747,7 +738,7 @@ button.mdc-button.navbar-button{
 .material-icons-two-tone.x_icon{
   font-size: 35px;
 }
-.content__div{
+.content-div{
   padding-top: 100px;
   margin-bottom: 20px;
 }
