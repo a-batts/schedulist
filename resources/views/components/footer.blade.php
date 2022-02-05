@@ -1,36 +1,15 @@
-<foooter class="app-footer mdc-typography mt-12" style="z-index: 9" id="footer">
-  <div class="footer-div w-full">
-    <div class="float-right hidden md:block mr-12">
-      <a rel="prefetch" href="{{ route('privacy-policy') }}">
-        <button class="mdc-button">
-          <span class="mdc-button__ripple"></span>
-          <span class="mdc-button__label">Privacy Policy</span>
-        </button>
+<footer class="absolute z-20 clear-both w-full py-10 mt-5 border-t border-gray-200 px-15">
+  <div class="flex flex-row flex-wrap content-start space-x-10 sm:space-x-16">
+    <div class="w-32 my-0 mt-2 ml-8 logo-image lg:ml-16"></div>
+    <div class="flex space-x-10 sm:space-x-16">
+      <a class="px-4 mt-4 text-lg tracking-normal normal-case mdc-button theme-text-primary" href="{{ route('contact') }}">
+        <span class="mdc-button__ripple"></span>
+        <span class="mdc-button__label">Contact Us</span>
       </a>
-      <br />
-      <a rel="prefetch" href="{{ route('contact') }}">
-        <button class="mdc-button text-right">
-          <span class="mdc-button__ripple"></span>
-          <span class="mdc-button__label">Contact Us</span>
-        </button>
-      </a>
-    </div>
-    <div class="logoimage w-28 mt-7 ml-8 mb-1 h-10">
-    </div>
-    <div class="md:hidden md:mt-10 md:mr-16 ml-6 mt-5 pb-4">
-      <a href="{{ route('privacy-policy') }}">
-        <button class="mdc-button">
-          <span class="mdc-button__ripple"></span>
-          <span class="mdc-button__label">Privacy Policy</span>
-        </button>
-      </a>
-      <br / class="hidden md:block">
-      <a href="{{ route('contact') }}">
-        <button class="mdc-button text-right">
-          <span class="mdc-button__ripple"></span>
-          <span class="mdc-button__label">Contact Us</span>
-        </button>
+      <a class="px-4 mt-4 text-lg tracking-normal normal-case mdc-button theme-text-primary" href="{{ route('privacy-policy') }}">
+        <span class="mdc-button__ripple"></span>
+        <span class="mdc-button__label">Privacy Policy</span>
       </a>
     </div>
   </div>
-</foooter>
+</footer>
