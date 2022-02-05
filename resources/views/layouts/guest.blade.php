@@ -35,14 +35,68 @@
         <script src="{{ mix('js/scripts.js') }}" async></script>
     </head>
     <body class="theme-div @if($theme == "dark") theme-dark @endif" id="themer">
-      <header>
-        @livewire('navigation-menu')
+      <header
+      x-data="{
+        aboveContent: false,
+        scrolled: function(){
+          if (window.scrollY > 99.2) 
+            this.aboveContent = true
+          else
+            this.aboveContent = false
+        },
+        get theme() {
+          if (getCookieValue('theme') != undefined)
+            return getCookieValue('theme')
+          return 'auto'
+        },
+        get themeIcon() {
+          if (this.theme == 'dark')
+            return 'dark_mode'
+          else if (this.theme == 'light')
+            return 'light_mode'
+          return 'brightness_auto'
+        }
+      }"
+      @scroll.window="scrolled()">
+        <nav class="fixed z-10 w-screen py-4 border-gray-200 base-bg" x-bind:class="{'border-b': aboveContent}">
+          <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="relative flex items-center justify-between" style="height: 4.2rem">
+              <div class="absolute flex items-center justify-center flex-1 md:relative schedulist-logo-nav sm:items-stretch sm:justify-start">
+                <a href="{{ route ('landing') }}" class="z-20 overflow-y-auto">
+                  <div class="flex-shrink-0">
+                    <div class="mt-6 mb-3 -ml-10 border-none sm:ml-0 logo-image" style="width: 160px;">
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="absolute w-full">
+                <a href="{{ route('themes') }}" class="float-right ml-4 mdc-icon-button material-icons theme-text-primary" @click="profileMenu = false">
+                  <div class="mdc-icon-button__ripple"></div>
+                  <span class="mdc-icon-button__focus-ring"></span>
+                  <span x-text="themeIcon"></span>
+                </a>
+                @if(Auth::check())
+                  <a href="{{ route('profile') }}"class="float-right max-w-xs mt-1.5 text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  aria-label="User menu" aria-haspopup="true">
+                    <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                  </a>
+                @else
+                  <a class="float-right text-lg w-22 h-11 mdc-button mdc-button--raised" href="{{route('login')}}" wire:ignore>
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__focus-ring"></span>
+                    <span class="font-medium tracking-normal normal-case mdc-button__label">Sign In</span>
+                  </a>
+                @endif
+              </div>
+            </div>
+          </div>
+        </nav>
       </header>
 
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <div class="content-div antialiased mdc-typography">
+      <div class="antialiased content-div mdc-typography">
           {{ $slot }}
       </div>
 
