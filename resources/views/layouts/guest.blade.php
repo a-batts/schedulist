@@ -76,7 +76,7 @@
                   <span x-text="themeIcon"></span>
                 </a>
                 @if(Auth::check())
-                  <a href="{{ route('profile') }}"class="float-right max-w-xs mt-1.5 text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  <a href="{{ route('dashboard') }}"class="float-right max-w-xs mt-1.5 text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   aria-label="User menu" aria-haspopup="true">
                     <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
                   </a>
