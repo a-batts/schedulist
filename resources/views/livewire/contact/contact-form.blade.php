@@ -3,7 +3,7 @@
     <div class="py-4">
       <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined sm:max-w-xl roboto">
         <div class="text-5xl font-medium">Contact Us</div>
-        <div class="mt-3 text-base text-left text-gray-600">Just fill out this form to send a message to the Schedulist team.</div>
+        <div class="mt-3 text-base text-left text-gray-600">Fill out this form to send a message to the Schedulist team.</div>
         <div class="mt-5 border-t border-gray-200"></div>      
         <form wire:submit.prevent="submit" x-data="{
           disableSubmit: false,
