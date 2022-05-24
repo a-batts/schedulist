@@ -42,7 +42,7 @@
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
               <img src="{{ asset('images/theme/dark.svg') }}" width="280px" class="m-auto no-theme dark-opt" x-bind:class="{'theme-border': theme == 'dark'}"></img>
               <div class="mx-auto mt-3 w-36">
-                <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}"></div>
+                <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}">
                   <input class="mdc-radio__native-control" type="radio" id="dark-radio" name="radios" x-bind:checked="theme == 'dark' || (theme == 'auto' && getSystemTheme() == 'dark')" x-bind:disabled="theme == 'auto'" @click="setTheme('dark')">
                   <div class="mdc-radio__background">
                     <div class="mdc-radio__outer-circle"></div>
