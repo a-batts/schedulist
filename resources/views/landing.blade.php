@@ -80,7 +80,7 @@
           <div class="mt-12 text-6xl font-bold md:text-7xl">School organization made easy</div>
           <p class="mt-6 text-2xl text-gray-600">There are enough things to worry about when it comes to school, without having to figure out how to keep track of it all.</p>
           <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: A convenient location to store all of your classes, assignments, events, and more.</p>
-          <a class="mt-10 text-xl h-14 w-72 mdc-button mdc-button--raised mdc-button--icon-trailing" href="{{route('register')}}" wire:ignore>
+          <a class="mt-10 text-xl h-14 w-72 mdc-button mdc-button--raised mdc-button--icon-trailing" href="{{Auth::check() ? route('dashboard') : route('register')}}" wire:ignore>
             <span class="mdc-button__ripple"></span>
             <span class="mdc-button__focus-ring"></span>
             <span class="font-medium tracking-normal normal-case mdc-button__label">
