@@ -52,11 +52,11 @@ Route::get('login/confirm-password', function () {
 
 Route::get('contact', ContactForm::class)->name('contact');
 
-Route::get('user/theme', function () {
+Route::get('settings/theme', function () {
   return view('livewire.themes');
 })->name('themes');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('user/schedule-settings', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('settings/schedule', function () {
   return View::make('profile.schedule-settings');
 })->name('schedule-settings');
 
@@ -76,7 +76,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('agenda/{month}/{day}/{year
   return view('schedule')->with('initDate', $initDate);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('user/profile', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('settings/profile', function () {
   return View::make('profile.show');
 })->name('profile');
 
@@ -113,28 +113,28 @@ Route::get('assignments/assignment', function () {
   return abort(404);
 })->middleware(['auth:sanctum', 'verified'])->name('assignmentPage');
 
-Route::get('user/account', function () {
+Route::get('settings/account', function () {
   return view('profile.settings');
 })->middleware(['auth:sanctum', 'verified'])->name('profile');
 
-Route::get('user/profile', function () {
-  return redirect('user/account');
+Route::get('settings/profile', function () {
+  return redirect('settings/account');
 })->middleware(['auth:sanctum', 'verified']);
 
 Route::get('account', function () {
-  return redirect('user/account');
+  return redirect('settings/account');
 })->middleware(['auth:sanctum', 'verified']);
 
 
 Route::middleware(['auth:sanctum', 'verified', 'haspassword', 'password.confirm'])->group(function () {
-  Route::get('user/account/update-password', UpdatePassword::class)->name('account.update-password');
-  Route::get('user/account/two-factor', TwoFactorAuth::class)->name('account.two-factor');
-  Route::get('user/my-data', MyData::class)->name('account.manage-data');
+  Route::get('settings/account/update-password', UpdatePassword::class)->name('account.update-password');
+  Route::get('settings/account/two-factor', TwoFactorAuth::class)->name('account.two-factor');
+  Route::get('settings/my-data', MyData::class)->name('account.manage-data');
 });
 
-Route::get('user/account/manage-devices', LogoutOtherSessions::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.manage-devices');
-Route::get('user/account/set-password', UpdatePassword::class)->middleware(['auth:sanctum', 'verified', 'haspassword:not'])->name('account.set-password');
-Route::get('user/account/delete-account', DeleteAccount::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.delete-account');
+Route::get('settings/account/manage-devices', LogoutOtherSessions::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.manage-devices');
+Route::get('settings/account/set-password', UpdatePassword::class)->middleware(['auth:sanctum', 'verified', 'haspassword:not'])->name('account.set-password');
+Route::get('settings/account/delete-account', DeleteAccount::class)->middleware(['auth:sanctum', 'verified', 'haspassword'])->name('account.delete-account');
 
 Route::get('forgot-password', function () {
   return view('auth.forgot-password');
