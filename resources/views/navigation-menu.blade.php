@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="absolute w-full">
-          <div class="left-0 right-0 items-center justify-center hidden w-full mx-auto mt-2 space-x-8 md:flex">
+          <div class="left-0 right-0 items-center justify-center hidden w-full mx-auto mt-2 space-x-3 lg:space-x-8 md:flex">
             <div>
               <a href="{{ route('dashboard') }}" class="mx-2">
                 <button class="mdc-button mdc-button-ripple navbar-button" @if(Request::is('app')) disabled @endif>
