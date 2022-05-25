@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@75,724&display=swap" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
 
     @stack('fonts')
 
@@ -40,7 +40,7 @@
   </head>
   <body class="font-sans antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer" @if(Request::is('assignments/assignment*')) style="height: 98.5vh; margin-top: -6.3rem" @else style="margin-top: -6.3rem" @endif>
     <div class="min-h-screen content-div" id="makefixed" wire:ignore.self>
-      <header>
+      <header class="pb-4">
         @livewire('navigation-menu')
       </header>
 
