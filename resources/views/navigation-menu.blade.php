@@ -25,7 +25,7 @@
   :class="{'rounded-b-lg': mobileMenu}"
   data-turbolinks-permanent>
     <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div class="relative flex items-center justify-between" style="height: 4.2rem">
+      <div class="relative flex items-center justify-between h-20">
         <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
           <button class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-white focus:outline-none focus:text-white mdc-icon-button material-icons" aria-label="Main menu" aria-expanded="false" @click="mobileMenu = !mobileMenu"><div class="mdc-icon-button__ripple"></div>menu</button>
         </div>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="absolute w-full">
-          <div class="left-0 right-0 items-center justify-center hidden w-full mx-auto space-x-2 md:flex">
+          <div class="left-0 right-0 items-center justify-center hidden w-full mx-auto mt-2 space-x-8 md:flex">
             <div>
               <a href="{{ route('dashboard') }}" class="mx-2">
                 <button class="mdc-button mdc-button-ripple navbar-button" @if(Request::is('app')) disabled @endif>
