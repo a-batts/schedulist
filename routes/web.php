@@ -76,10 +76,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('agenda/{month}/{day}/{year
   return view('schedule')->with('initDate', $initDate);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('settings/profile', function () {
-  return View::make('profile.show');
-})->name('profile');
-
 Route::get('logout', function () {
   return redirect()->intended('login');
 });
