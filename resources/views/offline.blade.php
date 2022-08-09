@@ -20,8 +20,6 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/turbo.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
 
     <style>
     .wifi_icon{
@@ -48,8 +46,8 @@
       <main>
         <div class="center">
           <span class="material-icons wifi_icon mdc-typography">signal_wifi_off</span>
-          <p class="mdc-typography mdc-typography--headline2 center_text mt-5 text-center font-bold">You're offline</p>
-          <p class="mdc-typography font-medium text-lg text-gray-600 mt-5 text-center">We'll try to reconnect you when you get back online</p>
+          <p class="mt-5 font-bold text-center mdc-typography mdc-typography--headline2 center_text">You're offline</p>
+          <p class="mt-5 text-lg font-medium text-center text-gray-600 mdc-typography">We'll try to reconnect you when you get back online</p>
         </div>
       </main>
     </div>

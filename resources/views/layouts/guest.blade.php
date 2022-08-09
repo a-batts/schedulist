@@ -29,8 +29,6 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/turbo.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
         <script src="{{ mix('js/scripts.js') }}" async></script>
     </head>
     <body class="theme-div @if($theme == "dark") theme-dark @endif" id="themer">

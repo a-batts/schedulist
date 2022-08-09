@@ -32,7 +32,7 @@
           <span class="mt-1">{{$activeClass->class_location}}</span>
         @endisset
         <span class="mt-1">{{$activeClass->timestring}}</span>
-        <div class="h-5" x-show.transition="cardExpanded" x-cloak>
+        <div class="h-5" x-transition x-show="cardExpanded" x-cloak>
           <div class="mt-5 border-gray-100 section-border"></div>
           <div class="pt-3 pb-5">
             @foreach($activeClass->links as $link)

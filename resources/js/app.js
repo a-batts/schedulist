@@ -1,4 +1,8 @@
-//require('./bootstrap');
+require('./bootstrap');
+
+import 'alpine-turbo-drive-adapter'
+import Alpine from 'alpinejs'
+import Clipboard from '@ryangjchandler/alpine-clipboard'
 
 import * as FilePond from "filepond";
 import FilePondPluginImageCrop from "filepond-plugin-image-crop";
@@ -45,22 +49,27 @@ window.Echo = new Echo({
   forceTLS: true
 });
 
+Alpine.plugin(Clipboard);
+
+window.Alpine = Alpine
+Alpine.start();
+
 const bodyScroll = require('body-scroll-toggle');
 window.bodyScroll = bodyScroll;
 
 for (const el of document.querySelectorAll('.mdc-switch')) {
-  const switchControl = new MDCSwitch(el);
+  new MDCSwitch(el);
 }
 
 //Register regular button ripples
-var buttonRipple = [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-button'), function (el) {
   return new MDCRipple(el);
 });
-var buttonRippleTwo = [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
   return new MDCRipple(el);
 });
 //Register MDCTextFields
-var textFields = [].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
   return new MDCTextField(el);
 });
 

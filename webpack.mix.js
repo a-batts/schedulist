@@ -32,8 +32,6 @@ mix.js('resources/js/app.js', 'public/js/bundle.js')
       { url: '/images/plane.svg', revision: 'null' },
       { url: 'site.webmanifest', revision: '100' },
 
-      { url: 'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js', revision: 'null' },
-      { url: 'https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js', revision: 'null' },
       { url: 'https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js', revision: 'null' },
       { url: 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', revision: 'null' },
       { url: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js', revision: 'null' },

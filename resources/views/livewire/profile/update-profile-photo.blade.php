@@ -66,7 +66,7 @@ window.initPond = initPond;
 @open-photo-dialog.window="photoDialog = true; fixBody(); initPond()"
 >
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="photoDialog" x-cloak></div>
-  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-12 modal-container mdc-typography" x-show.transition="photoDialog" x-cloak>
+  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-12 modal-container mdc-typography" x-transition x-show="photoDialog" x-cloak>
     <div class="mdc-card mdc-card--outlined modal-card">
       <div class="top-row-container">
         <div class="close-and-title">

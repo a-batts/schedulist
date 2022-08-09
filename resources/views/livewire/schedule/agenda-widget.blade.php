@@ -1,23 +1,25 @@
 <div x-data="schedule($wire)"
   x-init="initDate($wire)"
-  @update-current-date.window="stopLoading(); agenda = @this.monthAgenda; currentDayData = agenda[day]"
+  @update-current-date.window="stopLoading(); agenda = @this.agenda; currentDayData = agenda[day]"
   @offline.window = "online = false"
   @online.window = "online = true"
   id="agenda"
-  class="w-full"
+  class="w-full mdc-typograpy"
   >
-  <div class="flex w-full pt-2 pb-3 pl-6 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header mdc-typograpy">
+  <div class="flex w-full pt-2 pb-3 pl-6 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header">
     <div class="flex self-center flex-grow ml-16 space-x-2">
       <div>
-        <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
+        <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
         <p x-text="dayOfWeek" class="mt-1 text-gray-500"></p>
       </div>
     </div>
-    <div class="self-center pr-3" wire:ignore>
-      <button class="mdc-icon-button material-icons" @click="resetDate()" x-bind:disabled="isToday()" aria-describedby="jump-today">today</button>
-      <button class="-ml-1 mdc-icon-button material-icons" @click="backwardDay()" aria-describedby="backward-day">chevron_left</button>
+    <div class="flex items-center self-center flex-none pr-3" wire:ignore>
+      <button class="-ml-1 mdc-icon-button material-icons" @click="backwardDay()" aria-describedby="backward-day">
+        <div class="mdc-icon-button__ripple"></div>
+        chevron_left
+      </button>
       
-      <button class="mdc-button mdc-button--outlined" x-bind:disabled="isToday()">
+      <button class="mx-4 mdc-button mdc-button--outlined" @click="resetDate()" x-bind:disabled="isToday" aria-describedby="jump-today">
         <span class="mdc-button__ripple"></span>
         <span class="mdc-button__label">Today</span>
       </button>
@@ -182,27 +184,29 @@
           this.currentDayData = @this.agenda[this.day];
         },
         forwardDay: function () {
-          let tomorrow = new Date(this.date.getTime());
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          if (this.date.getMonth() != tomorrow.getMonth() || this.date.getYear() != tomorrow.getYear()){
+          let nextDay = new Date(this.date.getTime());
+          nextDay.setDate(nextDay.getDate() + 1);
+          if (this.date.getMonth() != nextDay.getMonth() || this.date.getYear() != nextDay.getYear()){
             this.currentDayData = null;
-            @this.setDate(tomorrow);
+            @this.setDate(nextDay);
             startLoading();
           }
-          this.date.setDate(this.date.getDate() + 1);
+          this.date = nextDay;
+          
           this.updateURL()
           this.currentDayData = @this.agenda[this.day];
         },
         backwardDay: function () {
-          let yesterday = new Date(this.date.getTime());
-          yesterday.setDate(yesterday.getDate() - 1);
-          if (this.date.getMonth() != yesterday.getMonth() || this.date.getYear() != yesterday.getYear()){
+          let prevDay = new Date(this.date.getTime());
+          prevDay.setDate(prevDay.getDate() - 1);
+          if (this.date.getMonth() != prevDay.getMonth() || this.date.getYear() != prevDay.getYear()){
             let x = new Date(this.date.getTime());
             x.setDate(x.getDate() - 5);
             @this.setDate(x);
             startLoading();
           }
-          this.date.setDate(this.date.getDate() - 1);
+          this.date = prevDay;
+          
           this.updateURL()
           this.currentDayData = @this.agenda[this.day];
         },
@@ -270,7 +274,7 @@
           window.history.replaceState({}, 'Agenda | ' + this.dateString , url);
           document.title = 'Agenda | ' + this.dateString;
         },
-        isToday: function (){
+        get isToday (){
           return this.date.toDateString() == new Date().toDateString();
         },
         get day (){

@@ -1,5 +1,8 @@
 <div x-data="eventEdit()"
-x-init="init($watch)"
+x-init="$watch('edit', value => {
+  document.body.classList.toggle('overflow-y-hidden');
+  document.getElementById('agenda').classList.toggle('fixed');
+});"
 x-on:toggle-day.window="
 if(! days.includes(event.detail.newDay))
   days.push(event.detail.newDay)
@@ -11,7 +14,7 @@ x-on:update-content.window="updateContent($wire)"
 x-on:close-dialog="edit = false"
 class="mdc-typography">
     <x-ui.modal alpine="edit" title="Edit Event" action="Save" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.edit()">
-    <label class="mdc-text-field mdc-text-field--filled w-4/5" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
+    <label class="w-4/5 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label mdc-floating-label--float-above" id="event-name-label">Event Name</span>
       <input class="mdc-text-field__input" wire:model.lazy="event.name" type="text" aria-labelledby="event-name-label" required>
@@ -43,18 +46,18 @@ class="mdc-typography">
      <label for="create-check" style="vertical-align: 6px">Make this event reoccuring</label>
     </div>
 
-    <div class="py-3" x-show.transition="reoccuring" x:cloak>
+    <div class="py-3" x-transition x-show="reoccuring" x:cloak>
       <x-ui.select text="Repeat every" alpine="frequency" type="filled" :default="$event->frequency" :data="$frequencies" x-bind:class="{'mdc-select--invalid': errorMessages['event.frequency'] != undefined}" class="w-3/5" required prefilled/>
       <x-ui.validation-error :message="$errorMessages" for="event.frequency"/>
       <div wire:ignore>
         <template x-if="frequency == 'Week' || frequency == 'Two Weeks'">
           <div class="mt-5 ml-1">
             <span>Repeat event on</span>
-            <div class="mt-3 h-10" wire:ignore>
+            <div class="h-10 mt-3" wire:ignore>
               @foreach($days as $day)
-                <button class="rounded-full mdc-icon-button w-8 h-8 day-selector select-none float-left mr-2" x-bind:class="{'day-selector-selected': days.includes('{{$day}}') && currentDay != '{{$day}}'}" x-on:click="daysToggle('{{$day}}')" wire:key="{{$day}}" x-bind:disabled="currentDay == '{{$day}}'" type="button" >
+                <button class="float-left w-8 h-8 mr-2 rounded-full select-none mdc-icon-button day-selector" x-bind:class="{'day-selector-selected': days.includes('{{$day}}') && currentDay != '{{$day}}'}" x-on:click="daysToggle('{{$day}}')" wire:key="{{$day}}" x-bind:disabled="currentDay == '{{$day}}'" type="button" >
                   <div class="mdc-icon-button__ripple"></div>
-                  <span class="text-center text-sm day-selector-text">{{$day}}</span>
+                  <span class="text-sm text-center day-selector-text">{{$day}}</span>
                 </button>
               @endforeach
             </div>
@@ -84,12 +87,6 @@ class="mdc-typography">
             this.days.splice(index, 1);
           else
             this.days.push(e);
-        },
-        init: function ($watch){
-          $watch('edit', value => {
-            document.body.classList.toggle('overflow-y-hidden');
-            document.getElementById('agenda').classList.toggle('fixed');
-          });
         },
         updateContent: function ($wire){
           snack('Loading');
