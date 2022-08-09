@@ -30,8 +30,6 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/turbo.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpine-turbo-drive-adapter@1.0.x/dist/alpine-turbo-drive-adapter.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body class="font-sans antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif" id="themer"

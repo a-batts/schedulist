@@ -1,13 +1,11 @@
 @auth
   <nav class="fixed z-10 w-screen" style="background-color: #242323"
+  x-init="$watch('mobileMenu', value => {
+    document.body.classList.toggle('overflow-y-hidden');
+  })"
   x-data="{
     profileMenu: false,
     mobileMenu: false,
-    init: function($watch){
-      $watch('mobileMenu', value => {
-        document.body.classList.toggle('overflow-y-hidden');
-      });
-    },
     get theme() {
       if (getCookieValue('theme') != undefined)
         return getCookieValue('theme');
@@ -21,7 +19,6 @@
       return 'brightness_auto';
     }
   }"
-  x-init="init($watch)"
   :class="{'rounded-b-lg': mobileMenu}"
   data-turbolinks-permanent>
     <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -69,7 +66,7 @@
               </button>
             </div>
             <div class="absolute right-0 mt-6 origin-top-right mdc-card mdc-card-outlined profile-menu"
-            x-show.transition="profileMenu" @click.away="profileMenu = false" x-cloak>
+            x-show="profileMenu" @click.outside="profileMenu = false" x-transition x-cloak>
               <div class="mb-4">
                 <div class="w-full py-2">
                   <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" class="rounded-full"></div>
@@ -80,7 +77,7 @@
               <div class="section-border border-100"></div>
               <div class="flex flex-col items-center">
                 <div>
-                  <a class="mt-6 mdc-button mdc-button--outlined lowercase" href="{{ route('profile') }}" @click="profileMenu = false">
+                  <a class="mt-6 lowercase mdc-button mdc-button--outlined" href="{{ route('profile') }}" @click="profileMenu = false">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
                     <span class="mdc-button__label">Account Settings</span>
@@ -98,7 +95,7 @@
                 <div class="float-right">
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="mt-2 mdc-button mdc-button--icon-leading text-primary lowercase">
+                    <button class="mt-2 lowercase mdc-button mdc-button--icon-leading text-primary">
                       <span class="mdc-button__ripple"></span>
                       <span class="mdc-button__focus-ring"></span>
                       <i class="material-icons mdc-button__icon text-inherit" aria-hidden="true">logout</i>
@@ -112,7 +109,7 @@
         </div>
       </div>
       <!-- Mobile menu list -->
-      <div class="fixed top-0 left-0 z-20 w-screen md:hidden mobile-menu" style="background-color: #242323" x-show.transition="mobileMenu" x-cloak>
+      <div class="fixed top-0 left-0 z-20 w-screen md:hidden mobile-menu" style="background-color: #242323" x-transition x-show="mobileMenu" x-cloak>
         <div class="px-2 text-white">
           <div class="pt-3">
             <div class="block mobile-menu-top">

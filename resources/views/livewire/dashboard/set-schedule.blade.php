@@ -2,7 +2,7 @@
 @close-schedule-dialog.window="schedulePicker = false"
 >
   <div x-show="schedulePicker" style="display: none" class="inset-0 bg-gray-500 opacity-75 modal_skim hidden" x-cloak></div>
-  <div class="mdc-card mdc-card--outlined schedule-modal" style="position: absolute; left: 0; right: 0" x-show.transition="schedulePicker"
+  <div class="mdc-card mdc-card--outlined schedule-modal" style="position: absolute; left: 0; right: 0" x-transition x-show="schedulePicker"
   x-cloak wire:ignore.self>
     <form wire:submit.prevent="save"
     x-data="{
@@ -91,7 +91,7 @@
                   </div>
                   <label for="radio-2 -mt-4">Classes take place on lettered or numbered days (block schedule)</label>
                 </div>
-                <div x-show.transition="scheduleType == 'block'">
+                <div x-transition x-show="scheduleType == 'block'">
                   <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 w-56" wire:ignore>
                     <div class="mdc-select__anchor"
                          role="button"

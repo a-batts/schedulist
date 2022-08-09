@@ -1,4 +1,4 @@
-<div x-data="editMenu()" x-init="init($watch, $wire)"
+<div x-data="editMenu()"
 @display-edit-menu.window="editMenu = true"
 @hide-edit-menu.window="editMenu = false; undoFixBody()">
   <div class="mdc-dialog delete-assignment-conf" style="z-index: 70" wire:ignore>

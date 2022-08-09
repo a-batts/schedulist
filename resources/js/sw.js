@@ -21,7 +21,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { cacheNames } from 'workbox-core';
 
 self.addEventListener('install', (event) => {
-  const urls = ['/contact', '/privacy-policy', '/assignments', '/app', '/agenda', '/settings/account', '/settings /theme', '/offline'];
+  const urls = ['/contact', '/privacy-policy', '/assignments', '/app', '/agenda', '/settings/account', '/settings/theme', '/offline'];
   const cacheName = 'pages';
   event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
 });

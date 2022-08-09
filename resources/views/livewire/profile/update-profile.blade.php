@@ -170,7 +170,7 @@ class="roboto" id="profile_settings">
   <!-- Phone number confirmation menu -->
   <div>
     <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="numberConfirmationDialog" x-cloak wire:ignore.self></div>
-    <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-20 modal-container mdc-typography" x-show.transition="numberConfirmationDialog" x-cloak wire:ignore.self>
+    <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-20 modal-container mdc-typography" x-transition x-show="numberConfirmationDialog" x-cloak wire:ignore.self>
       <div class="px-6 pb-6 mdc-card mdc-card--outlined modal-card">
         <h6 class="mt-4">
           <span class="ml-1 mr-4 select-none material-icons" style="vertical-align: -2px">textsms</span>
