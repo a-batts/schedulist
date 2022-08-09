@@ -45,7 +45,7 @@
               @endif
             </div>
           </div>
-          <div class="mt-4" x-show.transition="selected == {{$index}}" x-cloak>
+          <div class="mt-4" x-transition x-show="selected == {{$index}}" x-cloak>
             @foreach($class->links as $link)
               <a class="mdc-button mdc-button-ripple text-inherit mr-2" href="{{Crypt::decryptString($link->link)}}" target="_blank">
                 <span class="mdc-button__ripple"></span>

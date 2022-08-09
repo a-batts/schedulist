@@ -24,7 +24,7 @@
         x-text="getStatus(assignment)"></span>
       </div>
     </div>
-    <div x-show.transition.origin.top.center.duration.50ms="selectedAssignment == assignment['id']" class="w-auto pb-5" x-cloak>
+    <div x-show="selectedAssignment == assignment['id']" x-transition.origin.top.center.duration.50ms class="w-auto pb-5" x-cloak>
       <div class="border-t border-gray-100"></div>
       <div class="assignment_card_content_div">
         <div class="px-2 pt-2">

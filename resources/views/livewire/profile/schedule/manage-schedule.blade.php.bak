@@ -101,7 +101,7 @@ x-on:hide-query.window="showingQuery = false"
             </div>
             <label for="radio-2 -mt-4">Classes take place on lettered or numbered days (block schedule)</label>
           </div>
-          <div x-show.transition="scheduleType == 'block'" x-cloak>
+          <div x-transition x-show="scheduleType == 'block'" x-cloak>
             <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 w-56" wire:ignore>
               <div class="mdc-select__anchor"
                    role="button"
@@ -261,7 +261,7 @@ x-on:hide-query.window="showingQuery = false"
                 <span class="mdc-line-ripple" wire:ignore></span>
               </label>
             </div>
-            <div x-show.transition="scheduleType == 'normal' || scheduleType == 'fixed'" @if($scheduleType != 'normal' && $scheduleType != 'fixed') x-cloak @endif>
+            <div x-transition x-show="scheduleType == 'normal' || scheduleType == 'fixed'" @if($scheduleType != 'normal' && $scheduleType != 'fixed') x-cloak @endif>
               <div class="lg:float-right ml-7 lg:ml-0 lg:-mt-14 mr-4 checkbox-row">
                 <div class="inline-block w-12">
                   <div class="mdc-checkbox">
@@ -330,7 +330,7 @@ x-on:hide-query.window="showingQuery = false"
                 </div>
               </div>
             </div>
-            <div x-show.transition="scheduleType == 'block'" @if($scheduleType != 'block') x-cloak @endif>
+            <div x-transition x-show="scheduleType == 'block'" @if($scheduleType != 'block') x-cloak @endif>
               <div class="lg:float-right ml-7 lg:ml-0 lg:-mt-14 mr-4 checkbox-row">
                 @for ($j=1; $j <= $numberOfBlockDays; $j++)
                   <div class="inline-block w-12" wire:key="check{{$j}}">

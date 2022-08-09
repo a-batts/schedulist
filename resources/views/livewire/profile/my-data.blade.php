@@ -173,7 +173,7 @@ x-data="dataManager()"
     </x-ui.settings-card>
     <div id="dataDownload" x-cloak wire:ignore>
         <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="downloadInProgress"></div>
-        <div class="fixed top-0 z-40 flex items-center justify-center w-screen h-screen" x-show.transition="downloadInProgress" x-cloak>
+        <div class="fixed top-0 z-40 flex items-center justify-center w-screen h-screen" x-transition x-show="downloadInProgress" x-cloak>
             <div class="flex-initial px-20 pt-10 pb-4 text-gray-500 w-50 h-30 mdc-card mdc-card--outlined">
                 <div>
                     <p class="text-center text-9xl">

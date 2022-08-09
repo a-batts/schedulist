@@ -1,6 +1,6 @@
 <div @close-{{$alpine}}.window="{{$alpine}} = false; undoFixBody()">
     <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="{{$alpine}}" x-cloak></div>
-    <div class="fixed top-0 w-screen h-screen overflow-y-auto modal-container" x-show.transition="{{$alpine}}" x-cloak>
+    <div class="fixed top-0 w-screen h-screen overflow-y-auto modal-container" x-transition x-show="{{$alpine}}" x-cloak>
       <form {{$attributes->whereStartsWith('wire:submit')}} >
         <div class="mdc-card mdc-card--outlined modal-card {{$classes}}">
           <div class="top-row-container">

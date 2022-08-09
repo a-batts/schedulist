@@ -42,9 +42,12 @@
     },
     "dependencies": {
         "@hotwired/turbo": "*",
+        "@ryangjchandler/alpine-clipboard": "^2.2.0",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/typography": "^0.4.0",
+        "alpine-turbo-drive-adapter": "^2.0.0",
         "alpine-turbolinks-adapter": "^0.3.0",
+        "alpinejs": "^3.6.1",
         "babel-plugin-transform-object-assign": "^6.22.0",
         "babel-preset-es2015": "^6.24.1",
         "body-scroll-toggle": "^0.2.0",

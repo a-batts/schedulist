@@ -97,7 +97,7 @@ x-data="{
     </div>
   </x-ui.settings-card>
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="passwordConfirmation" x-cloak></div>
-  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-12 modal-container" x-show.transition="passwordConfirmation" x-cloak wire:ignore.self>
+  <div class="fixed w-screen h-screen pb-6 overflow-y-auto top-12 modal-container" x-transition x-show="passwordConfirmation" x-cloak wire:ignore.self>
     <div class="px-6 pt-6 mdc-card mdc-card--outlined modal-card">
         <div>
             <h6 class="text-3xl font-medium">Confirm your password</h6>

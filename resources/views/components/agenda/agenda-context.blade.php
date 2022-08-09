@@ -1,4 +1,4 @@
-<div class="px-6 py-2 agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 md:ml-72" x-on:click.away="closeDetails()" x-show.transition.in.opacity.scale.out.opacity="agendaContext" x-bind:style="`top: calc(${popupHeight}px - 60px) `" x-cloak x-ref="popupBox" wire:ignore.self>
+<div class="px-6 py-2 agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 md:ml-72" x-on:click.away="closeDetails()" x-show="agendaContext" x-transition.in.opacity.scale.out.opacity x-bind:style="`top: calc(${popupHeight}px - 60px) `" x-cloak x-ref="popupBox" wire:ignore.self>
   <div class="w-full h-8 mb-4 item-details-top">
     <button class="float-right mdc-icon-button material-icons" x-on:click="closeDetails()" aria-describedby="close-details" wire:ignore>close</button>
     <div wire:ignore>
