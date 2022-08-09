@@ -1,36 +1,50 @@
-<div x-data="agenda($wire)"
-x-init="initDate($wire)"
-@update-current-date.window="stopLoading(); agenda = @this.monthAgenda; currentDayData = agenda[day]"
-@offline.window = "online = false"
-@online.window = "online = true"
-id="agenda"
-class="w-full"
->
-  <div class="w-full pt-2 pb-3 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header mdc-typograpy">
-    <p class="mt-4 ml-8 -mb-12 text-3xl font-bold text-gray-700 uppercase" x-text="month"></p>
-    <div class="ml-2 text-gray-500 agenda-current-date">
-      <p class="w-10 mt-4 ml-24 text-sm font-bold text-center uppercase" x-text="dayOfWeek" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
-      <p class="w-10 ml-24 text-xl tracking-wide text-center" x-text="day" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
+<div x-data="schedule($wire)"
+  x-init="initDate($wire)"
+  @update-current-date.window="stopLoading(); agenda = @this.monthAgenda; currentDayData = agenda[day]"
+  @offline.window = "online = false"
+  @online.window = "online = true"
+  id="agenda"
+  class="w-full"
+  >
+  <div class="flex w-full pt-2 pb-3 pl-6 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header mdc-typograpy">
+    <div class="flex self-center flex-grow ml-16 space-x-2">
+      <div>
+        <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': date.toDateString() == new Date().toDateString()}"></p>
+        <p x-text="dayOfWeek" class="mt-1 text-gray-500"></p>
+      </div>
     </div>
-    <div class="float-right mr-3 -mt-12">
-      <button class="mdc-icon-button material-icons" wire:ignore @click="resetDate()" x-bind:disabled="date.toDateString() == new Date().toDateString()" aria-describedby="jump-today">today</button>
-      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="backwardDay()" aria-describedby="backward-day">chevron_left</button>
-      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="forwardDay()" aria-describedby="forward-day">chevron_right</button>
-      <button class="-ml-1 mdc-icon-button material-icons" wire:ignore @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
+    <div class="self-center pr-3" wire:ignore>
+      <button class="mdc-icon-button material-icons" @click="resetDate()" x-bind:disabled="isToday()" aria-describedby="jump-today">today</button>
+      <button class="-ml-1 mdc-icon-button material-icons" @click="backwardDay()" aria-describedby="backward-day">chevron_left</button>
+      
+      <button class="mdc-button mdc-button--outlined" x-bind:disabled="isToday()">
+        <span class="mdc-button__ripple"></span>
+        <span class="mdc-button__label">Today</span>
+      </button>
+      
+      <button class="-ml-1 mdc-icon-button material-icons" @click="forwardDay()" aria-describedby="forward-day">chevron_right</button>
+      <button class="-ml-1 mdc-icon-button material-icons" @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
     </div>
   </div>
-  <div class="float-right w-full overflow-y-scroll sm:w-72 agenda-sidebar" x-show.transition.origin.center.right="showingMenu" x-cloak>
+  <div class="float-right w-full overflow-y-scroll origin-right sm:w-72 agenda-sidebar" 
+  x-show="showingMenu"
+  x-transition:enter="transform transition"
+  x-transition:enter-start="scale-x-0"
+  x-transition:enter-end="scale-x-100"
+  x-transition:leave="transform transition"
+  x-transition:leave-end="scale-x-0"
+  x-cloak>
     <div class="px-5 pt-5 pb-2 sidebar-line-header">
-      <p class="mb-2 ml-2 text-lg font-medium mdc-typography nunito">Agenda Options</p>
+      <p class="mb-2 ml-2 text-lg font-medium mdc-typography">Agenda Options</p>
       <a href="{{route('schedule-settings')}}"><button class="float-right -mt-12 -mr-4 mdc-icon-button material-icons" wire:ignore aria-describedby="settings">settings</button></a>
     </div>
     <div class="px-5 pt-2 pb-5">
       <p class="mt-2 mb-2 ml-2 font-medium mdc-typography">Filter Displayed Events</p>
       <div>
-        <div class="mdc-checkbox mdc-checkbox--touch cb-green" @click="filterToggle('Assignment')">
+        <div class="mdc-checkbox mdc-checkbox--touch cb-green" @click="filterToggle('assignment')">
           <input type="checkbox"
                  class="mdc-checkbox__native-control"
-                 id="checkbox-2"/ x-bind:checked="! filter.includes('Assignment')">
+                 id="checkbox-2"/ x-bind:checked="! filter.includes('assignment')">
           <div class="mdc-checkbox__background">
             <svg class="mdc-checkbox__checkmark"
                  viewBox="0 0 24 24">
@@ -45,10 +59,10 @@ class="w-full"
         <label for="checkbox-2" class="w-full mr-2 -ml-2 agenda-filter-label">Assignments</label>
       </div>
       <div class="-mt-2">
-        <div class="mdc-checkbox mdc-checkbox--touch cb-red" @click="filterToggle('Class')">
+        <div class="mdc-checkbox mdc-checkbox--touch cb-red" @click="filterToggle('class')">
           <input type="checkbox"
                  class="mdc-checkbox__native-control"
-                 id="checkbox-1"/ x-bind:checked="! filter.includes('Class')">
+                 id="checkbox-1"/ x-bind:checked="! filter.includes('class')">
           <div class="mdc-checkbox__background">
             <svg class="mdc-checkbox__checkmark"
                  viewBox="0 0 24 24">
@@ -63,10 +77,10 @@ class="w-full"
         <label for="checkbox-1" class="w-full mr-2 -ml-2 agenda-filter-label">Classes</label>
       </div>
       <div class="-mt-2">
-        <div class="mdc-checkbox mdc-checkbox--touch cb-blue" @click="filterToggle('Event')">
+        <div class="mdc-checkbox mdc-checkbox--touch cb-blue" @click="filterToggle('event')">
           <input type="checkbox"
                  class="mdc-checkbox__native-control"
-                 id="checkbox-3"/ x-bind:checked="! filter.includes('Event')">
+                 id="checkbox-3"/ x-bind:checked="! filter.includes('event')">
           <div class="mdc-checkbox__background">
             <svg class="mdc-checkbox__checkmark"
                  viewBox="0 0 24 24">
@@ -83,39 +97,41 @@ class="w-full"
     </div>
   </div>
   <div class="sm:px-6 lg:px-8 agenda-padding" wire:ignore>
-    <div class="relative overflow-y-scroll mdc-typography outer-agenda-container" style="height: calc(100vh - 154px);">
+    <div class="relative pb-8 overflow-y-scroll mdc-typography outer-agenda-container" style="height: calc(100vh - 154px);">
       <div class="inner-agenda-container">
         @for ($i=0; $i < 24; $i++)
-          <div class="float-left agenda-clockslot">
-            <p class="text-xs text-gray-500 align-middle">@if($i == 12) 12 PM @elseif($i == 0) @else {{($i % 12)}} @if($i < 12) AM @else PM @endif @endif</p>
+          <div class="float-left pr-2 agenda-clockslot">
+            <p class="mb-2 -mt-2 text-xs text-right text-gray-400 align-middle">@if($i == 12) 12PM @elseif($i == 0) @else {{($i % 12)}}@if($i < 12)AM @else()PM @endif @endif</p>
           </div>
           <div class="float-right agenda-timeslot"></div>
         @endfor
 
-        <template x-if="currentDayData != null">
-          <template x-for="(item, index) in currentDayData" :key="index">
-            <div class="absolute mx-0 ml-12 mr-2 mdc-card mdc-card--outlined agenda-item"
-            x-on:click="setSelectedItem(index)"
-            x-bind:class="`${'background-' + getItemColor(item['id'], item['color'])} ${'agenda-item-' + index  }`"
-            x-bind:style="`top: ${item['top']}px;
-            left: ${item['left']}px;
-            height: calc(${item['bottom']}px - ${item['top']}px);
-            width: calc(100% - ${item['left'] + 55}px);
-            z-index: ${item['height']};
-            min-height: 60px;`"
-            x-show="! filter.includes(`${item['type']}`)">
-              <div class="mdc-card__primary-action px-5 pt-2.5 pb-2 h-full" tabindex="0">
-                <p class="font-medium truncate agenda-text-primary" x-text="item['title']"></p>
-                <p class="agenda-text-secondary mdc-typography--body2">
-                  <span x-text="item['start']"></span>
-                  <template x-if="item['end'] != null">
-                    <span x-text="' - ' + item['end']"></span>
-                  </template>
-                </p>
+        <div class="relative mx-2.5">
+          <template x-if="currentDayData != null">
+            <template x-for="(item, index) in currentDayData" :key="index">
+              <div class="absolute ml-12 mr-2 transition-all mdc-card mdc-card--outlined agenda-item"
+              x-on:click="setSelectedItem(index)"
+              x-bind:class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+              x-bind:style="`top: ${item.top}px;
+              left: ${item.left}px;
+              height: calc(${item.bottom}px - ${item.top}px);
+              width: calc(100% - ${item.left + 55}px);
+              z-index: ${item.height};
+              min-height: 80px;`"
+              x-show="! filter.includes(`${item.type}`)">
+                <div class="h-full px-6 pt-4 pb-2 mdc-card__primary-action" tabindex="0">
+                  <p class="text-xl font-medium truncate transition-all agenda-text-primary" x-text="item.name"></p>
+                  <p class="transition-all agenda-text-secondary mdc-typography--body2">
+                    <span x-text="item.startString"></span>
+                    <template x-if="item.endString != null">
+                      <span x-text="' - ' + item.endString"></span>
+                    </template>
+                  </p>
+                </div>
               </div>
-            </div>
+            </template>
           </template>
-        </template>
+        </div>
       </div>
     </div>
   </div>
@@ -132,10 +148,10 @@ class="w-full"
 
 @push('scripts')
   <script>
-    function agenda($wire){
+    function schedule($wire){
       return {
         online: navigator.onLine,
-        agenda: @this.monthAgenda,
+        agenda: @this.agenda,
         date: new Date(),
         selectedItem: -1,
         agendaContext: false,
@@ -148,9 +164,9 @@ class="w-full"
         selectedColor: 'blue',
         eventColors: [],
         initDate: function ($wire) {
-          this.selectedItemData['title'] = '';
-          this.selectedItemData['color'] = '';
-          this.selectedItemData['link'] = '';
+          this.selectedItemData.name = '';
+          this.selectedItemData.color = '';
+          this.selectedItemData.link = '';
           this.date = new Date({{$initDate->timestamp * 1000}})
           this.currentDayData = this.agenda[this.day];
         },
@@ -163,7 +179,7 @@ class="w-full"
           }
           this.date = new Date();
           this.updateURL();
-          this.currentDayData = this.agenda[this.day];
+          this.currentDayData = @this.agenda[this.day];
         },
         forwardDay: function () {
           let tomorrow = new Date(this.date.getTime());
@@ -175,7 +191,7 @@ class="w-full"
           }
           this.date.setDate(this.date.getDate() + 1);
           this.updateURL()
-          this.currentDayData = this.agenda[this.day];
+          this.currentDayData = @this.agenda[this.day];
         },
         backwardDay: function () {
           let yesterday = new Date(this.date.getTime());
@@ -188,7 +204,7 @@ class="w-full"
           }
           this.date.setDate(this.date.getDate() - 1);
           this.updateURL()
-          this.currentDayData = this.agenda[this.day];
+          this.currentDayData = @this.agenda[this.day];
         },
         setSelectedItem: function (e) {
           this.selectedItem = e;
@@ -219,7 +235,7 @@ class="w-full"
             this.filter.push(e);
         },
         openColorPicker: function (){
-          this.selectedColor = this.getItemColor(this.selectedItemData['id'], this.selectedItemData['color']);
+          this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
           let obj = document.querySelector('.agenda-item-' + this.selectedItem).getBoundingClientRect();
           this.colorPopupHeight = obj.top + window.scrollY;
           if (this.colorPopupHeight +  200 > document.body.clientHeight)
@@ -233,8 +249,8 @@ class="w-full"
         updateEventColor: function (e){
           var index = this.selectedItem;
           this.selectedColor = e;
-          this.eventColors[this.selectedItemData['id']] = e;
-          Livewire.emit('updateEventColor', {'id': this.selectedItemData['id'], 'color': e});
+          this.eventColors[this.selectedItemData.id] = e;
+          Livewire.emit('updateEventColor', {'id': this.selectedItemData.id, 'color': e});
         },
         getItemColor: function (id, color){
           if (this.eventColors[id] != undefined)
@@ -251,20 +267,29 @@ class="w-full"
           url[5] = this.day;
           url[6] = this.date.getFullYear();
           url = url.join('/');
-          window.history.pushState({}, 'Agenda | ' + this.date.toDateString() , url);
-          document.title = 'Agenda | ' + this.date.toDateString();
+          window.history.replaceState({}, 'Agenda | ' + this.dateString , url);
+          document.title = 'Agenda | ' + this.dateString;
         },
-        get dayOfWeek (){
-          return this.date.toLocaleString('default', { weekday: 'short' });
-        },
-        get month (){
-          return this.date.toLocaleString('default', { month: 'short' });
+        isToday: function (){
+          return this.date.toDateString() == new Date().toDateString();
         },
         get day (){
           return this.date.getDate();
         },
+        get dayOfWeek (){
+          return this.date.toLocaleString('default', { weekday: 'long' });
+        },
         get dateString (){
-          return this.date.toLocaleString('default', { weekday: 'long' }) + ", " + this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
+          return this.date.toLocaleString('default', { weekday: 'short' }) + ", " + this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
+        },
+        get month (){
+          return this.date.toLocaleString('default', { month: 'long' });
+        },
+        get year (){
+          return this.date.getFullYear();
+        },
+        get headerDate (){
+          return this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
         }
       }
     }
