@@ -80,7 +80,7 @@
               <div class="section-border border-100"></div>
               <div class="flex flex-col items-center">
                 <div>
-                  <a class="mt-6 mdc-button mdc-button--outlined lowercase-text" href="{{ route('profile') }}" @click="profileMenu = false">
+                  <a class="mt-6 mdc-button mdc-button--outlined lowercase" href="{{ route('profile') }}" @click="profileMenu = false">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
                     <span class="mdc-button__label">Account Settings</span>
@@ -98,7 +98,7 @@
                 <div class="float-right">
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="mt-2 mdc-button mdc-button--icon-leading theme-text-primary lowercase-text">
+                    <button class="mt-2 mdc-button mdc-button--icon-leading text-primary lowercase">
                       <span class="mdc-button__ripple"></span>
                       <span class="mdc-button__focus-ring"></span>
                       <i class="material-icons mdc-button__icon text-inherit" aria-hidden="true">logout</i>
@@ -126,8 +126,8 @@
             <div class="block px-6 mt-4">
               <img class="float-left object-cover w-16 h-16 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
               <div class="inline-block mt-2 ml-6">
-                <h6 class="text-lg font-medium text-white name_head">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
-                <h1 class="text-sm email_head">{{ Auth::User()->email}}</h1>
+                <h6 class="text-lg font-medium text-white nav-menu-name">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
+                <h1 class="text-sm nav-menu-email">{{ Auth::User()->email}}</h1>
               </div>
             </div>
           </div>

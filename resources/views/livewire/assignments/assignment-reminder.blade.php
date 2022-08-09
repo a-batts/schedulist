@@ -13,7 +13,7 @@ x-on:update-reminders.window="reminders = @this.reminders.filter(() => true); re
                 <div class="overflow-x-hidden w-96 max-w-screen" wire:ignore.self>
                     <template x-for="reminder, index in reminders">
                         <div class="h-12 py-4">
-                            <p class="float-left text-base tracking-normal theme-text-secondary">Text message <span x-text="reminder.hours_before" class=""></span> hours before</p>
+                            <p class="float-left text-base tracking-normal text-secondary">Text message <span x-text="reminder.hours_before" class=""></span> hours before</p>
                             <div>
                                 <button class="inline-block float-right -mt-3 mdc-icon-button material-icons" x-on:click="removeReminder(reminder.id, index)">
                                     <div class="mdc-icon-button__ripple"></div>
@@ -40,7 +40,7 @@ x-on:update-reminders.window="reminders = @this.reminders.filter(() => true); re
                                     </span>
                                     <input type="text" class="mdc-text-field__input">
                                 </label>
-                                <span class="inline-block ml-2 tracking-normal theme-text-secondary">hours before</span>
+                                <span class="inline-block ml-2 tracking-normal text-secondary">hours before</span>
                                   
                             </div>
                             <div class="float-right mt-1">

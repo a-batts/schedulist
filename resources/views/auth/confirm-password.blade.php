@@ -29,7 +29,7 @@
                     </label>
                     <x-ui.validation-error for="password"/>
                     <div class="w-full mr-2 text-right forgot-password">
-                        <a class="text-sm roboto text-primary" href="{{ route('password.request') }}">Forgot password?</a>
+                        <a class="text-sm robototheme-color-text" href="{{ route('password.request') }}">Forgot password?</a>
                     </div>
             
                     <div class="">

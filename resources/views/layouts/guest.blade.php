@@ -25,7 +25,6 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
-        <link rel="stylesheet" href="{{ mix('css/styles.css') }}">
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Scripts -->
@@ -70,7 +69,7 @@
                 </a>
               </div>
               <div class="absolute w-full">
-                <a href="{{ route('themes') }}" class="float-right ml-4 mdc-icon-button material-icons theme-text-primary" @click="profileMenu = false">
+                <a href="{{ route('themes') }}" class="float-right ml-4 mdc-icon-button material-icons text-primary" @click="profileMenu = false">
                   <div class="mdc-icon-button__ripple"></div>
                   <span class="mdc-icon-button__focus-ring"></span>
                   <span x-text="themeIcon"></span>

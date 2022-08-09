@@ -54,7 +54,7 @@
             <label class="check_label" for="remember_me">Keep me signed in</label>
           </div>
           <div class="flex items-center justify-end mt-2 mr-2 forgot-password">
-            <a class="text-sm roboto text-primary" href="{{ route('password.request') }}">Forgot password?</a>
+            <a class="text-sm robototheme-color-text" href="{{ route('password.request') }}">Forgot password?</a>
           </div>
         </div>
         <div class="mt-10 logincontainer">
@@ -67,7 +67,7 @@
         <p>OR SIGN IN WITH</p>
       </div>
       <div class="logincontainer secondcontainer">
-        <button class="mdc-button mdc-button-ripple mdc-button--outlined loginG" onclick="document.location='/login/google'" wire:ignore>
+        <button class="mdc-button mdc-button-ripple mdc-button--outlined google-signin" onclick="document.location='/login/google'" wire:ignore>
           <span class="mdc-button__ripple"></span>
           <img class="mdc-button__icon" src="/images/icon/vendor/google.png" width="18px" height="18px" aria-hidden="true">
           Google

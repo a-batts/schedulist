@@ -18,17 +18,17 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 // Used to limit entries in cache, remove entries after a certain period of time
 import { ExpirationPlugin } from 'workbox-expiration';
 
-import {cacheNames} from 'workbox-core';
+import { cacheNames } from 'workbox-core';
 
 self.addEventListener('install', (event) => {
-  const urls = ['/contact', '/privacy-policy', '/assignments', '/app', '/agenda', '/user/profile', '/user/theme', '/offline'];
+  const urls = ['/contact', '/privacy-policy', '/assignments', '/app', '/agenda', '/settings/account', '/settings /theme', '/offline'];
   const cacheName = 'pages';
   event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
 });
 
 // Cache the Google Fonts stylesheets with a stale-while-revalidate strategy.
 registerRoute(
-  ({url}) => url.origin === 'https://fonts.googleapis.com',
+  ({ url }) => url.origin === 'https://fonts.googleapis.com',
   new StaleWhileRevalidate({
     cacheName: 'google-fonts-stylesheets',
   })
@@ -36,7 +36,7 @@ registerRoute(
 
 // Cache the underlying font files with a cache-first strategy for 1 year.
 registerRoute(
-  ({url}) => url.origin === 'https://fonts.gstatic.com',
+  ({ url }) => url.origin === 'https://fonts.gstatic.com',
   new CacheFirst({
     cacheName: 'google-fonts-webfonts',
     plugins: [
@@ -53,7 +53,7 @@ registerRoute(
 
 // Block caching of specific pages
 registerRoute(
-  ({url}) => url.pathname.startsWith('/admin'),
+  ({ url }) => url.pathname.startsWith('/admin'),
   new NetworkOnly()
 );
 
@@ -128,7 +128,7 @@ registerRoute(
 
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
-setCatchHandler(({event}) => {
+setCatchHandler(({ event }) => {
   // The FALLBACK_URL entries must be added to the cache ahead of time, either
   // via runtime or precaching. If they are precached, then call
   // `matchPrecache(FALLBACK_URL)` (from the `workbox-precaching` package)
@@ -142,7 +142,7 @@ setCatchHandler(({event}) => {
       // If using precached URLs:
       // return matchPrecache(FALLBACK_HTML_URL);
       return caches.match('/offline');
-    break;
+      break;
 
     /* case 'image':
       // If using precached URLs:

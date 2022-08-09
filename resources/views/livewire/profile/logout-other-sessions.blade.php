@@ -29,7 +29,7 @@ x-data="{
                             </div>
                             <div class="block sm:mr-1 sm:float-right sm:-mt-9">
                                 @if ($session->is_current_device)
-                                    <span class="mr-1 select-none material-icons check_icon_sm -va-5">check_circle</span>
+                                    <span class="mr-1 select-none material-icons check-icon-sm -va-5">check_circle</span>
                                     <span class="text-green">This device</span>
                                 @else
                                     <span>Last active {{ $session->last_active }}</span>
@@ -78,7 +78,7 @@ x-data="{
         </label>
         <x-ui.validation-error for="password"/>
         <div class="w-full mr-2 text-right forgot-password">
-            <a class="text-sm roboto text-primary" href="{{ route('password.request') }}">Forgot password?</a>
+            <a class="text-sm robototheme-color-text" href="{{ route('password.request') }}">Forgot password?</a>
         </div>
 
         <div class="mt-5">

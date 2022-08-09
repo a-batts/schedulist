@@ -1,6 +1,6 @@
 <div>
   <div x-show="changeBlock" style="display: none" class="inset-0 bg-gray-500 opacity-75 modal_skim hidden" x-cloak wire:ignore></div>
-  <div class="mdc-card mdc-card--outlined schedule_dialog pb-5" style="position: absolute; left: 0; right: 0" x-show.transition="changeBlock"
+  <div class="mdc-card mdc-card--outlined schedule-modal pb-5" style="position: absolute; left: 0; right: 0" x-show.transition="changeBlock"
   @close-change-block.window="changeBlock = false"
   x-cloak wire:ignore.self>
     <div class="toprowcontainer">
