@@ -12,12 +12,13 @@ use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
+use App\Classes\Schedule\Schedule;
 
 class AgendaWidget extends Component {
   /**
    * @var array
    */
-  public $monthAgenda;
+  public array $agenda;
 
   public Carbon $initDate;
 
@@ -26,8 +27,7 @@ class AgendaWidget extends Component {
   public function mount() {
     if (!isset($this->initDate))
       $this->initDate = Carbon::now();
-    $this->monthAgenda = new Agenda($this->getMonthPeriod(Carbon::make($this->initDate)));
-    $this->monthAgenda = $this->monthAgenda->toArray();
+    $this->agenda = Schedule::getSingleMonth($this->createMonthPeriod(Carbon::make($this->initDate)))->toArray();
   }
 
   /**
@@ -37,8 +37,7 @@ class AgendaWidget extends Component {
    */
   public function setDate($date) {
     $this->initDate = Carbon::parse($date)->startOfMonth();
-    $this->monthAgenda = new Agenda($this->getMonthPeriod(Carbon::parse($date)));
-    $this->monthAgenda = $this->monthAgenda->toArray();
+    $this->agenda = Schedule::getSingleMonth($this->createMonthPeriod(Carbon::make($this->initDate)))->toArray();
 
     $this->dispatchBrowserEvent('update-current-date');
   }
@@ -48,7 +47,7 @@ class AgendaWidget extends Component {
    * @param  Carbon $date
    * @return CarbonPeriod
    */
-  public function getMonthPeriod(Carbon $date) {
+  public function createMonthPeriod(Carbon $date) {
     $start = $date->startOfMonth()->toDateString();
     $end = $date->endOfMonth()->toDateString();
     $range = CarbonPeriod::create($start, $end);
