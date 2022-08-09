@@ -15,12 +15,8 @@ require('laravel-mix-workbox');
 
 mix.postCss("resources/css/app.css", "public/css", [
   require("tailwindcss"),
-])
-  .postCss("resources/css/styles.css", "public/css");
-
-mix.postCss("resources/css/filament/custom-theme.css", "public/css/filament.css");
-mix.version(['public/js/scripts.js']);
-mix.version(['public/js/theme-engine.js']);
+]).postCss("resources/css/filament/custom-theme.css", "public/css/filament.css");
+mix.version(['public/js/scripts.js']).version(['public/js/theme-engine.js']);
 
 mix.js('resources/js/app.js', 'public/js/bundle.js')
   .js('resources/js/turbo.js', 'public/js/turbo.js')

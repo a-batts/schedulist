@@ -35,7 +35,7 @@
               </a>
             </div>
             <div class="absolute w-full">
-              <button class="float-right ml-4 mdc-icon-button material-icons theme-text-primary" @click="profileMenu = false" disabled>
+              <button class="float-right ml-4 mdc-icon-button material-icons text-primary" @click="profileMenu = false" disabled>
                 <div class="mdc-icon-button__ripple"></div>
                 <span class="mdc-icon-button__focus-ring"></span>
                 <span x-text=""></span>

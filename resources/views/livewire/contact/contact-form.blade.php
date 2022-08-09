@@ -8,7 +8,7 @@
         <form wire:submit.prevent="submit" x-data="{
           disableSubmit: false,
           resetCharacterCounter(){
-            document.querySelector('.char_counter').innerHTML = '0 / 250';
+            document.querySelector('.char-counter').innerHTML = '0 / 250';
           }
         }">
           <label class="mdc-text-field mdc-text-field--outlined @error('name') mdc-text-field--invalid @enderror @if($name) mdc-text-field--label-floating @endif login-form mt-10">
@@ -114,7 +114,7 @@
               <span class="mdc-notched-outline__trailing"></span>
             </span>
             <textarea class="mdc-text-field__input" aria-labelledby="message-label" rows="6" maxlength="250" wire:model.debounce.500ms="message" required wire:ignore></textarea>
-            <div class="char_counter mdc-text-field-character-counter" wire:ignore>0 / 250</div>
+            <div class="char-counter mdc-text-field-character-counter" wire:ignore>0 / 250</div>
           </label>
           <x-ui.validation-error for="message"/>
           <div class="mt-10">
