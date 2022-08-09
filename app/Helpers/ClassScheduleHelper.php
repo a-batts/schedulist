@@ -146,6 +146,8 @@ class ClassScheduleHelper {
         return $this->getFirstClass($dt->addDay(), $classSchedule);
     }
     $class = Classes::find($classes[$classIndex]);
+    if ($class == null)
+      return False;
     $class->startTime = $times[$i];
     $class->endTime = $times[$i + 1];
     return [
