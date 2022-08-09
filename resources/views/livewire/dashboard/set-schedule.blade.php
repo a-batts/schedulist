@@ -2,7 +2,7 @@
 @close-schedule-dialog.window="schedulePicker = false"
 >
   <div x-show="schedulePicker" style="display: none" class="inset-0 bg-gray-500 opacity-75 modal_skim hidden" x-cloak></div>
-  <div class="mdc-card mdc-card--outlined schedule_dialog" style="position: absolute; left: 0; right: 0" x-show.transition="schedulePicker"
+  <div class="mdc-card mdc-card--outlined schedule-modal" style="position: absolute; left: 0; right: 0" x-show.transition="schedulePicker"
   x-cloak wire:ignore.self>
     <form wire:submit.prevent="save"
     x-data="{
