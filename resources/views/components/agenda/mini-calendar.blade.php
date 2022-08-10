@@ -1,4 +1,4 @@
-<div x-data="datePicker"
+<div x-data="miniCalendar"
 @update-current-date.window="init()">
     <div class="flex w-full mb-4">
         <div class="flex-grow text-gray-600 text-xs -ml-2">

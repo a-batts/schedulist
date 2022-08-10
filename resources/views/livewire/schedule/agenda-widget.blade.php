@@ -33,12 +33,12 @@
   </div>
   <div class="float-right w-full origin-right sm:w-[20rem] agenda-sidebar">
     <div class="p-6 border-gray-200 border-b">
-      <x-agenda.date-picker/>
+      <x-agenda.mini-calendar/>
     </div>
     <div class="overflow-y-scroll px-6 py-4">
       <h4 class="text-xl font-semibold mb-4">Filter Events</h4>
       <template x-for="(category, index) in filterCategories">
-        <div class="-ml-4">
+        <div class="-ml-3">
           <div class="mdc-checkbox mdc-checkbox--touch" @click="filterToggle(category)">
             <input type="checkbox"
                    class="mdc-checkbox__native-control"

@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class DatePicker extends Component {
+class MiniCalendar extends Component {
     /**
      * Create a new component instance.
      *
@@ -20,6 +20,6 @@ class DatePicker extends Component {
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
     public function render() {
-        return view('components.agenda.date-picker');
+        return view('components.agenda.mini-calendar');
     }
 }
