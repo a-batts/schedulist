@@ -30,7 +30,7 @@
     @livewireStyles
 
     <!-- Scripts -->
-    <script src="{{ mix('js/turbo.js') }}"></script>
+    <!-- <script src="{{ mix('js/turbo.js') }}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
   </head>
