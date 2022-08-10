@@ -1,12 +1,11 @@
-<div x-data="schedule($wire)"
-  x-init="initDate($wire)"
+<div x-data="schedule()"
   @update-current-date.window="stopLoading(); agenda = @this.agenda; currentDayData = agenda[day]"
   @offline.window = "online = false"
   @online.window = "online = true"
   id="agenda"
   class="w-full mdc-typograpy"
   >
-  <div class="flex w-full pt-2 pb-3 pl-6 -mt-4 mdc-elevation--z2 md:pr-5 agenda-header">
+  <div class="flex w-full pt-2 pb-3 pl-6 mdc-elevation--z2 md:pr-5 agenda-header -mt-4">
     <div class="flex self-center flex-grow ml-16 space-x-2">
       <div>
         <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
@@ -24,78 +23,40 @@
         <span class="mdc-button__label">Today</span>
       </button>
       
-      <button class="-ml-1 mdc-icon-button material-icons" @click="forwardDay()" aria-describedby="forward-day">chevron_right</button>
-      <button class="-ml-1 mdc-icon-button material-icons" @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
+      <button class="-ml-1 mdc-icon-button material-icons" @click="forwardDay()" aria-describedby="forward-day">
+        <div class="mdc-icon-button__ripple"></div>
+        chevron_right
+      </button>
+      
+      <button class="-ml-1 mdc-icon-button material-icons md:hidden" @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
     </div>
   </div>
-  <div class="float-right w-full overflow-y-scroll origin-right sm:w-72 agenda-sidebar" 
-  x-show="showingMenu"
-  x-transition:enter="transform transition"
-  x-transition:enter-start="scale-x-0"
-  x-transition:enter-end="scale-x-100"
-  x-transition:leave="transform transition"
-  x-transition:leave-end="scale-x-0"
-  x-cloak>
-    <div class="px-5 pt-5 pb-2 sidebar-line-header">
-      <p class="mb-2 ml-2 text-lg font-medium mdc-typography">Agenda Options</p>
-      <a href="{{route('schedule-settings')}}"><button class="float-right -mt-12 -mr-4 mdc-icon-button material-icons" wire:ignore aria-describedby="settings">settings</button></a>
+  <div class="float-right w-full origin-right sm:w-[20rem] agenda-sidebar">
+    <div class="p-6 border-gray-200 border-b">
+      <x-agenda.date-picker/>
     </div>
-    <div class="px-5 pt-2 pb-5">
-      <p class="mt-2 mb-2 ml-2 font-medium mdc-typography">Filter Displayed Events</p>
-      <div>
-        <div class="mdc-checkbox mdc-checkbox--touch cb-green" @click="filterToggle('assignment')">
-          <input type="checkbox"
-                 class="mdc-checkbox__native-control"
-                 id="checkbox-2"/ x-bind:checked="! filter.includes('assignment')">
-          <div class="mdc-checkbox__background">
-            <svg class="mdc-checkbox__checkmark"
-                 viewBox="0 0 24 24">
-              <path class="mdc-checkbox__checkmark-path"
-                    fill="none"
-                    d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-            </svg>
-            <div class="mdc-checkbox__mixedmark"></div>
+    <div class="overflow-y-scroll px-6 py-4">
+      <h4 class="text-xl font-semibold mb-4">Filter Events</h4>
+      <template x-for="(category, index) in filterCategories">
+        <div class="-ml-4">
+          <div class="mdc-checkbox mdc-checkbox--touch" @click="filterToggle(category)">
+            <input type="checkbox"
+                   class="mdc-checkbox__native-control"
+                   :id="'checkbox-' + category" x-bind:checked="! filter.includes(category)">
+            <div class="mdc-checkbox__background">
+              <svg class="mdc-checkbox__checkmark"
+                   viewBox="0 0 24 24">
+                <path class="mdc-checkbox__checkmark-path"
+                      fill="none"
+                      d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+              </svg>
+              <div class="mdc-checkbox__mixedmark"></div>
+            </div>
+            <div class="mdc-checkbox__ripple"></div>
           </div>
-          <div class="mdc-checkbox__ripple"></div>
+          <label :for="'checkbox-' + category" class="w-full mr-2 -ml-2 agenda-filter-label capitalize" x-text="filterPlurals[index]"></label>
         </div>
-        <label for="checkbox-2" class="w-full mr-2 -ml-2 agenda-filter-label">Assignments</label>
-      </div>
-      <div class="-mt-2">
-        <div class="mdc-checkbox mdc-checkbox--touch cb-red" @click="filterToggle('class')">
-          <input type="checkbox"
-                 class="mdc-checkbox__native-control"
-                 id="checkbox-1"/ x-bind:checked="! filter.includes('class')">
-          <div class="mdc-checkbox__background">
-            <svg class="mdc-checkbox__checkmark"
-                 viewBox="0 0 24 24">
-              <path class="mdc-checkbox__checkmark-path"
-                    fill="none"
-                    d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-            </svg>
-            <div class="mdc-checkbox__mixedmark"></div>
-          </div>
-          <div class="mdc-checkbox__ripple"fi></div>
-        </div>
-        <label for="checkbox-1" class="w-full mr-2 -ml-2 agenda-filter-label">Classes</label>
-      </div>
-      <div class="-mt-2">
-        <div class="mdc-checkbox mdc-checkbox--touch cb-blue" @click="filterToggle('event')">
-          <input type="checkbox"
-                 class="mdc-checkbox__native-control"
-                 id="checkbox-3"/ x-bind:checked="! filter.includes('event')">
-          <div class="mdc-checkbox__background">
-            <svg class="mdc-checkbox__checkmark"
-                 viewBox="0 0 24 24">
-              <path class="mdc-checkbox__checkmark-path"
-                    fill="none"
-                    d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-            </svg>
-            <div class="mdc-checkbox__mixedmark"></div>
-          </div>
-          <div class="mdc-checkbox__ripple"fi></div>
-        </div>
-        <label for="checkbox-3" class="w-full mr-2 -ml-2 agenda-filter-label">Other Events</label>
-      </div>
+      </template>
     </div>
   </div>
   <div class="sm:px-6 lg:px-8 agenda-padding" wire:ignore>
@@ -120,7 +81,8 @@
               width: calc(100% - ${item.left + 55}px);
               z-index: ${item.height};
               min-height: 80px;`"
-              x-show="! filter.includes(`${item.type}`)">
+              x-show="! filter.includes(`${item.type}`)"
+              x-transition>
                 <div class="h-full px-6 pt-4 pb-2 mdc-card__primary-action" tabindex="0">
                   <p class="text-xl font-medium truncate transition-all agenda-text-primary" x-text="item.name"></p>
                   <p class="transition-all agenda-text-secondary mdc-typography--body2">
@@ -150,7 +112,7 @@
 
 @push('scripts')
   <script>
-    function schedule($wire){
+    function schedule(){
       return {
         online: navigator.onLine,
         agenda: @this.agenda,
@@ -165,50 +127,35 @@
         colorPicker: false,
         selectedColor: 'blue',
         eventColors: [],
-        initDate: function ($wire) {
+        init: function () {
           this.selectedItemData.name = '';
           this.selectedItemData.color = '';
           this.selectedItemData.link = '';
           this.date = new Date({{$initDate->timestamp * 1000}})
           this.currentDayData = this.agenda[this.day];
         },
-        resetDate: function () {
-          let today = new Date();
-          if (this.date.getMonth() != today.getMonth() || this.date.getYear() != today.getYear()){
+        setDate: function (d){
+          if (this.date.getMonth() != d.getMonth() || this.date.getYear() != d.getYear()){
             this.currentDayData = null;
-            @this.setDate(today);
+            @this.setDate(d);
             startLoading();
           }
-          this.date = new Date();
+          this.date = d;
           this.updateURL();
           this.currentDayData = @this.agenda[this.day];
+        },
+        resetDate: function () {
+          this.setDate(new Date());          
         },
         forwardDay: function () {
           let nextDay = new Date(this.date.getTime());
           nextDay.setDate(nextDay.getDate() + 1);
-          if (this.date.getMonth() != nextDay.getMonth() || this.date.getYear() != nextDay.getYear()){
-            this.currentDayData = null;
-            @this.setDate(nextDay);
-            startLoading();
-          }
-          this.date = nextDay;
-          
-          this.updateURL()
-          this.currentDayData = @this.agenda[this.day];
+          this.setDate(nextDay);
         },
         backwardDay: function () {
-          let prevDay = new Date(this.date.getTime());
+          let prevDay = new Date(this.date.getTime());  
           prevDay.setDate(prevDay.getDate() - 1);
-          if (this.date.getMonth() != prevDay.getMonth() || this.date.getYear() != prevDay.getYear()){
-            let x = new Date(this.date.getTime());
-            x.setDate(x.getDate() - 5);
-            @this.setDate(x);
-            startLoading();
-          }
-          this.date = prevDay;
-          
-          this.updateURL()
-          this.currentDayData = @this.agenda[this.day];
+          this.setDate(prevDay);
         },
         setSelectedItem: function (e) {
           this.selectedItem = e;
@@ -230,13 +177,17 @@
           enableScroll();
         },
         filterToggle: function (e){
-          if(this.filter.includes(e)){
-            const search = (element) => element == e;
-            var i = this.filter.findIndex(search);
-            this.filter.splice(i, i + 1);
+          e = e.toLowerCase();
+
+          if (this.filterCategories.includes(e)){
+            if(this.filter.includes(e)){
+              const search = (element) => element == e;
+              var i = this.filter.findIndex(search);
+              this.filter.splice(i, i + 1);
+            }
+            else
+              this.filter.push(e);
           }
-          else
-            this.filter.push(e);
         },
         openColorPicker: function (){
           this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
@@ -294,6 +245,12 @@
         },
         get headerDate (){
           return this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
+        },
+        get filterCategories(){
+          return ['assignment', 'class', 'event'];
+        },
+        get filterPlurals(){
+          return ['assignments', 'classes', 'your events'];
         }
       }
     }
