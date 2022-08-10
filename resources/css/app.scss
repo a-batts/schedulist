@@ -575,7 +575,17 @@ body.theme-dark {
   Styles for both themes
 */
 
-.theme-color-text {
+.bg-primary-theme {
+  background-color: var(--mdc-theme-primary);
+  color: var(--mdc-theme-on-primary);
+}
+
+.bg-secondary-theme {
+  background-color: var(--mdc-theme-secondary);
+}
+
+.theme-color-text,
+.text-primary-theme {
   color: var(--mdc-theme-primary);
 }
 
@@ -586,7 +596,6 @@ body.theme-dark {
 .filepond--drop-label {
   color: var(--text-color);
 }
-
 
 .mdc-typography.white {
   color: white;
@@ -797,6 +806,10 @@ div.mdc-dialog__content {
 .mdc-deprecated-list-item--selected,
 .mdc-deprecated-list-item--activated {
   background-color: var(--list-selected-item);
+}
+
+.mdc-icon-button.date-picker-button {
+  @include icon-button.density(-4);
 }
 
 .char-counter.mdc-text-field-character-counter {

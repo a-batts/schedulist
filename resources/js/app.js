@@ -3,6 +3,9 @@ require('./bootstrap');
 import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 import Clipboard from '@ryangjchandler/alpine-clipboard'
+import Parent from "@ryangjchandler/alpine-parent";
+
+import datePicker from './/alpine/agenda/date-picker.js'
 
 import * as FilePond from "filepond";
 import FilePondPluginImageCrop from "filepond-plugin-image-crop";
@@ -38,6 +41,7 @@ import { MDCList } from '@material/list';
  * allows your team to easily build robust real-time web applications.
  */
 
+/*
 import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
@@ -49,9 +53,17 @@ window.Echo = new Echo({
   forceTLS: true
 });
 
-Alpine.plugin(Clipboard);
+*/
 
-window.Alpine = Alpine
+/**
+ * Import alpine.js and initalize
+ */
+window.Alpine = Alpine;
+
+Alpine.plugin(Clipboard);
+Alpine.plugin(Parent);
+Alpine.data('datePicker', datePicker);
+
 Alpine.start();
 
 const bodyScroll = require('body-scroll-toggle');
