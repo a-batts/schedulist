@@ -1,6 +1,6 @@
-var Turbolinks = require("turbolinks")
+import Turbolinks, { start } from "turbolinks";
 
-Turbolinks.start()
+start()
 
 window.Turbo = Turbolinks;
 

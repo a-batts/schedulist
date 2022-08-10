@@ -43,6 +43,7 @@
     "dependencies": {
         "@hotwired/turbo": "*",
         "@ryangjchandler/alpine-clipboard": "^2.2.0",
+        "@ryangjchandler/alpine-parent": "^1.0.0",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/typography": "^0.4.0",
         "alpine-turbo-drive-adapter": "^2.0.0",
