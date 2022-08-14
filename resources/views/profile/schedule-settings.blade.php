@@ -6,8 +6,8 @@
   @push('fonts')
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
   @endpush
-  <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-    <div class="mt-10 mdc-typography">
+  <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
+    <div class="mdc-typography mt-10">
       @livewire('profile.schedule.manage-schedule')
       <x-jet-section-border />
       <div class="mt-10 sm:mt-0">
