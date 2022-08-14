@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Scripts -->
-        <script src="{{ mix('js/turbo.js') }}"></script>
+        <!-- <script src="{{ mix('js/turbo.js') }}"></script> -->
         <script src="{{ mix('js/scripts.js') }}" async></script>
     </head>
     <body class="theme-div @if($theme == "dark") theme-dark @endif" id="themer">
