@@ -6,7 +6,7 @@
         description="Choose a new password that's at least 10 characters and contains at least one uppercase letter, number, and special character."
         back-button>
         <form wire:submit.prevent="save" style="max-width: 600px">
-            <label class="w-full mt-8 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full"
                 :class="{'mdc-text-field--invalid': errorMessages['password'] != undefined}" wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"
                     autofill="new-password" wire:model.debounce="password" required />
@@ -30,7 +30,7 @@
                 for any of your other accounts, and that it is not something that can be easily guessed, like a family
                 member or pet's name.</p>
 
-            <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-7"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-7 w-full"
                 :class="{'mdc-text-field--invalid': errorMessages['passwordConfirmation'] != undefined}" wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="passwordconf-label" :type="passwordField"
                     autofill="new-password" wire:model.lazy="passwordConfirmation" required />
@@ -51,7 +51,7 @@
             <x-ui.validation-error for="passwordConfirmation" />
 
             <div>
-                <button class="float-right mt-6 mdc-button mdc-button-ripple mdc-button--raised" wire:ignore>
+                <button class="mdc-button mdc-button-ripple mdc-button--raised float-right mt-6" wire:ignore>
                     <span class="mdc-button__ripple"></span>Save Password
                 </button>
             </div>
