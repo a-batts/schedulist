@@ -52,6 +52,14 @@ class Assignment extends Model {
     return false;
   }
 
+  public function getNameAttribute() {
+    return $this->assignment_name;
+  }
+
+  public function getLinkAttribute() {
+    return $this->assignment_link;
+  }
+
   public function reminders() {
     return $this->hasMany(AssignmentReminder::class);
   }
