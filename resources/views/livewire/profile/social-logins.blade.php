@@ -12,7 +12,7 @@
         @endif
       </div>
       <div class="float-right mt-3">
-        <button class="float-left mdc-button mdc-button-ripple mdc-button--outlined google-signin" @if($this->hasGoogleAccount) wire:click="disconnectGoogle" @else onclick="document.location='/login/google'" @endif>
+        <button class="mdc-button mdc-button-ripple mdc-button--outlined google-signin float-left" @if($this->hasGoogleAccount) wire:click="disconnectGoogle" @else onclick="document.location='/login/google'" @endif>
           <span class="mdc-button__ripple"></span>
           <img class="mdc-button__icon" src="/images/icon/vendor/google.png" width="18px" height="18px" aria-hidden="true">
           {{$this->hasGoogleAccount ? 'Disconnect Account' : 'Connect Account'}}

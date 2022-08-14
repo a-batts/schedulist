@@ -1,12 +1,12 @@
 <div>
-  <div x-show="changeBlock" style="display: none" class="inset-0 bg-gray-500 opacity-75 modal_skim hidden" x-cloak wire:ignore></div>
+  <div x-show="changeBlock" style="display: none" class="modal_skim inset-0 hidden bg-gray-500 opacity-75" x-cloak wire:ignore></div>
   <div class="mdc-card mdc-card--outlined schedule-modal pb-5" style="position: absolute; left: 0; right: 0" x-transition x-show="changeBlock"
   @close-change-block.window="changeBlock = false"
   x-cloak wire:ignore.self>
     <div class="toprowcontainer">
       <div class="closebutton">
         <button class="mdc-icon-button close-icon material-icons float-left mr-2" type="reset" aria-describedby="close-schedule-tooltip" onclick="undoFixBody()" @click="changeBlock = false" aria-label="Close Block Change">close</button>
-        <h1 class="w-72 mt-2.5 ml-5 mdc-typography--headline6 nunito">Update Block Day</h1>
+        <h1 class="mdc-typography--headline6 nunito mt-2.5 ml-5 w-72">Update Block Day</h1>
       </div>
       <div id="close-schedule-tooltip" class="mdc-tooltip" role="tooltip" aria-hidden="true">
         <div class="mdc-tooltip__surface">
@@ -19,10 +19,10 @@
         </button>
       </div>
     </div>
-    <h1 class="-mt-8 ml-2 mb-4 mdc-typography--body text-gray-600">
+    <h1 class="mdc-typography--body -mt-8 ml-2 mb-4 text-gray-600">
       If the current block day no longer matches up to your school's schedule because of a holiday or gap, you can update it here.
     </h1>
-    <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 md:w-72 w-auto" wire:ignore>
+    <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 w-auto md:w-72" wire:ignore>
       <div class="mdc-select__anchor"
            role="button"
            aria-haspopup="listbox"
