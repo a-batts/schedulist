@@ -53,11 +53,11 @@
             </div>
             <label class="check_label" for="remember_me">Keep me signed in</label>
           </div>
-          <div class="flex items-center justify-end mt-2 mr-2 forgot-password">
-            <a class="text-sm robototheme-color-text" href="{{ route('password.request') }}">Forgot password?</a>
+          <div class="forgot-password mt-2 mr-2 flex items-center justify-end">
+            <a class="robototheme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
           </div>
         </div>
-        <div class="mt-10 logincontainer">
+        <div class="logincontainer mt-10">
           <button class="mdc-button mdc-button-ripple mdc-button--raised loginbutton" wire:ignore>
             <span class="mdc-button__ripple"></span>Sign In
           </button>

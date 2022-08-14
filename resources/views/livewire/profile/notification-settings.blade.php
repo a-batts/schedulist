@@ -1,9 +1,9 @@
 <x-ui.settings-card title="Notification settings"
     description="Control the notifications that you receive about account security, assignments, and events.">
-        <div class="pt-4 pb-2 roboto" x-data="{}">
+        <div class="roboto pt-4 pb-2" x-data="{}">
           <p class="">You're receiving emails at <span class="font-medium">{{Auth::user()->email}}</span></p>
           <div class="float-right -mt-7">
-            <button class="mx-5 mdc-button" @click="document.getElementById('last-name-label').scrollIntoView({'behavior': 'smooth'})">
+            <button class="mdc-button mx-5" @click="document.getElementById('last-name-label').scrollIntoView({'behavior': 'smooth'})">
               <span class="mdc-button__ripple"></span>
               <span class="mdc-button__label">Change</span>
            </button>
@@ -11,7 +11,7 @@
           @isset(Auth::user()->phone)
             <p class="mt-6">You're receiving text messages at <span class="font-medium">{{$this->formattedPhoneNumber}}</span></p>
             <div class="float-right -mt-7">
-              <button class="mx-5 mdc-button" @click="document.getElementById('profile-email-input').scrollIntoView({'behavior': 'smooth'}); ">
+              <button class="mdc-button mx-5" @click="document.getElementById('profile-email-input').scrollIntoView({'behavior': 'smooth'}); ">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">Change</span>
              </button>
