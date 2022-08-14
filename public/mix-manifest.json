@@ -1,10 +1,9 @@
 {
-    "/js/bundle.js": "/js/bundle.js?id=1ba40b7c2d2c3b3d8aca01e237b47953",
-    "/js/turbo.js": "/js/turbo.js?id=2d5202c2942f9a4dc0b1a9b6b38bd65d",
-    "/css/bundle.css": "/css/bundle.css?id=0b89ed6cc911ad6d861b03609be94fb7",
-    "/css/filament.css": "/css/filament.css?id=3d7a578da3d8bb1c1994e6f1c49ea254",
-    "/css/styles.css": "/css/styles.css?id=d76b99cc639277466f034fac13fba443",
-    "/css/app.css": "/css/app.css?id=54cc1b36419d3ed5dce35e545401d01b",
-    "/js/scripts.js": "/js/scripts.js?id=7833eb0cc28718b5d47faab5b028f45c",
+    "/js/bundle.js": "/js/bundle.js?id=dc20fc74f8379d21f3aeb7c83fda9cae",
+    "/js/turbo.js": "/js/turbo.js?id=62af3f2e5a80e1915f6d094366231dca",
+    "/css/bundle.css": "/css/bundle.css?id=d0d4b207d76f8ee2ca14db9ef74894ad",
+    "/css/filament.css": "/css/filament.css?id=c9ab398d64f9652024afe0d941bf7d24",
+    "/css/app.css": "/css/app.css?id=1b0f2a07eda8b180745bf04e0f2af275",
+    "/js/scripts.js": "/js/scripts.js?id=10dbcb840ea551a13cf7ca58b8afe008",
     "/js/theme-engine.js": "/js/theme-engine.js?id=79e015419cae42d6d100fd7e32763e50"
 }

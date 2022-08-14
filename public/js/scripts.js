@@ -8,21 +8,25 @@ function sleep(ms) {
 Livewire.on('navigate', function (url) {
   Turbo.visit(url);
 });
- 
+
+*/
 function startLoading() {
-  Turbo.controller.adapter.progressBar.setValue(0);
-  Turbo.controller.adapter.progressBar.show();
+    //Turbo.controller.adapter.progressBar.setValue(0);
+    //Turbo.controller.adapter.progressBar.show();
 }
- 
+
+/*
 Livewire.on('startloading', function (start) {
   startLoading();
 });
- 
+*/
+
 function stopLoading() {
-  Turbo.controller.adapter.progressBar.setValue(100);
-  Turbo.controller.adapter.progressBar.hide();
+    //Turbo.controller.adapter.progressBar.setValue(100);
+    //Turbo.controller.adapter.progressBar.hide();
 }
- 
+
+/*
 Livewire.on('stoploading', function (stop) {
   setTimeout(function () {
     stopLoading();

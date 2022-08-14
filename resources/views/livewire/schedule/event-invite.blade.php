@@ -5,25 +5,25 @@
 @open-invite-menu.window="invite = true"
 @close-invite-menu.window="invite = false"
 @open-invalid-event-menu.window="invalidError = true">
-    <div class="inset-0 bg-gray-500 opacity-75 modal-skim hidden" style="display: none" x-show="invite" x-cloak></div>
-    <div class="modal-container top-16 mdc-typography" x-show="invite" x-cloak wire:ignore>
+    <div class="modal-skim inset-0 hidden bg-gray-500 opacity-75" style="display: none" x-show="invite" x-cloak></div>
+    <div class="modal-container mdc-typography top-16" x-show="invite" x-cloak wire:ignore>
         @isset($eventOwner)
           <div class="mdc-card mdc-card--outlined modal-card py-5">
-            <img src="{{$eventOwner->profile_photo_url}}" class="rounded-full w-28 h-28 mt-1 ml-auto mr-auto">
-            <p class="text-center text-xl mt-6"> <span class="font-medium">{{$eventOwner->firstname}} {{$eventOwner->lastname}}</span> shared <span class="font-medium">"{{Crypt::decryptString($event->name)}}"</span></p>
+            <img src="{{$eventOwner->profile_photo_url}}" class="mt-1 ml-auto mr-auto h-28 w-28 rounded-full">
+            <p class="mt-6 text-center text-xl"> <span class="font-medium">{{$eventOwner->firstname}} {{$eventOwner->lastname}}</span> shared <span class="font-medium">"{{Crypt::decryptString($event->name)}}"</span></p>
             <p class="text-center">with you</p>
-            <div class="event-share-info-div mdc-card mdc-card--outlined mt-6 ml-auto mr-auto py-3 px-4 rounded-lg">
+            <div class="event-share-info-div mdc-card mdc-card--outlined mt-6 ml-auto mr-auto rounded-lg py-3 px-4">
               <div>
                 <div class="float-left w-14">
-                  <i class="material-icons text-3xl ml-1 mt-1.5 float-left">event_note</i>
+                  <i class="material-icons float-left ml-1 mt-1.5 text-3xl">event_note</i>
                 </div>
-                <div class="float-left w-auto roboto mt-0.5">
+                <div class="roboto float-left mt-0.5 w-auto">
                   <p class="font-medium">{{$eventDate->format('D, F jS, Y')}}</p>
-                  <p class="text-gray-600 text-sm">{{$eventTimes}}</p>
+                  <p class="text-sm text-gray-600">{{$eventTimes}}</p>
                 </div>
                 @if ($event->reoccuring)
                   <div class="float-right">
-                    <i class="material-icons text-xl text-gray-700 mr-2 mt-1">restart_alt</i>
+                    <i class="material-icons mr-2 mt-1 text-xl text-gray-700">restart_alt</i>
                   </div>
                 @endif
               </div>

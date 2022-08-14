@@ -1,19 +1,19 @@
-<div class="px-4 md:px-24 roboto mt-16" x-data="{
+<div class="roboto mt-16 px-4 md:px-24" x-data="{
   selected: -1,
 }">
-    <p class="font-semibold text-3xl">All of your classes</p>
-    <div class="border-t border-gray-200 my-5"></div>
+    <p class="text-3xl font-semibold">All of your classes</p>
+    <div class="my-5 border-t border-gray-200"></div>
     <div>
       @foreach($classes as $index => $class)
         <div class="mdc-card mdc-card--outlined py-6 px-6 md:px-10 my-4 transition-colors {{'background-'.strtolower($class->color)}}">
           <div>
             <div class="float-left">
-              <p class="font-semibold text-2xl">{{$class->name}}</p>
+              <p class="text-2xl font-semibold">{{$class->name}}</p>
               @isset ($class->teacher_email)
                 <div class="-ml-2 -mb-1">
                   <a class="mdc-button mdc-button-ripple mdc-button--icon-tailing text-inherit" href="mailto:{{Crypt::decryptString($class->teacher_email)}}">
                     <span class="mdc-button__ripple"></span>
-                    <span class="mdc-button__label text-lg tracking-normal font-normal capitalize">{{Crypt::decryptString($class->teacher)}}</span>
+                    <span class="mdc-button__label text-lg font-normal capitalize tracking-normal">{{Crypt::decryptString($class->teacher)}}</span>
                     <i class="material-icons mdc-button__icon" aria-hidden="true">email</i>
                   </a>
                 </div>
@@ -21,7 +21,7 @@
                 <span class="mt-1 inline-block text-lg tracking-normal">{{Crypt::decryptString($class->teacher)}}</span>
               @endisset
               @isset($class->class_location)
-                <p class="text-base mt-1">{{Crypt::decryptString($class->class_location)}}</p>
+                <p class="mt-1 text-base">{{Crypt::decryptString($class->class_location)}}</p>
               @endisset
             </div>
             <div class="float-right">
@@ -47,7 +47,7 @@
           </div>
           <div class="mt-4" x-transition x-show="selected == {{$index}}" x-cloak>
             @foreach($class->links as $link)
-              <a class="mdc-button mdc-button-ripple text-inherit mr-2" href="{{Crypt::decryptString($link->link)}}" target="_blank">
+              <a class="mdc-button mdc-button-ripple mr-2 text-inherit" href="{{Crypt::decryptString($link->link)}}" target="_blank">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">{{$link->name}}</span>
               </a>

@@ -1,7 +1,7 @@
 <div x-data="miniCalendar"
 @update-current-date.window="init()">
-    <div class="flex w-full mb-4">
-        <div class="flex-grow text-gray-600 text-xs -ml-2">
+    <div class="mb-4 flex w-full">
+        <div class="-ml-2 flex-grow text-xs text-gray-600">
             <button class="mdc-icon-button material-icons date-picker-button" @click="prevYear()" aria-describedby="prev-month">
                 <div class="mdc-icon-button__ripple"></div>
                 keyboard_double_arrow_left
@@ -11,8 +11,8 @@
                 chevron_left
             </button>
         </div>
-        <span class="flex-grow align-middle font-bold text-center self-center" x-text="monthYear"></span>
-        <div class="flex-grow flex justify-end text-gray-600 -mr-2">
+        <span class="flex-grow self-center text-center align-middle font-bold" x-text="monthYear"></span>
+        <div class="-mr-2 flex flex-grow justify-end text-gray-600">
             <button class="mdc-icon-button material-icons date-picker-button" @click="nextMonth()" aria-describedby="prev-month">
                 <div class="mdc-icon-button__ripple"></div>
                 chevron_right
@@ -26,18 +26,18 @@
     <div class="grid grid-cols-7 gap-3">
         <template x-for="d in daysOfWeek" :key="'pre' + d">
            <div class="text-center">
-                <span x-text="d" class="text-gray-400 inline-block align-middle"></span>
+                <span x-text="d" class="inline-block align-middle text-gray-400"></span>
            </div>
         </template>
 
         <template x-for="day in startingBlankDays">
-            <div class="rounded-lg w-8 h-8 cursor-default text-center">
-                <span x-text="day" class="text-gray-400 inline-block align-middle"></span>
+            <div class="h-8 w-8 cursor-default rounded-lg text-center">
+                <span x-text="day" class="inline-block align-middle text-gray-400"></span>
             </div>
         </template>
 
         <template x-for="day in monthDays">
-            <div class="rounded-lg w-8 h-8 transition-all cursor-pointer text-center" 
+            <div class="h-8 w-8 cursor-pointer rounded-lg text-center transition-all" 
             :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }" 
             @click="changeDate(day)">
                 <span x-text="day" class="inline-block align-middle"></span>
@@ -45,8 +45,8 @@
         </template>
 
         <template x-for="day in endingBlankDays">
-            <div class="rounded-lg w-8 h-8 cursor-default text-center">
-                <span x-text="day" class="text-gray-400 align-middle"></span>
+            <div class="h-8 w-8 cursor-default rounded-lg text-center">
+                <span x-text="day" class="align-middle text-gray-400"></span>
             </div>
         </template>
     </div>
