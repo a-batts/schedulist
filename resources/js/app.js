@@ -5,7 +5,9 @@ import Alpine from 'alpinejs'
 import Clipboard from '@ryangjchandler/alpine-clipboard'
 import Parent from "@ryangjchandler/alpine-parent";
 
-import miniCalendar from './/alpine/agenda/mini-calendar'
+import datePicker from './alpine/ui/date-picker'
+import timePicker from './alpine/ui/time-picker';
+import miniCalendar from './alpine/agenda/mini-calendar'
 
 import * as FilePond from "filepond";
 import FilePondPluginImageCrop from "filepond-plugin-image-crop";
@@ -63,6 +65,8 @@ window.Alpine = Alpine;
 Alpine.plugin(Clipboard);
 Alpine.plugin(Parent);
 Alpine.data('miniCalendar', miniCalendar);
+Alpine.data('datePicker', datePicker);
+Alpine.data('timePicker', timePicker);
 
 Alpine.start();
 

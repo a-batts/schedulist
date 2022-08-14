@@ -87,11 +87,14 @@ body {
   --mdc-theme-secondary: #0D6ED1;
   --mdc-theme-on-primary: #FFFFFF;
   --mdc-theme-on-secondary: #FFFFFF;
+  --mdc-theme-contrast: #95CFFE;
   --mdc-checkbox-unchecked-color: #000000;
+  --mdc-theme-surface: #FFFFFF;
+  --mdc-checkbox-ink-color: #FFFFFF;
+
   --mdc-theme-background: #FFFFFF;
   --sec-surface-background: #FFFFFF;
   --ter-surface-background: #FFFFFF;
-  --mdc-checkbox-ink-color: #FFFFFF;
 
   --border-100: #f4f5f7;
   --border-200: #D2DCDC;
@@ -250,21 +253,6 @@ body {
 
   //Agenda style
 
-  .cb-red {
-    --mdc-checkbox-checked-color: #E6493B;
-    --mdc-checkbox-ink-color: #FFFFFF;
-  }
-
-  .cb-green {
-    --mdc-checkbox-checked-color: #2C734F;
-    --mdc-checkbox-ink-color: #FFFFFF;
-  }
-
-  .cb-blue {
-    --mdc-checkbox-checked-color: #1976D2;
-    --mdc-checkbox-ink-color: #FFFFFF;
-  }
-
   .agenda-sidebar {
     border-left: 1px solid #E0E1E5;
   }
@@ -284,6 +272,18 @@ body {
 
   .continue-with {
     color: #6b7280;
+  }
+
+  .date-time-picker-bg {
+    background-color: var(--mdc-theme-primary);
+
+    p {
+      color: #FFFFFF99;
+
+      &.active {
+        color: #FFF;
+      }
+    }
   }
 
 
@@ -309,11 +309,14 @@ body.theme-dark {
   --mdc-theme-secondary: #95CFFE;
   --mdc-theme-on-primary: #000000;
   --mdc-theme-on-secondary: #000000;
+  --mdc-theme-contrast: #0D6ED1;
   --mdc-checkbox-unchecked-color: #FFFFFFDE;
+  --mdc-theme-surface: #232323;
+  --mdc-checkbox-ink-color: #000000;
+
   --mdc-theme-background: #1c1c1c;
   --sec-surface-background: #232323;
   --ter-surface-background: #2E2E2E;
-  --mdc-checkbox-ink-color: #000000;
 
   --border-100: #333333;
   --border-200: #2D2D2D;
@@ -503,22 +506,6 @@ body.theme-dark {
     margin-bottom: 0px;
   }
 
-  .cb-red {
-    --mdc-checkbox-checked-color: #E67C73;
-    --mdc-checkbox-ink-color: #000000;
-
-  }
-
-  .cb-green {
-    --mdc-checkbox-checked-color: #61B18F;
-    --mdc-checkbox-ink-color: #000000;
-  }
-
-  .cb-blue {
-    --mdc-checkbox-checked-color: #64B5F6;
-    --mdc-checkbox-ink-color: #000000;
-  }
-
   .agenda-sidebar {
     border-left: 1px solid #FFFFFFDE;
   }
@@ -565,6 +552,18 @@ body.theme-dark {
 
   .nav-border {
     border-color: #2D2D2D;
+  }
+
+  .date-time-picker-bg {
+    background-color: var(--ter-surface-background);
+
+    p {
+      color: #FFFFFF99;
+
+      &.active {
+        color: #FFF;
+      }
+    }
   }
 
 
@@ -643,7 +642,6 @@ body.theme-dark {
 }
 
 .mdc-card--outlined {
-  @include card.fill-color(var(--sec-surface-background));
   @include card.outline(var(--outlined-card-outline))
 }
 
@@ -2212,4 +2210,28 @@ div.assignment-card-dashboard {
 
 .class-card {
   transition: background-color 0.6s ease, color 0.7s ease, border-color 0.6s ease;
+}
+
+.time-picker {
+  .clock-label-text {
+    transition: opacity 225ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+
+    &.fade {
+      opacity: 1;
+      transition: opacity 300ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+  }
+
+  .hour-min-slot,
+  .clock-face {
+    background-color: var(--textfield-fill-color);
+
+    &.active {
+      color: var(--mdc-theme-on-primary);
+      background-color: var(--mdc-theme-primary);
+    }
+  }
+
+
 }
