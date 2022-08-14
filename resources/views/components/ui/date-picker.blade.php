@@ -1,3 +1,65 @@
-<div>
-    <!-- It is not the man who has too little, but the man who craves more, that is poor. - Seneca -->
+<div x-data="datePicker">
+    <div class="w-full">
+        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon" x-on:click="datePickerOpen =! datePickerOpen">
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label mdc-floating-label--float-above" id="my-label-id">{{ $title ?? 'Date'}}</span>
+            <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">event</i>
+            <p x-text="formattedDate"></p>
+            <span class="mdc-line-ripple" :class="{'mdc-line-ripple--active': datePickerOpen}"></span>
+        </label>
+    </div>
+    <div class="absolute z-50 border-none rounded-lg mdc-card drop-shadow-lg w-[19rem] h-[26rem]" x-show="datePickerOpen" x-transition x-cloak x-on:click.outside="datePickerOpen = false">
+        <div class="p-4 transition-all rounded-t-lg text-gray-50 date-time-picker-bg">
+            <p class="mb-1 text-sm font-medium cursor-pointer" x-text="year" @click="showingYearSelector = true" :class="{'active' :  showingYearSelector}"></p>
+            <p class="text-3xl font-bold cursor-pointer" x-text="headerDateString" @click="showingYearSelector = false" :class="{'active' :  !showingYearSelector}"></p>
+        </div>
+        <div class="relative w-full h-full pb-4">
+            <div class="px-4 pt-2" x-show="!showingYearSelector" x-transition.in>
+                <div class="flex w-full mb-4 max-h-8">
+                    <div class="flex-grow -ml-2 text-xs text-gray-600">
+                        <button class="mdc-icon-button material-icons date-picker-button" @click.prevent="prevMonth()" aria-describedby="prev-month">
+                            <div class="mdc-icon-button__ripple"></div>
+                            chevron_left
+                        </button>
+                    </div>
+                    <span class="self-center flex-grow font-medium text-center align-middle" x-text="monthYear"></span>
+                    <div class="flex justify-end flex-grow -mr-2 text-gray-600">
+                        <button class="mdc-icon-button material-icons date-picker-button" @click.prevent="nextMonth()" aria-describedby="prev-month">
+                            <div class="mdc-icon-button__ripple"></div>
+                            chevron_right
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-7 gap-2 text-sm">
+                    <template x-for="d in daysOfWeek">
+                       <div class="text-center">
+                            <span x-text="d" class="inline-block text-gray-400 align-middle"></span>
+                       </div>
+                    </template>
+    
+                    <template x-for="_ in numberBlanks">
+                        <div><span></span></div>
+                     </template>
+            
+                    <template x-for="day in monthDays">
+                        <button class="w-8 h-8 text-center transition-all rounded-full cursor-pointer mdc-icon-button" @click.prevent="setDate(day)"
+                        x-bind:class="{'bg-primary-theme': isSelectedDate(day)}" :disabled="! validDate(day)">
+                            <div class="mdc-icon-button__ripple"></div>
+                            <span x-text="day" class="text-sm text-center day-selector-text"></span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+            <div class="" x-show="showingYearSelector" x-transition.in x-cloak>
+                <div class="overflow-y-scroll h-[20rem] max-h-[20rem] text-center" x-ref="yearsListContainer">
+                    <template x-for="year in yearsList">
+                        <div class="py-2" :class="{'text-2xl text-primary-theme font-bold selected-date cursor-pointer' : year == viewDate.getFullYear()}"
+                        @click="setYear(year)">
+                            <p x-text="year" class="cursor-pointer"></p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
