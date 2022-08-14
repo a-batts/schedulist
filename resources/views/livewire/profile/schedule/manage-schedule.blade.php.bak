@@ -16,26 +16,26 @@ x-data="{
 x-on:hide-query.window="showingQuery = false"
 >
   <h4 class="mdc-typography mdc-typography--headline5 nunito mt-2">Manage schedule</h4>
-  <p class="mdc-typography mdc-typography--body2 text-gray-600 mt-1">Set or modify your class schedule and class times, or use an existing preset.</p>
-  <div class="border-t border-gray-200 mt-5"></div>
+  <p class="mdc-typography mdc-typography--body2 mt-1 text-gray-600">Set or modify your class schedule and class times, or use an existing preset.</p>
+  <div class="mt-5 border-t border-gray-200"></div>
   <div>
     <div x-show="hasSchedule" @if(!$hasSchedule) x-cloak @endif>
       <div x-show="!usingCustomSchedule" @if($usingCustomSchedule) x-cloak @endif>
         <div x-show.transform="! showingQuery">
-          <p class="mt-5 ml-2 mdc-typography--body text-gray-600">
+          <p class="mdc-typography--body mt-5 ml-2 text-gray-600">
             You're using the schedule for {{$schoolName}}
           </p>
           <div class="mt-2">
             <button class="mdc-button mdc-button-ripple mt-2 mr-5" x-on:click="showingQuery = true" wire:ignore>
-              <span class="mdc-button__ripple "></span>Change School
+              <span class="mdc-button__ripple"></span>Change School
             </button>
             <button class="mdc-button mdc-button-ripple mt-2 mr-20" wire:click="copyAndEdit()" wire:ignore>
-              <span class="mdc-button__ripple "></span>Copy and Edit
+              <span class="mdc-button__ripple"></span>Copy and Edit
             </button>
           </div>
         </div>
         <div x-show.transform="showingQuery" x-cloak>
-          <h1 class="mt-5 ml-2 mdc-typography--body text-gray-600">
+          <h1 class="mdc-typography--body mt-5 ml-2 text-gray-600">
             You can search for your school to use your school's class times if they have been previously inputted by others.
           </h1>
           <label class="mdc-text-field mdc-text-field--filled mt-6 @error('query') mdc-text-field--invalid @enderror @if($query != null) mdc-text-field--label-floating @endif login-form" x-on:dblclick="showDropdownMenu()">
@@ -59,7 +59,7 @@ x-on:hide-query.window="showingQuery = false"
               <span class="mdc-button__ripple" wire:ignore></span>Save
             </button>
             <button class="mdc-button mdc-button-ripple float-right mr-5" x-on:click="showingQuery = false; @if($usingCustomSchedule) usingCustomSchedule = true @endif" @if($startingNewSchedule) wire:click="$set('startingNewSchedule', false)" @endif>
-              <span class="mdc-button__ripple " wire:ignore></span>Cancel
+              <span class="mdc-button__ripple" wire:ignore></span>Cancel
             </button>
           </div>
         </div>
@@ -74,9 +74,9 @@ x-on:hide-query.window="showingQuery = false"
         </div>
         <label for="basic-switch" class="roboto ml-3 mb-5">Use custom class schedule</label>
       </div>
-      <div class="border-t border-gray-200 mt-5"></div>
+      <div class="mt-5 border-t border-gray-200"></div>
       <div x-show="usingCustomSchedule" @if(! $usingCustomSchedule) x-cloak @endif>
-        <h1 class="mt-6 ml-2 mb-4 mdc-typography--body text-gray-600">
+        <h1 class="mdc-typography--body mt-6 ml-2 mb-4 text-gray-600">
           Which style of scheduling does your school use?
         </h1>
         <div>
@@ -135,7 +135,7 @@ x-on:hide-query.window="showingQuery = false"
                 <span class="mdc-line-ripple"></span>
               </div>
               <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-                <ul class="mdc-deprecated-list dark-theme-list " role="listbox" aria-label="Starting week selection" wire:ignore>
+                <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Starting week selection" wire:ignore>
                   <li class="mdc-deprecated-list-item @if($numberOfBlockDays == 1) mdc-deprecated-list-item--selected @endif" aria-selected="false" wire:click="setNumberBlocks(1)" data-value="1" role="option">
                     <span class="mdc-deprecated-list-item__ripple"></span><span class="mdc-deprecated-list-item__text">1</span>
                   </li>
@@ -186,7 +186,7 @@ x-on:hide-query.window="showingQuery = false"
                 </span>
                 <span class="mdc-line-ripple"></span>
               </div>
-              <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth ">
+              <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
                 <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Starting week selection">
                   @for ($i=1; $i <= $numberOfBlockDays; $i++)
                     <li class="mdc-deprecated-list-item @if($i == $startingBlock) mdc-deprecated-list-item--selected @endif" aria-selected="false" wire:click="setStartingWeek({{$i}})" data-value="{{$i}}" role="option" wire:key="b{{$i}}">
@@ -198,8 +198,8 @@ x-on:hide-query.window="showingQuery = false"
             </div>
           </div>
       </div>
-      <div class="border-t border-gray-200 mt-7"></div>
-      <h1 class="mt-6 ml-2 mb-4 mdc-typography--body text-gray-600">
+      <div class="mt-7 border-t border-gray-200"></div>
+      <h1 class="mdc-typography--body mt-6 ml-2 mb-4 text-gray-600">
         Set the times and frequencies for each of your classes
       </h1>
       <div>
@@ -254,7 +254,7 @@ x-on:hide-query.window="showingQuery = false"
                 <input id="start{{$i}}" class="mdc-text-field__input" type="text" aria-labelledby="period-{{$i}}-label" autocomplete="timestart" wire:model.lazy="customTimes.pd{{$i}}start" wire:ignore>
                 <span class="mdc-line-ripple" wire:ignore></span>
               </label>
-              <label class="mdc-text-field mdc-text-field--filled mdc-text-field--label-floating w-28 ml-2">
+              <label class="mdc-text-field mdc-text-field--filled mdc-text-field--label-floating ml-2 w-28">
                 <span class="mdc-text-field__ripple" wire:ignore></span>
                 <span class="mdc-floating-label mdc-floating-label--float-above" id="period-{{$i}}-label">End Time</span>
                 <input id="end{{$i}}" class="mdc-text-field__input" type="text" aria-labelledby="period-{{$i}}-label" autocomplete="timestop" wire:model.lazy="customTimes.pd{{$i}}end" wire:ignore>
@@ -262,7 +262,7 @@ x-on:hide-query.window="showingQuery = false"
               </label>
             </div>
             <div x-transition x-show="scheduleType == 'normal' || scheduleType == 'fixed'" @if($scheduleType != 'normal' && $scheduleType != 'fixed') x-cloak @endif>
-              <div class="lg:float-right ml-7 lg:ml-0 lg:-mt-14 mr-4 checkbox-row">
+              <div class="checkbox-row ml-7 mr-4 lg:float-right lg:ml-0 lg:-mt-14">
                 <div class="inline-block w-12">
                   <div class="mdc-checkbox">
                     <input type="checkbox"class="mdc-checkbox__native-control"id="{{$i}}checkbox-M" wire:click="updateFixedCustomSchedule({{$i}}, 'M')"/ @if(in_array($i, $customFixedDays['M'])) checked @endif @if(! isset($customTimes['pd'.$i.'start']) || !isset($customTimes['pd'.$i.'end'])) disabled @endif>
@@ -273,7 +273,7 @@ x-on:hide-query.window="showingQuery = false"
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$i}}checkbox-M" class="mt-8 block text-gray-600 text-center">M</label>
+                    <label for="{{$i}}checkbox-M" class="mt-8 block text-center text-gray-600">M</label>
                   </div>
                 </div>
                 <div class="inline-block w-12">
@@ -286,7 +286,7 @@ x-on:hide-query.window="showingQuery = false"
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$i}}checkbox-T" class="mt-8 block text-gray-600 text-center">T</label>
+                    <label for="{{$i}}checkbox-T" class="mt-8 block text-center text-gray-600">T</label>
                   </div>
                 </div>
                 <div class="inline-block w-12">
@@ -299,7 +299,7 @@ x-on:hide-query.window="showingQuery = false"
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$i}}checkbox-W" class="mt-8 block text-gray-600 text-center">W</label>
+                    <label for="{{$i}}checkbox-W" class="mt-8 block text-center text-gray-600">W</label>
                   </div>
                 </div>
                 <div class="inline-block w-12">
@@ -312,7 +312,7 @@ x-on:hide-query.window="showingQuery = false"
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$i}}checkbox-Th" class="mt-8 block text-gray-600 text-center">Th</label>
+                    <label for="{{$i}}checkbox-Th" class="mt-8 block text-center text-gray-600">Th</label>
                   </div>
                 </div>
                 <div class="inline-block w-12">
@@ -325,13 +325,13 @@ x-on:hide-query.window="showingQuery = false"
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$i}}checkbox-F" class="mt-8 block text-gray-600 text-center">F</label>
+                    <label for="{{$i}}checkbox-F" class="mt-8 block text-center text-gray-600">F</label>
                   </div>
                 </div>
               </div>
             </div>
             <div x-transition x-show="scheduleType == 'block'" @if($scheduleType != 'block') x-cloak @endif>
-              <div class="lg:float-right ml-7 lg:ml-0 lg:-mt-14 mr-4 checkbox-row">
+              <div class="checkbox-row ml-7 mr-4 lg:float-right lg:ml-0 lg:-mt-14">
                 @for ($j=1; $j <= $numberOfBlockDays; $j++)
                   <div class="inline-block w-12" wire:key="check{{$j}}">
                     <div class="mdc-checkbox">
@@ -343,7 +343,7 @@ x-on:hide-query.window="showingQuery = false"
                         <div class="mdc-checkbox__mixedmark"></div>
                       </div>
                       <div class="mdc-checkbox__ripple"></div>
-                      <label for="{{$j}}checkbox-bl" class="mt-8 block text-gray-600 text-center">Day {{$j}}</label>
+                      <label for="{{$j}}checkbox-bl" class="mt-8 block text-center text-gray-600">Day {{$j}}</label>
                     </div>
                   </div>
                 @endfor
@@ -356,8 +356,8 @@ x-on:hide-query.window="showingQuery = false"
             </button>
           </div>
           <div x-show="scheduleType == 'block'" @if($scheduleType != 'block') x-cloak @endif>
-            <div class="border-t border-gray-200 mt-8"></div>
-            <h1 class="mt-8 ml-2 mb-4 mdc-typography--body text-gray-600">
+            <div class="mt-8 border-t border-gray-200"></div>
+            <h1 class="mdc-typography--body mt-8 ml-2 mb-4 text-gray-600">
               Choose your block labeling style
             </h1>
             <div class="mb-5">
@@ -390,7 +390,7 @@ x-on:hide-query.window="showingQuery = false"
     </div>
     <div x-show="hasSchedule == false" @if($hasSchedule)x-cloak @endif>
       <div>
-        <p class="mt-5 ml-2 mdc-typography--body text-gray-600">
+        <p class="mdc-typography--body mt-5 ml-2 text-gray-600">
           You currently don't have a schedule selected. Add one to automatically have your current classes and events displayed on the dashboard.
         </p>
         <button class="mdc-button mdc-button--raised mdc-button-ripple ml-2 mt-8 mb-2 mr-4" type="button" wire:click="$set('hasSchedule', true)" x-on:click="usingCustomSchedule = true" wire:ignore>

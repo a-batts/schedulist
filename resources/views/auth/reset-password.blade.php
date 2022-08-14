@@ -7,7 +7,7 @@
       <form method="POST" action="{{ route('password.update') }}">
           @csrf
           <input type="hidden" name="token" value="{{ $request->route('token') }}">
-          <div class="block mt-11">
+          <div class="mt-11 block">
             <label class="mdc-text-field mdc-text-field--outlined w-full">
               <input type="email" class="mdc-text-field__input" aria-labelledby="email-label" name="email" autocomplete="email" required autofocus>
               <span class="mdc-notched-outline">
@@ -63,7 +63,7 @@
             <x-ui.validation-error :message="$errors->first('password_confirmation')" for="passwordConfirmation"/>
           </div>
 
-          <div class="flex items-center justify-end mt-8">
+          <div class="mt-8 flex items-center justify-end">
             <button class="mdc-button mdc-button-ripple mdc-button--raised">
                 <span class="mdc-button__ripple"></span>Reset Password
             </button>

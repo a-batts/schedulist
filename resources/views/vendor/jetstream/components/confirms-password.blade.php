@@ -23,7 +23,7 @@
     <x-slot name="content">
         <p class="mdc-typography mdc-typography--body2">{{ $content }}</p>
 
-        <div class="mt-10 email_margins" x-data="{}" x-on:confirming-password.window="setTimeout(() => $refs.confirmable_password.focus(), 250)">
+        <div class="email_margins mt-10" x-data="{}" x-on:confirming-password.window="setTimeout(() => $refs.confirmable_password.focus(), 250)">
             <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon pw_input login-form" wire:ignore>
               <input type="password" id="conf_password" class="mdc-text-field__input" aria-labelledby="password-label" name="password" required x-ref="confirmable_password" wire:model.defer="confirmablePassword" wire:keydown.enter="confirmPassword"/>
               <button class="mdc-icon-button material-icons mdc-text-field__icon--trailing mdc-text-field__icon icontoggle" onclick="showLoginPassword('conf_password')" type="button" tabindex="0"><i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">visibility_off</i><i class="material-icons mdc-icon-button__icon">visibility</i></button>
@@ -44,7 +44,7 @@
           <span class="mdc-button__ripple"></span>
             {{ $button }}
         </button>
-        <button class="mdc-button mdc-button-ripple mt-10 tfa-button" wire:click="stopConfirmingPassword" wire:loading.attr="disabled">
+        <button class="mdc-button mdc-button-ripple tfa-button mt-10" wire:click="stopConfirmingPassword" wire:loading.attr="disabled">
           <span class="mdc-button__ripple"></span>
             {{ __('Nevermind') }}
         </button>

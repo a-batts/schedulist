@@ -1,9 +1,9 @@
 <div>  
   <div class="content__div">
     <div class="py-4">
-      <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined sm:max-w-xl roboto">
+      <div class="mdc-card mdc-card--outlined roboto mx-auto mt-6 w-full overflow-hidden px-10 py-8 sm:max-w-xl">
         <div class="text-5xl font-medium">Contact Us</div>
-        <div class="mt-3 text-base text-left text-gray-600">Fill out this form to send a message to the Schedulist team.</div>
+        <div class="mt-3 text-left text-base text-gray-600">Fill out this form to send a message to the Schedulist team.</div>
         <div class="mt-5 border-t border-gray-200"></div>      
         <form wire:submit.prevent="submit" x-data="{
           disableSubmit: false,
@@ -118,7 +118,7 @@
           </label>
           <x-ui.validation-error for="message"/>
           <div class="mt-10">
-            <button class="float-right mb-6 mdc-button send_button mdc-button-ripple mdc-button--raised" type="submit" wire:ignore @disable-send-button.window="disableSubmit = true; resetCharacterCounter()" x-bind:disabled="disableSubmit">
+            <button class="mdc-button send_button mdc-button-ripple mdc-button--raised float-right mb-6" type="submit" wire:ignore @disable-send-button.window="disableSubmit = true; resetCharacterCounter()" x-bind:disabled="disableSubmit">
               <span class="mdc-button__ripple"></span>
               <i class="material-icons mdc-button__icon" aria-hidden="true">send</i>Send Email
             </button>

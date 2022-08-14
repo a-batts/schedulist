@@ -1,7 +1,7 @@
-<div class="pt-8 mdc-typograpy" x-data="assignmentList()" x-init="$nextTick(() => { loadTooltips() }); $watch('due', value => updateUrl()); $watch('query', value => loadTooltips());"
+<div class="mdc-typograpy pt-8" x-data="assignmentList()" x-init="$nextTick(() => { loadTooltips() }); $watch('due', value => updateUrl()); $watch('query', value => loadTooltips());"
   @update-assignments.window="assignments = @this.assignments" wire:ignore>
-  <div class="w-full px-3 mb-5 lg:float-left lg:mr-5 lg:px-0 lg:w-2/5">
-    <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon">
+  <div class="mb-5 w-full px-3 lg:float-left lg:mr-5 lg:w-2/5 lg:px-0">
+    <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon w-full">
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="search-label">Search Assignments</span>
       <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">search</i>
@@ -9,9 +9,9 @@
       <span class="mdc-line-ripple"></span>
     </label>
   </div>
-  <div class="w-full px-3 mb-5 lg:px-0">
-    <div class="float-left w-1/2 pr-2 lg:w-1/4 lg:pr-0 lg:mr-5">
-      <div class="w-full mr-5 mdc-select mdc-select--filled">
+  <div class="mb-5 w-full px-3 lg:px-0">
+    <div class="float-left w-1/2 pr-2 lg:mr-5 lg:w-1/4 lg:pr-0">
+      <div class="mdc-select mdc-select--filled mr-5 w-full">
         <div class="mdc-select__anchor"
              role="button"
              aria-haspopup="listbox"
@@ -68,7 +68,7 @@
   <div class="pt-16 lg:pt-12">
     <template x-if="due != 'Completed'">
       <div>
-        <p class="px-4 assignment-filter-hl lg:px-0">Overdue</p>
+        <p class="assignment-filter-hl px-4 lg:px-0">Overdue</p>
         <template x-for="assignment in filteredAssignments.filter(assignment => (new Date(assignment['due']).getTime() < new Date().getTime() || new Date(assignment['due']) < new Date() ))">
           <div>
             <template x-if="assignment['status'] == 'inc' && (filterClass == assignment['classid'] || filterClass == -1)">
@@ -78,7 +78,7 @@
             </template>
           </div>
         </template>
-        <p class="px-4 assignment-filter-hl lg:px-0">Due Today</p>
+        <p class="assignment-filter-hl px-4 lg:px-0">Due Today</p>
         <template x-for="assignment in filteredAssignments.filter(assignment => (new Date(assignment['due']).toDateString() == new Date().toDateString() && new Date(assignment['due']).getTime() >= new Date().getTime() ))">
           <div>
             <template x-if="assignment['status'] == 'inc' && (filterClass == assignment['classid'] || filterClass == -1)">
@@ -88,7 +88,7 @@
             </template>
           </div>
         </template>
-        <p class="px-4 assignment-filter-hl lg:px-0">Due This Week</p>
+        <p class="assignment-filter-hl px-4 lg:px-0">Due This Week</p>
         <template x-for="assignment in filteredAssignments.filter(assignment => (new Date(assignment['due']) > new Date(new Date().setUTCHours(23,59,59,999)) && new Date(assignment['due']) <= new Date().setDate(new Date(new Date().setUTCHours(23,59,59,999)).getDate() + 7) ) )">
           <div>
             <template x-if="assignment['status'] == 'inc' && (filterClass == assignment['classid'] || filterClass == -1)">
@@ -98,7 +98,7 @@
             </template>
           </div>
         </template>
-        <p class="px-4 assignment-filter-hl lg:px-0">Due Later</p>
+        <p class="assignment-filter-hl px-4 lg:px-0">Due Later</p>
         <template x-for="assignment in filteredAssignments.filter(assignment => (new Date(assignment['due']) > new Date().setDate(new Date(new Date().setUTCHours(23,59,59,999)).getDate() + 7) ) )">
           <div>
             <template x-if="assignment['status'] == 'inc' && (filterClass == assignment['classid'] || filterClass == -1)">
@@ -112,7 +112,7 @@
     </template>
     <template x-if="due == 'Completed'">
       <div>
-        <p class="px-4 assignment-filter-hl lg:px-">All completed assignments</p>
+        <p class="assignment-filter-hl lg:px- px-4">All completed assignments</p>
         <template x-for="assignment in filteredAssignments.sort((firstEl, secondEl) => new Date(secondEl['due']).getTime() - new Date(firstEl['due']).getTime())">
           <div>
             <template x-if="assignment['status'] == 'done' && (filterClass == assignment['classid'] || filterClass == '-1')">

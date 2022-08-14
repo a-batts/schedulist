@@ -55,33 +55,33 @@
         }
       }"
       @scroll.window="scrolled()">
-        <nav class="fixed z-10 w-screen py-4 nav-border base-bg" x-bind:class="{'border-b': aboveContent}">
-          <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <nav class="nav-border base-bg fixed z-10 w-screen py-4" x-bind:class="{'border-b': aboveContent}">
+          <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between" style="height: 4.2rem">
-              <div class="absolute flex items-center justify-center flex-1 md:relative schedulist-logo-nav sm:items-stretch sm:justify-start">
+              <div class="schedulist-logo-nav absolute flex flex-1 items-center justify-center sm:items-stretch sm:justify-start md:relative">
                 <a href="{{ route ('landing') }}" class="z-20 overflow-y-auto">
                   <div class="flex-shrink-0">
-                    <div class="mt-6 mb-3 -ml-10 border-none sm:ml-0 logo-image" style="width: 160px;">
+                    <div class="logo-image mt-6 mb-3 -ml-10 border-none sm:ml-0" style="width: 160px;">
                     </div>
                   </div>
                 </a>
               </div>
               <div class="absolute w-full">
-                <a href="{{ route('themes') }}" class="float-right ml-4 mdc-icon-button material-icons text-primary" @click="profileMenu = false">
+                <a href="{{ route('themes') }}" class="mdc-icon-button material-icons text-primary float-right ml-4" @click="profileMenu = false">
                   <div class="mdc-icon-button__ripple"></div>
                   <span class="mdc-icon-button__focus-ring"></span>
                   <span x-text="themeIcon"></span>
                 </a>
                 @if(Auth::check())
-                  <a href="{{ route('dashboard') }}"class="float-right max-w-xs mt-1.5 text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                  <a href="{{ route('dashboard') }}"class="float-right mt-1.5 max-w-xs rounded-full bg-gray-800 text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   aria-label="User menu" aria-haspopup="true">
-                    <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
                   </a>
                 @else
-                  <a class="float-right text-lg w-22 h-11 mdc-button mdc-button--raised" href="{{route('login')}}" wire:ignore>
+                  <a class="w-22 mdc-button mdc-button--raised float-right h-11 text-lg" href="{{route('login')}}" wire:ignore>
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
-                    <span class="font-medium tracking-normal normal-case mdc-button__label">Sign In</span>
+                    <span class="mdc-button__label font-medium normal-case tracking-normal">Sign In</span>
                   </a>
                 @endif
               </div>
@@ -93,7 +93,7 @@
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <div class="antialiased content-div mdc-typography">
+      <div class="content-div mdc-typography antialiased">
           {{ $slot }}
       </div>
 
