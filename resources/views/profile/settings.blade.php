@@ -1,6 +1,6 @@
 <x-app-layout style="mt-10" title="Account Settings">
-    <div class="py-10 pt-20 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="mb-12 mdc-card mdc-card--outlined options_card mdc-typography">
+    <div class="mx-auto max-w-7xl py-10 pt-20 sm:px-6 lg:px-8">
+        <div class="mdc-card mdc-card--outlined options_card mdc-typography mb-12">
             <div>
                 <div>
                     <h4 class="mt-2 text-4xl font-medium">Settings</h4>

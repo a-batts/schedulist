@@ -5,7 +5,7 @@ x-data="{
 }"
 >
     <x-ui.auth-card title="Set a password" description="Setting a password will allow you to sign in without using your Google Account, in case you lose access to it.">
-      <p class="text-sm text-gray-600 mt-2">Your password needs to be at least 10 characters and contain at least one uppercase letter, number, and special character.</p>
+      <p class="mt-2 text-sm text-gray-600">Your password needs to be at least 10 characters and contain at least one uppercase letter, number, and special character.</p>
       <form wire:submit.prevent="save">
         <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full" :class="{'mdc-text-field--invalid': errorMessages['password'] != undefined}" wire:ignore>
           <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField" autofill="new-password" wire:model.lazy="password" required />

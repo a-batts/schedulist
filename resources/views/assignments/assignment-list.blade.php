@@ -5,7 +5,7 @@
   @push('fonts')
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
   @endpush
-  <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-6xl py-10 sm:px-6 lg:px-8">
     <div class="mt-4"></div>
     @livewire('assignments.assignment-list', ['class' => $class, 'due' => $due])
     @livewire('assignments.assignment-create')

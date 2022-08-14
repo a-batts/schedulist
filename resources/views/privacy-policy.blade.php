@@ -1,12 +1,12 @@
 <x-guest-layout title="Privacy Policy">
-  <div class="mdc-typography md:px-12 px-6 mr-3 md:pr-16 md:mr-12 ml-3">
-    <h1 class="font-bold text-4xl" style="padding-top: 120px">
+  <div class="mdc-typography mr-3 ml-3 px-6 md:mr-12 md:px-12 md:pr-16">
+    <h1 class="text-4xl font-bold" style="padding-top: 120px">
       Schedulist Privacy Policy
     </h1>
-    <p class="mdc-typography--headline6 text-base mt-4">
+    <p class="mdc-typography--headline6 mt-4 text-base">
       Last updated January 21, 2021
     </p>
-    <p class="mt-12 ">
+    <p class="mt-12">
       Thank you for choosing to be part of our community at Schedulist <span class="font-bold">("Company ", "we", "us", "our")</span> . We are committed to protecting
       your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal
       information, please contact us at mail@schedulist.xyz.
@@ -17,15 +17,15 @@
        what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important.
        If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Services immediately.
     </p>
-    <p class="mt-6 mb-10 ">
+    <p class="mt-6 mb-10">
       This privacy notice applies to all information collected through our Services (which, as described above, includes our  Website ), as well as, any related services, sales, marketing or events. Please read this privacy notice carefully as it will help you understand what we do with the information that we collect.
     </p>
     <x-jet-section-border />
-    <p class="mt-2 mdc-typography--headline6 font-bold text-3xl">
+    <p class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       Table of Contents
     </p>
     <div class="mt-8">
-      <ul class="ml-2 mdc-typography--subtitle2">
+      <ul class="mdc-typography--subtitle2 ml-2">
         <li class="mt-2">
           <a href="#section1" class="text-blue-500">1. WHAT INFORMATION DO WE COLLECT?</a>
         </li>
@@ -68,12 +68,12 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-4 mdc-typography--headline6 text-3xl font-bold" id="section1">
+    <h6 class="mdc-typography--headline6 mt-4 text-3xl font-bold" id="section1">
       1. WHAT INFORMATION DO WE COLLECT?
     </h6>
-    <div class="mt-10 " id="section1">
+    <div class="mt-10" id="section1">
       <p class="text-lg font-bold">Personal information you disclose to us</p>
-      <p class="text-lg italic mt-2">In Short: We collect personal information that you provide to us.</p>
+      <p class="mt-2 text-lg italic">In Short: We collect personal information that you provide to us.</p>
       <p class="mt-6">
          We collect personal information that you voluntarily provide to us when you register on the Website, express an interest in obtaining information about us or our products
          and Services, when you participate in activities on the Website  or otherwise when you contact us.
@@ -95,11 +95,11 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       2. HOW DO WE USE YOUR INFORMATION?
     </h6>
-    <div class="mt-10 " id="section2">
-      <p class="text-lg italic mt-2">In Short:  We process your information for purposes based on legitimate business interests, the fulfillment of our contract with you,
+    <div class="mt-10" id="section2">
+      <p class="mt-2 text-lg italic">In Short:  We process your information for purposes based on legitimate business interests, the fulfillment of our contract with you,
         compliance with our legal obligations, and/or your consent.</p>
       <p class="mt-6">
         We use personal information collected via our Website for a variety of business purposes described below. We process your personal information for these purposes in
@@ -151,11 +151,11 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?
     </h6>
-    <div class="mt-10 " id="section3">
-      <p class="text-lg italic mt-2">In Short:  We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to
+    <div class="mt-10" id="section3">
+      <p class="mt-2 text-lg italic">In Short:  We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to
         fulfill business obligations.</p>
       <p class="mt-6">
         We may process or share your data that we hold based on the following legal basis:
@@ -191,22 +191,22 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
     </h6>
-    <div class="mt-10 " id="section4">
-      <p class="text-lg italic mt-2">In Short: We may use cookies and other tracking technologies to collect and store your information. We may use cookies and similar
+    <div class="mt-10" id="section4">
+      <p class="mt-2 text-lg italic">In Short: We may use cookies and other tracking technologies to collect and store your information. We may use cookies and similar
         tracking technologies (like web beacons and pixels) to access or store information.</p>
       <p class="mt-6">
         Specific information about how we use such technologies and how you can refuse certain cookies is set out in our Cookie Notice.
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       5. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
     </h6>
-    <div class="mt-10 " id="section5">
-      <p class="text-lg italic mt-2">In Short:  If you choose to register or log in to our services using a social media account, we may have access to certain information about you.</p>
+    <div class="mt-10" id="section5">
+      <p class="mt-2 text-lg italic">In Short:  If you choose to register or log in to our services using a social media account, we may have access to certain information about you.</p>
       <p class="mt-6">
         Our Website offers you the ability to register and login using your third-party social media account details (like your Facebook or Twitter logins). Where you choose
         to do this, we will receive certain profile information about you from your social media provider. The profile Information we receive may vary depending on the social
@@ -221,11 +221,11 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       6. HOW LONG DO WE KEEP YOUR INFORMATION?
     </h6>
-    <div class="mt-10 " id="section6">
-      <p class="text-lg italic mt-2">In Short:  We keep your information for as long as necessary to fulfill the purposes outlined in this privacy notice unless otherwise required by law.</p>
+    <div class="mt-10" id="section6">
+      <p class="mt-2 text-lg italic">In Short:  We keep your information for as long as necessary to fulfill the purposes outlined in this privacy notice unless otherwise required by law.</p>
       <p class="mt-6">
         We will only keep your personal information for as long as it is necessary for the purposes set out in this privacy notice, unless a longer retention period is
         required or permitted by law (such as tax, accounting or other legal requirements). No purpose in this notice will require us keeping your personal information for
@@ -238,11 +238,11 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
       7. HOW DO WE KEEP YOUR INFORMATION SAFE?
     </h6>
-    <div class="mt-10 " id="section7">
-      <p class="text-lg italic mt-2">In Short:  We aim to protect your personal information through a system of organizational and technical security measures.</p>
+    <div class="mt-10" id="section7">
+      <p class="mt-2 text-lg italic">In Short:  We aim to protect your personal information through a system of organizational and technical security measures.</p>
       <p class="mt-6">
         We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process.
         However, despite our safeguards and efforts to secure your information, no electronic transmission over the Internet or information storage technology
@@ -252,11 +252,11 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section8">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section8">
       8. WHAT ARE YOUR PRIVACY RIGHTS?
     </h6>
-    <div class="mt-10 ">
-      <p class="text-lg italic mt-2">In Short:  You may review, change, or terminate your account at any time.</p>
+    <div class="mt-10">
+      <p class="mt-2 text-lg italic">In Short:  You may review, change, or terminate your account at any time.</p>
       <p class="mt-6">
         If you are a resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the
         right to complain to your local data protection supervisory authority. You can find their contact details
@@ -270,7 +270,7 @@
       <p class="mt-6">
         If you have questions or comments about your privacy rights, you may email us at mail@schedulist.xyz.
       </p>
-      <p class="text-lg mt-6 font-bold">Account Information</p>
+      <p class="mt-6 text-lg font-bold">Account Information</p>
       <p class="mt-6">
         If you would at any time like to review or change the information in your account or terminate your account, you can:
       </p>
@@ -284,13 +284,13 @@
         in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with applicable legal requirements.
       </p>
       <p class="mt-6">
-        <span class="underline font-bold">Cookies and similar technologies:</span> Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies
+        <span class="font-bold underline">Cookies and similar technologies:</span> Most Web browsers are set to accept cookies by default. If you prefer, you can usually choose to set your browser to remove cookies
         and to reject cookies. If you choose to remove cookies or reject cookies, this could affect certain features or services of our Website. To opt-out of interest-based
         advertising by advertisers on our Website visit <a href="http://www.aboutads.info/choices/" class="text-blue-500">
           http://www.aboutads.info/choices/</a>.
       </p>
       <p class="mt-6">
-        <span class="underline font-bold">Opting out of email marketing:</span> You can unsubscribe from our marketing email list at any time by clicking on the unsubscribe link
+        <span class="font-bold underline">Opting out of email marketing:</span> You can unsubscribe from our marketing email list at any time by clicking on the unsubscribe link
         in the emails that we send or by contacting us using the details provided below. You will then be removed from the marketing email list — however, we may still communicate
         with you, for example to send you service-related emails that are necessary for the administration and use of your account, to respond to service requests, or for other
         non-marketing purposes. To otherwise opt-out, you may:
@@ -302,10 +302,10 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section9">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section9">
       9. CONTROLS FOR DO-NOT-TRACK FEATURES
     </h6>
-    <div class="mt-10 ">
+    <div class="mt-10">
       <p class="mt-6">
         Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy
         preference not to have data about your online browsing activities monitored and collected. At this stage no uniform technology standard for recognizing and implementing
@@ -315,24 +315,24 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section10">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section10">
       10. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
     </h6>
-    <div class="mt-10 ">
-      <p class="text-lg italic mt-2">In Short:  Yes, if you are a resident of California, you are granted specific rights regarding access to your personal information.</p>
-      <p class="mt-6 mdc-typograpy--body1">
+    <div class="mt-10">
+      <p class="mt-2 text-lg italic">In Short:  Yes, if you are a resident of California, you are granted specific rights regarding access to your personal information.</p>
+      <p class="mdc-typograpy--body1 mt-6">
         California Civil Code Section 1798.83, also known as the "Shine The Light" law, permits our users who are California residents to request and obtain from us, once a
         year and free of charge, information about categories of personal information (if any) we disclosed to third parties for direct marketing purposes and the names and
         addresses of all third parties with which we shared personal information in the immediately preceding calendar year. If you are a California resident and would like to
         make such a request, please submit your request in writing to us using the contact information provided below.
       </p>
-      <p class="mt-6 mdc-typograpy--body1">
+      <p class="mdc-typograpy--body1 mt-6">
         If you are under 18 years of age, reside in California, and have a registered account with the Website, you have the right to request removal of unwanted data that you
         publicly post on the Website. To request removal of such data, please contact us using the contact information provided below, and include the email address associated
         with your account and a statement that you reside in California. We will make sure the data is not publicly displayed on the Website, but please be aware that the
         data may not be completely or comprehensively removed from all our systems (e.g. backups, etc.).
       </p>
-      <p class="text-lg mt-6 font-bold">CCPA Privacy Notice</p>
+      <p class="mt-6 text-lg font-bold">CCPA Privacy Notice</p>
       <p class="mt-6">
         The California Code of Regulations defines a "resident" as:
       </p>
@@ -346,11 +346,11 @@
       <p class="mt-6">
         If this definition of "resident" applies to you, we must adhere to certain rights and obligations regarding your personal information.
       </p>
-      <p class="text-lg mt-6 font-bold">What categories of personal information do we collect?</p>
+      <p class="mt-6 text-lg font-bold">What categories of personal information do we collect?</p>
       <p class="mt-6">
         We have collected the following categories of personal information in the past twelve (12) months:
       </p>
-      <div class="mdc-data-table max-w-full mt-8">
+      <div class="mdc-data-table mt-8 max-w-full">
         <div class="mdc-data-table__table-container">
           <table class="mdc-data-table__table" aria-label="Dessert calories">
             <thead>
@@ -432,19 +432,19 @@
         <li class="mt-4">Participation in customer surveys or contests; and</li>
         <li class="mt-4">Facilitation in the delivery of our Services and to respond to your inquiries.</li>
       </ul>
-      <p class="text-lg mt-6 font-bold">How do we use and share your personal information?</p>
+      <p class="mt-6 text-lg font-bold">How do we use and share your personal information?</p>
       <p class="mt-6">More information about our data collection and sharing practices can be found in this privacy notice.</p>
       <p class="mt-6">You may contact us by email at mail@schedulist.xyz, by visiting <a href="http://schedulist.xyz/contact" class="text-blue-500">schedulist.xyz/contact</a>, or by referring to the contact details at the bottom of this document.</p>
       <p class="mt-6"> If you are using an authorized agent to exercise your right to opt-out we may deny a request if the authorized agent does not submit proof that they have
         been validly authorized to act on your behalf.</p>
-      <p class="text-lg mt-6 font-bold">Will your information be shared with anyone else?</p>
+      <p class="mt-6 text-lg font-bold">Will your information be shared with anyone else?</p>
       <p class="mt-6">We may disclose your personal information with our service providers pursuant to a written contract between us and each service provider. Each service
         provider is a for-profit entity that processes the information on our behalf.</p>
       <p class="mt-6">We may use your personal information for our own business purposes, such as for undertaking internal research for technological development and
         demonstration. This is not considered to be "selling" of your personal data.</p>
       <p class="mt-6">Schedulist has not disclosed or sold any personal information to third parties for a business or commercial purpose in the preceding 12 months.
         Schedulist will not sell personal information in the future belonging to website visitors, users and other consumers.</p>
-      <p class="text-lg mt-6 font-bold">Your rights with respect to your personal data</p>
+      <p class="mt-6 text-lg font-bold">Your rights with respect to your personal data</p>
       <p class="mt-6 underline">Right to request deletion of the data - Request to delete</p>
       <p class="mt-6">You can ask for the deletion of your personal information. If you ask us to delete your personal information, we will respect your request and
         delete your personal information, subject to certain exceptions provided by law, such as (but not limited to) the exercise by another consumer of his or her
@@ -491,32 +491,32 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section11">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section11">
       11. DO WE MAKE UPDATES TO THIS NOTICE?
     </h6>
-    <div class="mt-10 ">
-      <p class="text-lg italic mt-2">In Short:  Yes, we will update this notice as necessary to stay compliant with relevant laws.</p>
-      <p class="mt-6 mdc-typograpy--body1">
+    <div class="mt-10">
+      <p class="mt-2 text-lg italic">In Short:  Yes, we will update this notice as necessary to stay compliant with relevant laws.</p>
+      <p class="mdc-typograpy--body1 mt-6">
         We may update this privacy notice from time to time. The updated version will be indicated by an updated "Revised" date and the updated version will be effective as
         soon as it is accessible. If we make material changes to this privacy notice, we may notify you either by prominently posting a notice of such changes or by directly
         sending you a notification. We encourage you to review this privacy notice frequently to be informed of how we are protecting your information.
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section12">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section12">
       12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
     </h6>
-    <div class="mt-10 ">
-      <p class="mt-6 mdc-typograpy--body1">
+    <div class="mt-10">
+      <p class="mdc-typograpy--body1 mt-6">
         If you have questions or comments about this notice, you may email us at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mt-2 mdc-typography--headline6 text-3xl font-bold" id="section13">
+    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section13">
       13. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
     </h6>
-    <div class="mt-10 ">
-      <p class="mt-6 mdc-typograpy--body1">
+    <div class="mt-10">
+      <p class="mdc-typograpy--body1 mt-6">
         Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or
         delete it in some circumstances. To request to review, update, or delete your personal information, please visit: <a href="https://schedulist.xyz/user/profile" class="text-blue-500">
           schedulist.xyz/user/profile</a>. We will respond to your
