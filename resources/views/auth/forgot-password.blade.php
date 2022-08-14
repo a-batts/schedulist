@@ -1,7 +1,7 @@
 <x-guest-layout title="Forgot Password">
-  <div class="pt-32 pb-24 roboto">
+  <div class="roboto pt-32 pb-24">
     <x-ui.auth-card title="Forgot your password?" description="Enter your email address and we'll send you a magic link to reset it!">
-      <div class="mb-2 text-sm text-green h-4 mt-3">
+      <div class="text-green mb-2 mt-3 h-4 text-sm">
         @if (session()->has('status'))
           {{ session('status') }}
         @endif
@@ -9,7 +9,7 @@
       <form method="POST" action="{{ route('password.email') }}">
           @csrf
           <div class="block">
-            <label class="mdc-text-field mdc-text-field--outlined w-full mt-4">
+            <label class="mdc-text-field mdc-text-field--outlined mt-4 w-full">
               <input type="email" class="mdc-text-field__input" aria-labelledby="email-label" name="email" value="{{ old('email') }}" required autofocus>
               <span class="mdc-notched-outline">
                 <span class="mdc-notched-outline__leading"></span>
@@ -22,7 +22,7 @@
             <x-ui.validation-error :message="$errors->first('email')" for="email"/>
           </div>
 
-          <div class="flex items-center justify-end mt-12">
+          <div class="mt-12 flex items-center justify-end">
             <button class="mdc-button mdc-button-ripple mdc-button--raised">
               <span class="mdc-button__ripple"></span>Email Password Reset Link
             </button>

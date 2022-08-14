@@ -14,7 +14,7 @@ x-on:update-content.window="updateContent($wire)"
 x-on:close-dialog="edit = false"
 class="mdc-typography">
     <x-ui.modal alpine="edit" title="Edit Event" action="Save" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('event.frequency', frequency); $wire.set('event.days', days); $wire.edit()">
-    <label class="w-4/5 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
+    <label class="mdc-text-field mdc-text-field--filled w-4/5" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label mdc-floating-label--float-above" id="event-name-label">Event Name</span>
       <input class="mdc-text-field__input" wire:model.lazy="event.name" type="text" aria-labelledby="event-name-label" required>
@@ -53,11 +53,11 @@ class="mdc-typography">
         <template x-if="frequency == 'Week' || frequency == 'Two Weeks'">
           <div class="mt-5 ml-1">
             <span>Repeat event on</span>
-            <div class="h-10 mt-3" wire:ignore>
+            <div class="mt-3 h-10" wire:ignore>
               @foreach($days as $day)
-                <button class="float-left w-8 h-8 mr-2 rounded-full select-none mdc-icon-button day-selector" x-bind:class="{'day-selector-selected': days.includes('{{$day}}') && currentDay != '{{$day}}'}" x-on:click="daysToggle('{{$day}}')" wire:key="{{$day}}" x-bind:disabled="currentDay == '{{$day}}'" type="button" >
+                <button class="mdc-icon-button day-selector float-left mr-2 h-8 w-8 select-none rounded-full" x-bind:class="{'day-selector-selected': days.includes('{{$day}}') && currentDay != '{{$day}}'}" x-on:click="daysToggle('{{$day}}')" wire:key="{{$day}}" x-bind:disabled="currentDay == '{{$day}}'" type="button" >
                   <div class="mdc-icon-button__ripple"></div>
-                  <span class="text-sm text-center day-selector-text">{{$day}}</span>
+                  <span class="day-selector-text text-center text-sm">{{$day}}</span>
                 </button>
               @endforeach
             </div>

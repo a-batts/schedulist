@@ -26,41 +26,41 @@ x-init="
       </div>
       <div class="mt-5">
         @if($sharedWith->count() > 0)
-          <p class="font-medium ml-3 mb-3 text-xl">Shared with</p>
+          <p class="ml-3 mb-3 text-xl font-medium">Shared with</p>
         @endif
         @foreach ($sharedWith as $user)
-          <div class="px-3 w-full py-2 h-14 mb-2">
-            <img src="{{$user->profile_photo_url}}" class="rounded-full w-10 h-10 mt-1 float-left">
+          <div class="mb-2 h-14 w-full px-3 py-2">
+            <img src="{{$user->profile_photo_url}}" class="float-left mt-1 h-10 w-10 rounded-full">
             <div class="float-left ml-4">
-              <span class="block font-medium text-base mt-1 mb-0">{{$user->firstname}} {{$user->lastname}}</span>
+              <span class="mt-1 mb-0 block text-base font-medium">{{$user->firstname}} {{$user->lastname}}</span>
               <br />
-              <span class="block text-gray-600 text-xs -mt-6">{{$user->email}}</span>
+              <span class="-mt-6 block text-xs text-gray-600">{{$user->email}}</span>
             </div>
             <button class="mdc-icon-button material-icons float-right" type="button" wire:click="unshare({{$user->id}})" wire:ignore>close</button>
           </div>
         @endforeach
-        <div class="px-3 w-full py-2 mb-7 h-20 mb-2">
+        <div class="mb-7 mb-2 h-20 w-full px-3 py-2">
           <div class="section-border border-100 mb-3"></div>
-          <div class="rounded-full w-10 h-10 event-link-icon float-left block mt-1" style="padding-top: 3px">
-            <span class="material-icons add-link-icon text-2xl block">add_link</span>
+          <div class="event-link-icon float-left mt-1 block h-10 w-10 rounded-full" style="padding-top: 3px">
+            <span class="material-icons add-link-icon block text-2xl">add_link</span>
           </div>
           @if(! $event->public)
             <div class="float-left ml-2" style="width: calc(100% - 50px)">
               <button class="mdc-button mdc-button-ripple h-14 w-full" type="button" wire:click="makePublic()">
                 <span class="mdc-button__ripple"></span>
-                <span class="mdc-typograpy tracking-normal normal-case text-left float-left absolute left-2 top-1 leading-6">
-                  <span class="block font-medium create-link-title text-base mt-1 mb-0">Create a public link</span>
+                <span class="mdc-typograpy absolute left-2 top-1 float-left text-left normal-case leading-6 tracking-normal">
+                  <span class="create-link-title mt-1 mb-0 block text-base font-medium">Create a public link</span>
                   <br />
-                  <span class="block text-gray-600 font-normal text-xs -mt-6">Anyone with this link can save this event</span>
+                  <span class="-mt-6 block text-xs font-normal text-gray-600">Anyone with this link can save this event</span>
                 </span>
               </button>
             </div>
           @else
             <div class="ml-14 mt-4">
-              <div class="share-link-box rounded-lg h-10 px-3 py-2" x-on:click="navigator.clipboard.writeText('{{$publicLink}}'); snack('Copied link to clipboard')">
+              <div class="share-link-box h-10 rounded-lg px-3 py-2" x-on:click="navigator.clipboard.writeText('{{$publicLink}}'); snack('Copied link to clipboard')">
                 <input type="text" class="mdc-typograpy h-5 w-full overflow-ellipsis outline-none" x-on:click="navigator.clipboard.writeText('{{$publicLink}}'); snack('Copied link to clipboard')" value="{{$publicLink}}" readonly />
               </div>
-              <div class="mb-5 mt-2 h-10 -ml-2">
+              <div class="mb-5 mt-2 -ml-2 h-10">
                 <button class="mdc-button mt-1" wire:click="makePrivate()" type="button">
                  <span class="mdc-button__ripple"></span>
                  <span class="mdc-button__label">Disable Public Link</span>
