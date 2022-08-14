@@ -1,9 +1,9 @@
 <div class="" wire:poll.300000ms="refresh">
-  <div class="px-6 py-8 text-white mdc-card mdc-card--outlined md:px-10" style="background-color: #242323">
+  <div class="mdc-card mdc-card--outlined px-6 py-8 text-white md:px-10" style="background-color: #242323">
     <div>
       <p class="float-left text-4xl font-semibold md:text-6xl">{{$greeting}} {{Auth::User()->firstname}}!</p>
       <div class="float-right">
-        <a class="-mt-3 mdc-icon-button material-icons" aria-describedby="update-label" href="{{route('schedule-settings')}}">
+        <a class="mdc-icon-button material-icons -mt-3" aria-describedby="update-label" href="{{route('schedule-settings')}}">
           <div class="mdc-icon-button__ripple"></div>
           settings_suggest
         </a>

@@ -46,8 +46,8 @@
       <main>
         <div class="center">
           <span class="material-icons wifi_icon mdc-typography">signal_wifi_off</span>
-          <p class="mt-5 font-bold text-center mdc-typography mdc-typography--headline2 center_text">You're offline</p>
-          <p class="mt-5 text-lg font-medium text-center text-gray-600 mdc-typography">We'll try to reconnect you when you get back online</p>
+          <p class="mdc-typography mdc-typography--headline2 center_text mt-5 text-center font-bold">You're offline</p>
+          <p class="mdc-typography mt-5 text-center text-lg font-medium text-gray-600">We'll try to reconnect you when you get back online</p>
         </div>
       </main>
     </div>
