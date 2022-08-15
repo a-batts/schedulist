@@ -77,29 +77,29 @@
       </div>
       <x-ui.validation-error for="event.date"/>
 
-      <div>
+      <div class="py-2 -ml-2">
         <div class="mdc-checkbox">
-        <input type="checkbox"
-                class="mdc-checkbox__native-control"
-                id="create-check"
-                x-on:click="reoccuring = !reoccuring" x-bind:checked="reoccuring"/>
-        <div class="mdc-checkbox__background">
-          <svg class="mdc-checkbox__checkmark"
-                viewBox="0 0 24 24">
-            <path class="mdc-checkbox__checkmark-path"
-                  fill="none"
-                  d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-          </svg>
-          <div class="mdc-checkbox__mixedmark"></div>
+          <input type="checkbox"
+                  class="mdc-checkbox__native-control"
+                  id="create-check"
+                  x-on:click="reoccuring = !reoccuring" x-bind:checked="reoccuring"/>
+          <div class="mdc-checkbox__background">
+            <svg class="mdc-checkbox__checkmark"
+                  viewBox="0 0 24 24">
+              <path class="mdc-checkbox__checkmark-path"
+                    fill="none"
+                    d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+            </svg>
+            <div class="mdc-checkbox__mixedmark"></div>
+          </div>
+          <div class="mdc-checkbox__ripple"></div>
         </div>
-        <div class="mdc-checkbox__ripple"></div>
-      </div>
-      <label for="create-check" style="vertical-align: 6px">Make this event reoccuring</label>
+        <label for="create-check" style="vertical-align: 6px">This event recurrs</label>
       </div>
 
       <div class="py-3" x-transition x-show="reoccuring" x:cloak>
         
-        <x-ui.select title="Repeat every" bind="frequency" style="filled" 
+        <x-ui.select title="Repeat event every..." bind="frequency" style="filled" 
         :data="json_encode($frequencies)" x-bind:class="{'mdc-select--invalid': errorMessages['event.frequency'] != undefined}" class="w-3/5" required/>
         <x-ui.validation-error for="event.frequency"/>
         
@@ -116,10 +116,9 @@
                 @endforeach
               </div>
             </div>
-
+            <x-ui.validation-error for="event.days"/>
           </template>
         </div>
-        <x-ui.validation-error for="event.days"/>
       </div>
     </x-ui.modal>
 
