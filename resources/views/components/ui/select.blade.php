@@ -1,21 +1,32 @@
-<div>
-  <div class="mdc-select {{ $attributes->get('class') }} @if($type == 'outlined') mdc-select--outlined @else mdc-select--filled @endif @if($attributes->has('required')) mdc-select--required @endif" {{ $attributes->whereStartsWith('x-bind:class') }}>
-    <div class="mdc-select__anchor" aria-labelledby="{{$text}}-label" @if($attributes->has('required')) aria-required="true" @endif>
-      @if($type == 'outlined')
+<div
+x-data="{
+  data: {{$data}},
+  value: '{{$value != null ? $value : 'null'}}',
+}"
+>
+  <div class="w-full mdc-select {{ $style == 'outlined' ? 'mdc-select--outlined' : 'mdc-select--filled'}} {{$attributes->has('required') ? 'mdc-select--required' : ''}} {{ $attributes->get('class') }}">
+    <div class="mdc-select__anchor"
+        role="button"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-labelledby="{{$title}}-label {{$title}}-selected-text">
+      
+      @if($style == 'outlined')
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
-            <span id="{{$text}}-label" class="mdc-floating-label @if($attributes->has('prefilled')) mdc-floating-label--float-above @endif" @if($attributes->has('prefilled'))  style="transform: translateY(-106%) scale(0.75)" @else wire:ignore @endif>{{$text}}</span>
+            <span id="{{$title}}-labe" class="mdc-floating-label" wire:ignore>{{$title}}</span>
           </span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
       @else
         <span class="mdc-select__ripple"></span>
-        <span id="{{$text}}-label" class="mdc-floating-label @if($attributes->has('prefilled')) mdc-floating-label--float-above @endif" @if(!$attributes->has('prefilled')) wire:ignore @endif>{{$text}}</span>
-          <span class="mdc-line-ripple"></span>
+        <span id="{{$title}}-label" class="mdc-floating-label" wire:ignore>{{$title}}</span>
+        <span class="mdc-line-ripple"></span>
       @endif
-      <span class="mdc-select__selected-text-container" @if(! $attributes->has('prefilled')) wire:ignore @endif>
-        <span id="demo-selected-text" class="mdc-select__selected-text">{{$default ?? ''}}</span>
+      
+      <span class="mdc-select__selected-text-container">
+        <span id="{{$title}}-selected-text" class="mdc-select__selected-text" x-text="value"></span>
       </span>
       <span class="mdc-select__dropdown-icon">
         <svg
@@ -38,29 +49,20 @@
     </div>
 
     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-      <ul class="mdc-deprecated-list dark-theme-list pl-0" role="listbox" aria-label="">
-        @if($default && ! in_array($default, $data))
-          <li class="mdc-deprecated-list-item mdc-deprecated-list-item--selected" aria-selected="true"
-          @isset($var) wire:click="set{{$var}}('{{$default}}')" @endisset
-          @isset($alpine)x-on:click="{{$alpine}} = '{{$default}}'" @endisset
-          data-value="{{$default}}" role="option">
+      <ul class="mdc-deprecated-list" role="listbox" aria-label="Food picker listbox">
+        <template x-if="! value">
+          <li class="mdc-deprecated-list-item mdc-deprecated-list-item--selected" aria-selected="true" data-value="" role="option">
             <span class="mdc-deprecated-list-item__ripple"></span>
-            <span class="mdc-deprecated-list-item__text">
-              {{$default}}
-            </span>
           </li>
-        @endif
-        @foreach($data as $item)
-          <li class="mdc-deprecated-list-item @if($item == $default) mdc-deprecated-list-item--selected @endif" aria-selected="{{$item == $default}}" data-value="{{$item}}"
-           @isset($var) wire:click="set{{$var}}('{{$item}}')" @endisset
-           @isset($alpine) x-on:click="{{$alpine}} = '{{$item}}'" @endisset
-           role="option">
+        </template>
+
+        <template x-for="item in data">
+          <li class="mdc-deprecated-list-item" :class="{'mdc-deprecated-list-item--selected': item == value}" :aria-selected="item == value" 
+          @click="{{$bind}} = item" :data-value="item" role="option">
             <span class="mdc-deprecated-list-item__ripple"></span>
-            <span class="mdc-deprecated-list-item__text">
-              {{$item}}
-            </span>
+            <span class="mdc-deprecated-list-item__text" x-text="item"></span>
           </li>
-        @endforeach
+        </template>
       </ul>
     </div>
   </div>
