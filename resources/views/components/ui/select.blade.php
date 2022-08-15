@@ -1,9 +1,10 @@
 <div
+x-init="value = {{$bind}}"
+
 x-data="{
   data: {{$data}},
-  value: '{{$value != null ? $value : 'null'}}',
-}"
->
+  value: '',
+}">
   <div class="w-full mdc-select {{ $style == 'outlined' ? 'mdc-select--outlined' : 'mdc-select--filled'}} {{$attributes->has('required') ? 'mdc-select--required' : ''}} {{ $attributes->get('class') }}">
     <div class="mdc-select__anchor"
         role="button"
@@ -15,7 +16,7 @@ x-data="{
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
-            <span id="{{$title}}-labe" class="mdc-floating-label" wire:ignore>{{$title}}</span>
+            <span id="{{$title}}-label" class="mdc-floating-label" wire:ignore>{{$title}}</span>
           </span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
@@ -25,7 +26,7 @@ x-data="{
         <span class="mdc-line-ripple"></span>
       @endif
       
-      <span class="mdc-select__selected-text-container">
+      <span class="mdc-select__selected-text-container" wire:ignore>
         <span id="{{$title}}-selected-text" class="mdc-select__selected-text" x-text="value"></span>
       </span>
       <span class="mdc-select__dropdown-icon">
@@ -58,7 +59,7 @@ x-data="{
 
         <template x-for="item in data">
           <li class="mdc-deprecated-list-item" :class="{'mdc-deprecated-list-item--selected': item == value}" :aria-selected="item == value" 
-          @click="{{$bind}} = item" :data-value="item" role="option">
+          @click="{{$bind}} = item; value = item" :data-value="item" role="option">
             <span class="mdc-deprecated-list-item__ripple"></span>
             <span class="mdc-deprecated-list-item__text" x-text="item"></span>
           </li>
