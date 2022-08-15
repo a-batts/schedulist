@@ -5,28 +5,23 @@ namespace App\View\Components\Ui;
 use Illuminate\View\Component;
 
 class Select extends Component {
-  public array $data;
-  public $text;
-  public $type;
-  public $var;
-  public $alpine;
-  public $default;
+  public $data;
+  public $title;
+  public $style;
+  public $bind;
+  public $value;
 
   /**
    * Create a new component instance.
    *
    * @return void
    */
-  public function __construct($text, $var = null, $alpine = null, $type, $data, $default = null) {
-    $this->text = $text;
-    $this->var = $var;
-    $this->alpine = $alpine;
-    $this->type = $type;
-    if (is_array($data))
-      $this->data = $data;
-    else
-      $this->data = explode(',', $data);
-    $this->default = $default;
+  public function __construct($title, $bind, $style, $data, $value = null) {
+    $this->title = $title;
+    $this->bind = $bind;
+    $this->style = $style;
+    $this->data = $data;
+    $this->value = $value;
   }
 
   /**
