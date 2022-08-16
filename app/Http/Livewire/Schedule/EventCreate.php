@@ -13,24 +13,38 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EventCreate extends Component {
+
+  const DAYS = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
+
+  /**
+   * The new evemt
+   *
+   * @var Event
+   */
   public Event $event;
 
+  /**
+   * Valid category options for event
+   *
+   * @var array
+   */
   public array $categories = ['Club Meeting', 'Final', 'Game', 'Job Shift', 'Quiz', 'Practice/Rehersal', 'Test', 'Volunteer Work', 'Other'];
 
+  /**
+   * Valid frequency options for event
+   *
+   * @var array
+   */
   public array $frequencies = ['Day', 'Week', 'Two Weeks', 'Month'];
-
-  public array $days = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
 
   public array $errorMessages = [];
 
   public $dayOfWeekValue;
 
-  protected $listeners = ['setStartTime', 'setEndTime', 'setEventDate' => 'setDate'];
-
   function rules() {
     return [
       'event.name' => 'required',
-      'event.category' => 'required',
+      'event.category' => ['required', Rule::in($this->categories)],
       'event.start_time' => 'required',
       'event.end_time' => 'required',
       'event.date' => 'required',
@@ -58,13 +72,18 @@ class EventCreate extends Component {
     $this->validateOnly($propertyName);
   }
 
+  /**
+   * Create the new event
+   *
+   * @return void
+   */
   public function create() {
     $this->resetValidation();
     $this->validate();
 
     $explode = [];
     foreach ($this->event->days as $day)
-      array_push($explode, array_search($day, $this->days) + 1);
+      array_push($explode, array_search($day, Self::DAYS) + 1);
     $this->event->days = implode(',', $explode);
 
     $event = $this->event;
@@ -87,16 +106,24 @@ class EventCreate extends Component {
       }
     }
 
+    $event->color = 'blue';
+
+    $this->dispatchBrowserEvent('close-dialog');
+
     $event->name = Crypt::encryptString($event->name);
 
     $event->save();
     $this->emit('updateAgendaData');
-    $this->dispatchBrowserEvent('close-dialog');
     $this->emit('toastMessage', 'Event was successfully created');
 
     $eventUser = new EventUser(['user_id' => Auth::user()->id, 'event_id' => $event->id, 'accepted' => true]);
     $eventUser->save();
   }
+
+  public function getDayOfWeekValue() {
+    return (string) Self::DAYS[Carbon::parse($this->event->date)->dayOfWeekIso - 1];
+  }
+
 
   public function setCategory($category) {
     if (in_array($category, $this->categories)) {
@@ -106,6 +133,12 @@ class EventCreate extends Component {
       $this->addError('event.category', 'You\'ve selected an invalid category');
   }
 
+  /**
+   * Set the event's start time
+   *
+   * @param [type] $time
+   * @return void
+   */
   public function setStartTime($time) {
     $hours = $time['h'];
     $mins = $time['m'];
@@ -127,6 +160,12 @@ class EventCreate extends Component {
     $this->event->start_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
 
+  /**
+   * Set the event's end time
+   *
+   * @param [type] $time
+   * @return void
+   */
   public function setEndTime($time) {
     $hours = $time['h'];
     $mins = $time['m'];
@@ -148,6 +187,12 @@ class EventCreate extends Component {
     $this->event->end_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
 
+  /**
+   * Set the event's date
+   *
+   * @param [type] $time
+   * @return void
+   */
   public function setDate($date) {
     $oldDay = $this->getDayOfWeekValue();
     $this->event->date = $date;
@@ -157,10 +202,11 @@ class EventCreate extends Component {
     ]);
   }
 
-  public function getDayOfWeekValue() {
-    return (string) $this->days[Carbon::parse($this->event->date)->dayOfWeekIso - 1];
-  }
-
+  /**
+   * Render the component
+   *
+   * @return void
+   */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
 
