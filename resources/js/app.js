@@ -84,6 +84,10 @@ for (const el of document.querySelectorAll('.mdc-switch')) {
 [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
   return new MDCRipple(el);
 });
+//Select menus
+var selectElements = [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
+  return new MDCSelect(el);
+});
 //Register MDCTextFields
 [].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
   return new MDCTextField(el);
@@ -96,10 +100,6 @@ function initTextField(e) {
     tooltips[e] = new MDCTextField(document.getElementById(e));
 }
 window.initTextField = initTextField;
-//Select menus
-var selectElements = [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
-  return new MDCSelect(el);
-});
 //Register icon buttons and ripples
 var buttonToggle = [].map.call(document.querySelectorAll('.icontoggle'), function (el) {
   return new MDCIconButtonToggle(el);
