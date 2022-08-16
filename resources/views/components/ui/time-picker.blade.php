@@ -1,6 +1,6 @@
-<div x-data="timePicker" class="time-picker">
+<div x-data="timePicker('{{$bind}}')" class="time-picker">
     <div class="w-full">
-        <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon w-full" x-on:click="timePickerState = 1">
+        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon" x-on:click="timePickerState = 1">
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label mdc-floating-label--float-above" id="my-label-id">{{ $title ?? 'Time'}}</span>
             <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">schedule</i>
@@ -9,7 +9,7 @@
         </label>
     </div>
     <div class="mdc-card absolute z-50 h-[26rem] w-[19rem] rounded-lg border-none drop-shadow-lg" x-show="timePickerState != 0" x-transition x-cloak x-on:click.outside="timePickerState = 0">
-        <div class="relative h-full w-full pb-4">
+        <div class="relative w-full h-full pb-4">
             <div>
                 <div class="flex items-center justify-center px-3 py-5">
                     <div class="hour-min-slot cursor-pointer rounded-lg bg-gray-200 p-3.5" 
@@ -25,7 +25,7 @@
                         <span class="text-5xl font-medium" 
                         x-text="String(selectedTime.m).padStart(2, '0')"></span>
                     </div>
-                    <div class="ml-2 rounded-lg border border-gray-200">
+                    <div class="ml-2 border border-gray-200 rounded-lg">
                         <div class="cursor-pointer border-b px-3 py-1.5" @click="isMorning = true" 
                         :class="{'text-primary-theme' : isMorning}"
                         >AM</div>
@@ -35,10 +35,10 @@
                     </div>
                 </div>
             </div>
-            <div class="clock-face mx-auto mt-4 h-64 w-64 rounded-full bg-gray-200" x-bind="clock" x-ref="clock">
-                <div class="pointer-events-none absolute mt-2 ml-2">
+            <div class="w-64 h-64 mx-auto mt-4 bg-gray-200 rounded-full clock-face" x-bind="clock" x-ref="clock">
+                <div class="absolute mt-2 ml-2 pointer-events-none">
                     <template x-for="(i, index) in labelsContent">
-                        <div class="clock-label-text absolute z-20 h-8 w-8 cursor-pointer select-none rounded-full text-center"
+                        <div class="absolute z-20 w-8 h-8 text-center rounded-full cursor-pointer select-none clock-label-text"
                         :style="{
                             top: innerRadius - Math.round(innerRadius * Math.sin(angles[(index + numLabels/3 - 1) % numLabels])) + 'px',
     

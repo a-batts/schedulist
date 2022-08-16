@@ -6,18 +6,18 @@ use Illuminate\View\Component;
 
 class TimePicker extends Component {
 
-    public string $id;
-
     public string $title;
+
+    public string $bind;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(string $id, string $title) {
-        $this->id = $id;
+    public function __construct(string $title, string $bind) {
         $this->title = $title;
+        $this->bind = $bind;
     }
 
     /**

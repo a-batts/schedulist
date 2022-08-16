@@ -1,4 +1,4 @@
-export default () => ({
+export default (timeObj) => ({
     //0 -> hidden, 1 -> setting hours, 2 -> setting minutes
     timePickerState: 0,
 
@@ -177,6 +177,15 @@ export default () => ({
 
     get formattedTime() {
         return this.parseHour() + ':' + String(this.selectedTime.m).padStart(2, '0') + (this.isMorning ? ' AM' : ' PM');
-    }
+    },
+
+    //Functions used with templating
+    set selectedTime($newVal) {
+        this[timeObj] = $newVal
+    },
+
+    get selectedTime() {
+        return this[timeObj]
+    },
 
 });
