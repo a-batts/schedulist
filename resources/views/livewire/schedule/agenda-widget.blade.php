@@ -72,10 +72,10 @@
         <div class="relative mx-2.5">
           <template x-if="currentDayData != null">
             <template x-for="(item, index) in currentDayData" :key="index">
-              <div class="absolute ml-12 mr-2 transition-all mdc-card mdc-card--outlined agenda-item"
-              x-on:click="setSelectedItem(index)"
-              x-bind:class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-              x-bind:style="`top: ${item.top}px;
+              <div class="absolute ml-12 mr-2 transition-colors mdc-card mdc-card--outlined agenda-item"
+              @click="setSelectedItem(index)"
+              :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+              :style="`top: ${item.top}px;
               left: ${item.left}px;
               height: calc(${item.bottom}px - ${item.top}px);
               width: calc(100% - ${item.left + 55}px);
@@ -101,7 +101,6 @@
   </div>
   <!-- Agenda context menu -->
   <x-agenda.agenda-context/>
-  <x-agenda.agenda-color-menu/>
 
   <x-ui.tooltip tooltip-id="jump-today" text="Jump to Today"/>
   <x-ui.tooltip tooltip-id="backward-day" text="Previous Day"/>
@@ -125,6 +124,7 @@
         colorPicker: false,
         selectedColor: 'blue',
         eventColors: [],
+
         init: function () {
           this.selectedItemData.name = '';
           this.selectedItemData.color = '';
@@ -132,6 +132,7 @@
           this.date = new Date({{$initDate->timestamp * 1000}})
           this.currentDayData = this.agenda[this.day];
         },
+
         setDate: function (d){
           if (this.date.getMonth() != d.getMonth() || this.date.getYear() != d.getYear()){
             this.currentDayData = null;
@@ -142,19 +143,23 @@
           this.updateURL();
           this.currentDayData = @this.agenda[this.day];
         },
+        
         resetDate: function () {
           this.setDate(new Date());          
         },
+
         forwardDay: function () {
           let nextDay = new Date(this.date.getTime());
           nextDay.setDate(nextDay.getDate() + 1);
           this.setDate(nextDay);
         },
+
         backwardDay: function () {
           let prevDay = new Date(this.date.getTime());  
           prevDay.setDate(prevDay.getDate() - 1);
           this.setDate(prevDay);
         },
+        
         setSelectedItem: function (e) {
           this.selectedItem = e;
           this.selectedItemData = this.agenda[this.day][e];
@@ -166,14 +171,17 @@
             this.popupHeight = 260;
           this.agendaContext = true;
           this.colorPicker = false;
+          this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
           disableScroll();
         },
+        
         closeDetails: function (){
           this.agendaContext = false;
           this.selectedItem = -1;
           this.popupHeight = -200;
           enableScroll();
         },
+        
         filterToggle: function (e){
           e = e.toLowerCase();
 
@@ -187,24 +195,29 @@
               this.filter.push(e);
           }
         },
-        openColorPicker: function (){
-          this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
-          let obj = document.querySelector('.agenda-item-' + this.selectedItem).getBoundingClientRect();
-          this.colorPopupHeight = obj.top + window.scrollY;
-          if (this.colorPopupHeight +  200 > document.body.clientHeight)
-            this.colorPopupHeight = document.body.clientHeight - 220;
-          if (this.colorPopupHeight < 260)
-            this.colorPopupHeight = 260;
-          this.popupHeight = -200;
-          this.colorPicker = true;
-          this.agendaContext = false;
+        
+        updateEventColor: function (color){
+          this.selectedColor = color;
+          this.eventColors[this.selectedItemData.id] = color;
+          
+          //Update event color through fetch
+          fetch('http://localhost/event', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+            "Content-Type" : "application/json",
+            "accept" : "application/json",
+            "X-CSRF-Token": document.head.querySelector("[name~=csrf-token][content]").content,
+          },
+            body: JSON.stringify(
+              {id: this.selectedItemData.id, color: color}
+              )
+          }).then((response) => {
+            if (response.ok){
+            }
+          })
         },
-        updateEventColor: function (e){
-          var index = this.selectedItem;
-          this.selectedColor = e;
-          this.eventColors[this.selectedItemData.id] = e;
-          Livewire.emit('updateEventColor', {'id': this.selectedItemData.id, 'color': e});
-        },
+
         getItemColor: function (id, color){
           if (this.eventColors[id] != undefined)
             return this.eventColors[id];
@@ -212,6 +225,7 @@
             return color;
           return 'blue';
         },
+        
         updateURL: function (){
           let url = window.location.href;
           url = url.split('/');
@@ -223,30 +237,39 @@
           window.history.replaceState({}, 'Agenda | ' + this.dateString , url);
           document.title = 'Agenda | ' + this.dateString;
         },
+
         get isToday (){
           return this.date.toDateString() == new Date().toDateString();
         },
+        
         get day (){
           return this.date.getDate();
         },
+        
         get dayOfWeek (){
           return this.date.toLocaleString('default', { weekday: 'long' });
         },
+
         get dateString (){
           return this.date.toLocaleString('default', { weekday: 'short' }) + ", " + this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
         },
+        
         get month (){
           return this.date.toLocaleString('default', { month: 'long' });
         },
+        
         get year (){
           return this.date.getFullYear();
         },
+        
         get headerDate (){
           return this.date.toLocaleString('default', { month: 'long' }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
         },
+
         get filterCategories(){
           return ['assignment', 'class', 'event'];
         },
+
         get filterPlurals(){
           return ['assignments', 'classes', 'your events'];
         }

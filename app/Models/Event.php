@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
-{
+class Event extends Model {
     use HasFactory;
 
     protected $table = 'events';
 
     protected $guarded = ['date'];
 
-    public function users(){
+    const VALID_COLORS =  ['blue', 'lav', 'lemon', 'mint', 'orange', 'pink', 'purple', 'teal', 'beige'];
+
+    public function users() {
         return $this->belongsToMany(User::class);
     }
 }

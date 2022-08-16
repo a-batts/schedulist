@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\EventController;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Contact\ContactForm;
 use App\Http\Livewire\Profile\DeleteAccount;
@@ -48,7 +49,6 @@ Route::get('login/set-password', function () {
 Route::get('login/confirm-password', function () {
   return view('auth.confirm-linking');
 })->name('confirm-link');
-
 
 Route::get('contact', ContactForm::class)->name('contact');
 
@@ -135,3 +135,5 @@ Route::get('settings/account/delete-account', DeleteAccount::class)->middleware(
 Route::get('forgot-password', function () {
   return view('auth.forgot-password');
 })->name('password.request');
+
+Route::middleware('auth')->post('event', [EventController::class, 'setColor']);
