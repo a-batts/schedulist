@@ -167,6 +167,14 @@ export default (timeObj) => ({
         }, 150);
     },
 
+    toggleIsMorning: function (val) {
+        if (val == true && this.selectedTime.h >= 12) {
+            this.selectedTime.h = this.selectedTime.h - 12;
+        }
+
+        this.isMorning = val;
+    },
+
     get numQuadrants() {
         return this.timePickerState == 1 ? 12 : 60;
     },
