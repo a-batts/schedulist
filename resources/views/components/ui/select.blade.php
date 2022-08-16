@@ -1,28 +1,33 @@
 <div
-x-init="value = {{$bind}}"
-
 x-data="{
   data: {{$data}},
-  value: '',
+  
+  get value() {
+    return this['{{$bind}}'];
+  },
+
+  set value(newVal) {
+    this['{{$bind}}'] = newVal;
+  }
 }">
   <div class="w-full mdc-select {{ $style == 'outlined' ? 'mdc-select--outlined' : 'mdc-select--filled'}} {{$attributes->has('required') ? 'mdc-select--required' : ''}} {{ $attributes->get('class') }}">
     <div class="mdc-select__anchor"
         role="button"
         aria-haspopup="listbox"
         aria-expanded="false"
-        aria-labelledby="{{$title}}-label {{$title}}-selected-text">
+        aria-labelledby="{{$title}}-label {{$title}}-selected-text" wire:ignore>
       
       @if($style == 'outlined')
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
-            <span id="{{$title}}-label" class="mdc-floating-label" wire:ignore>{{$title}}</span>
+            <span id="{{$title}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
           </span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
       @else
         <span class="mdc-select__ripple"></span>
-        <span id="{{$title}}-label" class="mdc-floating-label" wire:ignore>{{$title}}</span>
+        <span id="{{$title}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
         <span class="mdc-line-ripple"></span>
       @endif
       
@@ -53,7 +58,7 @@ x-data="{
       <ul class="mdc-deprecated-list" role="listbox" aria-label="Food picker listbox">
         <template x-for="item in data">
           <li class="mdc-deprecated-list-item" :class="{'mdc-deprecated-list-item--selected': item == value}" :aria-selected="item == value" 
-          @click="{{$bind}} = item; value = item" :data-value="item" role="option">
+          @click="value = item;" :data-value="item" role="option">
             <span class="mdc-deprecated-list-item__ripple"></span>
             <span class="mdc-deprecated-list-item__text" x-text="item"></span>
           </li>
