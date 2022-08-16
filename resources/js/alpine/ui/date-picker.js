@@ -1,17 +1,14 @@
-export default () => ({
+export default (dateObj, validDateFunction, showPrevYears = false) => ({
+
+    viewDate: new Date(),
+
     daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 
     datePickerOpen: false,
 
     showingYearSelector: false,
 
-    init: function () {
-        if (this.validDate == undefined)
-            //Ensure that all dates are classified as valid
-            this.validDate = function () { return false };
-
-        this.showPrevYears = this.showPrevYears == undefined ? true : this.showPrevYears;
-    },
+    showPrevYears: showPrevYears,
 
     setDate: function (day) {
         const newDate = new Date();
@@ -90,12 +87,32 @@ export default () => ({
     get yearsList() {
         const currentYear = new Date().getFullYear();
 
-        const start = currentYear;
+        var start = currentYear;
         if (this.showPrevYears)
             start = start - 25;
         const end = currentYear + 26;
 
         return Array.from({ length: end - start }, (v, k) => k + start);
-    }
+    },
 
+    //Functions used with templating
+    set selectedDate($newVal) {
+        this[dateObj] = $newVal
+    },
+
+    get selectedDate() {
+        return this[dateObj]
+    },
+
+    isValidDate: function (val) {
+        if (this.$parent[validDateFunction] == undefined)
+            return true
+
+        var date = new Date();
+        date.setFullYear(this.viewDate.getFullYear());
+        date.setMonth(this.viewDate.getMonth());
+        date.setDate(parseInt(val));
+
+        return this.$parent[validDateFunction](date);
+    }
 })
