@@ -26,10 +26,10 @@
                         x-text="String(selectedTime.m).padStart(2, '0')"></span>
                     </div>
                     <div class="ml-2 border border-gray-200 rounded-lg">
-                        <div class="cursor-pointer border-b px-3 py-1.5" @click="isMorning = true" 
+                        <div class="cursor-pointer border-b px-3 py-1.5" @click="toggleIsMorning(true)" 
                         :class="{'text-primary-theme' : isMorning}"
                         >AM</div>
-                        <div class="cursor-pointer border-t px-3 py-1.5" @click="isMorning = false"
+                        <div class="cursor-pointer border-t px-3 py-1.5" @click="toggleIsMorning(false)"
                         :class="{'text-primary-theme' : ! isMorning}"
                         >PM</div>
                     </div>
