@@ -8,7 +8,6 @@
     <div>
       @livewire('schedule.agenda-widget', ['initDate' => $initDate])
     </div>
-    @livewire('schedule.agenda-color-picker')
     @livewire('schedule.event-create')
     @livewire('schedule.event-edit')
     @livewire('schedule.event-share')
