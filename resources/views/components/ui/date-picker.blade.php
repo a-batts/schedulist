@@ -1,6 +1,6 @@
 <div x-data="datePicker('{{$bind}}', '{{$validDate}}', {{$attributes->has('show-prev-years')}})">
     <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon" x-on:click="datePickerOpen =! datePickerOpen">
+        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon dummy-field" x-on:click="datePickerOpen =! datePickerOpen">
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label mdc-floating-label--float-above" id="my-label-id">{{ $title ?? 'Date'}}</span>
             <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">event</i>

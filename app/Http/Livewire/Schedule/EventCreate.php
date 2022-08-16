@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Schedule;
 use App\Models\Event;
 use App\Models\EventUser;
 use Carbon\Carbon;
-
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
@@ -14,7 +14,7 @@ use Livewire\Component;
 
 class EventCreate extends Component {
 
-  const DAYS = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   /**
    * The new evemt
@@ -37,11 +37,28 @@ class EventCreate extends Component {
    */
   public array $frequencies = ['Day', 'Week', 'Two Weeks', 'Month'];
 
+  /**
+   * The set frequency for the event
+   *
+   * @var string|null
+   */
+  public ?string $frequency = '';
+
+  /**
+   * The days of the week for the event to reoccurr on
+   *
+   * @var array
+   */
+  public array $days = [];
+
   public array $errorMessages = [];
 
-  public $dayOfWeekValue;
-
-  function rules() {
+  /**
+   * Validation rules
+   *
+   * @return array
+   */
+  function rules(): array {
     return [
       'event.name' => 'required',
       'event.category' => ['required', Rule::in($this->categories)],
@@ -54,21 +71,27 @@ class EventCreate extends Component {
     ];
   }
 
-  public function mount() {
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
     $this->event = new Event();
+
     $this->event->date = Carbon::now()->toDateString();
     $this->event->start_time = Carbon::now()->format('H:i');
     $this->event->end_time = '23:59';
+
     $this->event->reoccuring = false;
-    $this->dayOfWeekValue = $this->getDayOfWeekValue();
   }
 
   /**
-   * Validate updated properties
+   * Validate updated property
    * @param  mixed $propertyName
    * @return void
    */
-  public function updated($propertyName) {
+  public function updated(string $propertyName): void {
     $this->validateOnly($propertyName);
   }
 
@@ -77,42 +100,53 @@ class EventCreate extends Component {
    *
    * @return void
    */
-  public function create() {
+  public function create(): void {
     $this->resetValidation();
-    $this->validate();
-
-    $explode = [];
-    foreach ($this->event->days as $day)
-      array_push($explode, array_search($day, Self::DAYS) + 1);
-    $this->event->days = implode(',', $explode);
 
     $event = $this->event;
-    $event->owner = Auth::user()->id;
 
-    if ($event->frequency != null) {
-      switch ($event->frequency) {
-        case 'Day':
-          $event->frequency = 1;
-          break;
-        case 'Week':
-          $event->frequency = 7;
-          break;
-        case 'Two Weeks':
-          $event->frequency = 14;
-          break;
-        case 'Month':
-          $event->frequency = 31;
-          break;
+    if ($this->event->reoccuring) {
+      if ($this->frequency != null) {
+        switch ($this->frequency) {
+          case 'Day':
+            $event->frequency = 1;
+            break;
+          case 'Week':
+            $event->frequency = 7;
+            break;
+          case 'Two Weeks':
+            $event->frequency = 14;
+            break;
+          case 'Month':
+            $event->frequency = 31;
+            break;
+          default:
+            $event->frequency = null;
+            break;
+        }
       }
+      $eventDay = Carbon::parse($this->event->date)->format('D');
+      if (!in_array($eventDay, $this->days))
+        $this->days[] = $eventDay;
+
+      $isoVals = [];
+
+      foreach ($this->days as $day)
+        $isoVals[] = array_search($day, Self::DAYS) + 1;
+
+      sort($isoVals);
+      $this->event->days = implode(',', $isoVals);
     }
 
+    $this->validate();
+    $this->dispatchBrowserEvent('close-create-modal');
+
+    $event->owner = Auth::user()->id;
     $event->color = 'blue';
-
-    $this->dispatchBrowserEvent('close-dialog');
-
     $event->name = Crypt::encryptString($event->name);
 
     $event->save();
+
     $this->emit('updateAgendaData');
     $this->emit('toastMessage', 'Event was successfully created');
 
@@ -120,12 +154,13 @@ class EventCreate extends Component {
     $eventUser->save();
   }
 
-  public function getDayOfWeekValue() {
-    return (string) Self::DAYS[Carbon::parse($this->event->date)->dayOfWeekIso - 1];
-  }
-
-
-  public function setCategory($category) {
+  /**
+   * Set the event category
+   *
+   * @param string $category
+   * @return void
+   */
+  public function setCategory(string $category): void {
     if (in_array($category, $this->categories)) {
       $this->event->category = $category;
       $this->clearValidation('event.category');
@@ -136,10 +171,10 @@ class EventCreate extends Component {
   /**
    * Set the event's start time
    *
-   * @param [type] $time
+   * @param array $time
    * @return void
    */
-  public function setStartTime($time) {
+  public function setStartTime(array $time): void {
     $hours = $time['h'];
     $mins = $time['m'];
 
@@ -163,10 +198,10 @@ class EventCreate extends Component {
   /**
    * Set the event's end time
    *
-   * @param [type] $time
+   * @param array $time
    * @return void
    */
-  public function setEndTime($time) {
+  public function setEndTime(array $time): void {
     $hours = $time['h'];
     $mins = $time['m'];
 
@@ -190,22 +225,21 @@ class EventCreate extends Component {
   /**
    * Set the event's date
    *
-   * @param [type] $time
+   * @param string $time
    * @return void
    */
-  public function setDate($date) {
-    $oldDay = $this->getDayOfWeekValue();
-    $this->event->date = $date;
-    $this->dispatchBrowserEvent('toggle-day', [
-      'oldDay' => $oldDay,
-      'newDay' => $this->getDayOfWeekValue(),
-    ]);
+  public function setDate(string $date): void {
+    try {
+      $date = Carbon::parse($date)->toDateString();
+      $this->event->date = $date;
+    } catch (InvalidFormatException $e) {
+    };
   }
 
   /**
    * Render the component
    *
-   * @return void
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
    */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
