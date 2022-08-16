@@ -37,8 +37,9 @@ export default (timeObj) => ({
                 if (val == 1) {
                     var hour = this.selectedTime.h;
 
-                    if (hour > 12)
+                    if (hour > 12) {
                         this.isMorning = false;
+                    }
 
                     hour = hour % 12;
 
@@ -59,8 +60,12 @@ export default (timeObj) => ({
             this.isMorning = false;
 
         this.$watch('selectedTime', (val) => {
-            if (val.h > 11)
+            if (val.h > 11) {
                 this.isMorning = false;
+            }
+            else {
+                this.isMorning = true;
+            }
         });
     },
 
