@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Schedule;
 use App\Models\Event;
 
 use Carbon\Carbon;
-
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
@@ -13,24 +13,57 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EventEdit extends Component {
+
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  /**
+   * The event to edit
+   *
+   * @var Event
+   */
   public Event $event;
 
+  /**
+   * Valid category options for event
+   *
+   * @var array
+   */
   public array $categories = ['Club Meeting', 'Final', 'Game', 'Job Shift', 'Quiz', 'Practice/Rehersal', 'Test', 'Volunteer Work', 'Other'];
 
+  /**
+   * Valid frequency options for event
+   *
+   * @var array
+   */
   public array $frequencies = ['Day', 'Week', 'Two Weeks', 'Month'];
 
-  public array $days = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
+  /**
+   * The set frequency for the event
+   *
+   * @var string
+   */
+  public string $frequency = '';
+
+  /**
+   * The days of the week for the event to reoccurr on
+   *
+   * @var array
+   */
+  public array $days = [];
 
   public array $errorMessages = [];
 
-  public $dayOfWeekValue;
+  protected $listeners = ['setEditEvent' => 'getEventToEdit'];
 
-  protected $listeners = ['setStartTime', 'setEndTime', 'setEventDate' => 'setDate', 'setEditEvent' => 'setEvent'];
-
-  function rules() {
+  /**
+   * Validation rules
+   *
+   * @return array
+   */
+  function rules(): array {
     return [
       'event.name' => 'required',
-      'event.category' => 'required',
+      'event.category' => ['required', Rule::in($this->categories)],
       'event.start_time' => 'required',
       'event.end_time' => 'required',
       'event.date' => 'required',
@@ -40,59 +73,139 @@ class EventEdit extends Component {
     ];
   }
 
-  public function mount() {
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
     $this->event = new Event();
-
-    $this->dayOfWeekValue = $this->getDayOfWeekValue();
   }
 
   /**
    * Validate updated properties
-   * @param  mixed $propertyName
+   * @param  string $propertyName
    * @return void
    */
-  public function updated($propertyName) {
+  public function updated(string $propertyName) {
     $this->validateOnly($propertyName);
   }
 
-  public function edit() {
-    $this->validate();
-
-    $explode = [];
-    foreach ($this->event->days as $day)
-      array_push($explode, array_search($day, $this->days) + 1);
-    $this->event->days = implode(',', $explode);
+  /**
+   * Edit the selected event
+   *
+   * @return void
+   */
+  public function edit(): void {
+    $this->resetValidation();
 
     $event = $this->event;
 
-    if ($event->frequency != null) {
-      switch ($event->frequency) {
-        case 'Day':
-          $event->frequency = 1;
-          break;
-        case 'Week':
-          $event->frequency = 7;
-          break;
-        case 'Two Weeks':
-          $event->frequency = 14;
-          break;
-        case 'Month':
-          $event->frequency = 31;
-          break;
+    if ($event->reoccuring) {
+      if ($this->frequency != null) {
+        switch ($this->frequency) {
+          case 'Day':
+            $event->frequency = 1;
+            break;
+          case 'Week':
+            $event->frequency = 7;
+            break;
+          case 'Two Weeks':
+            $event->frequency = 14;
+            break;
+          case 'Month':
+            $event->frequency = 31;
+            break;
+          default:
+            $event->frequency = null;
+            break;
+        }
       }
+      $eventDay = Carbon::parse($this->event->date)->format('D');
+      if (!in_array($eventDay, $this->days))
+        $this->days[] = $eventDay;
+
+      $isoVals = [];
+
+      foreach ($this->days as $day)
+        $isoVals[] = array_search($day, Self::DAYS) + 1;
+
+
+      sort($isoVals);
+      $this->event->days = implode(',', $isoVals);
+    } else {
+      $event->frequency = null;
+      $event->days = null;
     }
+
+    $this->validate();
 
     $event->name = Crypt::encryptString($event->name);
 
     if ($event->owner == Auth::user()->id) {
       $this->emit('updateAgendaData');
+      $this->dispatchBrowserEvent('close-edit-modal');
       $this->emit('toastMessage', 'Event was successfully updated');
       $event->save();
+
+      $this->emit('hi');
+
+      $event->name = Crypt::decryptString($event->name);
     }
-    $this->dispatchBrowserEvent('close-dialog');
   }
 
-  public function setCategory($category) {
+  /**
+   * Set the current event to edit and get the data
+   * 
+   * @param mixed $id 
+   * @return void 
+   */
+  public function getEventToEdit($id): void {
+    $this->clearValidation();
+
+    $event = Event::find($id);
+
+    if ($event->owner == Auth::User()->id) {
+      switch ($event->frequency) {
+        case 1:
+          $this->frequency = 'Day';
+          break;
+        case 7:
+          $this->frequency = 'Week';
+          break;
+        case 14:
+          $this->frequency = 'Two Weeks';
+          break;
+        case 31:
+          $this->frequency = 'Month';
+          break;
+      }
+      $event->name = Crypt::decryptString($event->name);
+
+      $occuranceDays = $event->days;
+
+      if (isset($occuranceDays) && $occuranceDays != '') {
+        $vals = explode(',', $occuranceDays);
+
+        foreach ($vals as $val) {
+          $days[] = Self::DAYS[$val - 1];
+        }
+
+        $this->days = $days;
+      }
+
+      $this->event = $event;
+      $this->dispatchBrowserEvent('update-content');
+    }
+  }
+
+  /**
+   * Set the event's category
+   *
+   * @param string $category
+   * @return void
+   */
+  public function setCategory(string $category): void {
     if (in_array($category, $this->categories)) {
       $this->event->category = $category;
       $this->clearValidation('event.category');
@@ -100,80 +213,129 @@ class EventEdit extends Component {
       $this->addError('event.category', 'You\'ve selected an invalid category');
   }
 
-  public function getStartTime() {
+  /**
+   * Get the event's start time
+   *
+   * @return string
+   */
+  public function getStartTime(): string {
     return $this->event->start_time;
   }
 
-  public function setStartTime($time) {
-    $this->event->start_time = $time;
+  /**
+   * Set the event's start time
+   *
+   * @param array $time
+   * @return void
+   */
+  public function setStartTime(array $time): void {
+    $hours = $time['h'];
+    $mins = $time['m'];
+
+    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59) {
+      $this->addError('start_time', 'Invalid start time');
+      return;
+    }
+
+    //Ensure that the start time is not after the end time
+    $endTime = explode(':', $this->event->end_time);
+    if (
+      ($endTime[0] < $hours || ($endTime[0] == $hours && $endTime[1] < $mins))
+    ) {
+      $this->addError('start_time', 'The event end time must be after the start time');
+      return;
+    }
+
+    $this->event->start_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
 
-  public function getEndTime() {
+  public function getEndTime(): string {
     return $this->event->end_time;
   }
 
-  public function setEndTime($time) {
-    $this->event->end_time = $time;
+  /**
+   * Set the event's end time
+   *
+   * @param array $time
+   * @return void
+   */
+  public function setEndTime(array $time): void {
+    $hours = $time['h'];
+    $mins = $time['m'];
+
+    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59) {
+      $this->addError('start_time', 'Invalid end time');
+      return;
+    }
+
+    //Ensure that the end time is not before the start time
+    $startTime = explode(':', $this->event->start_time);
+    if (
+      ($startTime[0] > $hours || ($startTime[0] == $hours && $startTime[1] > $mins))
+    ) {
+      $this->addError('end_time', 'The event end time must be after the start time');
+      return;
+    }
+
+    $this->event->end_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
 
-  public function getDate() {
-    return $this->event->date;
+  /**
+   * Get the event's date
+   *
+   * @return string
+   */
+  public function getDate(): string {
+    return Carbon::parse($this->event->date)->toDateString();
   }
 
-  public function setDate($date) {
-    $oldDay = $this->getDayOfWeekValue();
-    $this->event->date = $date;
-    $this->dispatchBrowserEvent('toggle-day', [
-      'oldDay' => $oldDay,
-      'newDay' => $this->getDayOfWeekValue(),
-    ]);
+  /**
+   * Set the event's date
+   *
+   * @param string $time
+   * @return void
+   */
+  public function setDate(string $date): void {
+    try {
+      $date = Carbon::parse($date)->toDateString();
+      $this->event->date = $date;
+    } catch (InvalidFormatException $e) {
+    };
   }
 
-  public function getDayOfWeekValue() {
-    return (string) $this->days[Carbon::parse($this->event->date)->dayOfWeekIso - 1];
-  }
-
-  public function getReoccuring() {
+  /**
+   * Get whether or not the event is reoccuring
+   *
+   * @return boolean
+   */
+  public function getReoccuring(): bool {
     return (bool) $this->event->reoccuring;
   }
 
-  public function getFrequency() {
-    return $this->event->frequency;
-  }
-
+  /**
+   * Get the event reoccurance days
+   *
+   * @return mixed
+   */
   public function getDays() {
-    $days = explode(',', $this->event->days);
-    foreach ($days as $index => $value)
-      $days[$index] = $this->days[$value - 1];
-    $days = implode(',', $days);
-    return $days;
+    return $this->days;
   }
 
-  public function setEvent($id) {
-    $event = Event::find($id);
-    $this->clearValidation();
-    $this->dayOfWeekValue = $this->getDayOfWeekValue();
-    switch ($event->frequency) {
-      case 1:
-        $event->frequency = 'Day';
-        break;
-      case 7:
-        $event->frequency = 'Week';
-        break;
-      case 14:
-        $event->frequency = 'Two Weeks';
-        break;
-      case 31:
-        $event->frequency = 'Month';
-        break;
-    }
-    $event->name = Crypt::decryptString($event->name);
-
-    if ($event->owner == Auth::User()->id)
-      $this->event = $event;
-    $this->dispatchBrowserEvent('update-content');
+  /**
+   * Set the event reoccurance days
+   *
+   * @param array $val
+   * @return void
+   */
+  public function setDays($val) {
+    $this->day = $val;
   }
 
+  /**
+   * Render the component
+   *
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+   */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
 
