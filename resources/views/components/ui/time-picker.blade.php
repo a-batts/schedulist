@@ -1,6 +1,6 @@
 <div x-data="timePicker('{{$bind}}')" class="time-picker">
     <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon" x-on:click="timePickerState = 1">
+        <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon dummy-field" x-on:click="timePickerState = 1">
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label mdc-floating-label--float-above" id="my-label-id">{{ $title ?? 'Time'}}</span>
             <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" tabindex="0" role="button">schedule</i>

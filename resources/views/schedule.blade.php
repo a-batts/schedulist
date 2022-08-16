@@ -3,7 +3,7 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
   @endpush
 
-  <div class="mx-auto pt-10">
+  <div class="pt-10 mx-auto">
     <div class="mt-10"></div>
     <div>
       @livewire('schedule.agenda-widget', ['initDate' => $initDate])

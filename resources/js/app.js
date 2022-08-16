@@ -89,7 +89,7 @@ var selectElements = [].map.call(document.querySelectorAll('.mdc-select'), funct
   return new MDCSelect(el);
 });
 //Register MDCTextFields
-[].map.call(document.querySelectorAll('.mdc-text-field'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-text-field:not(.dummy-field)'), function (el) {
   return new MDCTextField(el);
 });
 
@@ -101,13 +101,13 @@ function initTextField(e) {
 }
 window.initTextField = initTextField;
 //Register icon buttons and ripples
-var buttonToggle = [].map.call(document.querySelectorAll('.icontoggle'), function (el) {
+[].map.call(document.querySelectorAll('.icontoggle'), function (el) {
   return new MDCIconButtonToggle(el);
 });
-var customripples = [].map.call(document.querySelectorAll('.mdc-ripple-surface'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-ripple-surface'), function (el) {
   return new MDCRipple(el);
 });
-var radioripple = [].map.call(document.querySelectorAll('.mdc-radio'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-radio'), function (el) {
   return new MDCRadio(el);
 });
 //Dialog boxes to add/remove classes
@@ -128,23 +128,19 @@ if (document.getElementById("unsub-dialog") !== null) {
 }
 
 //Icon Buttons Init
-var iconButtonRipples = [].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
   let btn = new MDCRipple(el);
   btn.unbounded = true;
   return btn;
 });
 //Checkbox Init
-var checkbox = [].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
-  let check = new MDCCheckbox(el);
-});
-//Tooltips Init
-var mdcTooltips = [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
-  return new MDCTooltip(el);
+[].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
+  new MDCCheckbox(el);
 });
 
-var lists = [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
   var list = new MDCList(el);
-  const listItemRipples = list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
+  list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
   return list;
 })
 
@@ -160,7 +156,7 @@ if (document.querySelector('.mdc-banner') !== null) {
   window.offlineBanner = offlineBanner;
 }
 
-var datatables = [].map.call(document.querySelectorAll('.mdc-data-table'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-data-table'), function (el) {
   return new MDCDataTable(el);
 });
 
@@ -211,3 +207,8 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
     reminderDiag.open()
   });
 }
+
+//Tooltips Init
+[].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
+  return new MDCTooltip(el);
+});
