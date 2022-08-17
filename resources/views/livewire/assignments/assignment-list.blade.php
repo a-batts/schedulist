@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="float-left w-1/2 pl-2 lg:w-1/5 lg:pl-0">
-      <x-ui.select text="Status" alpine="due" type="filled" :data="$filters" default="{{$due}}" class="w-full"/>
+      <x-ui.select text="Status" "due" type="filled" :data="$filters" default="{{$due}}" class="w-full"/>
     </div>
   </div>
   <div class="pt-16 lg:pt-12">

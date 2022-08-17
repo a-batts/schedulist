@@ -8,17 +8,22 @@
 @close-assignment-modal.window="modal=false"
 class="mdc-typography">
   <div class="fab-button">
-    <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Assignment" @click="dialog = true; fixBody()">
+    <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Assignment" @click="dialog = true">
       <div class="mdc-fab__ripple"></div>
       <span class="material-icons mdc-fab__icon">add</span>
       <span class="mdc-fab__label">New Assignment</span>
     </button>
   </div>
 
-  <x-ui.modal alpine="dialog" title="New Assignment" action="Add" classes="top-4" wire:submit.prevent="create">
+  <x-ui.modal bind="dialog" title="New Assignment" class="top-4">
+    <x-slot name="actions">
+      <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="create">
+        <span class="mdc-button__ripple"></span>Create
+      </button>
+    </x-slot>
     <div>
       <div class="float-left w-1/2 pr-1.5">
-        <label class="mdc-text-field mdc-text-field--filled w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label" id="assignment-name-label">Assignment Name</span>
           <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" type="text" aria-labelledby="assignment-name-label" required>
@@ -27,7 +32,7 @@ class="mdc-typography">
         <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_name"/>
       </div>
       <div class="float-right w-1/2 pl-1.5">
-        <div class="mdc-select mdc-select--filled w-full" wire:ignore>
+        <div class="w-full mdc-select mdc-select--filled" wire:ignore>
           <div class="mdc-select__anchor"
                role="button"
                aria-haspopup="listbox"
@@ -73,12 +78,12 @@ class="mdc-typography">
       </div>
     </div>
 
-    <div class="-mt-1 block h-14">
+    <div class="block -mt-1 h-14">
       @livewire('assignments.assignment-due')
     </div>
     <x-ui.validation-error :message="$errorMessages" for="assignment.due"/>
 
-    <label class="mdc-text-field mdc-text-field--filled mt-1 w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+    <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="assignment-link-label">Assignment Link</span>
       <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
@@ -86,7 +91,7 @@ class="mdc-typography">
     </label>
     <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_link"/>
 
-    <label class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter w-full" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
+    <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
       <span class="mdc-floating-label" id="assignment-description-label">Assignment Description</span>
       <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" required></textarea>
       <span class="mdc-line-ripple"></span>

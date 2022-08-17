@@ -5,23 +5,29 @@ namespace App\View\Components\Ui;
 use Illuminate\View\Component;
 
 class Modal extends Component {
-    public $alpine;
-    public $submit;
-    public $title;
-    public $action;
-    public $classes;
+
+    /**
+     * The modal title
+     *
+     * @var string
+     */
+    public string $title;
+
+    /**
+     * The Alpine variable to bind to
+     *
+     * @var string
+     */
+    public string $bind;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($alpine, $submit = null, $title, $action, $classes) {
-        $this->alpine = $alpine;
-        $this->submit = $submit;
+    public function __construct(string $title, string $bind) {
         $this->title = $title;
-        $this->action = $action;
-        $this->classes = $classes;
+        $this->bind = $bind;
     }
 
     /**

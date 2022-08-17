@@ -3,7 +3,13 @@
   errorMessages: @entangle('errorMessages'),
 }"
 @open-share-modal.window="share = true">
-  <x-ui.modal alpine="share" title="Share Event" action="Done" classes="top-14 mdc-typography" @click="share = false">
+  <x-ui.modal bind="share" title="Share Event" class="top-14 mdc-typography">
+    <x-slot name="actions">
+      <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" @click="share = false" >
+        <span class="mdc-button__ripple"></span>Done
+      </button>
+    </x-slot>
+    
     <div class="px-3">
       <p class="mb-2 -mt-2 text-gray-700">Share your event with other Schedulist users.</p>
       <div class="flex items-center mb-6 text-sm text-gray-600">

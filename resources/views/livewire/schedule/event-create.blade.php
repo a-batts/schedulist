@@ -1,7 +1,13 @@
 <div x-data="eventCreate()"
   @close-create-modal.window="modal = false"
   class="mdc-typography">
-  <x-ui.modal alpine="modal" title="New Event" action="Add" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.set('days', days); $wire.create()">
+  <x-ui.modal bind="modal" title="New Event" class="top-4">
+    <x-slot name="actions">
+      <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" @click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.set('days', days); $wire.create()">
+        <span class="mdc-button__ripple"></span>Create
+      </button>
+    </x-slot>
+    
     <label class="w-4/5 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="event-name-label">Event Name</span>
