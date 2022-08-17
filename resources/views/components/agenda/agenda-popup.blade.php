@@ -4,7 +4,10 @@ x-cloak x-ref="popupBox"
 wire:ignore.self>
   <div x-show="! colorPicker" x-transition.in>
     <div class="w-full h-12 mb-2 item-details-top">
-      <button class="float-right mdc-icon-button material-icons" x-on:click="closeDetails()" aria-describedby="close-details" wire:ignore>close</button>
+      <button class="float-right mdc-icon-button material-icons" @click="closeDetails()" aria-describedby="close-details" wire:ignore>
+        <div class="mdc-icon-button__ripple"></div>
+        close
+      </button>
       <div wire:ignore>
         <template x-if="selectedItemData && selectedItemData.type == 'assignment'">
           <div>
@@ -19,7 +22,7 @@ wire:ignore.self>
               </button>
             </a>
             <a x-bind:href="selectedItemData.data['url']">
-              <button class="float-right mdc-icon-button material-icons" aria-describedby="delete-details" x-bind:disabled="selectedItemData.data['url'] == null">
+              <button class="float-right mdc-icon-button material-icons" aria-describedby="delete-details" :disabled="selectedItemData.data['url'] == null">
                 <div class="mdc-icon-button__ripple"></div>
                 link
               </button>
@@ -28,19 +31,19 @@ wire:ignore.self>
         </template>
         <template x-if="selectedItemData && selectedItemData.type == 'event' && selectedItemData.data['isOwner']">
           <div>
-            <button class="float-right mdc-icon-button material-icons" aria-describedby="delete-details" x-bind:disabled="! online" x-on:click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); delDialog()">
+            <button class="float-right mdc-icon-button material-icons" aria-describedby="delete-details" :disabled="! online" @click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); delDialog()">
               <div class="mdc-icon-button__ripple"></div>
               delete
             </button>
-            <button class="float-right mdc-icon-button material-icons" aria-describedby="edit-details" x-bind:disabled="! online" x-on:click="$wire.emit('setEditEvent', `${selectedItemData.id}`); closeDetails()">
+            <button class="float-right mdc-icon-button material-icons" aria-describedby="edit-details" :disabled="! online" @click="$wire.emit('setEditEvent', `${selectedItemData.id}`); closeDetails()">
               <div class="mdc-icon-button__ripple"></div>
               edit
             </button>
-            <button class="float-right mdc-icon-button material-icons" aria-describedby="share-details" x-bind:disabled="! online" x-on:click="$wire.emit('setShareEvent', `${selectedItemData.id}`); closeDetails()">
+            <button class="float-right mdc-icon-button material-icons" aria-describedby="share-details" :disabled="! online" @click="$wire.emit('setShareEvent', `${selectedItemData.id}`); closeDetails()">
               <div class="mdc-icon-button__ripple"></div>
               share
             </button>
-            <button class="float-right mdc-icon-button material-icons" aria-describedby="color-details" x-bind:disabled="! online" x-on:click="colorPicker = true">
+            <button class="float-right mdc-icon-button material-icons" aria-describedby="color-details" :disabled="! online" @click="colorPicker = true">
               <div class="mdc-icon-button__ripple"></div>
               palette
             </button>
@@ -48,7 +51,7 @@ wire:ignore.self>
         </template>
         <template x-if="selectedItemData && selectedItemData.type == 'event' && ! selectedItemData.data['isOwner']">
           <div>
-            <button class="float-right mdc-icon-button material-icons" aria-describedby="unsub-details" x-bind:disabled="! online" x-on:click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); unsubDialog()">
+            <button class="float-right mdc-icon-button material-icons" aria-describedby="unsub-details" :disabled="! online" @click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); unsubDialog()">
               <div class="mdc-icon-button__ripple"></div>
               block
             </button>
@@ -57,7 +60,7 @@ wire:ignore.self>
       </div>
     </div>
     <div>
-      <div class="float-left mt-2.5 h-4 w-4 rounded-full" x-bind:class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
+      <div class="float-left mt-2.5 h-4 w-4 rounded-full" :class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
       <span class="ml-5 text-2xl font-bold uppercase" x-text="selectedItemData.name"></span>
       <p><span class="text-sm ml-9 md:text-base" x-text="dateString"></span> ⋅ <span class="text-sm md:text-base" x-text="selectedItemData.timeString"></span></p>
       <div wire:ignore>
@@ -79,7 +82,7 @@ wire:ignore.self>
   </div>
   <div x-show="colorPicker" x-transition.in>
     <div class="flex w-full h-12 mb-2 item-details-top">
-      <button class="mdc-icon-button material-icons" x-on:click="colorPicker = false; colorPopupHeight = -200; setSelectedItem(selectedItem)" wire:ignore>
+      <button class="mdc-icon-button material-icons" @click="colorPicker = false; colorPopupHeight = -200; setSelectedItem(selectedItem)" wire:ignore>
         <div class="mdc-icon-button__ripple"></div>
         arrow_back
       </button>

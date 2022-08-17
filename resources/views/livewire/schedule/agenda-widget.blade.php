@@ -100,7 +100,7 @@
     </div>
   </div>
   <!-- Agenda context menu -->
-  <x-agenda.agenda-context/>
+  <x-agenda.agenda-popup/>
 
   <x-ui.tooltip tooltip-id="jump-today" text="Jump to Today"/>
   <x-ui.tooltip tooltip-id="backward-day" text="Previous Day"/>
@@ -201,7 +201,7 @@
           this.eventColors[this.selectedItemData.id] = color;
           
           //Update event color through fetch
-          fetch('http://localhost/event', {
+          fetch(window.location.origin + '/event', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {

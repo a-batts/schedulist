@@ -1,8 +1,4 @@
 <div x-data="eventEdit()"
-x-init="$watch('modal', value => {
-  document.body.classList.toggle('overflow-y-hidden');
-  document.getElementById('agenda').classList.toggle('fixed');
-});"
 @update-content.window="updateContent($wire)"
 @close-edit-modal.window="modal = false"
 class="mdc-typography">

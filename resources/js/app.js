@@ -3,6 +3,7 @@ require('./bootstrap');
 import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 import Clipboard from '@ryangjchandler/alpine-clipboard'
+import focus from '@alpinejs/focus'
 import Parent from "@ryangjchandler/alpine-parent";
 
 import datePicker from './alpine/ui/date-picker'
@@ -36,6 +37,7 @@ import { MDCRadio } from '@material/radio';
 import { MDCDataTable } from '@material/data-table';
 import { MDCBanner } from '@material/banner';
 import { MDCList } from '@material/list';
+import { MDCLinearProgress } from '@material/linear-progress';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -63,6 +65,7 @@ window.Echo = new Echo({
 window.Alpine = Alpine;
 
 Alpine.plugin(Clipboard);
+Alpine.plugin(focus);
 Alpine.plugin(Parent);
 Alpine.data('miniCalendar', miniCalendar);
 Alpine.data('datePicker', datePicker);
@@ -142,7 +145,11 @@ if (document.getElementById("unsub-dialog") !== null) {
   var list = new MDCList(el);
   list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
   return list;
-})
+});
+
+document.querySelectorAll('.mdc-linear-progress').forEach((el) => {
+  new MDCLinearProgress(el);
+});
 
 
 function initTooltip(e) {
