@@ -2,8 +2,14 @@
 @update-content.window="updateContent($wire)"
 @close-edit-modal.window="modal = false"
 class="mdc-typography">
-    <x-ui.modal alpine="modal" title="Edit Event" action="Save" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.setDays(days); $wire.edit()">
-    <label class="w-4/5 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
+    <x-ui.modal bind="modal" title="Edit Event" class="top-4">
+      <x-slot name="actions">
+        <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" @click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.setDays(days); $wire.edit()">
+          <span class="mdc-button__ripple"></span>Save
+        </button>
+      </x-slot>
+    
+      <label class="w-4/5 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['event.name'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label mdc-floating-label--float-above" id="event-name-label">Event Name</span>
       <input class="mdc-text-field__input" wire:model.lazy="event.name" type="text" aria-labelledby="event-name-label" required>

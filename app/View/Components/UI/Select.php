@@ -46,7 +46,7 @@ class Select extends Component {
    *
    * @return void
    */
-  public function __construct($title, $bind, $style, $data, $value = null) {
+  public function __construct(string $title, string $bind, string $style, string $data, ?string $value = null) {
     $this->title = $title;
     $this->bind = $bind;
     $this->style = $style;
