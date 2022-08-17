@@ -6,10 +6,10 @@ class="mdc-typography" wire:ignore>
   description="Set or modify the times for your classes or create a new schedule entirely.">
     <div class="block h-16 w-full" wire:ignore>
       <div class="float-left">
-        <x-ui.select text="Schedule Type" alpine="scheduleType" var="ScheduleType" type="filled" :data="$scheduleTypes" :default="$scheduleType" class="mt-4 mr-4 w-60" required />
+        <x-ui.select text="Schedule Type" "scheduleType" var="ScheduleType" type="filled" :data="$scheduleTypes" :default="$scheduleType" class="mt-4 mr-4 w-60" required />
       </div>
       <div class="" x-show="scheduleType.toLowerCase() == 'block'">
-        <x-ui.select text="Number of Blocks" alpine="numberBlocks" var="NumberBlocks" type="filled" :data="$possibleNumberBlocks" :default="$schedule->number_blocks" class="mt-4 w-60" required />
+        <x-ui.select text="Number of Blocks" "numberBlocks" var="NumberBlocks" type="filled" :data="$possibleNumberBlocks" :default="$schedule->number_blocks" class="mt-4 w-60" required />
       </div>
     </div>
     <div class="mt-4">

@@ -1,7 +1,7 @@
 <div class="mdc-typography"
 @close-schedule-dialog.window="schedulePicker = false"
 >
-  <div x-show="schedulePicker" style="display: none" class="modal_skim inset-0 hidden bg-gray-500 opacity-75" x-cloak></div>
+  <div x-show="schedulePicker" style="display: none" class="inset-0 hidden bg-gray-500 opacity-75 modal_skim" x-cloak></div>
   <div class="mdc-card mdc-card--outlined schedule-modal" style="position: absolute; left: 0; right: 0" x-transition x-show="schedulePicker"
   x-cloak wire:ignore.self>
     <form wire:submit.prevent="save"
@@ -19,7 +19,7 @@
     }">
       <div class="toprowcontainer">
         <div class="closebutton">
-          <button class="mdc-icon-button close-icon material-icons float-left mr-2" type="reset" aria-describedby="close-schedule-tooltip" onclick="undoFixBody()" @click="$dispatch('close-schedule-dialog')" aria-label="Close Schedule Picker">close</button wire:ignore>
+          <button class="float-left mr-2 mdc-icon-button close-icon material-icons" type="reset" aria-describedby="close-schedule-tooltip" onclick="undoFixBody()" @click="$dispatch('close-schedule-dialog')" aria-label="Close Schedule Picker">close</button wire:ignore>
           <h1 class="mdc-typography--headline6 nunito mt-2.5 ml-6 w-56">Set Schedule</h1>
         </div>
         <div id="close-schedule-tooltip" class="mdc-tooltip" role="tooltip" aria-hidden="true">
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div x-show="page == 1">
-        <h1 class="mdc-typography--body mt-14 ml-2 mb-4 text-gray-600">
+        <h1 class="mb-4 ml-2 text-gray-600 mdc-typography--body mt-14">
           You can search for your school to use your school's class times if they have been previously inputted by others.
         </h1>
         <div class="mdc-menu-surface--anchor">
@@ -62,11 +62,11 @@
                 <input type="checkbox" id="customScheduleToggle" class="mdc-switch__native-control" role="switch"  @if($usingCustomSchedule) aria-checked="true" @endif x-on:click="customSchedule = !customSchedule" onclick="delayFixChecks()">
               </div>
             </div>
-            <label for="basic-switch" class="roboto ml-3 mb-5">Use custom class schedule</label>
+            <label for="basic-switch" class="mb-5 ml-3 roboto">Use custom class schedule</label>
             <div x-show="customSchedule">
               <br />
               <div class="border-t border-gray-200"></div>
-              <h1 class="mdc-typography--body mt-6 ml-2 mb-4 text-gray-600">
+              <h1 class="mt-6 mb-4 ml-2 text-gray-600 mdc-typography--body">
                 Which style of scheduling does your school use?
               </h1>
               <div>
@@ -81,7 +81,7 @@
                   </div>
                   <label for="radio-1 -mt-4">Classes are the same every single week (fixed schedule)</label>
                   <br />
-                  <div class="mdc-radio mt-2">
+                  <div class="mt-2 mdc-radio">
                     <input class="mdc-radio__native-control" type="radio" id="radio-2" name="types" x-on:click="scheduleType = 'block'" wire:click="setScheduleType('block')">
                     <div class="mdc-radio__background">
                       <div class="mdc-radio__outer-circle"></div>
@@ -92,7 +92,7 @@
                   <label for="radio-2 -mt-4">Classes take place on lettered or numbered days (block schedule)</label>
                 </div>
                 <div x-transition x-show="scheduleType == 'block'">
-                  <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 w-56" wire:ignore>
+                  <div class="w-56 mt-2 ml-1 mdc-select mdc-select--required mdc-select--filled" wire:ignore>
                     <div class="mdc-select__anchor"
                          role="button"
                          aria-haspopup="listbox"
@@ -144,7 +144,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="mdc-select mdc-select--required mdc-select--filled mt-2 ml-1 w-72" wire:ignore.self>
+                  <div class="mt-2 ml-1 mdc-select mdc-select--required mdc-select--filled w-72" wire:ignore.self>
                     <div class="mdc-select__anchor"
                          role="button"
                          aria-haspopup="listbox"
@@ -193,10 +193,10 @@
         </div>
       </div>
       <div x-show="page == 2">
-        <h1 class="mdc-typography--body mt-14 ml-2 mb-4 text-gray-600">
+        <h1 class="mb-4 ml-2 text-gray-600 mdc-typography--body mt-14">
           Set the times and frequencies for each of your classes
         </h1>
-        <div class="mdc-select mdc-select--required mdc-select--filled mt-3 ml-0 w-56" wire:ignore>
+        <div class="w-56 mt-3 ml-0 mdc-select mdc-select--required mdc-select--filled" wire:ignore>
           <div class="mdc-select__anchor"
                role="button"
                aria-haspopup="listbox"
@@ -228,7 +228,7 @@
             </span>
             <span class="mdc-line-ripple"></span>
           </div>
-          <div class="mdc-select__menu mdc-menu mdc-menu-surface w-12">
+          <div class="w-12 mdc-select__menu mdc-menu mdc-menu-surface">
             <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Number of classes select" wire:ignore>
               @for ($i=1; $i <= 10; $i++)
                 <li class="mdc-deprecated-list-item" aria-selected="false" wire:click="setNumberClasses({{$i}})" data-value="{{$i}}" role="option" wire:key="{{$i}}">
@@ -248,7 +248,7 @@
               <input id="start{{$i}}" class="mdc-text-field__input" type="text" aria-labelledby="period-{{$i}}-label" autocomplete="timestart" wire:model.lazy="customTimes.pd{{$i}}start" wire:ignore>
               <span class="mdc-line-ripple" wire:ignore></span>
             </label>
-            <label class="mdc-text-field mdc-text-field--filled mdc-text-field--label-floating ml-2 w-28">
+            <label class="ml-2 mdc-text-field mdc-text-field--filled mdc-text-field--label-floating w-28">
               <span class="mdc-text-field__ripple" wire:ignore></span>
               <span class="mdc-floating-label mdc-floating-label--float-above" id="period-{{$i}}-label">End Time</span>
               <input id="end{{$i}}" class="mdc-text-field__input" type="text" aria-labelledby="period-{{$i}}-label" autocomplete="timestop" wire:model.lazy="customTimes.pd{{$i}}end" wire:ignore>
@@ -256,7 +256,7 @@
             </label>
           </div>
           @if($scheduleType == "fixed")
-            <div class="float-right -mt-14 mr-4">
+            <div class="float-right mr-4 -mt-14">
               <div class="inline-block w-12">
                 <div class="mdc-checkbox">
                   <input type="checkbox"class="mdc-checkbox__native-control"id="{{$i}}checkbox-M" wire:click="updateFixedCustomSchedule({{$i}}, 'M')"/>
@@ -267,7 +267,7 @@
                     <div class="mdc-checkbox__mixedmark"></div>
                   </div>
                   <div class="mdc-checkbox__ripple"></div>
-                  <label for="{{$i}}checkbox-M" class="mt-8 block text-center text-gray-600">M</label>
+                  <label for="{{$i}}checkbox-M" class="block mt-8 text-center text-gray-600">M</label>
                 </div>
               </div>
               <div class="inline-block w-12">
@@ -280,7 +280,7 @@
                     <div class="mdc-checkbox__mixedmark"></div>
                   </div>
                   <div class="mdc-checkbox__ripple"></div>
-                  <label for="{{$i}}checkbox-T" class="mt-8 block text-center text-gray-600">T</label>
+                  <label for="{{$i}}checkbox-T" class="block mt-8 text-center text-gray-600">T</label>
                 </div>
               </div>
               <div class="inline-block w-12">
@@ -293,7 +293,7 @@
                     <div class="mdc-checkbox__mixedmark"></div>
                   </div>
                   <div class="mdc-checkbox__ripple"></div>
-                  <label for="{{$i}}checkbox-W" class="mt-8 block text-center text-gray-600">W</label>
+                  <label for="{{$i}}checkbox-W" class="block mt-8 text-center text-gray-600">W</label>
                 </div>
               </div>
               <div class="inline-block w-12">
@@ -306,7 +306,7 @@
                     <div class="mdc-checkbox__mixedmark"></div>
                   </div>
                   <div class="mdc-checkbox__ripple"></div>
-                  <label for="{{$i}}checkbox-Th" class="mt-8 block text-center text-gray-600">Th</label>
+                  <label for="{{$i}}checkbox-Th" class="block mt-8 text-center text-gray-600">Th</label>
                 </div>
               </div>
               <div class="inline-block w-12">
@@ -319,12 +319,12 @@
                     <div class="mdc-checkbox__mixedmark"></div>
                   </div>
                   <div class="mdc-checkbox__ripple"></div>
-                  <label for="{{$i}}checkbox-F" class="mt-8 block text-center text-gray-600">F</label>
+                  <label for="{{$i}}checkbox-F" class="block mt-8 text-center text-gray-600">F</label>
                 </div>
               </div>
             </div>
           @elseif($scheduleType == "block")
-            <div class="float-right -mt-14 mr-4">
+            <div class="float-right mr-4 -mt-14">
               @for ($j=1; $j <= $numberOfBlockDays; $j++)
                 <div class="inline-block w-12">
                   <div class="mdc-checkbox">
@@ -336,7 +336,7 @@
                       <div class="mdc-checkbox__mixedmark"></div>
                     </div>
                     <div class="mdc-checkbox__ripple"></div>
-                    <label for="{{$j}}checkbox-bl" class="mt-8 block text-center text-gray-600">Day {{$j}}</label>
+                    <label for="{{$j}}checkbox-bl" class="block mt-8 text-center text-gray-600">Day {{$j}}</label>
                   </div>
                 </div>
               @endfor
@@ -346,7 +346,7 @@
       </div>
       <div x-show="page == 3">
         @if($scheduleType == "block")
-          <h1 class="mdc-typography--body mt-14 ml-2 mb-4 text-gray-600">
+          <h1 class="mb-4 ml-2 text-gray-600 mdc-typography--body mt-14">
             Are your block days lettered or numbered?
           </h1>
           <div class="mb-5">
@@ -360,7 +360,7 @@
             </div>
             <label for="radio-1 -mt-4">Numbered (Day 1, Day 2, Day 3...)</label>
             <br />
-            <div class="mdc-radio mt-2">
+            <div class="mt-2 mdc-radio">
               <input class="mdc-radio__native-control" type="radio" id="letter-radio" name="blocks" wire:click="setBlockStyling('letter')">
               <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
