@@ -41,6 +41,7 @@
         "workbox-webpack-plugin": "^6.1.2"
     },
     "dependencies": {
+        "@alpinejs/focus": "^3.10.3",
         "@hotwired/turbo": "*",
         "@ryangjchandler/alpine-clipboard": "^2.2.0",
         "@ryangjchandler/alpine-parent": "^1.0.0",

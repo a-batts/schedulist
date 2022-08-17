@@ -1,9 +1,4 @@
 <div x-data="eventCreate()"
-  x-init=" 
-  $watch('modal', value => {
-    document.body.classList.toggle('overflow-y-hidden');
-    document.getElementById('agenda').classList.toggle('fixed');
-  });"
   @close-create-modal.window="modal = false"
   class="mdc-typography">
   <x-ui.modal alpine="modal" title="New Event" action="Add" classes="top-4" x-on:click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.set('days', days); $wire.create()">

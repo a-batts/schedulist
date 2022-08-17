@@ -49,6 +49,7 @@
 @use '@material/radio';
 @use "@material/data-table/data-table";
 @use "@material/data-table/styles" as tooltip-style;
+@use "@material/linear-progress";
 
 @import "filepond/dist/filepond.min.css";
 @import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -63,6 +64,7 @@
 @include form-field.core-styles;
 @include dialog.core-styles;
 @include fab.core-styles;
+@include linear-progress.core-styles;
 
 html {
   overflow: auto;
