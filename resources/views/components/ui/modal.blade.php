@@ -4,7 +4,7 @@ x-data="{
   loading: false
 }">
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" x-show="{{$bind}}" x-cloak></div>
-  <div class="fixed top-0 w-screen h-screen overflow-y-auto modal-container" x-show="{{$bind}}" x-trap.noscroll="{{$bind}}" x-transition x-cloak>
+  <div class="fixed top-0 w-screen h-screen overflow-y-auto modal-container" x-show.important="{{$bind}}" x-trap.noscroll="{{$bind}}" x-transition x-cloak>
     <form {{$attributes->whereStartsWith('wire:submit')}} >
       <div {{$attributes->class(['mdc-card mdc-card--outlined modal-card'])}}>
         <div>

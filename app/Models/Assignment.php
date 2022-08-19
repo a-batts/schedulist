@@ -14,7 +14,7 @@ class Assignment extends Model {
 
   protected $guarded = ['id', 'userid', 'classid'];
 
-  public function getClassNameAttribute($value) {
+  public function getClassNameAttribute() {
     if ($this->classid == null)
       return 'No Class';
 
@@ -24,23 +24,23 @@ class Assignment extends Model {
     return 'Deleted Class';
   }
 
-  public function getDueDateAttribute($value) {
+  public function getDueDateAttribute() {
     return Carbon::parse($this->due)->format('M j');
   }
 
-  public function getDueDateWAttribute($value) {
+  public function getDueDateWAttribute() {
     return Carbon::parse($this->due)->format('D');
   }
 
-  public function getDueTimeAttribute($value) {
+  public function getDueTimeAttribute() {
     return Carbon::parse($this->due)->format('g:i A');
   }
 
-  public function getCreatedDateAttribute($value) {
+  public function getCreatedDateAttribute() {
     return Carbon::parse($this->created_at)->format('M j');
   }
 
-  public function getEditedDateAttribute($value) {
+  public function getEditedDateAttribute() {
     if ($this->created_at != $this->updated_at)
       return Carbon::parse($this->updated_at)->format('M j');
     return null;
@@ -56,8 +56,16 @@ class Assignment extends Model {
     return $this->assignment_name;
   }
 
+  public function setNameAttribute($val) {
+    $this->assignment_name = $val;
+  }
+
   public function getLinkAttribute() {
     return $this->assignment_link;
+  }
+
+  public function setLinkAttribute($val) {
+    $this->assignment_link = $val;
   }
 
   public function reminders() {

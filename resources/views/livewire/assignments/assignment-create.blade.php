@@ -1,11 +1,5 @@
-<div x-data="{
-  dialog: false,
-  offline: false,
-  errorMessages: @entangle('errorMessages'),
-}"
-@offline.window="offline = true"
-@online.window="online = true"
-@close-assignment-modal.window="modal=false"
+<div x-data="assignmentEdit"
+@close-assignment-modal.window="modal = false"
 class="mdc-typography">
   <div class="fab-button">
     <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Assignment" @click="dialog = true">
@@ -17,21 +11,22 @@ class="mdc-typography">
 
   <x-ui.modal bind="dialog" title="New Assignment" class="top-4">
     <x-slot name="actions">
-      <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="create">
+      <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="create()" wire:ignore>
         <span class="mdc-button__ripple"></span>Create
       </button>
     </x-slot>
-    <div>
-      <div class="float-left w-1/2 pr-1.5">
-        <label class="w-full mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+    
+    <div class="flex space-x-3">
+      <div class="w-full">
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label" id="assignment-name-label">Assignment Name</span>
           <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" type="text" aria-labelledby="assignment-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_name"/>
+        <x-ui.validation-error for="assignment.assignment_name"/>
       </div>
-      <div class="float-right w-1/2 pl-1.5">
+      <div class="w-full">
         <div class="w-full mdc-select mdc-select--filled" wire:ignore>
           <div class="mdc-select__anchor"
                role="button"
@@ -78,81 +73,63 @@ class="mdc-typography">
       </div>
     </div>
 
-    <div class="block -mt-1 h-14">
-      @livewire('assignments.assignment-due')
-    </div>
-    <x-ui.validation-error :message="$errorMessages" for="assignment.due"/>
+    <div class="flex space-x-3">
+      <div class="w-full">
+        <x-ui.date-picker bind="date" title="Due Date" valid-date="validDate"/>
+        <x-ui.validation-error for="due_date"/>
+      </div>
+      
+      <div class="w-full">
+        <x-ui.time-picker bind="time" title="Due Time"/>
+        <x-ui.validation-error for="due_time"/>
+      </div>
+    </div>    
 
-    <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+    <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="assignment-link-label">Assignment Link</span>
       <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-error :message="$errorMessages" for="assignment.assignment_link"/>
+    <x-ui.validation-error for="assignment.assignment_link"/>
 
-    <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
+    <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" :class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
       <span class="mdc-floating-label" id="assignment-description-label">Assignment Description</span>
       <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" required></textarea>
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-error :message="$errorMessages" for="assignment.description"/>
+    <x-ui.validation-error for="assignment.description"/>
   </x-ui.modal>
 </div>
 
 @push('scripts')
-  <script src="https://cdn.jsdelivr.net/gh/livewire/vue@v0.3.x/dist/livewire-vue.js"></script>
-  <script>
-        var vueApp = new Vue({
-          el: '#app',
-          vuetify: new Vuetify({
-              icons: {
-                iconfont: 'md',
-              },
-            }),
-          data: () => ({
-            date: new Date().toISOString().substr(0, 10),
-            menu: false,
-            time: '23:59',
-            menu2: false,
-          }),
-          methods: {
-              disablePastDates(val) {
-                 return val >= new Date().toISOString().substr(0, 10)
-              },
-              resetFormElements: function(){
-                this.time = '23:59';
-                this.date = new Date().toISOString().substr(0, 10);
-              },
-              emitTime() {
-                Livewire.emit('setTime', this.time);
-              },
-              emitDate() {
-                Livewire.emit('setDate', this.date);
-              }
+<script>
+  document.addEventListener('alpine:init', () => {
+        Alpine.data('assignmentEdit', () => ({
+          dialog: false,
+          
+          errorMessages: @entangle('errorMessages'),
+
+          date: new Date(),
+          
+          time : {h: 23, m: 59},
+
+          init: function() {
+            this.$watch('date', (value, oldVal) => {
+              this.$wire.setDate(
+                value.getFullYear() + '-' + String(value.getMonth() + 1).padStart(2, '0') + '-' + String(value.getDate()).padStart(2, '0')
+              )
+            });
+
+            this.$watch('time', (value) => {
+              this.$wire.setTime(value);
+            });
           },
-          computed: {
-              formattedTime: function() {
-                var split = this.time.split(":");
-                split[0] = split[0] * 1;
-                if (split[0] == 12){
-                  split = split.join(":");
-                  return split + " PM";
-                }
-                if (split[0] > 12){
-                  split[0] -= 12;
-                  split = split.join(":");
-                  return split + " PM";
-                }
-                if (split[0] == 0)
-                  split[0] +=12;
-                split = split.join(":");
-                return split + " AM";
-              },
-              formattedDate: function() {
-                return this.date.substring(5,7)*1 + "/" + this.date.substring(8,10)*1 + "/" + this.date.substring(0,4);
-              }
-          }
-        })
-  </script>
+
+          validDate: function(date) {
+            return date >= new Date();
+          },
+        }))
+    })
+</script>
 @endpush
