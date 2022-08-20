@@ -55,7 +55,7 @@ x-data="{
     </div>
 
     <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-      <ul class="mdc-deprecated-list" role="listbox" aria-label="Food picker listbox">
+      <ul class="mdc-deprecated-list dark-theme-list" role="listbox" aria-label="Food picker listbox">
         <template x-for="item in data">
           <li class="mdc-deprecated-list-item" :class="{'mdc-deprecated-list-item--selected': item == value}" :aria-selected="item == value" 
           @click="value = item;" :data-value="item" role="option">
