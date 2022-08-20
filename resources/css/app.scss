@@ -1012,7 +1012,9 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
+  transition: color 9999s ease-out, background-color 9999s ease-out;
   -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
 }
 
 .text-blue {
@@ -1050,6 +1052,7 @@ a:focus,
 .mdc-icon-button:active {
   outline: 0;
   border: none;
+  outline-style: none;
   -moz-outline-style: none;
 }
 
