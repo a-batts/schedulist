@@ -1,5 +1,5 @@
 <x-app-layout title="Confirm Account Password">
-    <div class="pt-20">
+    <div class="pt-10">
         <x-ui.auth-card title="Confirm your password" description="Since you are accessing sensitive information, we need you to verify your identity.">
             <div
             x-data="{

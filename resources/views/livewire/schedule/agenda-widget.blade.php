@@ -5,7 +5,7 @@
   id="agenda"
   class="w-full mdc-typograpy"
   >
-  <div class="flex w-full pt-2 pb-3 pl-6 -mt-4 mdc-elevation--z2 agenda-header md:pr-5">
+  <div class="flex w-full pt-2 pb-3 pl-6 mdc-elevation--z2 agenda-header md:pr-5">
     <div class="flex self-center flex-grow ml-16 space-x-2">
       <div>
         <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
