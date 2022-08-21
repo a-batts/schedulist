@@ -62,7 +62,7 @@
                 <input type="checkbox" id="customScheduleToggle" class="mdc-switch__native-control" role="switch"  @if($usingCustomSchedule) aria-checked="true" @endif x-on:click="customSchedule = !customSchedule" onclick="delayFixChecks()">
               </div>
             </div>
-            <label for="basic-switch" class="mb-5 ml-3 roboto">Use custom class schedule</label>
+            <label for="basic-switch" class="mb-5 ml-3">Use custom class schedule</label>
             <div x-show="customSchedule">
               <br />
               <div class="border-t border-gray-200"></div>

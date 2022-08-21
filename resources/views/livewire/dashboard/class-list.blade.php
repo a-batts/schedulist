@@ -1,4 +1,4 @@
-<div class="roboto mt-16 px-4 md:px-24" x-data="{
+<div class="mt-16 px-4 md:px-24" x-data="{
   selected: -1,
 }">
     <p class="text-3xl font-semibold">All of your classes</p>

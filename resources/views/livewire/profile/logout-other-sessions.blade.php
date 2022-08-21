@@ -1,4 +1,4 @@
-<div class="roboto pt-20" 
+<div class="pt-20" 
 x-data="{
     passwordConfirmation: false,
     passwordField: 'password',
@@ -78,7 +78,7 @@ x-data="{
         </label>
         <x-ui.validation-error for="password"/>
         <div class="forgot-password mr-2 w-full text-right">
-            <a class="robototheme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
+            <a class="theme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
         </div>
 
         <div class="mt-5">

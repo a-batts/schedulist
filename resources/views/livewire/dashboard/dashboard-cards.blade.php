@@ -1,4 +1,4 @@
-<div class="roboto px-4 md:px-24">
+<div class="px-4 md:px-24">
   @livewire('dashboard.dashboard-header')
   <div x-data="{ cardExpanded: false }" class="pt-6" wire:poll.40000ms="refresh">
     @if($activeClass)
@@ -89,7 +89,7 @@
               <div class="mt-2">
                 @foreach ($assignments as $index => $assignment)
                   <a href="{{'/assignments/assignment/'.$assignment->url_string}}">
-                    <div class="mdc-card mdc-card--outlined roboto mt-3">
+                    <div class="mdc-card mdc-card--outlined mt-3">
                       <div class="mdc-card__primary-action assignment-card-dashboard truncate px-5 text-left" tabindex="0">
                         <div class="assignment-card-left float-left">
                           <p class="-mt-0.5 text-xl font-medium">{{Crypt::decryptString($assignment->assignment_name)}}</p>
@@ -122,7 +122,7 @@
             @else
               <div class="mt-2">
                 @foreach ($events as $index => $event)
-                  <div class="mdc-card mdc-card--outlined mt-3 roboto background-{{$event->color ?? 'blue'}}">
+                  <div class="mdc-card mdc-card--outlined mt-3 background-{{$event->color ?? 'blue'}}">
                     <div class="mdc-card__primary-action assignment-card-dashboard truncate px-5 text-left" tabindex="0">
                       <div class="assignment-card-left float-left">
                         <p class="-mt-0.5 text-xl font-medium">{{Crypt::decryptString($event->name)}}</p>
