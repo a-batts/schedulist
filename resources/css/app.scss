@@ -231,25 +231,6 @@ body {
     background-color: #FFFFFF;
   }
 
-  div.v-application .primary {
-    background-color: #0D6ED1 !important;
-  }
-
-  .v-time-picker-clock.theme--light {
-    background: #E0E0E0 !important;
-  }
-
-  button.theme--light.v-btn.v-btn--disabled,
-  .theme--light.v-btn.v-btn--disabled .v-btn__loading,
-  .theme--light.v-btn.v-btn--disabled .v-icon {
-    color: rgba(0, 0, 0, .26) !important;
-  }
-
-  button.theme--light.v-date-picker-table .v-date-picker-table--date__week,
-  .theme--light.v-date-picker-table th {
-    color: rgba(0, 0, 0, .38) !important;
-  }
-
   .turbolinks-progress-bar {
     background: #0D6ED1;
   }
@@ -288,10 +269,6 @@ body {
       }
     }
   }
-
-
-
-
 }
 
 /*
@@ -448,29 +425,6 @@ body.theme-dark {
 
   .mdc-icon-button:disabled {
     color: var(--element-disabled);
-  }
-
-  div.v-application .primary {
-    background-color: #1E1E1E !important;
-  }
-
-  div.theme--light.v-picker__body {
-    background-color: #2C2C2C;
-  }
-
-  .v-time-picker-clock.theme--light {
-    background: #616161 !important;
-  }
-
-  button.theme--light.v-btn.v-btn--disabled,
-  .theme--light.v-btn.v-btn--disabled .v-btn__loading,
-  .theme--light.v-btn.v-btn--disabled .v-icon {
-    color: var(--element-disabled) !important;
-  }
-
-  button.theme--light.v-date-picker-table .v-date-picker-table--date__week,
-  body.theme-dark .theme--light.v-date-picker-table th {
-    color: hsla(0, 0%, 100%, .5) !important;
   }
 
   .turbolinks-progress-bar {
@@ -837,76 +791,9 @@ div.mdc-dialog__content {
   @include radio.unchecked-stroke-color(var(--text-color));
 }
 
-//Vue Element Themes
-.v-text-field--filled>.v-input__control>.v-input__slot {
-  background-color: var(--textfield-fill-color) !important;
-}
-
-#app .v-application .primary--text {
-  color: var(--mdc-theme-primary) !important;
-  caret-color: var(--mdc-theme-primary) !important;
-}
-
-div.v-application .accent {
-  background-color: var(--mdc-theme-primary) !important;
-}
-
-body.theme-div v-application .accent--text {
-  color: var(--mdc-theme-primary) !important;
-  caret-color: var(--mdc-theme-primary) !important;
-}
-
-body.theme-div .theme--light.v-card {
-  color: var(--text-color) !important;
-}
-
-body.theme-div .v-application .primary--text {
-  color: var(--mdc-theme-primary) !important;
-}
-
-.theme--light.v-input,
-.theme--light.v-input input,
-.theme--light.v-input textarea {
-  color: var(--text-color) !important;
-}
-
-.v-time-picker-clock__item {
-  color: var(--text-color);
-}
-
-div.theme--light.v-date-picker-header .v-date-picker-header__value:not(.v-date-picker-header__value--disabled) button:not(:hover):not(:focus) {
-  color: var(--text-color);
-}
-
-.theme--light.v-icon {
-  color: var(--textfield-icon-color) !important;
-}
-
-.v-label.v-label--active.theme--light {
-  color: var(--textfield-label-color);
-}
-
-button.theme--light.v-btn {
-  color: var(--text-color);
-}
-
-.v-date-picker-table button.v-btn.v-btn--active {
-  color: var(--mdc-theme-on-primary);
-}
-
-.v-time-picker-clock__item.v-time-picker-clock__item--active.accent {
-  color: var(--mdc-theme-on-primary);
-}
-
 .mdc-typography.text-gray-800,
 .mdc-typography--subtitle1.text-gray-600 {
   color: #FFFFFF99;
-}
-
-.edit-toprow {
-  border-bottom: solid 1px;
-  border-bottom-color: var(--border-200);
-  background-color: var(--sec-surface-background);
 }
 
 .char-counter.mdc-text-field-character-counter {
@@ -1040,10 +927,6 @@ Generic component targeting
                           */
 a:active,
 a:focus,
-.v-picker__body button:active,
-.v-picker__body button:focus,
-.v-btn:focus,
-.v-btn:active,
 .icontoggle:focus,
 .close-icon:focus,
 .back-icon:focus,
@@ -1198,10 +1081,6 @@ body {
 
   div.link-primary-text {
     width: 278px;
-  }
-
-  div.v-menu__content--fixed {
-    margin-top: -110px;
   }
 }
 
@@ -1868,37 +1747,6 @@ div.assignment_add_leftrow {
   font-size: 14px;
 }
 
-.v-application.pickers {
-  width: 100%;
-  height: 90px;
-  background-color: transparent !important;
-}
-
-div.v-picker.v-card {
-  border: hidden;
-}
-
-div.v-text-field .v-input__slot {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.v-menu__content--fixed {
-  top: 233px !important;
-}
-
-.v-second-col {
-  margin-left: -13px;
-}
-
-.v-text-field--enclosed {
-  width: 100%;
-}
-
-.menu_date_picker .v-menu__content {
-  top: -50px !important;
-}
-
 .assignment-page-det {
   margin-left: 54px;
   margin-right: 40px;
@@ -1978,10 +1826,6 @@ div.mdc-card__primary-action.link__p-a {
 
 .edit-more-menu {
   margin-top: 56px;
-}
-
-div.v-application--wrap {
-  min-height: 100%;
 }
 
 div.livewire-helper.mdc-text-field-helper-line {
