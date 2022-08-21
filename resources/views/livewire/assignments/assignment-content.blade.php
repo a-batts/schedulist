@@ -1,4 +1,4 @@
-<div class="w-full py-16 roboto" x-data="">
+<div class="w-full py-16" x-data="">
   <div class="w-full px-2 pt-4 pb-8 text-white rounded-b-lg sm:px-6" style="background-color: #242323">
     <a @click="window.history.back()"><button class="mr-2 align-top mdc-icon-button material-icons" aria-describedby="back-label">arrow_back</button></a>
     <span class="inline-block pb-1 mt-3 text-xl font-medium truncate sm:mt-0 sm:text-4xl md:text-6xl">{{Crypt::decryptString($assignment->assignment_name)}}</span>

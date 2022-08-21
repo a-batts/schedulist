@@ -72,7 +72,7 @@ x-on:hide-query.window="showingQuery = false"
             <input type="checkbox" id="customScheduleToggle" class="mdc-switch__native-control" role="switch"  @if($usingCustomSchedule) aria-checked="true" checked @endif x-on:click="usingCustomSchedule = !usingCustomSchedule; @if($usingCustomSchedule) showingQuery = true @endif">
           </div>
         </div>
-        <label for="basic-switch" class="roboto ml-3 mb-5">Use custom class schedule</label>
+        <label for="basic-switch" class="ml-3 mb-5">Use custom class schedule</label>
       </div>
       <div class="mt-5 border-t border-gray-200"></div>
       <div x-show="usingCustomSchedule" @if(! $usingCustomSchedule) x-cloak @endif>

@@ -1,4 +1,4 @@
-<div class="roboto pt-20">
+<div class="pt-20">
     <x-ui.settings-card title="2-Factor Authentication"
     description="2FA allows you to make your account more secure by requiring a code after entering your password."
     back-button>

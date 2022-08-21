@@ -17,7 +17,7 @@
                 <div class="float-left w-14">
                   <i class="material-icons float-left ml-1 mt-1.5 text-3xl">event_note</i>
                 </div>
-                <div class="roboto float-left mt-0.5 w-auto">
+                <div class="float-left mt-0.5 w-auto">
                   <p class="font-medium">{{$eventDate->format('D, F jS, Y')}}</p>
                   <p class="text-sm text-gray-600">{{$eventTimes}}</p>
                 </div>

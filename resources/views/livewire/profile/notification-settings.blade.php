@@ -1,6 +1,6 @@
 <x-ui.settings-card title="Notification settings"
     description="Control the notifications that you receive about account security, assignments, and events.">
-        <div class="roboto pt-4 pb-2" x-data="{}">
+        <div class="pt-4 pb-2" x-data="{}">
           <p class="">You're receiving emails at <span class="font-medium">{{Auth::user()->email}}</span></p>
           <div class="float-right -mt-7">
             <button class="mdc-button mx-5" @click="document.getElementById('last-name-label').scrollIntoView({'behavior': 'smooth'})">
