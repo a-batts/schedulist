@@ -34,8 +34,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
   </head>
-  <body class="font-sans antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer" @if(Request::is('assignments/assignment*')) style="height: 98.5vh; margin-top: -6.3rem" @else style="margin-top: -6.3rem" @endif>
-    <div class="content-div min-h-screen" id="makefixed" wire:ignore.self>
+  <body class="antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer" @if(Request::is('assignments/assignment*')) style="height: 98.5vh; margin-top: -6.3rem" @else style="margin-top: -6.3rem" @endif>
+    <div class="min-h-screen content-div" id="makefixed" wire:ignore.self>
       <header class="pb-4">
         @livewire('navigation-menu')
       </header>

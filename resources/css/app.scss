@@ -629,14 +629,14 @@ body.theme-dark {
   @include card.fill-color(var(--ter-surface-background));
 }
 
-.border-t.border-gray-200,
+.border-gray-200,
 .section-border.border-200 {
-  border-color: var(--border-200);
+  border-color: var(--border-200) !important;
 }
 
-.border-t.border-gray-100,
+.border-gray-100,
 .section-border.border-100 {
-  border-color: var(--border-100);
+  border-color: var(--border-100) !important;
 }
 
 .mdc-card {
@@ -1065,7 +1065,7 @@ body {
   width: 100vw;
   overflow-x: hidden;
   padding-bottom: 5px;
-
+  font-family: 'Roboto';
 }
 
 .turbolinks-progress-bar {
