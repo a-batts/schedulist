@@ -8,12 +8,12 @@
                 <form method="POST" action="{{ route('password.confirm') }}">
                     @csrf
                     <div class="w-full pt-4">
-                        <div class="mx-auto h-16 w-16"><img src="{{Auth::user()->profile_photo_url}}" class="rounded-full"></div>
-                        <p class="mx-auto mt-3 text-center text-xl font-medium">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
-                        <p class="mx-auto mt-1 text-center text-sm text-gray-700">{{Auth::user()->email}}</p>
+                        <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" class="rounded-full"></div>
+                        <p class="mx-auto mt-3 text-xl font-medium text-center">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
+                        <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{Auth::user()->email}}</p>
                     </div>
 
-                    <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full" wire:ignore>
+                    <label class="w-full mt-8 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" wire:ignore>
                         <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"  name="password" required autocomplete="current-password"/>
                         <button class="mdc-icon-button material-icons mdc-text-field__icon--trailing mdc-text-field__icon" @click="passwordField === 'password' ? passwordField = 'text' : passwordField = 'password'" type="button" tabindex="0">
                             <div class="mdc-icon-button__ripple"></div>
@@ -28,8 +28,8 @@
                         </span>
                     </label>
                     <x-ui.validation-error for="password"/>
-                    <div class="forgot-password mr-2 w-full text-right">
-                        <a class="robototheme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
+                    <div class="w-full mr-2 text-right forgot-password">
+                        <a class="text-sm theme-color-text" href="{{ route('password.request') }}">Forgot password?</a>
                     </div>
             
                     <div class="">
