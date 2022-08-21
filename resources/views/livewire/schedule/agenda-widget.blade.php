@@ -115,7 +115,7 @@
         agenda: @this.agenda,
         date: new Date(),
         selectedItem: -1,
-        agendaContext: false,
+        showingDetails: false,
         selectedItemData: [],
         showingMenu: false,
         popupHeight: -200,
@@ -165,18 +165,18 @@
           this.selectedItemData = this.agenda[this.day][e];
           let obj = document.querySelector('.agenda-item-' + e).getBoundingClientRect();
           this.popupHeight = obj.top + window.scrollY;
-          if (this.popupHeight +  200 > document.body.clientHeight)
-            this.popupHeight = document.body.clientHeight - 220;
-          if (this.popupHeight < 260)
-            this.popupHeight = 260;
-          this.agendaContext = true;
+          if (this.popupHeight + 240 > document.body.clientHeight)
+            this.popupHeight = document.body.clientHeight - 260;
+          if (this.popupHeight < 170)
+            this.popupHeight = 170;
+          this.showingDetails = true;
           this.colorPicker = false;
           this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
           disableScroll();
         },
         
         closeDetails: function (){
-          this.agendaContext = false;
+          this.showingDetails = false;
           this.selectedItem = -1;
           this.popupHeight = -200;
           enableScroll();
