@@ -55,7 +55,7 @@
         }
       }"
       @scroll.window="scrolled()">
-        <nav class="fixed z-10 w-screen py-4 nav-border base-bg" x-bind:class="{'border-b': aboveContent}">
+        <nav class="fixed top-0 z-10 w-screen py-4 nav-border base-bg" x-bind:class="{'border-b': aboveContent}">
           <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between" style="height: 4.2rem">
               <div class="absolute flex items-center justify-center flex-1 schedulist-logo-nav sm:items-stretch sm:justify-start md:relative">
