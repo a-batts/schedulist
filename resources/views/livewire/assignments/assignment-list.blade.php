@@ -1,6 +1,6 @@
-<div class="pt-8 mdc-typograpy" x-data="assignmentList()" @update-assignments.window="assignments = @this.assignments" wire:ignore>
+<div x-data="assignmentList()" @update-assignments.window="assignments = @this.assignments" wire:ignore>
   <div class="pt-4 pb-10">
-    <h2 class="text-4xl font-semibold sm:text-5xl">Assignments</h2>
+    <h2 class="text-4xl font-bold sm:text-5xl">Assignments</h2>
   </div>
   <div class="flex flex-wrap md:space-x-3 md:flex-nowrap">
     <div class="mb-4 basis-full md:basis-1/2">
