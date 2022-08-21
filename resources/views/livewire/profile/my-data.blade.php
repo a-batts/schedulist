@@ -1,7 +1,7 @@
 @push('meta')
     <meta name="turbolinks-cache-control" content="no-cache">
 @endpush
-<div class="roboto pt-20"
+<div class="pt-20"
 x-data="dataManager()"
 @started-download.window="fixBody(); downloadInProgress = true"
 @finished-redownload.window="$refs.redownloadButton.innerHTML = 'Download archive'; $refs.redownloadButton.disabled = false"">

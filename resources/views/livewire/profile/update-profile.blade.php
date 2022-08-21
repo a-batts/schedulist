@@ -8,7 +8,7 @@ x-init="$watch('numberConfirmationDialog', value =>{
 @start-countdown.window="countdown($refs)"
 @display-phone-verification.window="numberConfirmationDialog = true"
 @hide-phone-verification.window="numberConfirmationDialog = false"
-class="roboto" id="profile_settings">
+class="" id="profile_settings">
   @livewire('profile.update-profile-photo')
   <form wire:submit.prevent="save">
     <x-ui.settings-card title="Personal info"

@@ -1,5 +1,5 @@
 <div class="py-4">
-  <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined roboto sm:max-w-lg">
+  <div class="w-full px-10 py-8 mx-auto mt-6 overflow-hidden mdc-card mdc-card--outlined sm:max-w-lg">
     <div class="text-4xl font-bold">
       {{$title}}
     </div>

@@ -1,7 +1,7 @@
 <div>  
   <div class="content__div">
     <div class="py-4">
-      <div class="mdc-card mdc-card--outlined roboto mx-auto mt-6 w-full overflow-hidden px-10 py-8 sm:max-w-xl">
+      <div class="mdc-card mdc-card--outlined mx-auto mt-6 w-full overflow-hidden px-10 py-8 sm:max-w-xl">
         <div class="text-5xl font-medium">Contact Us</div>
         <div class="mt-3 text-left text-base text-gray-600">Fill out this form to send a message to the Schedulist team.</div>
         <div class="mt-5 border-t border-gray-200"></div>      
