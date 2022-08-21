@@ -69,6 +69,7 @@
 html {
   overflow: auto;
   overflow: initial;
+  --mdc-typography-font-family: 'Noto Sans';
 }
 
 
@@ -1065,7 +1066,6 @@ body {
   width: 100vw;
   overflow-x: hidden;
   padding-bottom: 5px;
-  font-family: 'Roboto';
 }
 
 .turbolinks-progress-bar {
@@ -2054,7 +2054,6 @@ div.livewire-helper.mdc-text-field-helper-line {
 
 .agenda-filter-label {
   vertical-align: 12px;
-  font-family: Roboto;
   font-size: 15px;
 }
 
