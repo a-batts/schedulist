@@ -20,7 +20,7 @@ class="mdc-typography">
       <div class="w-full">
         <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
-          <span class="mdc-floating-label" id="assignment-name-label">Assignment Name</span>
+          <span class="mdc-floating-label" id="assignment-name-label">Name</span>
           <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" type="text" aria-labelledby="assignment-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
@@ -87,14 +87,14 @@ class="mdc-typography">
 
     <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
-      <span class="mdc-floating-label" id="assignment-link-label">Assignment Link</span>
+      <span class="mdc-floating-label" id="assignment-link-label">Link</span>
       <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
     <x-ui.validation-error for="assignment.assignment_link"/>
 
     <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" :class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
-      <span class="mdc-floating-label" id="assignment-description-label">Assignment Description</span>
+      <span class="mdc-floating-label" id="assignment-description-label">Description</span>
       <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6" wire:model.lazy="assignment.description" required></textarea>
       <span class="mdc-line-ripple"></span>
     </label>

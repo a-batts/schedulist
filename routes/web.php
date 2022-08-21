@@ -100,7 +100,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{class?}/{due?
   if ($class == -1 || Classes::where(['userid' => Auth::User()->id, 'id' => $class])->exists()) {
     if (ucfirst($due) != 'Incomplete' && ucfirst($due) != 'Completed')
       abort(404);
-    return view('assignments.assignment-list', ['class' => $class, 'due' => ucfirst($due)]);
+    return view('assignments.list', ['class' => $class, 'due' => ucfirst($due)]);
   } else
     return redirect('/assignments');
 })->where(['name' => '[a-z]+'])->name('assignments');
