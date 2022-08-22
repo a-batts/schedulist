@@ -18,7 +18,7 @@
   }"
   :class="{'rounded-b-lg': mobileMenu}"
   data-turbolinks-permanent>
-    <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+  <div class="w-full px-2 mx-auto sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-20">
         <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
           <button class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md mdc-icon-button material-icons hover:text-white focus:text-white focus:outline-none" aria-label="Main menu" aria-expanded="false" @click="mobileMenu = !mobileMenu"><div class="mdc-icon-button__ripple"></div>menu</button>
