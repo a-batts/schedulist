@@ -6,58 +6,152 @@ use App\Classes\LinkPreview;
 
 use App\Models\Classes;
 use App\Models\Assignment;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 use Livewire\Component;
+use LogicException;
 
-class AssignmentContent extends Component
-{
-    public Assignment $assignment;
+class AssignmentContent extends Component {
+  /**
+   * The assignment
+   *
+   * @var Assignment
+   */
+  public Assignment $assignment;
 
-    public $assignmentString;
+  /**
+   * The assignment's notes
+   *
+   * @var Collection<AssignmentNote>
+   */
+  public $notes;
 
-    public $classColor;
+  /**
+   * The unique encode string for the assignment (used to access it)
+   *
+   * @var string
+   */
+  public string $urlString;
 
-    protected $preview;
+  /**
+   * The color of the assignment's class
+   *
+   * @var string 
+   */
+  public string $classColor;
 
-    protected $listeners = ['refreshAssignmentPage' => '$refresh'];
+  /**
+   * The new note contents
+   *
+   * @var string
+   */
+  public string $noteContent = '';
 
-    public function mount(){
-      $this->assignment = Assignment::where('url_string', $this->assignmentString)->first();
-      if ($this->assignment->classid != null){
-        $class = Classes::where('id', $this->assignment->classid)->first();
-        if ($class != null)
-          $this->classColor = strtolower($class->color);
-      }
+  /**
+   * The link preview for the assignment link
+   *
+   * @var LinkPreview|null
+   */
+  protected ?LinkPreview $preview;
+
+  /**
+   * Validation rules
+   *
+   * @var array
+   */
+  protected array $rules = [
+    'noteContent' => 'required',
+  ];
+
+  protected $listeners = ['refreshAssignmentPage' => '$refresh'];
+
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
+    $this->assignment = Assignment::where('url_string', $this->urlString)->first();
+
+    if ($this->assignment->classid != null)
+      $class = Classes::where('id', $this->assignment->classid)->first();
+
+    $this->classColor = isset($class) ? strtolower($class->color) : 'blue';
+
+    $this->notes = $this->assignment->notes;
+  }
+
+  /**
+   * Toggle the assignment's completion status
+   *
+   * @return void
+   */
+  public function toggleCompletion(): void {
+    $assignment = $this->assignment;
+
+    //Only allow user to modify an assignment they own
+    if ($assignment->userid == Auth::User()->id) {
+      $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
+
+      $assignment->save();
+      $this->emit('toastMessage', 'Marked assignment as ' . ($assignment->status == 'done' ? 'complete' : 'incomplete'));
     }
+  }
 
-    public function updateStatus(){
-      $assignment = $this->assignment;
-      if ($assignment->userid == Auth::User()->id){
-        if ($assignment->status == 'inc')
-          $assignment->status = 'done';
-        else
-          $assignment->status = 'inc';
-        $assignment->save();
-        $this->assignment = $assignment;
-        $this->emit('toastMessage', 'Marked assignment as '.($assignment->status == 'done' ? 'done': 'incomplete'));
-      }
+  /**
+   * Add a new note
+   *
+   * @return void
+   */
+  public function addNote(): void {
+    $this->clearValidation();
+    $this->validate();
+
+    $this->assignment->notes()->create([
+      'content' => Crypt::encryptString($this->noteContent),
+    ]);
+
+    $this->reset('noteContent');
+
+    $this->mount();
+  }
+
+  /**
+   * Delete a specified note
+   *
+   * @param int $id
+   * @return void
+   */
+  public function deleteNote(int $id): void {
+    try {
+      $this->assignment->notes()->findOrFail($id)->delete();
+      $this->emit('toastMessage', 'Note successfully deleted');
+
+      $this->mount();
+    } catch (ModelNotFoundException $e) {
     }
+  }
 
-    public function render(){
-      if ($this->assignment->assignment_link != null)
-        $link = Crypt::decryptString($this->assignment->assignment_link);
-      else
-        $link = "";
+  /**
+   * Render the component
+   *
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+   */
+  public function render() {
+    if ($this->assignment->assignment_link != null)
+      $link = Crypt::decryptString($this->assignment->assignment_link);
+    else
+      $link = "";
 
-      $this->preview = LinkPreview::create($link);
-      if(($this->assignment->link_description == null) || ($this->assignment->link_image == null))
-        $this->preview = $this->preview->withoutExisting();
-      else
-        $this->preview = $this->preview->withExisting($this->assignment->link_image, $this->assignment->link_description);
+    $this->preview = LinkPreview::create($link);
+    if (($this->assignment->link_description == null) || ($this->assignment->link_image == null))
+      $this->preview = $this->preview->withoutExisting();
+    else
+      $this->preview = $this->preview->withExisting($this->assignment->link_image, $this->assignment->link_description);
 
-      return view('livewire.assignments.assignment-content')->with('preview', $this->preview);
-    }
+    return view('livewire.assignments.assignment-content')->with('preview', $this->preview);
+  }
 }
