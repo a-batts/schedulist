@@ -38,7 +38,7 @@
     </style>
 
   </head>
-  <body class="antialiased theme-div @if(Cookie::get('theme') == 'dark') theme-dark @endif" id="themer">
+  <body class="antialiased theme-div @if(Cookie::get('theme') == 'dark') theme-dark @endif overflow-x-hidden" id="themer">
     <div class="min-h-screen">
       @livewire('navigation-menu')
       <main>
