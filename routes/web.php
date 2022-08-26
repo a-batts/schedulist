@@ -91,7 +91,7 @@ Route::get('privacy-policy', function () {
 })->name('privacy-policy');
 
 Route::get('assignments/assignment/{assignment_string}', function ($assignmentString) {
-  return view('assignments.assignment-page', ['assignmentString' => $assignmentString]);
+  return view('assignments.single', ['assignmentString' => $assignmentString]);
 })->middleware(['auth:sanctum', 'verified', 'hasassignment:assignmentString']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('assignments/{class?}/{due?}', function ($class = -1, $due = 'Incomplete') {

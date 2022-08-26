@@ -10,6 +10,8 @@ import datePicker from './alpine/ui/date-picker'
 import timePicker from './alpine/ui/time-picker';
 import miniCalendar from './alpine/agenda/mini-calendar'
 
+import autosize from 'autosize';
+
 import * as FilePond from "filepond";
 import FilePondPluginImageCrop from "filepond-plugin-image-crop";
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -73,8 +75,8 @@ Alpine.data('timePicker', timePicker);
 
 Alpine.start();
 
-const bodyScroll = require('body-scroll-toggle');
-window.bodyScroll = bodyScroll;
+//Automatically autosize all <textarea>s with the autosize class on it
+autosize(document.querySelectorAll('textarea.autosize'));
 
 for (const el of document.querySelectorAll('.mdc-switch')) {
   new MDCSwitch(el);
