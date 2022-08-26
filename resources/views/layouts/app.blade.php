@@ -39,7 +39,7 @@
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <main class="min-h-screen">
+      <main class="min-h-screen pt-32">
         <div id="main" class="relative">
             {{ $slot }}
         </div>
