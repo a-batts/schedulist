@@ -129,12 +129,12 @@ class AssignmentList extends Component {
   }
 
   /**
-   * Mark an assignment as complete/incomplete
+   * Toggle an assignment's completion status
    *
    * @param int $id
    * @return void
    */
-  public function updateStatus($id): void {
+  public function toggleCompletion($id): void {
     $assignment = Assignment::findOrFail($id);
 
     //Only allow user to modify an assignment they own

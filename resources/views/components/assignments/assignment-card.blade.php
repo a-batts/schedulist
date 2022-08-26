@@ -15,7 +15,7 @@
             :class="{'text-green': new Date(assignment['due']).getTime() >= new Date().getTime() && assignment['status'] == 'inc', 'text-red': new Date(assignment['due']).getTime() < new Date().getTime() && assignment['status'] == 'inc' }"
             x-text="getStatus(assignment)"></span>
           </div>
-          <button class="z-20 text-gray-600 t mdc-icon-button material-icons" type="button" @click.stop="@this.updateStatus(assignment['id'])" :aria-describedby="`assignmentToggle${assignment['id']}`">
+          <button class="z-20 text-gray-600 t mdc-icon-button material-icons" type="button" @click.stop="$wire.toggleCompletion(assignment['id'])" :aria-describedby="`assignmentToggle${assignment['id']}`">
             <div class="mdc-icon-button__ripple"></div>
             <span x-text="assignment['status'] == 'inc' ? 'check_circle' : 'unpublished'"></span>
           </button>
@@ -42,7 +42,8 @@
         <div class="w-full pt-5">
           <button class="mdc-button mdc-button-ripple" type="button" aria-label="Open Assignment" tabindex="12">
             <a x-bind:href="`/assignments/assignment/${assignment['url_string']}`">
-              <span class="mdc-button__ripple"></span>More details
+              <span class="mdc-button__ripple"></span>
+              More details
               <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_forward</i>
             </a>
           </button>

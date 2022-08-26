@@ -25,7 +25,7 @@ class Assignment extends Model {
   }
 
   public function getDueDateAttribute() {
-    return Carbon::parse($this->due)->format('M j');
+    return Carbon::parse($this->due)->format('M j, Y');
   }
 
   public function getDueDateWAttribute() {
@@ -37,7 +37,7 @@ class Assignment extends Model {
   }
 
   public function getCreatedDateAttribute() {
-    return Carbon::parse($this->created_at)->format('M j');
+    return Carbon::parse($this->created_at)->format('M j, Y');
   }
 
   public function getEditedDateAttribute() {
@@ -74,5 +74,9 @@ class Assignment extends Model {
 
   public function user() {
     return $this->belongsTo(User::class, 'userid');
+  }
+
+  public function notes() {
+    return $this->hasMany(AssignmentNote::class);
   }
 }
