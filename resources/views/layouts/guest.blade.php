@@ -93,7 +93,7 @@
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <div class="antialiased content-div mdc-typography">
+      <div class="min-h-screen pt-20 overflow-x-hidden antialiased content-div mdc-typography">
           {{ $slot }}
       </div>
 
