@@ -31,7 +31,7 @@
         <!-- <script src="{{ mix('js/turbo.js') }}"></script> -->
         <script src="{{ mix('js/scripts.js') }}" async></script>
     </head>
-    <body class="theme-div @if($theme == "dark") theme-dark @endif mdc-typography" id="themer">
+    <body class="theme-div @if($theme == "dark") theme-dark @endif mdc-typography overflow-x-hidden" id="themer">
       <header
       x-data="{
         aboveContent: false,
@@ -93,7 +93,7 @@
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <div class="min-h-screen pt-20 overflow-x-hidden antialiased content-div mdc-typography">
+      <div class="min-h-screen pt-20 antialiased content-div mdc-typography">
           {{ $slot }}
       </div>
 
