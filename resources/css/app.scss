@@ -549,6 +549,15 @@ body.theme-dark {
   color: inherit !important;
 }
 
+//Style hyperlinks that are actually supposed to display as a link
+a.link {
+  color: var(--mdc-theme-primary);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .filepond--drop-label {
   color: var(--text-color);
 }
