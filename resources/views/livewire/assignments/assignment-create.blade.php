@@ -1,4 +1,4 @@
-<div x-data="assignmentEdit"
+<div x-data="assignmentCreate"
 @close-assignment-modal.window="modal = false"
 class="mdc-typography">
   <div class="fab-button">
@@ -105,7 +105,7 @@ class="mdc-typography">
 @push('scripts')
 <script>
   document.addEventListener('alpine:init', () => {
-        Alpine.data('assignmentEdit', () => ({
+        Alpine.data('assignmentCreate', () => ({
           dialog: false,
           
           errorMessages: @entangle('errorMessages'),
