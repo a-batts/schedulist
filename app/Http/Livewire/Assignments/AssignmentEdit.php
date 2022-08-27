@@ -42,7 +42,7 @@ class AssignmentEdit extends Component {
    *
    * @var LinkPreview|null
    */
-  protected ?LinkPreview $preview;
+  protected ?LinkPreview $preview = null;
 
   /**
    * Custom error messages
