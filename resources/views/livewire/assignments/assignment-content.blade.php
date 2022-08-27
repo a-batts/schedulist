@@ -13,7 +13,7 @@ x-data="{
           <h1 class="text-xl font-bold sm:text-4xl md:text-6xl">{{Crypt::decryptString($assignment->name)}}</h1>
           <div class="mt-2 text-sm md:mt-6">
             @if($assignment->status == 'done')
-            <p class="text-gray-500">Marked complete • Originally due on {{$assignment->due_date}}</p>
+            <p class="text-gray-500">Marked complete • Originally due on {{$assignment->due_date}} at {{$assignment->due_time}}</p>
             @else
               <p class="{{$assignment->due < Carbon::now() ? 'text-red' : 'text-green'}}">
                 {{$assignment->due < Carbon::now() ? 'Late • Due '.$assignment->due_date : 'Due '.$assignment->due_date.', '.$assignment->due_time}}
