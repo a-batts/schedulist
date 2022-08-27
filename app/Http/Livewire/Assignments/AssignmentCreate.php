@@ -34,15 +34,13 @@ class AssignmentCreate extends Component {
   public array $classes = [['id' => -1, 'name' => 'No Class']];
 
   /**
-   * The event due date
+   * The event due date and time
    *
    * @var Carbon
    */
   public Carbon $due;
 
   public array $errorMessages = [];
-
-  protected $listeners = ['setTime', 'setDate'];
 
   /**
    * Custom error messages
@@ -83,9 +81,8 @@ class AssignmentCreate extends Component {
     $this->assignment->status = 'inc';
 
     $classes = Classes::where('userid', Auth::User()->id)->get();
-    foreach ($classes as $class) {
-      array_push($this->classes, ['id' => $class->id, 'name' => $class->name]);
-    }
+    foreach ($classes as $class)
+      $this->classes[] = ['id' => $class->id, 'name' => $class->name];
   }
 
   /**
@@ -104,8 +101,7 @@ class AssignmentCreate extends Component {
     $assignment->url_string = Str::random(16);
     $assignment->name = Crypt::encryptString($assignment->name);
     $assignment->description = Crypt::encryptString($assignment->description);
-    //if (!preg_match('.*[a-zA-Z].*', $assignment->link))
-    //$assignment->link = null;
+
     $assignment->link = isset($assignment->link) ? Crypt::encryptString($assignment->link) : null;
 
     $assignment->save();
@@ -139,9 +135,15 @@ class AssignmentCreate extends Component {
     $this->assignment->status = 'inc';
   }
 
-  public function setClass($val) {
-    if (Classes::where('id', $val)->where('userid', Auth::User()->id)->exists() || $val == -1)
-      $this->assignment->classid = $val;
+  /**
+   * Set the assignment's class
+   *
+   * @param int $val
+   * @return void
+   */
+  public function setClass(int $id): void {
+    if (Classes::where('id', $id)->where('userid', Auth::User()->id)->exists() || $id == -1)
+      $this->assignment->classid = $id;
   }
 
   /**
@@ -168,7 +170,7 @@ class AssignmentCreate extends Component {
   /**
    * Set the assignment's due date
    *
-   * @param string $time
+   * @param string $date
    * @return void
    */
   public function setDate(string $date): void {
