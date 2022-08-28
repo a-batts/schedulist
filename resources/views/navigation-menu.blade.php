@@ -74,7 +74,7 @@
               <div class="section-border border-100"></div>
               <div class="flex flex-col items-center">
                 <div>
-                  <a class="mt-6 lowercase mdc-button mdc-button--outlined" href="{{ route('profile') }}" @click="profileMenu = false">
+                  <a class="mt-6 capitalize tracking-normal mdc-button mdc-button--outlined" href="{{ route('profile') }}" @click="profileMenu = false">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
                     <span class="mdc-button__label">Account Settings</span>
@@ -92,7 +92,7 @@
                 <div class="float-right">
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="mt-2 lowercase mdc-button mdc-button--icon-leading text-primary">
+                    <button class="mt-2 capitalize tracking-normal mdc-button mdc-button--icon-leading text-primary">
                       <span class="mdc-button__ripple"></span>
                       <span class="mdc-button__focus-ring"></span>
                       <i class="material-icons mdc-button__icon text-inherit" aria-hidden="true">logout</i>
