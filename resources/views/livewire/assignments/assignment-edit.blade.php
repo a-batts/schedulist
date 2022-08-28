@@ -10,7 +10,7 @@
         aria-describedby="my-dialog-content">
         <div class="mdc-dialog__title">Really delete assignment?</div>
         <div class="mdc-dialog__content" id="my-dialog-content">
-          It will be completely deleted and will not be recoverable.
+          Once it is deleted it will not be able to be recovered
         </div>
         <div class="mdc-dialog__actions">
           <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="cancel">
@@ -30,7 +30,7 @@
     <x-ui.modal bind="modal" title="Edit Assignment" class="top-4">
       <x-slot name="actions">
         <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" @click="modal = false; openAssignmentDialog();">delete</button>
-        <x-ui.tooltip tooltip-id="delete-class" text="Delete Class"/>
+        <x-ui.tooltip tooltip-id="delete-class" text="Delete Assignment"/>
         <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="edit">
           <span class="mdc-button__ripple"></span>Save
         </button>
