@@ -42,8 +42,8 @@ x-data="{
           <div class="rounded-full w-8 h-8 background-{{$classColor}} flex leading-8">
             <span class="self-center block mx-auto text-lg align-middle material-icons justify-self-center">class</span>
           </div>
-          <div class="ml-4 text-gray-700">
-            <p class="mt-1">{{($assignment->class_name)}}</p>
+          <div class="ml-4 text-gray-700 text-lg mt-1">
+            <p class="">{{($assignment->class_name)}}</p>
           </div>
         </div>
         <p class="whitespace-pre-line">
