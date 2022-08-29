@@ -11,27 +11,50 @@ use Livewire\Component;
 
 class AssignmentReminder extends Component {
 
+    /**
+     * The assignment
+     *
+     * @var Assignment
+     */
     public Assignment $assignment;
+
+    /**
+     * Array of the assignment's reminders
+     *
+     * @var array
+     */
+    public array $reminders;
 
     public array $errorMessages;
 
-    public $reminders;
-
-    public function mount($assignment) {
+    /**
+     * Mount the component
+     *
+     * @param Assignment $assignment
+     * @return void
+     */
+    public function mount(Assignment $assignment): void {
+        //Load the assignment from the view component
         $this->assignment = $assignment;
+
         $this->reminders = $assignment->reminders()->with('assignment')->get()->toArray();
     }
 
     /**
-     * Add reminder for specified assignment
+     * Add a reminder for the specified number of hours before the reminder
      *
      * @param int $hoursBefore
-     * @return void
+     * @return array|null
      */
-    public function addReminder($hoursBefore) {
-        $due = Carbon::parse($this->assignment->due);
+    public function addReminder(int $hoursBefore): ?array {
         $hoursBefore = round($hoursBefore);
-        $validator = Validator::make(
+
+        if ($hoursBefore < 1 || $hoursBefore > 48) {
+            $this->addError('hoursBefore', 'You can set a reminder for no more than 48 hours prior to the assignment due date');
+            return null;
+        }
+
+        Validator::make(
             ['hoursBefore' => $hoursBefore],
             [
                 'hoursBefore' => 'required|numeric',
@@ -41,22 +64,28 @@ class AssignmentReminder extends Component {
             ]
         )->validate();
 
+        $due = Carbon::parse($this->assignment->due);
+
         if ($due->copy()->subHours($hoursBefore) < Carbon::now()) {
-            $this->addError('hoursBefore', 'Can\'t set a reminder for a past time');
-            return;
+            $this->addError('hoursBefore', 'You can\'t set a reminder for a past time');
+            return null;
         }
+
         foreach ($this->reminders as $reminder) {
             if ($reminder['hours_before'] == $hoursBefore) {
                 $this->addError('hoursBefore', 'You already have a reminder set for this time');
-                return;
+                return null;
             }
         }
+
+
         $reminder = new ModelsAssignmentReminder();
-        $reminder->assignment_id = $this->assignment->id;
         $reminder->reminder_time = $due->subHours($hoursBefore);
-        $reminder->save();
-        $this->reminders = $this->assignment->reminders()->get()->toArray();
-        $this->dispatchBrowserEvent('update-reminders');
+        $this->assignment->reminders()->save($reminder);
+
+        //Add the newly created reminder to the reminders array, makes it so that a new query isn't necessary
+        $this->reminders[] = $reminder->toArray();
+        return $reminder->toArray();
     }
 
     /**
@@ -65,12 +94,17 @@ class AssignmentReminder extends Component {
      * @param int $id of reminder to be removed
      * @return void
      */
-    public function removeReminder($id) {
+    public function removeReminder($id): void {
         if ($this->assignment->owner = Auth::User()->id)
             ModelsAssignmentReminder::destroy($id);
         $this->reminders = $this->assignment->reminders()->get()->toArray();
     }
 
+    /**
+     * Render the component
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render() {
         $this->errorMessages = $this->getErrorBag()->toArray();;
         return view('livewire.assignments.assignment-reminder');
