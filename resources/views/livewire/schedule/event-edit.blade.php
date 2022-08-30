@@ -122,6 +122,11 @@ class="mdc-typography">
           });
 
           this.$watch('endTime', (value) => {
+            if (value.h < 12 && this.startTime.h >= 12){
+              value.h = value.h + 12;
+              this.endTime = value;
+            }
+
             this.$wire.setEndTime(value);
           }); 
         },
