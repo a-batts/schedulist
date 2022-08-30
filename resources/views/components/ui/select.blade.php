@@ -15,24 +15,24 @@ x-data="{
         role="button"
         aria-haspopup="listbox"
         aria-expanded="false"
-        aria-labelledby="{{$title}}-label {{$title}}-selected-text" wire:ignore>
+        aria-labelledby="{{strtolower(str_replace(' ', '-', $title))}}-label {{strtolower(str_replace(' ', '-', $title))}}-selected-text" wire:ignore>
       
       @if($style == 'outlined')
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
-            <span id="{{$title}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
+            <span id="{{strtolower(str_replace(' ', '-', $title))}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
           </span>
           <span class="mdc-notched-outline__trailing"></span>
         </span>
       @else
         <span class="mdc-select__ripple"></span>
-        <span id="{{$title}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
+        <span id="{{strtolower(str_replace(' ', '-', $title))}}-label" class="mdc-floating-label" :class="{'mdc-floating-label--float-above': value}" wire:ignore>{{$title}}</span>
         <span class="mdc-line-ripple"></span>
       @endif
       
       <span class="mdc-select__selected-text-container" wire:ignore>
-        <span id="{{$title}}-selected-text" class="mdc-select__selected-text" x-text="value"></span>
+        <span id="{{strtolower(str_replace(' ', '-', $title))}}-selected-text" class="mdc-select__selected-text" x-text="value"></span>
       </span>
       <span class="mdc-select__dropdown-icon">
         <svg
