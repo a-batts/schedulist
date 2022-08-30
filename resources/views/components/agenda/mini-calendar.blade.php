@@ -31,16 +31,20 @@
         </template>
 
         <template x-for="day in startingBlankDays">
-            <div class="h-8 w-8 cursor-default rounded-lg text-center">
-                <span x-text="day" class="inline-block align-middle text-gray-400"></span>
+            <div class="flex items-center justify-center">
+                <div class="h-8 w-8 cursor-default rounded-lg text-center">
+                    <span x-text="day" class="inline-block align-middle text-gray-400"></span>
+                </div>
             </div>
         </template>
 
         <template x-for="day in monthDays">
-            <div class="h-8 w-8 cursor-pointer rounded-lg text-center transition-all" 
-            :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }" 
-            @click="changeDate(day)">
-                <span x-text="day" class="inline-block align-middle"></span>
+            <div class="flex items-center justify-center">
+                <div class="h-8 w-8 cursor-pointer rounded-lg text-center transition-all flex items-center justify-center" 
+                :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }" 
+                @click="changeDate(day)">
+                    <span x-text="day" class="inline-block align-middle"></span>
+                </div>
             </div>
         </template>
 
