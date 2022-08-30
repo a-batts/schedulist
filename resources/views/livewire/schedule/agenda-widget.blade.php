@@ -1,15 +1,13 @@
 <div x-data="schedule()"
   @update-current-date.window="stopLoading(); agenda = @this.agenda; currentDayData = agenda[day]"
-  @offline.window = "online = false"
-  @online.window = "online = true"
   id="agenda"
   class="w-full mdc-typograpy"
   >
   <div class="flex w-full pt-2 pb-3 pl-6 mdc-elevation--z2 agenda-header md:pr-5">
-    <div class="flex self-center flex-grow ml-16 space-x-2">
+    <div class="flex self-center flex-grow md:ml-16 space-x-2">
       <div>
-        <p x-text="headerDate" class="text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
-        <p x-text="dayOfWeek" class="mt-1 text-gray-500"></p>
+        <p x-text="headerDate" class="text-sm sm:text-xl md:text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
+        <p x-text="dayOfWeek" class="text-sm md:text-base mt-1 text-gray-500"></p>
       </div>
     </div>
     <div class="flex items-center self-center flex-none pr-3" wire:ignore>
@@ -28,10 +26,13 @@
         chevron_right
       </button>
       
-      <button class="-ml-1 mdc-icon-button material-icons md:hidden" @click="showingMenu = !showingMenu; $dispatch('swap-button-state')" aria-describedby="show-menu">menu_open</button>
+      <button class="-ml-1 mdc-icon-button material-icons md:hidden" @click="showingSideMenu = !showingSideMenu" aria-describedby="show-menu">
+        <div class="mdc-icon-button__ripple"></div>
+        menu_open
+      </button>
     </div>
   </div>
-  <div class="agenda-sidebar float-right w-full origin-right sm:w-[20rem]">
+  <div class="agenda-sidebar float-right w-full origin-right sm:w-[20rem] sm:!block overflow-y-scroll md:overflow-hidden" x-show="showingSideMenu" x-transition>
     <div class="p-6 border-b border-gray-200">
       <x-agenda.mini-calendar/>
     </div>
@@ -111,15 +112,13 @@
   <script>
     function schedule(){
       return {
-        online: navigator.onLine,
         agenda: @this.agenda,
         date: new Date(),
         selectedItem: -1,
         showingDetails: false,
         selectedItemData: [],
-        showingMenu: false,
+        showingSideMenu: false,
         popupHeight: -200,
-        colorPopupHeight: -200,
         filter: [],
         colorPicker: false,
         selectedColor: 'blue',
