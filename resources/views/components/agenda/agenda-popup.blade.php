@@ -1,6 +1,11 @@
 <div class="px-6 py-2 agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 md:ml-72" @click.outside="closeDetails()" 
 x-show="showingDetails" x-transition.in.opacity.scale.out.opacity x-bind:style="`top: calc(${popupHeight}px - 60px)`" 
 x-ref="popupBox" x-cloak
+x-data="{
+  get online() {
+    return window.navigator.onLine;
+  }
+}"
 wire:ignore.self>
   <div x-show="! colorPicker" x-transition.in>
     <div class="w-full h-12 mb-2 item-details-top">
