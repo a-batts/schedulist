@@ -2,202 +2,124 @@
 
 namespace App\Helpers;
 
-use App\Models\Classes;
 use App\Models\ClassSchedule;
-use App\Models\User;
-
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ClassScheduleHelper {
 
-  private Carbon $dt;
+  /**
+   * Collection of all of the user's schedules
+   *
+   * @var Collection<ClassSchedule>
+   */
+  private Collection $schedules;
 
-  public function __construct(Carbon $dateTime) {
-    $this->dt = $dateTime;
+  private Collection $classes;
+
+  public function __construct() {
+    $this->schedules = Auth::User()->schedules;
+    $this->classes = Auth::User()->classes;
   }
 
   /**
-   * Returns the active class for the given user and datetime
-   * @return Classes|bool object of active class, false if none exists
+   * Get all of the classes for a given day
+   *
+   * @param Carbon $date
+   * @return array
    */
-  public function getActiveClass() {
-    $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($this->dt, $classSchedule))
-      return false;
+  public function getDayClasses(Carbon $date): array {
+    $day = [];
 
-    $daySchedule = $this->getDaySchedule($classSchedule, $this->dt);
+    $date = $date->startOfDay();
 
-    if (!isset($daySchedule) || $daySchedule == 'async')
-      return false;
-    $daySchedule = explode('|', $daySchedule);
-    $classes = explode(',', $daySchedule[0]);
-    $times = explode(',', $daySchedule[1]);
+    $activeSchedule = $this->getActiveSchedule($date);
 
-    return $this->searchForActiveClass($classes, $times, $this->dt);
-  }
+    if ($activeSchedule == null)
+      return $day;
 
-  /**
-   * Get schedule for the provided day
-   * @param  ClassSchedule $classSchedule
-   * @param  Carbon $dt
-   * @return string
-   */
-  public function getDaySchedule($classSchedule, Carbon $dt = null) {
-    if ($dt == null) $dt = $this->dt;
+    foreach ($activeSchedule->times as $instance) {
+      if ($instance->day_of_week == $date->dayOfWeekIso) {
+        $startTime = explode(':', $instance->start_time);
+        $endTime = explode(':', $instance->end_time);
 
-    if (!$this->termInProgress($dt, $classSchedule))
-      return '|';
-
-    if (!is_array($classSchedule))
-      $classSchedule = $classSchedule->toArray();
-
-    if ($classSchedule['schedule_type'] == 'fixed' || $classSchedule['schedule_type'] == 'custom') {
-      $dayOfWeek = $dt->format('N');
-      $daySchedule = $classSchedule['block_' . $dayOfWeek];
-    } else if ($classSchedule['schedule_type'] == 'block') {
-      if ($dt->isWeekend())
-        return '|';
-      $range = CarbonPeriod::create(Carbon::parse($classSchedule['schedule_start']), $dt);
-      if ($classSchedule['start_block'] != null)
-        $count = $classSchedule['start_block'] - 1;
-      else
-        $count = 0;
-      foreach ($range as $i) {
-        if (!$i->isWeekend())
-          $count++;
+        $day[] = [
+          'start' => $date->copy()->setTime($startTime[0], $startTime[1]),
+          'end' => $date->copy()->setTime($endTime[0], $endTime[1]),
+          'class' => $this->classes->find($instance->class_id),
+        ];
       }
-      $currentBlock = $count % ($classSchedule['number_blocks']);
 
-      $daySchedule = $classSchedule['block_' . ($currentBlock + 1)];
+      usort(
+        $day,
+        fn ($a, $b) => $a->start_time->timestamp <=> $b->start_time->timestamp
+      );
+
+      return $day;
     }
-    return $daySchedule;
-  }
-
-  public function getFirstClass(Carbon $dt, $classSchedule = null) {
-    if ($classSchedule == null)
-      $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($dt, $classSchedule))
-      return false;
-    $classScheduleArray = $classSchedule->toArray();
-
-    $daySchedule = $this->getDaySchedule($classScheduleArray, $dt);
-    $daySchedule = explode('|', $daySchedule);
-
-    if (!isset($daySchedule) || $daySchedule == 'async' || !isset($daySchedule[1]))
-      return $this->getFirstClass($dt->addDay(), $classSchedule);
-
-    $classes = explode(',', $daySchedule[0]);
-    $times = explode(',', $daySchedule[1]);
-
-    $lowestIndex = 0;
-    for ($i = 0; $i < count($times); $i++) {
-      if ($times[$lowestIndex] > $times[$i])
-        $lowestIndex = $i;
-    }
-    $class = Classes::find($classes[$lowestIndex / 2]);
-    if ($class == null)
-      return $this->getFirstClass($dt->addDay(), $classSchedule);
-
-    $class->startTime = $times[$lowestIndex];
-    $class->endTime = $times[$lowestIndex + 1];
-    return [
-      'class' => $class,
-      'day' => $dt->format('D, F jS'),
-    ];
   }
 
   /**
-   * Get the next class after a specified class for the provided date
-   * @param  Carbon $dt
-   * @param  int|null $currentClassId [optional]
-   * class from provided date to search after
-   * @return array|False             Returns array of next class or false if none exists
+   * Return the first class for a specific day, or null if there is no classes on that date
+   *
+   * @param Carbon $date
+   * @return array|null
    */
-  public function getNextClass(Carbon $dt, $currentClassId = null) {
-    $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null || !$this->termInProgress($dt, $classSchedule))
-      return false;
+  public function getFirstClass(Carbon $date): ?array {
+    $classes = $this->getDayClasses($date);
 
-    $daySchedule = $this->getDaySchedule($classSchedule, $dt);
-
-    if (!isset($daySchedule) || $daySchedule == 'async')
-      return $this->getFirstClass($dt->addDay());
-    $daySchedule = explode('|', $daySchedule);
-    $classes = explode(',', $daySchedule[0]);
-    $times = explode(',', $daySchedule[1]);
-
-    if (isset($currentClassId)) {
-      $classIndex = array_search($currentClassId, $classes);
-      if (!isset($classes[$classIndex + 1]))
-        return $this->getFirstClass($dt->addDay(), $classSchedule);
-      $classIndex++;
-      $i = $classIndex * 2;
-    } else {
-      for ($i = 0; $i < count($times); $i += 2) {
-        if ($times[$i] > $dt->format('Hi')) {
-          $classIndex = $i / 2;
-          break;
-        }
-      }
-      if (!isset($classIndex))
-        return $this->getFirstClass($dt->addDay(), $classSchedule);
-    }
-    $class = Classes::find($classes[$classIndex]);
-    if ($class == null)
-      return False;
-    $class->startTime = $times[$i];
-    $class->endTime = $times[$i + 1];
-    return [
-      'class' => $class,
-      'day' => $dt->format('D, F jS'),
-    ];
+    return isset($classes[0]) ? $classes[0] : null;
   }
 
   /**
-   * Search class and time arrays to find active class
-   * @param  array  $classes
-   * @param  array  $times
-   * @param  Carbon $dt
-   * @return Classes|null active class object or null
+   * Return the current class, or null if no class is occurring
+   *
+   * @param Carbon $dateTime
+   * @return array|null
    */
-  public function searchForActiveClass($classes, $times, Carbon $dt) {
-    if (count($times) < 2)
-      return null;
-    $currentTime = $dt->format('Hi');
-    for ($i = 1; $i <= count($times); $i += 2) {
-      if ($currentTime + 2 >= $times[$i - 1] && $currentTime - 2 <= $times[$i]) {
-        $classIndex = $i / 2;
-        $class = Classes::find($classes[$classIndex]);
-        $class->startTime = $times[$i - 1];
-        $class->endTime = $times[$i];
+  public function getCurrentClass(Carbon $dateTime): ?array {
+    $classes = $this->getDayClasses($dateTime->copy());
+
+    foreach ($classes as $class) {
+      if ($class['start'] <= $dateTime && $class['end'] >= $dateTime)
         return $class;
-      }
     }
+
     return null;
   }
 
   /**
-   * Checks if term is currently in progress for user
-   * @param  Carbon  $dateTime
-   * @return bool
+   * Get the next class after a provided datetime
+   *
+   * @param Carbon $dateTime
+   * @return array|null
    */
-  public function termInProgress($dateTime = null, $classSchedule = null) {
-    if ($dateTime == null) $dateTime = $this->dt;
+  public function getNextClass(Carbon $dateTime): ?array {
+    $classes = $this->getDayClasses($dateTime);
 
-    if ($classSchedule == null) $classSchedule = Auth::User()->classSchedule()->first();
+    $activeSchedule = $this->getActiveSchedule($dateTime);
+    if ($activeSchedule == null || $dateTime->toDateString() == Carbon::parse($activeSchedule->end_date)->toDateString())
+      return null;
 
-    if ($classSchedule == null)
-      return false;
+    foreach ($classes as $class) {
+      if ($class['start'] > $dateTime)
+        return $class;
+    }
 
-    $user = Auth::User();
-    $startTerm = Carbon::parse($user->year_start_date);
-    $endTerm = Carbon::parse($user->year_end_date);
+    //If there are no more classes for the day, check the next day (recursive)
+    return $this->getNextClass($dateTime->addDay()->setTime(0, 0));
+  }
 
-    if ($dateTime >= $startTerm && $dateTime <= $endTerm && $dateTime >= Carbon::parse($classSchedule['schedule_start'])->setHours(0)->setMinutes(0)->toDateString())
-      return true;
-    return false;
+  /**
+   * Return the active schedule for a provided date
+   *
+   * @param Carbon $date
+   * @return ClassSchedule|null
+   */
+  public function getActiveSchedule(Carbon $date): ?ClassSchedule {
+    return $this->schedules->first(function (ClassSchedule $item) use ($date) {
+      return ($date >= Carbon::parse($item->start_date)->startOfDay() && $date <= Carbon::parse($item->end_date)->endOfDay());
+    });
   }
 }

@@ -126,8 +126,8 @@ class User extends Authenticatable implements FilamentUser {
     return $this->hasMany(Classes::class, 'userid');
   }
 
-  public function classSchedule() {
-    return $this->belongsToMany(ClassSchedule::class)->limit(1);
+  public function schedules() {
+    return $this->hasMany(ClassSchedule::class)->with('times');
   }
 
   public function events() {
