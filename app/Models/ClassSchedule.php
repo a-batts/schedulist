@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassSchedule extends Model
-{
+class ClassSchedule extends Model {
     use HasFactory;
 
-    protected $table = 'class_schedules';
+    protected $table = 'schedules';
 
-    protected $guarded = ['day'];
+    public function times() {
+        return $this->hasMany(ClassTime::class, 'schedule_id');
+    }
 }
