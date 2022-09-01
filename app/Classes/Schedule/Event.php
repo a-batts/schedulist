@@ -42,7 +42,7 @@ class Event {
         ?Carbon $end,
         int $top,
         int $bottom,
-        ?array $data = null,
+        ?array $data = [],
         ?int $left = 0,
         ?int $height = 1
     ) {

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Helpers\ClassScheduleHelper;
+use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +14,11 @@ use Livewire\Component;
 class DashboardCards extends Component {
   public $activeClass;
 
+  public $nextClass;
+
   public $assignments;
 
   public $events;
-
-  public $nextClass;
 
   protected $listeners = ['refreshClasses' => 'refresh'];
 
@@ -25,45 +26,25 @@ class DashboardCards extends Component {
     $this->refresh();
   }
 
-  public function formatTime($time) {
-    if (strlen($time) == 3)
-      $first = substr($time, 0, 1);
-    else
-      $first = '' . substr($time, 0, 2);
-    $second = '' . substr($time, -2);
-    if ($second == null)
-      $second = '00';
-    if ($first > 12) {
-      $first -= 12;
-      $second .= 'PM';
-    } else if ($first == 12) {
-      $second .= 'PM';
-    } else if ($first == 0) {
-      $first = 12;
-      $second .= 'AM';
-    } else
-      $second .= 'AM';
-    return $first . ':' . $second;
-  }
-
   public function getActiveClass() {
-    $scheduleHelper = new ClassScheduleHelper(Carbon::now());
-    $activeClass = $scheduleHelper->getActiveClass();
-    if ($activeClass == null) {
-      $next =  $scheduleHelper->getNextClass(Carbon::now());
-      if ($next != null) {
-        $this->nextClass = $next['class'];
-        $nextDay = $next['day'];
-        //dd($this->nextClass->startTime);
-        $this->nextClass->timestring = $this->formatTime($this->nextClass->startTime) . ' on ' . $nextDay;
+    $scheduleHelper = new ClassScheduleHelper();
+    $currentClass = $scheduleHelper->getCurrentClass(Carbon::now());
+
+    if ($currentClass == null) {
+      $nextClass = $scheduleHelper->getNextClass(Carbon::now());
+
+      if (isset($nextClass)) {
+        $nextClass['class']->timestring = $nextClass['start']->format('g:i A') . ' on ' . $nextClass['start']->format('D, F jS');
+        $this->nextClass = $nextClass['class'];
       }
       return;
     }
-    $activeClass->teacher = Crypt::decryptString($activeClass->teacher);
-    if (isset($activeClass->class_location)) $activeClass->class_location = Crypt::decryptString($activeClass->class_location);
-    $activeClass->timestring = $this->formatTime($activeClass->startTime) . ' - ' . $this->formatTime($activeClass->endTime);
 
-    return $activeClass;
+    //Add the timestring to the class object
+    $currentClass['class']->timestring = $currentClass['start']->format('g:i A') . ' - ' . $currentClass['end']->format('g:i A');
+
+    //Return just the class object
+    return $currentClass['class'];
   }
 
   public function refresh() {
