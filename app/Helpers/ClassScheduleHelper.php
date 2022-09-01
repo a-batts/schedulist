@@ -32,7 +32,7 @@ class ClassScheduleHelper {
   public function getDayClasses(Carbon $date): array {
     $day = [];
 
-    $date = $date->startOfDay();
+    $date = $date->copy()->startOfDay();
 
     $activeSchedule = $this->getActiveSchedule($date);
 
@@ -99,7 +99,7 @@ class ClassScheduleHelper {
     $classes = $this->getDayClasses($dateTime);
 
     $activeSchedule = $this->getActiveSchedule($dateTime);
-    if ($activeSchedule == null || $dateTime->toDateString() == Carbon::parse($activeSchedule->end_date)->toDateString())
+    if ($activeSchedule == null || $dateTime->copy()->endOfDay() > Carbon::parse($activeSchedule->end_date)->endOfDay())
       return null;
 
     foreach ($classes as $class) {
@@ -108,7 +108,7 @@ class ClassScheduleHelper {
     }
 
     //If there are no more classes for the day, check the next day (recursive)
-    return $this->getNextClass($dateTime->addDay()->setTime(0, 0));
+    return $this->getNextClass($dateTime->addDay()->startOfDay());
   }
 
   /**
