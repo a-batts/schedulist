@@ -10,43 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class DashboardHeader extends Component {
-  public $dayOfWeekString;
   public string $greeting;
-
-  protected $listeners = ['updateCurrentBlock' => 'setCurrentBlock'];
 
   public function mount() {
     $this->greeting = $this->getGreeting();
-    $this->dayOfWeekString = $this->getDayOfWeekString();
-  }
-
-  /**
-   * Returns the current block for the day of the week, or null if the schedule type is not block
-   * @return string|null
-   */
-  public function getDayOfWeekString() {
-    $classSchedule = Auth::User()->classSchedule->first();
-    if ($classSchedule == null)
-      return null;
-    if ($classSchedule->schedule_type == 'block') {
-      $range = CarbonPeriod::create($classSchedule->schedule_start, Carbon::now());
-      $count = $classSchedule->start_block - 1;
-      foreach ($range as $i) {
-        if (!$i->isWeekend())
-          $count++;
-      }
-      $currentBlock = $count % $classSchedule->number_blocks;
-      if ($currentBlock == 0)
-        $currentBlock = $classSchedule->number_blocks;
-      return 'You have your ' . chr(ord('A') + $currentBlock - 1) . ' classes today';
-    }
   }
 
   /**
    * Get greeting string
    * @return string
    */
-  public function getGreeting() {
+  public function getGreeting(): string {
     $now = Carbon::now()->format('G');
     switch ($now) {
       case 5:
@@ -71,9 +45,8 @@ class DashboardHeader extends Component {
     }
   }
 
-  public function refresh() {
+  public function refresh(): void {
     $this->greeting = $this->getGreeting();
-    $this->dayOfWeekString = $this->getDayOfWeekString();
   }
 
   public function render() {
