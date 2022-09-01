@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class Day implements Countable {
+
+    /**
+     * The date
+     *
+     * @var Carbon
+     */
     private Carbon $date;
 
     /**
@@ -25,7 +31,7 @@ class Day implements Countable {
 
         $this->events = array_merge(
             $this->getAssignments($queriedData['assignments'], $queriedData['classes']),
-            $this->getClasses($queriedData['classes'], $queriedData['schedule']),
+            $this->getClasses($queriedData['schedule']),
             $this->getOtherEvents($queriedData['events'])
         );
 
@@ -83,53 +89,28 @@ class Day implements Countable {
      * Get the occuring classes for date
      *
      * @param Collection $data
-     * @param ClassSchedule $schedule
+     * @param ClassScheduleHelper $schedule
      * @return array<Event>
      */
-    private function getClasses(Collection $data, ClassSchedule $schedule): array {
-
-        $scheduleHelper = new ClassScheduleHelper($this->date);
-        if (!$scheduleHelper->termInProgress())
-            return [];
-
-        $daySchedule = $scheduleHelper->getDaySchedule($schedule);
-
-        if (!isset($daySchedule) || $daySchedule == 'async')
-            return [];
-
-        $daySchedule = explode('|', $daySchedule);
-        if (count($daySchedule) < 2)
-            return [];
-
-        $classes = explode(',', $daySchedule[0]);
-        $times = explode(',', $daySchedule[1]);
+    private function getClasses(ClassScheduleHelper $scheduleHelper): array {
+        $data = $scheduleHelper->getDayClasses($this->date);
 
         foreach ($data as $item) {
-            if (in_array($item->id, $classes)) {
-                $index = array_search($item->id, $classes);
-                $start = $times[$index * 2];
-                $end = $times[$index * 2 + 1];
-                if (strlen($start) == 3)
-                    $start = '0' . $start;
-                if (strlen($end) == 3)
-                    $end = '0' . $end;
+            $start = $item['start'];
+            $end = $item['end'];
 
-                $start = Carbon::createFromFormat('Hi', $start);
-                $end = Carbon::createFromFormat('Hi', $end);
-
-                $events[] = new Event(
-                    $this->date,
-                    $item->id,
-                    'class',
-                    $item->name,
-                    null,
-                    'red',
-                    $start,
-                    $end,
-                    CarbonInterval::minutes($start->format('i'))->hours($start->format('G'))->totalSeconds / Schedule::SCALE_FACTOR,
-                    CarbonInterval::minutes($end->format('i'))->hours($end->format('G'))->totalSeconds / Schedule::SCALE_FACTOR,
-                );
-            }
+            $events[] = new Event(
+                $this->date,
+                $item['class']->id,
+                'class',
+                $item['class']->name,
+                null,
+                'red',
+                $start,
+                $end,
+                CarbonInterval::minutes($start->format('i'))->hours($start->format('G'))->totalSeconds / Schedule::SCALE_FACTOR,
+                CarbonInterval::minutes($end->format('i'))->hours($end->format('G'))->totalSeconds / Schedule::SCALE_FACTOR,
+            );
         }
 
         return $events ?? [];

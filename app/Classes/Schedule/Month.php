@@ -2,6 +2,7 @@
 
 namespace App\Classes\Schedule;
 
+use App\Helpers\ClassScheduleHelper;
 use BaconQrCode\Exception\OutOfBoundsException;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -22,13 +23,13 @@ class Month {
         $this->dateRange = $dateRange;
         $this->length = $dateRange->count();
 
-        $userSchedule = Auth::user()->classSchedule()->first();
+        $scheduleHelper = new ClassScheduleHelper;
 
         $queriedData = [
             'assignments' => Auth::user()->assignments()->where('due', '>=', $dateRange->getStartDate())->where('due', '<=', $dateRange->getEndDate())->get(),
             'classes' => Auth::user()->classes()->get(),
             'events' => Auth::user()->events()->get(),
-            'schedule' => $userSchedule,
+            'schedule' => $scheduleHelper,
         ];
 
         //Create a new Day object for each day of the month
