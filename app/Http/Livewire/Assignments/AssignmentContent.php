@@ -111,7 +111,7 @@ class AssignmentContent extends Component {
     $this->validate();
 
     $this->assignment->notes()->create([
-      'content' => Crypt::encryptString($this->noteContent),
+      'content' => $this->noteContent,
     ]);
 
     $this->reset('noteContent');
