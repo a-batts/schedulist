@@ -12,6 +12,10 @@ class AssignmentNote extends Model {
 
     protected $fillable = ['content'];
 
+    protected $casts = [
+        'content' => 'encrypted',
+    ];
+
     public function assignment() {
         return $this->belongsTo(Assignment::class);
     }
@@ -22,11 +26,9 @@ class AssignmentNote extends Model {
      * @return string
      */
     public function getParsedContentsAttribute(): string {
-        $decrypted = Crypt::decryptString($this->content);
-
         $reg_pattern = "/(((http|https|ftp|ftps)\:\/\/)|(www\.))[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\:[0-9]+)?(\/\S*)?/";
 
-        return preg_replace($reg_pattern, '<a class="link" href="$0" target="_blank" rel="noopener noreferrer">$0</a>', $decrypted);
+        return preg_replace($reg_pattern, '<a class="link" href="$0" target="_blank" rel="noopener noreferrer">$0</a>', $this->content);
     }
 
     /**
