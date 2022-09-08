@@ -36,6 +36,17 @@
   x-data="landing()"
   @scroll.window="scrolled()">
     <header>
+      @if (! Auth::check())
+        <div id="g_id_onload"
+        data-client_id="827540481261-uhs04f4uecph0vpigh7tcek6jdfp7ggl.apps.googleusercontent.com"
+        data-login_uri="login/callback/onetap"
+        data-auto_select="true"
+        data-prompt_parent_id="g_id_onload"
+        style="position: fixed; top: 70px; right: 400px;
+              width: 0; height: 0; z-index: 1001;">
+        </div>
+      @endif
+
       <nav class="fixed z-10 w-screen py-4 nav-border base-bg" x-bind:class="{'border-b': aboveContent}">
         <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div class="relative flex items-center justify-between" style="height: 4.2rem">
@@ -75,17 +86,13 @@
       <div class="xl:flex">
         <div class="max-w-xl pr-2 mb-12 2xl:max-w-3xl">
           <div class="mt-12 text-6xl font-bold md:text-7xl">School organization made easy</div>
-          <p class="mt-6 text-2xl text-gray-600">There are enough things to worry about when it comes to school, without having to figure out how to keep track of it all.</p>
-          <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: A convenient location to store all of your classes, assignments, events, and more.</p>
+          <p class="mt-6 text-2xl text-gray-600">You have enough to worry about during the school year. Don't make keeping track of everything more stressful then it already is.</p>
+          <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: The easiest way to organize all of your classes, assignments, events, and more.</p>
           <a class="mt-10 text-xl mdc-button mdc-button--raised mdc-button--icon-trailing h-14 w-72" href="{{Auth::check() ? route('dashboard') : route('register')}}" wire:ignore>
             <span class="mdc-button__ripple"></span>
             <span class="mdc-button__focus-ring"></span>
             <span class="font-medium tracking-normal normal-case mdc-button__label">
-              @if(Auth::check())
-                Go to Dashboard
-              @else
-                Create an Account
-              @endif
+              {{Auth::check() ? 'Go to Dashboard' : 'Create an Account'}}
             </span>
             <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_forward</i>
           </a>
@@ -96,17 +103,6 @@
         </div>
       </div>
     </main>
-
-    @if (! Auth::check())
-      <div id="g_id_onload"
-       data-client_id="827540481261-uhs04f4uecph0vpigh7tcek6jdfp7ggl.apps.googleusercontent.com"
-       data-login_uri="login/callback/onetap"
-       data-auto_select="true"
-       data-prompt_parent_id="g_id_onload"
-       style="position: absolute; top: 70px; right: 400px;
-            width: 0; height: 0; z-index: 1001;">
-     </div>
-    @endif
 
     <x-footer/>
 
