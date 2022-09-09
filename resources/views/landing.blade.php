@@ -86,7 +86,7 @@
       <div class="xl:flex">
         <div class="max-w-xl pr-2 mb-12 2xl:max-w-3xl">
           <div class="mt-12 text-6xl font-bold md:text-7xl">School organization made easy</div>
-          <p class="mt-6 text-2xl text-gray-600">You have enough to worry about during the school year. Don't make keeping track of everything more stressful then it already is.</p>
+          <p class="mt-6 text-2xl text-gray-600">You have enough to worry about during the school year. Don't make keeping track of everything more stressful then it needs to be.</p>
           <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: The easiest way to organize all of your classes, assignments, events, and more.</p>
           <a class="mt-10 text-xl mdc-button mdc-button--raised mdc-button--icon-trailing h-14 w-72" href="{{Auth::check() ? route('dashboard') : route('register')}}" wire:ignore>
             <span class="mdc-button__ripple"></span>
