@@ -12,7 +12,7 @@ class AddNameToSchedulesTable extends Migration {
      */
     public function up() {
         Schema::table('schedules', function (Blueprint $table) {
-            $table->string('name', 250);
+            $table->text('name', 250);
         });
     }
 
