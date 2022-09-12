@@ -50,14 +50,14 @@ class ClassScheduleHelper {
           'class' => $this->classes->find($instance->class_id),
         ];
       }
-
-      usort(
-        $day,
-        fn ($a, $b) => $a->start_time->timestamp <=> $b->start_time->timestamp
-      );
-
-      return $day;
     }
+
+    usort(
+      $day,
+      fn ($a, $b) => $a->start_time->timestamp <=> $b->start_time->timestamp
+    );
+
+    return $day;
   }
 
   /**
