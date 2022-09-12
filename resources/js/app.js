@@ -203,6 +203,23 @@ if (document.querySelector('.delete-assignment-conf') !== null) {
   window.openAssignmentDialog = openAssignmentDialog;
 }
 
+const scheduleDeleteConfirmation = document.querySelector('.delete-schedule-confirmation');
+
+if (scheduleDeleteConfirmation !== null) {
+  var deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+
+  window['scheduleDeleteDialog'] = async function () {
+    deleteDialog.open();
+    const cancelButton = scheduleDeleteConfirmation.querySelector('.cancel');
+    const confirmButton = scheduleDeleteConfirmation.querySelector('.confirm');
+
+    return new Promise((resolve, reject) => {
+      cancelButton.onclick = reject
+      confirmButton.onclick = resolve;
+    })
+  }
+}
+
 if (document.querySelector('.suggestions-menu') !== null) {
   var suggestionsMenu = new MDCMenu(document.querySelector('.suggestions-menu'));
   window.suggestionsMenu = suggestionsMenu;
