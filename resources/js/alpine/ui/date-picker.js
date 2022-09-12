@@ -10,18 +10,21 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
 
     showPrevYears: showPrevYears,
 
+    init: function () {
+        this.$watch('selectedDate', (value) => {
+            this.viewDate = value
+        });
+    },
+
     setDate: function (day) {
         const newDate = new Date();
-        newDate.setDate(parseInt(day));
         newDate.setFullYear(this.viewDate.getFullYear());
         newDate.setMonth(this.viewDate.getMonth());
+        newDate.setDate(parseInt(day));
 
         if (!isNaN(newDate))
             this.selectedDate = newDate;
         this.datePickerOpen = false;
-
-        //Bubble up the updated date so it is accessable outside the component
-        //this.$dispatch('date-updated', this.selectedDate.getFullYear() + '-' + String(this.selectedDate.getMonth() + 1).padStart(2, '0') + '-' + String(this.selectedDate.getDate()).padStart(2, '0'));
     },
 
     setYear: function (year) {
