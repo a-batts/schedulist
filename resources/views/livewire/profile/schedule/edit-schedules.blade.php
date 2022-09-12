@@ -68,6 +68,35 @@
             </div>    
         </div>    
     </x-ui.settings-card>
+
+
+    <div class="mdc-dialog confirm-dialog delete-schedule-confirmation" id="confirm-dialog"
+        wire:ignore>
+        <div class="mdc-dialog__container">
+            <div class="mdc-dialog__surface"
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="my-dialog-title"
+            aria-describedby="my-dialog-content">
+            <div class="mdc-dialog__title">Really delete schedule?</div>
+            <div class="mdc-dialog__content" id="my-dialog-content">
+                This schedule and its associated class times will be deleted permanently.
+            </div>
+            <div class="mdc-dialog__actions">
+                <button type="button" class="mdc-button mdc-dialog__button cancel" data-mdc-dialog-action="cancel">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Cancel</span>
+                </button>
+                <button type="button" class="mdc-button mdc-dialog__button confirm" data-mdc-dialog-action="delete">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Delete</span>
+                </button>
+            </div>
+            </div>
+        </div>
+        <div class="mdc-dialog__scrim"></div>
+    </div>
+
 </div>
 
 @push('scripts')
@@ -118,14 +147,17 @@
             deleteButton: {
                 ['@click'](e) {
                     const id = e.target.parentElement.parentElement.dataset.id;
-                    this.$wire.delete(id).then(this.$wire.getSchedulesArray().then((result) => {
-                        this.schedules = result;
-                    })).finally(
-                        () => { 
-                            this.clear();
-                            snack('Deleted schedule successfully');
-                         }
-                    );
+
+                    scheduleDeleteDialog().then(() => {
+                        this.$wire.delete(id).then(this.$wire.getSchedulesArray().then((result) => {
+                            this.schedules = result;
+                        })).finally(
+                            () => { 
+                                this.clear();
+                                snack('Deleted schedule successfully');
+                            }
+                        );
+                    }).catch(() => {});
                 },
             },
 
