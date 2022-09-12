@@ -162,14 +162,22 @@
                         }))
                     }
                     else{
-                        this.$wire.edit(this.schedules[this.editing].id).then(this.$wire.getSchedulesArray().then((result) => {                            
-                            if (result != this.schedules){
-                                this.clear();
-                                snack('Successfully updated schedule');
-                                this.schedules = result;
-                            }
-                        }))
-                        
+                        this.$wire.edit(this.schedules[this.editing].id).then(() => {
+                            setTimeout(() => {
+                                this.$wire.getSchedulesArray().then((result) => {
+
+                                if (JSON.stringify(result) != JSON.stringify(this.schedules)){
+                                    this.clear();
+                                    snack('Successfully updated schedule');
+                                    this.schedules = result;
+                                }
+                                else {
+                                    this.clear();
+                                }
+                                })  
+                            }, 20);
+                        }
+                        )
                     }
                 },
                 ['x-text']() {
