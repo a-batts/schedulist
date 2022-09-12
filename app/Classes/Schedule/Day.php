@@ -42,7 +42,7 @@ class Day implements Countable {
         for ($i = 1; $i < count($this->events); $i++) {
             if ($this->events[$i]->top > $this->events[$i - 1]->top && $this->events[$i]->top < $this->events[$i - 1]->bottom) {
                 $this->events[$i]->left = $this->events[$i - 1]->left + 140;
-                $this->events[$i]->eventData->height = $this->events[$i - 1]->height + 1;
+                $this->events[$i]->height = $this->events[$i - 1]->height + 1;
             }
         }
     }
