@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Classes;
 use App\Models\ClassSchedule;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,12 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class ClassScheduleHelper {
 
   /**
-   * Collection of all of the user's schedules
+   * Collection of the user's schedules
    *
    * @var Collection<ClassSchedule>
    */
   private Collection $schedules;
 
+  /**
+   * Collection of the user's classes
+   *
+   * @var Collection<Classes>
+   */
   private Collection $classes;
 
   public function __construct() {
