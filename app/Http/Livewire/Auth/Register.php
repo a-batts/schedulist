@@ -20,32 +20,60 @@ use Livewire\Component;
 class Register extends Component {
   use PasswordValidationRules;
 
-  public $firstName;
-  public $lastName;
+  /** @var string */
+  public string $firstName = '';
 
   /** @var string */
-  public $email;
+  public string $lastName = '';
 
   /** @var string */
-  public $password;
+  public string $email = '';
 
   /** @var string */
-  public $passwordConfirmation;
+  public string $password = '';
 
-  public $gradeLevel;
-  public $school;
-  public $errorMessages;
+  /** @var string */
+  public string $passwordConfirmation = '';
 
-  public $gradeOptions = ['Elementary School', 'Middle School', 'High School', 'College', 'Other'];
-  private $levels = ['es', 'ms', 'hs', 'university', 'other'];
+  /** @var string */
+  public string $school = '';
 
-  protected $messages = [
+  /** @var string */
+  public string $gradeLevel = '';
+
+  /** @var array */
+  public array $errorMessages = [];
+
+  /**
+   * Array of the different grade levels, and their corresponding database representation
+   *
+   * @var array
+   */
+  public array $gradeOptions = [
+    'Elementary School' => 'es',
+    'Middle School' => 'ms',
+    'High School' => 'hs',
+    'College' => 'university',
+    'Other' => 'other'
+  ];
+
+  /**
+   * Validation messages
+   *
+   * @var array
+   */
+  protected array $messages = [
     'password.regex' => 'Double check that your password is 10+ characters and contains an uppercase letter, number, and special character',
     'firstName.required' => 'Required',
     'lastName.required' => 'Required',
   ];
 
-  function rules() {
+  /**
+   * Validation rules
+   *
+   * @return array
+   */
+  function rules(): array {
     return [
       'firstName' => ['required', 'max:50'],
       'lastName' => ['required', 'max:50'],
@@ -57,6 +85,11 @@ class Register extends Component {
     ];
   }
 
+  /**
+   * Create the new user
+   *
+   * @return \Livewire\Redirector
+   */
   public function create() {
     $this->validate();
 
@@ -76,19 +109,34 @@ class Register extends Component {
     return redirect()->intended(route('dashboard'));
   }
 
-  public function setGradeLevel($input) {
-    $this->resetErrorBag('gradeLevel');
-    $index = array_search($input, $this->gradeOptions);
-    if ($index)
-      $this->gradeLevel = $this->levels[$index];
-    else
+  /**
+   * Set the user's grade level
+   *
+   * @param string $level
+   * @return void
+   */
+  public function setGradeLevel(string $level): void {
+    if (!isset($this->gradeOptions[$level]))
       $this->addError('gradeLevel', 'Invalid grade level');
+    else
+      $this->gradeLevel = $this->gradeOptions[$level];
   }
 
-  public function updated($propertyName) {
+  /**
+   * Validate the updated property
+   *
+   * @param string $propertyName
+   * @return void
+   */
+  public function updated(string $propertyName): void {
     $this->validateOnly($propertyName);
   }
 
+  /**
+   * Render the component
+   *
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+   */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
     return view('livewire.auth.register')->layout('layouts.guest', ['title' => 'Register']);
