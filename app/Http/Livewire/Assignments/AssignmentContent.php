@@ -76,8 +76,8 @@ class AssignmentContent extends Component {
   public function mount(): void {
     $this->assignment = Assignment::where('url_string', $this->urlString)->first();
 
-    if ($this->assignment->classid != null)
-      $class = Classes::where('id', $this->assignment->classid)->first();
+    if ($this->assignment->class_id != null)
+      $class = Classes::where('id', $this->assignment->class_id)->first();
 
     $this->classColor = isset($class) ? strtolower($class->color) : 'blue';
 
@@ -93,7 +93,7 @@ class AssignmentContent extends Component {
     $assignment = $this->assignment;
 
     //Only allow user to modify an assignment they own
-    if ($assignment->userid == Auth::User()->id) {
+    if ($assignment->user_id == Auth::User()->id) {
       $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
 
       $assignment->save();
@@ -141,8 +141,8 @@ class AssignmentContent extends Component {
    * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
    */
   public function render() {
-    if ($this->assignment->assignment_link != null)
-      $link = Crypt::decryptString($this->assignment->assignment_link);
+    if ($this->assignment->link != null)
+      $link = Crypt::decryptString($this->assignment->link);
     else
       $link = "";
 

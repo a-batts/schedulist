@@ -22,9 +22,9 @@ class HasAssignment {
    */
   public function handle(Request $request, Closure $next) {
     $assignmentString = $request->route('assignment_string');
-    $assignment = Assignment::where('userid', Auth::user()->id)->where('url_string', $assignmentString)->first();
+    $assignment = Assignment::where('user_id', Auth::user()->id)->where('url_string', $assignmentString)->first();
     if ($assignment != null) {
-      $assignmentTitle = $assignment->assignment_name;
+      $assignmentTitle = $assignment->name;
       view()->share(['assignment' => $assignment->id, 'assignmentTitle' => $assignmentTitle]);
       return $next($request);
     }

@@ -38,13 +38,13 @@
 
       <div class="flex space-x-3">
         <div class="w-full">
-          <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+          <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.name'] != undefined}" wire:ignore>
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label" id="assignment-name-label">Name</span>
-            <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" x-model="title" type="text" aria-labelledby="assignment-name-label" required>
+            <input class="mdc-text-field__input" wire:model.lazy="assignment.name" x-model="title" type="text" aria-labelledby="assignment-name-label" required>
             <span class="mdc-line-ripple"></span>
           </label>
-          <x-ui.validation-error for="assignment.assignment_name"/>
+          <x-ui.validation-error for="assignment.name"/>
         </div>
         <div class="w-full">
           <div class="w-full mdc-select mdc-select--filled" wire:ignore>
@@ -105,17 +105,17 @@
         </div>
       </div>
   
-      <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+      <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" x-bind:class="{'mdc-text-field--invalid': errorMessages['assignment.link'] != undefined}" wire:ignore>
         <span class="mdc-text-field__ripple"></span>
         <span class="mdc-floating-label mdc-floating-label--float-above" id="assignment-link-label">Link</span>
-        <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
+        <input class="mdc-text-field__input" wire:model.lazy="assignment.link" type="text" aria-labelledby="assignment-link-label">
         <span class="mdc-line-ripple"></span>
       </label>
-      <x-ui.validation-error for="assignment.assignment_link"/>
+      <x-ui.validation-error for="assignment.link"/>
 
       <div class="w-full pt-4 pb-8">
         <div class="left-0 right-0 mx-auto">
-         @if($assignment->assignment_link != '')
+         @if($assignment->link != '')
            <x-link-preview :preview="$preview"/>
          @endif
         </div>
@@ -138,7 +138,7 @@ function editMenu(){
     
     errorMessages: @entangle('errorMessages'),
     
-    title: @this.assignment.assignment_name,
+    title: @this.assignment.name,
 
     date: new Date(),
           
