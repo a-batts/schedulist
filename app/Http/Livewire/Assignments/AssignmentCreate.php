@@ -99,8 +99,6 @@ class AssignmentCreate extends Component {
 
     $assignment->due = $this->due;
     $assignment->url_string = Str::random(16);
-    $assignment->name = Crypt::encryptString($assignment->name);
-    $assignment->description = Crypt::encryptString($assignment->description);
 
     $assignment->link = isset($assignment->link) ? Crypt::encryptString($assignment->link) : null;
 

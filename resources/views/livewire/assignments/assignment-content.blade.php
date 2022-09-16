@@ -10,7 +10,7 @@ x-data="{
             arrow_back
           </button>
         <div class="ml-8">
-          <h1 class="text-xl font-bold sm:text-4xl md:text-6xl">{{Crypt::decryptString($assignment->name)}}</h1>
+          <h1 class="text-xl font-bold sm:text-4xl md:text-6xl">{{$assignment->name}}</h1>
           <div class="mt-2 text-sm md:mt-6">
             @if($assignment->status == 'done')
             <p class="text-gray-500">Marked complete • Originally due on {{$assignment->due_date}} at {{$assignment->due_time}}</p>
@@ -42,12 +42,12 @@ x-data="{
           <div class="rounded-full w-8 h-8 background-{{$classColor}} flex leading-8">
             <span class="self-center block mx-auto text-lg align-middle material-icons justify-self-center">class</span>
           </div>
-          <div class="ml-4 text-gray-700 text-lg mt-1">
+          <div class="mt-1 ml-4 text-lg text-gray-700">
             <p class="">{{($assignment->class_name)}}</p>
           </div>
         </div>
         <p class="whitespace-pre-line">
-          {{Crypt::decryptString($assignment->description)}}
+          {{$assignment->description}}
         </p>
       </div>
       

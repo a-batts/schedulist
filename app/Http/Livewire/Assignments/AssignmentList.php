@@ -79,10 +79,8 @@ class AssignmentList extends Component {
     foreach ($assignments as $key => $value) {
       $due = Carbon::parse($value['due']);
 
-      $assignments[$key]['assignment_name'] = Crypt::decryptString($value['assignment_name']);
       $assignments[$key]['due_time'] = $due->format('g:i A');
       $assignments[$key]['due_date'] = $due->format('M j, Y');
-      $assignments[$key]['description'] = Crypt::decryptString($value['description']);
 
       if ($value['classid'] != null) {
         $k = array_search($value['classid'], array_column($this->classes, 'id'));
