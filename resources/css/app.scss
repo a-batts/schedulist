@@ -724,6 +724,11 @@ a.link {
 .google-signin {
   @include button.ink-color(#000000);
   @include button.container-fill-color(#FFFFFF);
+  letter-spacing: normal;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: system-ui;
+  text-transform: none;
 }
 
 .navbar-button {
@@ -1296,11 +1301,6 @@ div.forgot-password {
 
 .remember_me {
   margin-left: -7px;
-}
-
-.google-signin {
-  font-family: 'Google Sans', sans-serif;
-  text-transform: unset !important;
 }
 
 .logincontainer.secondcontainer {
