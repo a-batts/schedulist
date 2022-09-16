@@ -14,6 +14,11 @@ class Assignment extends Model {
 
   protected $guarded = ['id', 'userid', 'classid'];
 
+  protected $casts = [
+    'assignment_name' => 'encrypted',
+    'description' => 'encrypted',
+  ];
+
   public function getClassNameAttribute() {
     if ($this->classid == null)
       return 'No Class';

@@ -78,8 +78,6 @@ class AssignmentEdit extends Component {
     $this->due = Carbon::parse($this->assignment->due);
 
     $this->assignment->link = isset($this->assignment->link) ? Crypt::decryptString($this->assignment->link) : $this->assignment->link;
-    $this->assignment->name = Crypt::decryptString($this->assignment->name);
-    $this->assignment->description = Crypt::decryptString($this->assignment->description);
 
     $classes = Classes::where('userid', Auth::User()->id)->get();
     foreach ($classes as $class)
@@ -115,8 +113,6 @@ class AssignmentEdit extends Component {
     $this->emit('toastMessage', 'Changes successfully saved');
 
     $assignment->link = Crypt::decryptString($assignment->link);
-    $assignment->name = Crypt::decryptString($assignment->name);
-    $assignment->description = Crypt::decryptString($assignment->description);
 
     $this->emit('refreshAssignmentPage');
   }
@@ -212,10 +208,7 @@ class AssignmentEdit extends Component {
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
     if ($this->assignment->assignment_link != null) {
-      if (!$this->errorBag->has('assignment.link'))
-        $this->preview = LinkPreview::create($this->assignment->assignment_link)->updatePreview($this->assignment->assignment_link);
-      else
-        $this->preview = LinkPreview::create($this->assignment->assignment_link)->withError();
+      $this->preview = !$this->errorBag->has('assignment.link') ? LinkPreview::create($this->assignment->assignment_link)->updatePreview($this->assignment->assignment_link) : LinkPreview::create($this->assignment->assignment_link)->withError();
     }
 
     return view('livewire.assignments.assignment-edit')->with('preview', $this->preview);
