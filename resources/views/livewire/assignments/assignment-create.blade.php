@@ -18,13 +18,13 @@ class="mdc-typography">
     
     <div class="flex space-x-3">
       <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_name'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.name'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label" id="assignment-name-label">Name</span>
-          <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_name" type="text" aria-labelledby="assignment-name-label" required>
+          <input class="mdc-text-field__input" wire:model.lazy="assignment.name" type="text" aria-labelledby="assignment-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error for="assignment.assignment_name"/>
+        <x-ui.validation-error for="assignment.name"/>
       </div>
       <div class="w-full">
         <div class="w-full mdc-select mdc-select--filled" wire:ignore>
@@ -85,13 +85,13 @@ class="mdc-typography">
       </div>
     </div>    
 
-    <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.assignment_link'] != undefined}" wire:ignore>
+    <label class="w-full mt-1 mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['assignment.link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label" id="assignment-link-label">Link</span>
-      <input class="mdc-text-field__input" wire:model.lazy="assignment.assignment_link" type="text" aria-labelledby="assignment-link-label">
+      <input class="mdc-text-field__input" wire:model.lazy="assignment.link" type="text" aria-labelledby="assignment-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-error for="assignment.assignment_link"/>
+    <x-ui.validation-error for="assignment.link"/>
 
     <label class="w-full mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--with-internal-counter" :class="{'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined}" wire:ignore>
       <span class="mdc-floating-label" id="assignment-description-label">Description</span>

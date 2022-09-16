@@ -45,7 +45,7 @@ class SendAssignmentReminder implements ShouldQueue {
      */
     public function handle() {
         if ($this->assignment->status == 'inc' && $this->owner->phone != null && !$this->sent) {
-            $message = 'Reminder: Your assignment "' . Crypt::decryptString($this->assignment->assignment_name) . '" is due in ' . $this->timeTillDue . ' hours';
+            $message = 'Reminder: Your assignment "' . $this->assignment->name . '" is due in ' . $this->timeTillDue . ' hours';
             $email = $this->owner->phone . CarrierEmailHelper::getCarrierEmail($this->owner->carrier);
             $details = ['email' => $email, 'message' => $message];
 

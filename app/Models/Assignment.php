@@ -12,18 +12,18 @@ class Assignment extends Model {
 
   protected $table = 'assignments';
 
-  protected $guarded = ['id', 'userid', 'classid'];
+  protected $guarded = ['id', 'user_id', 'class_id'];
 
   protected $casts = [
-    'assignment_name' => 'encrypted',
+    'name' => 'encrypted',
     'description' => 'encrypted',
   ];
 
   public function getClassNameAttribute() {
-    if ($this->classid == null)
+    if ($this->class_id == null)
       return 'No Class';
 
-    $class = Classes::where('id', $this->classid)->first();
+    $class = Classes::where('id', $this->class_id)->first();
     if ($class != null)
       return $class->name;
     return 'Deleted Class';
@@ -57,28 +57,12 @@ class Assignment extends Model {
     return false;
   }
 
-  public function getNameAttribute() {
-    return $this->assignment_name;
-  }
-
-  public function setNameAttribute($val) {
-    $this->assignment_name = $val;
-  }
-
-  public function getLinkAttribute() {
-    return $this->assignment_link;
-  }
-
-  public function setLinkAttribute($val) {
-    $this->assignment_link = $val;
-  }
-
   public function reminders() {
     return $this->hasMany(AssignmentReminder::class);
   }
 
   public function user() {
-    return $this->belongsTo(User::class, 'userid');
+    return $this->belongsTo(User::class);
   }
 
   public function notes() {

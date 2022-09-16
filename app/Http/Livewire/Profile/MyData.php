@@ -97,15 +97,15 @@ class MyData extends Component {
         $data = [];
         switch ($category) {
             case 'assignments':
-                $assignments = Auth::user()->assignments()->get(['classid', 'assignment_name', 'assignment_link', 'description', 'status', 'due']);
+                $assignments = Auth::user()->assignments()->get(['class_id', 'name', 'link', 'description', 'status', 'due']);
                 $classes = Auth::user()->classes()->get(['id', 'name']);
                 foreach ($assignments as $assignment) {
                     array_push($data, [
-                        'name' => $assignment->assignment_name != null ? Crypt::decryptString($assignment->assignment_name) : '',
-                        'class' => [$classes->find($assignment->classid) != null ? $classes->find($assignment->classid)['name'] : ''],
-                        'description' => $assignment->description != null ? Crypt::decryptString($assignment->description) : '',
+                        'name' => $assignment->name,
+                        'class' => [$classes->find($assignment->class_id) != null ? $classes->find($assignment->class_id)['name'] : ''],
+                        'description' => $assignment->description,
                         'due' => $assignment->due,
-                        'link' => $assignment->assignment_link != null ? Crypt::decryptString($assignment->assignment_link) : '',
+                        'link' => $assignment->link != null ? Crypt::decryptString($assignment->link) : '',
                         'status' => $assignment->status == 'done' ? 'done' : 'incomplete',
                     ]);
                 }

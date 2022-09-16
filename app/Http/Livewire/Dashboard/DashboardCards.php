@@ -5,31 +5,63 @@ namespace App\Http\Livewire\Dashboard;
 use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 use Livewire\Component;
 
 class DashboardCards extends Component {
-  public $activeClass;
 
-  public $nextClass;
+  /**
+   * The active class, if there is one
+   *
+   * @var Classes|null
+   */
+  public ?Classes $currentClass;
 
-  public $assignments;
+  /**
+   * The next class, if there is no active class and a next class exists
+   *
+   * @var Classes|null
+   */
+  public ?Classes $nextClass;
 
-  public $events;
+  /**
+   * Collection of the user's incomplete assignments
+   *
+   * @var EloquentCollection
+   */
+  public EloquentCollection $assignments;
+
+  /**
+   * Collection of the user's upcoming events
+   *
+   * @var Collection
+   */
+  public Collection $events;
 
   protected $listeners = ['refreshClasses' => 'refresh'];
 
-  public function mount() {
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
     $this->refresh();
   }
 
-  public function getActiveClass() {
+  /**
+   * Return the current class, or null if there is no current class
+   *
+   * @return Classes|null
+   */
+  public function getCurrentClass(): ?Classes {
     $scheduleHelper = new ClassScheduleHelper();
     $currentClass = $scheduleHelper->getCurrentClass(Carbon::now());
 
+    //If there is no current class, determine the next class and return void
     if ($currentClass == null) {
       $nextClass = $scheduleHelper->getNextClass(Carbon::now());
 
@@ -37,7 +69,7 @@ class DashboardCards extends Component {
         $nextClass['class']->timestring = $nextClass['start']->format('g:i A') . ' on ' . $nextClass['start']->format('D, F jS');
         $this->nextClass = $nextClass['class'];
       }
-      return;
+      return null;
     }
 
     //Add the timestring to the class object
@@ -47,11 +79,18 @@ class DashboardCards extends Component {
     return $currentClass['class'];
   }
 
-  public function refresh() {
-    $this->activeClass = $this->getActiveClass();
-    $this->assignments = Auth::user()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
-    foreach ($this->assignments as $assignment)
+  /**
+   * Refresh the component
+   *
+   * @return void
+   */
+  public function refresh(): void {
+    $this->currentClass = $this->getCurrentClass();
+
+    $assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
+    foreach ($assignments as $assignment)
       $assignment->due = Carbon::parse($assignment->due)->format('M j, g:i A');
+    $this->assignments = $assignments;
 
     $date = Carbon::now();
     $dayIso = $date->dayOfWeekIso;
@@ -80,6 +119,11 @@ class DashboardCards extends Component {
     $this->events = $this->events->take(8);
   }
 
+  /**
+   * Render the component
+   *
+   * @return void
+   */
   public function render() {
     return view('livewire.dashboard.dashboard-cards');
   }
