@@ -69,7 +69,7 @@
       <div class="logincontainer secondcontainer">
         <button class="mdc-button mdc-button-ripple mdc-button--outlined google-signin" onclick="document.location='/login/google'" wire:ignore>
           <span class="mdc-button__ripple"></span>
-          <img class="mdc-button__icon" src="/images/icon/vendor/google.png" width="18px" height="18px" aria-hidden="true">
+          <img class="mdc-button__icon" src="/images/logo/vendor/google.png" width="18px" height="18px" aria-hidden="true">
           Google
         </button>
       </div>
