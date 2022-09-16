@@ -57,13 +57,13 @@ class AssignmentCreate extends Component {
    * @var array
    */
   protected array $rules = [
-    'assignment.assignment_name' => 'required',
-    'assignment.classid' => 'nullable',
+    'assignment.name' => 'required',
+    'assignment.class_id' => 'nullable',
     'due' => 'required',
-    'assignment.assignment_link' => 'url|nullable',
+    'assignment.link' => 'url|nullable',
     'assignment.description' => 'required',
     'assignment.status' => 'required',
-    'assignment.userid' => 'required',
+    'assignment.user_id' => 'required',
   ];
 
   /**
@@ -73,7 +73,7 @@ class AssignmentCreate extends Component {
   public function mount(): void {
     $this->assignment = new Assignment;
 
-    $this->assignment->userid = Auth::User()->id;
+    $this->assignment->user_id = Auth::User()->id;
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
@@ -94,8 +94,8 @@ class AssignmentCreate extends Component {
     $this->validate();
     $assignment = $this->assignment;
 
-    if ($assignment->classid == -1)
-      $assignment->classid = null;
+    if ($assignment->class_id == -1)
+      $assignment->class_id = null;
 
     $assignment->due = $this->due;
     $assignment->url_string = Str::random(16);
@@ -125,7 +125,7 @@ class AssignmentCreate extends Component {
   public function clear(): void {
     $this->assignment = new Assignment;
 
-    $this->assignment->userid = Auth::User()->id;
+    $this->assignment->user_id = Auth::User()->id;
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
@@ -140,8 +140,8 @@ class AssignmentCreate extends Component {
    * @return void
    */
   public function setClass(int $id): void {
-    if (Classes::where('id', $id)->where('userid', Auth::User()->id)->exists() || $id == -1)
-      $this->assignment->classid = $id;
+    if (Classes::where('id', $id)->where('user_id', Auth::User()->id)->exists() || $id == -1)
+      $this->assignment->class_id = $id;
   }
 
   /**

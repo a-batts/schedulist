@@ -203,8 +203,8 @@
 
           return this.assignments.filter(item => 
               item['status'] == filterStatus &&
-              (this.filterClass == item['classid'] || this.filterClass == -1) &&
-              (item['assignment_name'].toLowerCase().indexOf(this.query.toLowerCase()) > -1 || item['description'].toLowerCase().indexOf(this.query.toLowerCase()) > -1)
+              (this.filterClass == item['class_id'] || this.filterClass == -1) &&
+              (item['name'].toLowerCase().indexOf(this.query.toLowerCase()) > -1 || item['description'].toLowerCase().indexOf(this.query.toLowerCase()) > -1)
           ).sort((firstEl, secondEl) => new Date(secondEl['due']).getTime() - new Date(firstEl['due']).getTime());
         },
       }

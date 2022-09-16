@@ -61,7 +61,7 @@ x-data="{
           <p class="font-medium">Last modified</p>
           <p class="text-gray-600">{{$assignment->edited_date}}</p>
         </div>
-        @if($assignment->assignment_link != null)
+        @if($assignment->link != null)
           <div class="pt-6 mt-6 border-t border-gray-100">
             <p class="text-sm font-medium">Link</p>
             <div class="mx-auto mt-4">

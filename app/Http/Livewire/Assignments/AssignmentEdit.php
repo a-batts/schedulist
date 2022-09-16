@@ -59,13 +59,13 @@ class AssignmentEdit extends Component {
    * @var array
    */
   protected array $rules = [
-    'assignment.assignment_name' => 'required',
-    'assignment.classid' => 'nullable',
+    'assignment.name' => 'required',
+    'assignment.class_id' => 'nullable',
     'assignment.due' => 'required',
-    'assignment.assignment_link' => 'url|nullable',
+    'assignment.link' => 'url|nullable',
     'assignment.description' => 'required',
     'assignment.status' => 'required',
-    'assignment.userid' => 'required',
+    'assignment.user_id' => 'required',
   ];
 
   protected $listeners = ['refreshEditModal' => '$refresh'];
@@ -94,18 +94,16 @@ class AssignmentEdit extends Component {
 
     $this->dispatchBrowserEvent('hide-edit-menu');
 
-    if ($assignment->assignment_link == null) {
+    if ($assignment->link == null) {
       $assignment->link_image = null;
       $assignment->link_description = null;
     } else {
-      $this->preview = LinkPreview::create($assignment->assignment_link)->updatePreview($assignment->assignment_link);
-      $assignment->assignment_link = Crypt::encryptString($assignment->assignment_link);
+      $this->preview = LinkPreview::create($assignment->link)->updatePreview($assignment->link);
+      $assignment->link = Crypt::encryptString($assignment->link);
       $assignment->link_image = $this->preview->getPreview();
       $assignment->link_description = $this->preview->getText();
     }
 
-    $assignment->name = Crypt::encryptString($assignment->name);
-    $assignment->description = Crypt::encryptString($assignment->description);
     $assignment->due = $this->due;
 
     $assignment->save();
@@ -134,8 +132,8 @@ class AssignmentEdit extends Component {
    * @return void
    */
   public function setClass(int $id): void {
-    if (Classes::where('id', $id)->where('userid', Auth::User()->id)->exists() || $id == -1)
-      $this->assignment->classid = $id;
+    if (Classes::where('id', $id)->where('user_id', Auth::User()->id)->exists() || $id == -1)
+      $this->assignment->class_id = $id;
   }
 
   /**
@@ -207,8 +205,8 @@ class AssignmentEdit extends Component {
    */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
-    if ($this->assignment->assignment_link != null) {
-      $this->preview = !$this->errorBag->has('assignment.link') ? LinkPreview::create($this->assignment->assignment_link)->updatePreview($this->assignment->assignment_link) : LinkPreview::create($this->assignment->assignment_link)->withError();
+    if ($this->assignment->link != null) {
+      $this->preview = !$this->errorBag->has('assignment.link') ? LinkPreview::create($this->assignment->link)->updatePreview($this->assignment->link) : LinkPreview::create($this->assignment->link)->withError();
     }
 
     return view('livewire.assignments.assignment-edit')->with('preview', $this->preview);

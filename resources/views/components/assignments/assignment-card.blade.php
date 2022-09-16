@@ -5,7 +5,7 @@
       <div class="flex">
         <div class="flex-grow">
           <p class="w-full mr-5 text-base font-medium truncate sm:mt-0 sm:text-lg"
-          x-text="assignment['assignment_name']"></p>
+          x-text="assignment['name']"></p>
           <p class="text-sm text-gray-600 truncate mdc-typography"
           x-text="assignment['class_name']"></p>
         </div>
@@ -19,9 +19,9 @@
             <div class="mdc-icon-button__ripple"></div>
             <span x-text="assignment['status'] == 'inc' ? 'check_circle' : 'unpublished'"></span>
           </button>
-          <template x-if="assignment['assignment_link'] != null && assignment['assignment_link'].match('.*[a-zA-Z].*')">
+          <template x-if="assignment['link'] != null && assignment['link'].match('.*[a-zA-Z].*')">
             <div>
-              <a :href="assignment['assignment_link']" target="_blank">
+              <a :href="assignment['link']" target="_blank">
                 <button class="z-20 mdc-icon-button material-icons" type="button" @click.stop :aria-describedby="`assignmentLink${assignment['id']}`">
                   <div class="mdc-icon-button__ripple"></div>
                   launch
@@ -54,7 +54,7 @@
 
   @php /* Tooltips */ @endphp
   
-  <template x-if="assignment['assignment_link'] != null">
+  <template x-if="assignment['link'] != null">
     <div :id="`assignmentLink${assignment['id']}`" class="mdc-tooltip" role="tooltip" aria-hidden="true">
       <div class="mdc-tooltip__surface mdc-tooltip__surface-animation">
         Open assignment link

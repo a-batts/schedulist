@@ -111,7 +111,7 @@ class User extends Authenticatable implements FilamentUser {
   }
 
   public function getNumAssignmentsAttribute() {
-    return Assignment::where(['userid' => Auth::user()->id, 'status' => 'inc'])->count();
+    return Assignment::where(['user_id' => Auth::user()->id, 'status' => 'inc'])->count();
   }
 
   public function getHasPasswordAttribute() {
@@ -119,7 +119,7 @@ class User extends Authenticatable implements FilamentUser {
   }
 
   public function assignments() {
-    return $this->hasMany(Assignment::class, 'userid');
+    return $this->hasMany(Assignment::class, 'user_id');
   }
 
   public function classes() {

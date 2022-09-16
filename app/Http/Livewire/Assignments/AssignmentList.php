@@ -64,7 +64,7 @@ class AssignmentList extends Component {
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
 
     if ($this->class != -1)
-      $this->class = Classes::where('id', (int) $this->class)->where('userid', Auth::User()->id)->first()->id;
+      $this->class = Classes::where('id', (int) $this->class)->where('user_id', Auth::User()->id)->first()->id;
 
     $this->assignments = $this->getAssignments();
   }
@@ -75,15 +75,15 @@ class AssignmentList extends Component {
    * @return array
    */
   public function getAssignments(): array {
-    $assignments = Assignment::where('userid', Auth::User()->id)->orderBy('due', 'asc')->get()->toArray();
+    $assignments = Assignment::where('user_id', Auth::User()->id)->orderBy('due', 'asc')->get()->toArray();
     foreach ($assignments as $key => $value) {
       $due = Carbon::parse($value['due']);
 
       $assignments[$key]['due_time'] = $due->format('g:i A');
       $assignments[$key]['due_date'] = $due->format('M j, Y');
 
-      if ($value['classid'] != null) {
-        $k = array_search($value['classid'], array_column($this->classes, 'id'));
+      if ($value['class_id'] != null) {
+        $k = array_search($value['class_id'], array_column($this->classes, 'id'));
         if ($k === false)
           $assignments[$key]['class_name'] = 'Deleted Class';
         else
@@ -92,7 +92,7 @@ class AssignmentList extends Component {
         $assignments[$key]['class_name'] = 'No Class';
 
       try {
-        $assignments[$key]['assignment_link'] = Crypt::decryptString($value['assignment_link']);
+        $assignments[$key]['link'] = Crypt::decryptString($value['link']);
       } catch (DecryptException $e) {
       }
     }
@@ -136,7 +136,7 @@ class AssignmentList extends Component {
     $assignment = Assignment::findOrFail($id);
 
     //Only allow user to modify an assignment they own
-    if ($assignment->userid == Auth::User()->id) {
+    if ($assignment->user_id == Auth::User()->id) {
       $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
 
       $assignment->save();
