@@ -8,7 +8,7 @@ use App\Models\ClassLink;
 use App\Rules\UniquePeriod;
 
 use Illuminate\Contracts\Encryption\DecryptException;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
@@ -16,137 +16,184 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class ClassEdit extends Component {
-  public $classData;
+  /**
+   * The class that is being edited
+   *
+   * @var Classes
+   */
+  public Classes $selectedClass;
 
-  public $color;
+  /**
+   * Array of the class data
+   *
+   * @var array
+   */
+  public array $classData;
 
-  private $colorOptions = ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige'];
+  /**
+   * Array of the class's links
+   *
+   * @var array
+   */
+  public array $links = [];
+
+  /**
+   * Valid color options for the class
+   *
+   * @var array
+   */
+  private array $colorOptions = ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige'];
 
   public array $errorMessages = [];
 
-  public array $links = [];
+  protected $listeners = ['updateClassData'];
 
-  public Classes $selClass;
-
-  protected $listeners = ['selectClass', 'updateClassData'];
-
-  public function rules() {
+  /**
+   * Validation messages
+   *
+   * @return array
+   */
+  public function messages(): array {
     return [
-      'selClass.name' => 'required',
-      'selClass.teacher' => 'required',
-      'selClass.teacher_email' => 'nullable',
-      'selClass.video_link' => 'nullable|url',
-      'selClass.class_location' => 'nullable',
-      'selClass.period' => ['nullable'/*, new UniquePeriod()*/],
+      'links.*.name.required' => 'Link name is required',
+      'links.*.link.required' => 'Link is required',
+      'links.*.link.url' => 'Link must be valid URL',
+      'links.*.link.distinct' => 'You\'ve already added this link',
     ];
   }
 
-  public function mount() {
-    $classes = Auth::User()->classes()->with('links')->get();
-    $classData = [];
-    foreach ($classes as $class) {
-      $class->teacher = Crypt::decryptString($class->teacher);
-      if (isset($class->teacher_email)) $class->teacher_email = Crypt::decryptString($class->teacher_email);
-      if (isset($class->video_link)) $class->video_link = Crypt::decryptString($class->video_link);
-      if (isset($class->class_location)) $class->class_location = Crypt::decryptString($class->class_location);
-      foreach ($class->links as $link) {
-        $link->link = Crypt::decryptString($link->link);
-      }
-      $classData[$class->id] = $class->toArray();
-    }
-    $this->classData = $classData;
-    $this->selClass = new Classes();
+  /**
+   * Validation rules
+   *
+   * @return array
+   */
+  public function rules(): array {
+    return [
+      'selectedClass.name' => 'required',
+      'selectedClass.teacher' => 'required',
+      'selectedClass.teacher_email' => 'nullable',
+      'selectedClass.video_link' => 'nullable|url',
+      'selectedClass.location' => 'nullable',
+      'selectedClass.color' => 'required',
+      'links.*' => 'array',
+      'links.*.name' => 'required',
+      'links.*.link' => 'required|url|distinct',
+    ];
   }
 
-  public function edit() {
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
+    $classes = Auth::User()->classes()->with('links')->get();
+
+    $classData = [];
+    foreach ($classes as $class)
+      $classData[$class->id] = $class->toArray();
+
+    $this->classData = $classData;
+    $this->selectedClass = new Classes(['color' => 'pink']);
+  }
+
+  /**
+   * Edit the selected class
+   *
+   * @return void
+   */
+  public function edit(): void {
     $this->validate();
 
-    $selClass = $this->selClass;
-    $selClass->teacher = Crypt::encryptString($selClass->teacher);
-    if (isset($selClass->teacher_email)) $selClass->teacher_email = Crypt::encryptString($selClass->teacher_email);
-    if ($selClass->video_link == '') $selClass->video_link = null;
-    if (isset($selClass->video_link)) $selClass->video_link = Crypt::encryptString($selClass->video_link);
-    if (isset($selClass->class_location)) $selClass->class_location = Crypt::encryptString($selClass->class_location);
-    if ($selClass->period == '') $selClass->period = null;
-    $selClass->color = $this->color;
+    $class = $this->selectedClass;
 
-    ClassLink::where('class_id', $selClass->id)->delete();
+    if (!isset($class->teacher_email) || $class->teacher_email == '') $class->teacher_email = null;
+    if (!isset($class->location) || $class->location == '') $class->location = null;
+    if ($class->video_link == '') $class->video_link = null;
 
-    foreach ($this->links as $link) {
-      $newLink = new ClassLink;
-      $newLink->class_id = $selClass->id;
-      $newLink->name = $link['name'];
-      $newLink->link = Crypt::encryptString($link['url']);
-      $newLink->save();
-    }
+    $class->save();
 
-    $selClass->save();
+    $class->links()->delete();
+    foreach ($this->links as $link)
+      $class->links()->create([
+        'name' => $link['name'],
+        'link' => $link['link']
+      ]);
+
     $this->emit('refreshClasses');
     $this->dispatchBrowserEvent('close-dialog');
     $this->emit('toastMessage', 'Class successfully edited');
 
-    $this->updateClassData($selClass->id);
+    $this->updateClassData($class->id);
   }
 
-  public function removeLink($index) {
-    unset($this->links[$index - 1]);
-  }
+  /**
+   * Select the class to edit
+   *
+   * @param int $id
+   * @return void
+   */
+  public function selectClass(int $id): void {
+    try {
+      $selectedClass = Auth::User()->classes()->findOrFail($id);
 
-  public function selectClass($id) {
-    $selClass = Classes::where(['id' => $id, 'userid' => Auth::User()->id])->with('links')->first();
-    $selClass->teacher = Crypt::decryptString($selClass->teacher);
-    if (isset($selClass->teacher_email)) $selClass->teacher_email = Crypt::decryptString($selClass->teacher_email);
-    if (isset($selClass->video_link)) $selClass->video_link = Crypt::decryptString($selClass->video_link);
-    if (isset($selClass->class_location)) $selClass->class_location = Crypt::decryptString($selClass->class_location);
-    $this->links = [];
-    foreach ($selClass->links as $link) {
-      array_push($this->links, array('name' => $link->name, 'url' => Crypt::decryptString($link->link)));
+      $this->color = $selectedClass->color;
+      $this->selectedClass = $selectedClass;
+    } catch (ModelNotFoundException $e) {
     }
-    $this->color = $selClass->color;
-    $this->selClass = $selClass;
   }
 
-  public function setColor($color) {
-    $this->color = $color;
+  /**
+   * Set the color of the class
+   *
+   * @param string $color
+   * @return void
+   */
+  public function setColor(string $color): void {
+    $this->selectedClass->color = $color;
   }
 
-  public function setLink($index, $name, $url) {
-    $index--;
-    $validator = Validator::make(
-      ['links_' . $index . '_name' => $name, 'links_' . $index . '_url' => $url],
-      [
-        'links_' . $index . '_name' => 'required',
-        'links_' . $index . '_url' => 'required|url',
-      ],
-      [
-        'required' => 'Required',
-        'url' => 'This URL is invalid',
-      ]
-    )->validate();
-    $this->links[$index] = array('name' => $name, 'url' => $url);
-  }
-
-  public function updateClassData($id) {
-    $class = Classes::find($id);
-    $class->teacher = Crypt::decryptString($class->teacher);
-    if (isset($class->teacher_email)) $class->teacher_email = Crypt::decryptString($class->teacher_email);
-    if (isset($class->video_link)) $class->video_link = Crypt::decryptString($class->video_link);
-    if (isset($class->class_location)) $class->class_location = Crypt::decryptString($class->class_location);
-    foreach ($class->links as $link) {
-      $link->link = Crypt::decryptString($link->link);
-    }
+  /**
+   * Update the class data for a specified class 
+   *
+   * @param int $id
+   * @return void
+   */
+  public function updateClassData(int $id): void {
+    $class = Classes::with('links')->find($id);
     $this->classData[$class->id] = $class->toArray();
   }
 
   /**
    * Validate updated properties
-   * @param  mixed $propertyName
+   * 
+   * @param string $propertyName
    * @return void
    */
-  public function updated($propertyName) {
+  public function updated(string $propertyName): void {
     $this->validateOnly($propertyName);
   }
 
+  /**
+   * Validate when links are updated
+   *
+   * @return void
+   */
+  public function updatedLinks(): void {
+    $this->validate(
+      [
+        'links.*' => 'array',
+        'links.*.name' => 'required',
+        'links.*.link' => 'required|url|distinct',
+      ]
+    );
+  }
+
+  /**
+   * Render the component
+   *
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+   */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
 
