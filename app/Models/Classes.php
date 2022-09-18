@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
 
 class Classes extends Model {
   use HasFactory;
@@ -13,12 +12,16 @@ class Classes extends Model {
 
   protected $guarded = ['id', 'userid'];
 
-  public function getTeacherNameAttribute() {
-    return isset($this->teacher) ? Crypt::decryptString($this->teacher) : '';
-  }
+  protected $casts = [
+    'name' => 'encrypted',
+    'teacher' => 'encrypted',
+    'teacher_email' => 'encrypted',
+    'video_link' => 'encrypted',
+    'location' => 'encrypted'
+  ];
 
-  public function getLocationAttribute() {
-    return isset($this->class_location) ? Crypt::decryptString($this->class_location) : '';
+  public function assignments() {
+    return $this->hasMany(Assignment::class, 'class_id');
   }
 
   public function links() {
