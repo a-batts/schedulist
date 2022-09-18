@@ -8,21 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 
-class ClassList extends Component
-{
-    public $classes;
+class ClassList extends Component {
+  public $classes;
 
-    protected $listeners = ['refreshClasses'];
+  protected $listeners = ['refreshClasses'];
 
-    public function mount(){
-      $this->classes = Auth::User()->classes()->orderBy('name', 'asc')->with('links')->get();
-    }
+  public function mount() {
+    $this->refreshClasses();
+  }
 
-    public function refreshClasses(){
-      $this->classes = Auth::User()->classes()->orderBy('name', 'asc')->with('links')->get();
-    }
+  public function refreshClasses() {
+    $this->classes = Auth::User()->classes()->orderBy('name', 'asc')->with('links')->get();
+  }
 
-    public function render(){
-      return view('livewire.dashboard.class-list');
-    }
+  public function render() {
+    return view('livewire.dashboard.class-list');
+  }
 }
