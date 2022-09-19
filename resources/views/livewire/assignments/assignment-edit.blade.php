@@ -1,7 +1,7 @@
 <div x-data="editMenu()"
 @display-edit-menu.window="openModal()"
 @hide-edit-menu.window="modal = false">
-  <div class="mdc-dialog delete-assignment-conf" style="z-index: 70" wire:ignore>
+  <div class="mdc-dialog delete-item-confirmation" style="z-index: 70" wire:ignore>
     <div class="mdc-dialog__container">
       <div class="mdc-dialog__surface"
         role="alertdialog"
