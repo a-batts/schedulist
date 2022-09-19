@@ -135,10 +135,7 @@ class ClassEdit extends Component {
    */
   public function selectClass(int $id): void {
     try {
-      $selectedClass = Auth::User()->classes()->findOrFail($id);
-
-      $this->color = $selectedClass->color;
-      $this->selectedClass = $selectedClass;
+      $this->selectedClass = Auth::User()->classes()->findOrFail($id);
     } catch (ModelNotFoundException $e) {
     }
   }
