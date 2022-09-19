@@ -194,8 +194,8 @@ if (document.querySelector(".edit-more-menu") !== null) {
   window.moreMenu = moreMenu;
 };
 
-if (document.querySelector('.delete-assignment-conf') !== null) {
-  var deleteAssignmentDialog = new MDCDialog(document.querySelector('.delete-assignment-conf'));
+if (document.querySelector('.delete-item-confirmation') !== null) {
+  var deleteAssignmentDialog = new MDCDialog(document.querySelector('.delete-item-confirmation'));
   function openAssignmentDialog() {
     deleteAssignmentDialog.open();
   }

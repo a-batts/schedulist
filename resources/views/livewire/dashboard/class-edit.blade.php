@@ -131,6 +131,12 @@
 
         selectedClass: -1,
 
+        init: function () {
+          this.$watch('color', (val) => {
+            this.$wire.call('setColor', val);
+          })
+        },
+
         selectClass: function(id) {
           this.selectedClass = this.classData[id];
 

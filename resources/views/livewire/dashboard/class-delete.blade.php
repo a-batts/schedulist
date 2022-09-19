@@ -1,4 +1,4 @@
-<div class="mdc-dialog confirm-dialog delete-assignment-conf" id="confirm-dialog"
+<div class="mdc-dialog confirm-dialog delete-item-confirmation" id="confirm-dialog"
   x-data="{
     deleteClass: -1,
   }" 

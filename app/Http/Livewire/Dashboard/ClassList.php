@@ -2,25 +2,45 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Models\Classes;
-
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Database\Eloquent\Collection;
 
 use Livewire\Component;
 
 class ClassList extends Component {
-  public $classes;
+  /**
+   * Collection of the user's classes
+   *
+   * @var Collection
+   */
+  public Collection $classes;
 
-  protected $listeners = ['refreshClasses'];
+  protected array $listeners = ['refreshClasses'];
 
-  public function mount() {
+  /**
+   * Mount the component
+   *
+   * @return void
+   */
+  public function mount(): void {
     $this->refreshClasses();
   }
 
-  public function refreshClasses() {
+  /**
+   * Refresh the user's classes
+   *
+   * @return void
+   */
+  public function refreshClasses(): void {
     $this->classes = Auth::User()->classes()->orderBy('name', 'asc')->with('links')->get();
   }
 
+  /**
+   * Render the component
+   *
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+   */
   public function render() {
     return view('livewire.dashboard.class-list');
   }
