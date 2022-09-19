@@ -16,7 +16,7 @@ class ClassList extends Component {
    */
   public Collection $classes;
 
-  protected array $listeners = ['refreshClasses'];
+  protected $listeners = ['refreshClasses'];
 
   /**
    * Mount the component
