@@ -2,14 +2,8 @@
 
 namespace App\Http\Livewire\Schedule;
 
-use App\Classes\Calendar\Agenda;
-
-use App\Models\Event;
-
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-
-use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 use App\Classes\Schedule\Schedule;

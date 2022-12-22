@@ -140,17 +140,11 @@ class EventEdit extends Component {
 
     $this->validate();
 
-    $event->name = Crypt::encryptString($event->name);
-
     if ($event->owner == Auth::user()->id) {
+      $event->save();
       $this->emit('updateAgendaData');
       $this->dispatchBrowserEvent('close-edit-modal');
       $this->emit('toastMessage', 'Event was successfully updated');
-      $event->save();
-
-      $this->emit('hi');
-
-      $event->name = Crypt::decryptString($event->name);
     }
   }
 
@@ -180,7 +174,6 @@ class EventEdit extends Component {
           $this->frequency = 'Month';
           break;
       }
-      $event->name = Crypt::decryptString($event->name);
 
       $occuranceDays = $event->days;
 
