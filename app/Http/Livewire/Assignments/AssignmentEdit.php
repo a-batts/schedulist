@@ -79,7 +79,7 @@ class AssignmentEdit extends Component {
 
     $this->assignment->link = isset($this->assignment->link) ? Crypt::decryptString($this->assignment->link) : $this->assignment->link;
 
-    $classes = Classes::where('userid', Auth::User()->id)->get();
+    $classes = Classes::where('user_id', Auth::User()->id)->get();
     foreach ($classes as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
   }
