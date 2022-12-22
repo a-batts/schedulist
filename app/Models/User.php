@@ -95,7 +95,7 @@ class User extends Authenticatable implements FilamentUser {
   }
 
   public function getNumClassesAttribute() {
-    return Classes::where('userid', Auth::user()->id)->count();
+    return Classes::where('user_id', Auth::user()->id)->count();
   }
 
   public function getNameAttribute() {
@@ -123,7 +123,7 @@ class User extends Authenticatable implements FilamentUser {
   }
 
   public function classes() {
-    return $this->hasMany(Classes::class, 'userid');
+    return $this->hasMany(Classes::class, 'user_id');
   }
 
   public function schedules() {
