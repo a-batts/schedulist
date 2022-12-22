@@ -10,7 +10,7 @@ class Classes extends Model {
 
   protected $table = 'classes';
 
-  protected $guarded = ['id', 'userid'];
+  protected $guarded = ['id', 'user_id'];
 
   protected $casts = [
     'name' => 'encrypted',
