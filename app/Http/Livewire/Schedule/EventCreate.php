@@ -143,7 +143,6 @@ class EventCreate extends Component {
 
     $event->owner = Auth::user()->id;
     $event->color = 'blue';
-    $event->name = Crypt::encryptString($event->name);
 
     $event->save();
 

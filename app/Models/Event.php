@@ -12,6 +12,10 @@ class Event extends Model {
 
     protected $guarded = ['date'];
 
+    protected $casts = [
+        'name' => 'encrypted',
+    ];
+
     const VALID_COLORS =  ['blue', 'lav', 'lemon', 'mint', 'orange', 'pink', 'purple', 'teal', 'beige'];
 
     public function users() {
