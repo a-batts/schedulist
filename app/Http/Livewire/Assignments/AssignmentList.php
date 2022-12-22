@@ -59,7 +59,7 @@ class AssignmentList extends Component {
    * @return void
    */
   public function mount(): void {
-    $usersClasses = Classes::where('userid', Auth::User()->id)->get();
+    $usersClasses = Classes::where('user_id', Auth::User()->id)->get();
     foreach ($usersClasses as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
 
