@@ -52,9 +52,7 @@ class EditSchedules extends Component {
      * @return void
      */
     public function mount(): void {
-        $schedules = Auth::User()->schedules()->get()->keyBy('id');
-        $this->schedules = $schedules;
-
+        $this->schedules = Auth::User()->schedules()->get()->keyBy('id');
         $this->start = Carbon::now();
         $this->end = Carbon::now()->addDay();
     }
