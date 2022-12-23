@@ -27,4 +27,8 @@ class Classes extends Model {
   public function links() {
     return $this->hasMany(ClassLink::class, 'class_id');
   }
+
+  public function times() {
+    return $this->hasMany(ClassTime::class, 'class_id');
+  }
 }
