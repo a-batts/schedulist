@@ -29,7 +29,6 @@
     @livewireStyles
 
     <!-- Scripts -->
-    <script src="{{ mix('js/turbo.js') }}"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body class="font-sans antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif overflow-x-hidden" id="themer"
