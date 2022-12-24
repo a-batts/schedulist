@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EventController;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Contact\ContactForm;
@@ -143,4 +144,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::middleware('auth')->group(function () {
   Route::post('event', [EventController::class, 'setColor']);
+  Route::post('class/setschedule', [ClassController::class, 'setSchedule']);
+  Route::post('class/addtime', [ClassController::class, 'addClassTime']);
+  Route::post('class/removetime', [ClassController::class, 'removeClassTime']);
 });
