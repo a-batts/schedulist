@@ -27,7 +27,7 @@
         "laravel-mix": "^6.0.19",
         "laravel-mix-workbox": "^0.1.4",
         "lodash": "^4.17.21",
-        "postcss-import": "^14.0.0",
+        "postcss-import": "^15.1.0",
         "postcss-loader": "^6.2.0",
         "pusher-js": "^7.0.3",
         "resolve-url-loader": "^4.0.0",
