@@ -144,6 +144,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::middleware('auth')->group(function () {
   Route::post('event', [EventController::class, 'setColor']);
+
   Route::post('class/setschedule', [ClassController::class, 'setSchedule']);
   Route::post('class/addtime', [ClassController::class, 'addClassTime']);
   Route::post('class/removetime', [ClassController::class, 'removeClassTime']);
