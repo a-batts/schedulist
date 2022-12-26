@@ -20,15 +20,16 @@ class LinkPreview {
   }
 
   /**
-   * Static constructor / factory
-   * @param string $link
-   * @return $this
+   * Static constructor/ factory
+   *
+   * @param string|null $link
+   * @return LinkPreview
    */
-  public static function create(string $link) {
-    return new self($link);
+  public static function create(?string $link = ""): LinkPreview {
+    return new self($link ?? "");
   }
 
-  public function withExisting(string $image, string $text) {
+  public function withExisting(string $image, string $text): LinkPreview {
     if ($image == 'style=background-image:url();')
       $this->previewImage = 'id=link-icon-theme';
     else
@@ -41,7 +42,7 @@ class LinkPreview {
    * Generate new preview image and text when nonexistant
    * @return $this
    */
-  public function withoutExisting() {
+  public function withoutExisting(): LinkPreview {
     $this->updatePreview($this->link);
     return $this;
   }
@@ -50,7 +51,7 @@ class LinkPreview {
    * Return error on validation failure
    * @return $this
    */
-  public function withError() {
+  public function withError(): LinkPreview {
     $this->previewImage = 'id=link-icon-theme';
     $this->text = 'Invalid URL';
     return $this;
@@ -61,7 +62,7 @@ class LinkPreview {
    * @param  string $link
    * @return $this
    */
-  public function updatePreview(string $link) {
+  public function updatePreview(string $link): LinkPreview {
     $this->link = $link;
 
     if ($this->link == null || $this->link == '') {
@@ -96,15 +97,15 @@ class LinkPreview {
     return $this;
   }
 
-  public function getLink() {
+  public function getLink(): string {
     return $this->link;
   }
 
-  public function getPreview() {
+  public function getPreview(): string {
     return $this->previewImage;
   }
 
-  public function getText() {
+  public function getText(): string {
     return $this->text;
   }
 }
