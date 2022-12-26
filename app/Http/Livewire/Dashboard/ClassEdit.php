@@ -3,15 +3,9 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Classes;
-use App\Models\ClassLink;
 
-use App\Rules\UniquePeriod;
-
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Validator;
 
 use Livewire\Component;
 
@@ -21,14 +15,7 @@ class ClassEdit extends Component {
    *
    * @var Classes
    */
-  public Classes $selectedClass;
-
-  /**
-   * Array of the class data
-   *
-   * @var array
-   */
-  public array $classData;
+  public Classes $editClass;
 
   /**
    * Array of the class's links
@@ -45,8 +32,6 @@ class ClassEdit extends Component {
   private array $colorOptions = ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige'];
 
   public array $errorMessages = [];
-
-  protected $listeners = ['updateClassData'];
 
   /**
    * Validation messages
@@ -69,12 +54,12 @@ class ClassEdit extends Component {
    */
   public function rules(): array {
     return [
-      'selectedClass.name' => 'required',
-      'selectedClass.teacher' => 'required',
-      'selectedClass.teacher_email' => 'nullable',
-      'selectedClass.video_link' => 'nullable|url',
-      'selectedClass.location' => 'nullable',
-      'selectedClass.color' => 'required',
+      'editClass.name' => 'required',
+      'editClass.teacher' => 'required',
+      'editClass.teacher_email' => 'nullable',
+      'editClass.video_link' => 'nullable|url',
+      'editClass.location' => 'nullable',
+      'editClass.color' => 'required',
       'links.*' => 'array',
       'links.*.name' => 'required',
       'links.*.link' => 'required|url|distinct',
@@ -87,14 +72,7 @@ class ClassEdit extends Component {
    * @return void
    */
   public function mount(): void {
-    $classes = Auth::User()->classes()->with('links')->get();
-
-    $classData = [];
-    foreach ($classes as $class)
-      $classData[$class->id] = $class->toArray();
-
-    $this->classData = $classData;
-    $this->selectedClass = new Classes(['color' => 'pink']);
+    $this->editClass = new Classes(['color' => 'pink']);
   }
 
   /**
@@ -105,7 +83,7 @@ class ClassEdit extends Component {
   public function edit(): void {
     $this->validate();
 
-    $class = $this->selectedClass;
+    $class = $this->editClass;
 
     if (!isset($class->teacher_email) || $class->teacher_email == '') $class->teacher_email = null;
     if (!isset($class->location) || $class->location == '') $class->location = null;
@@ -123,8 +101,6 @@ class ClassEdit extends Component {
     $this->emit('refreshClasses');
     $this->dispatchBrowserEvent('close-dialog');
     $this->emit('toastMessage', 'Class successfully edited');
-
-    $this->updateClassData($class->id);
   }
 
   /**
@@ -135,7 +111,7 @@ class ClassEdit extends Component {
    */
   public function selectClass(int $id): void {
     try {
-      $this->selectedClass = Auth::User()->classes()->findOrFail($id);
+      $this->editClass = Auth::User()->classes()->findOrFail($id);
     } catch (ModelNotFoundException $e) {
     }
   }
@@ -147,18 +123,7 @@ class ClassEdit extends Component {
    * @return void
    */
   public function setColor(string $color): void {
-    $this->selectedClass->color = $color;
-  }
-
-  /**
-   * Update the class data for a specified class 
-   *
-   * @param int $id
-   * @return void
-   */
-  public function updateClassData(int $id): void {
-    $class = Classes::with('links')->find($id);
-    $this->classData[$class->id] = $class->toArray();
+    $this->editClass->color = $color;
   }
 
   /**

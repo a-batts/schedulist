@@ -27,6 +27,12 @@ class ClassController extends Controller {
         if ($request->user() && $class->user_id == $request->user()->id && $schedule->user_id == $request->user()->id) {
             $class->schedule_id = $schedule->id;
             $class->save();
+
+            foreach ($class->times as $time) {
+                $time->schedule_id = $schedule->id;
+                $time->save();
+            }
+
             return response()->json(['success', 'Schedule updated'], 200);
         } else {
             return response()->json(['error' => 'This request can only be made by the owner of the class/schedule'], 401);
@@ -43,6 +49,10 @@ class ClassController extends Controller {
         $class = Classes::find($request->class);
         if ($request->user() && $class->user_id == $request->user()->id) {
             $day = array_search($request->day, $this->days);
+
+            if ($day === false)
+                return response()->json(['error' => 'Invalid day provided'], 400);
+
             $start = explode(':', $request->start);
             $end = explode(':', $request->end);
 

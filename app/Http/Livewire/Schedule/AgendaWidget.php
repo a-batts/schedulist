@@ -16,7 +16,7 @@ class AgendaWidget extends Component {
 
   public Carbon $initDate;
 
-  protected $listeners = ['updateAgendaData'];
+  protected $listeners = ['updateAgendaData' => 'mount'];
 
   public function mount() {
     if (!isset($this->initDate))
@@ -29,7 +29,7 @@ class AgendaWidget extends Component {
    * @param  string $date
    * @return void
    */
-  public function setDate($date) {
+  public function setDate(string $date): void {
     $this->initDate = Carbon::parse($date)->startOfMonth();
     $this->agenda = Schedule::getSingleMonth($this->createMonthPeriod(Carbon::make($this->initDate)))->toArray();
 
@@ -41,7 +41,7 @@ class AgendaWidget extends Component {
    * @param  Carbon $date
    * @return CarbonPeriod
    */
-  public function createMonthPeriod(Carbon $date) {
+  public function createMonthPeriod(Carbon $date): CarbonPeriod {
     $start = $date->startOfMonth()->toDateString();
     $end = $date->endOfMonth()->toDateString();
     $range = CarbonPeriod::create($start, $end);
@@ -49,7 +49,7 @@ class AgendaWidget extends Component {
     return $range;
   }
 
-  public function updateAgendaData() {
+  public function updateAgendaData(): void {
     $this->setDate($this->initDate);
   }
 

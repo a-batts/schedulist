@@ -4,10 +4,10 @@
   class="w-full mdc-typograpy"
   >
   <div class="flex w-full pt-2 pb-3 pl-6 mdc-elevation--z2 agenda-header md:pr-5">
-    <div class="flex self-center flex-grow md:ml-16 space-x-2">
+    <div class="flex self-center flex-grow space-x-2 md:ml-16">
       <div>
-        <p x-text="headerDate" class="text-sm sm:text-xl md:text-2xl font-bold" x-bind:class="{ 'agenda-date-active': isToday}"></p>
-        <p x-text="dayOfWeek" class="text-sm md:text-base mt-1 text-gray-500"></p>
+        <p x-text="headerDate" class="text-sm font-bold sm:text-xl md:text-2xl" x-bind:class="{ 'agenda-date-active': isToday}"></p>
+        <p x-text="dayOfWeek" class="mt-1 text-sm text-gray-500 md:text-base"></p>
       </div>
     </div>
     <div class="flex items-center self-center flex-none pr-3" wire:ignore>

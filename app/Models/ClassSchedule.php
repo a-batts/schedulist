@@ -13,7 +13,7 @@ class ClassSchedule extends Model {
     protected $table = 'schedules';
 
     protected $appends = [
-        'start', 'end'
+        'start', 'end', 'human_start', 'human_end'
     ];
 
     protected $casts = [
@@ -31,5 +31,13 @@ class ClassSchedule extends Model {
 
     public function getEndAttribute() {
         return Carbon::parse($this->end_date)->format('n/j/Y');
+    }
+
+    public function getHumanStartAttribute() {
+        return Carbon::parse($this->start_date)->format('F jS, Y');
+    }
+
+    public function getHumanEndAttribute() {
+        return Carbon::parse($this->end_date)->format('F jS, Y');
     }
 }
