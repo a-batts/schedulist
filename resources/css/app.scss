@@ -302,9 +302,9 @@ body.theme-dark {
   --ter-surface-background: #2E2E2E;
 
   --border-100: #333333;
-  --border-200: #2D2D2D;
-  --card-outline: #232323;
-  --outlined-card-outline: #232323;
+  --border-200: #2E2E2E;
+  --card-outline: #2E2E2E;
+  --outlined-card-outline: #2E2E2E;
   --menu-surface: #2C2C2C;
   --dialog-surface: #2E2E2E;
   --textfield-fill-color: #2C2C2C;
@@ -604,6 +604,13 @@ a.link {
 .border-gray-100,
 .section-border.border-100 {
   border-color: var(--border-100) !important;
+}
+
+.mdc-evolution-chip {
+  @include chips.container-color(transparent);
+  @include chips.outline-width(thin);
+  @include chips.text-label-color(var(--text-color));
+  @include chips.outline-color(var(--outlined-card-outline));
 }
 
 .mdc-card {
