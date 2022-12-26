@@ -17,6 +17,7 @@ class Assignment extends Model {
   protected $casts = [
     'name' => 'encrypted',
     'description' => 'encrypted',
+    'link' => 'encrypted',
   ];
 
   protected $appends = [

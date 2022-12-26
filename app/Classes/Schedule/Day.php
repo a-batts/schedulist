@@ -61,7 +61,7 @@ class Day implements Countable {
 
             if ($this->date->toDateString() == $date->toDateString()) {
                 $className = $classes->find($item->class_id)->name ?? 'Deleted Class';
-                $link = isset($item->link) ? Crypt::decryptString($item->link) : null;
+                $link = $item->link;
 
                 $events[] = new Event(
                     $this->date,

@@ -8,10 +8,8 @@ use App\Models\Assignment;
 use App\Models\Classes;
 
 use Carbon\Carbon;
-use Carbon\Exceptions;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use InvalidArgumentException;
 use Livewire\Component;
 
@@ -77,8 +75,6 @@ class AssignmentEdit extends Component {
   public function mount() {
     $this->due = Carbon::parse($this->assignment->due);
 
-    $this->assignment->link = isset($this->assignment->link) ? Crypt::decryptString($this->assignment->link) : $this->assignment->link;
-
     $classes = Classes::where('user_id', Auth::User()->id)->get();
     foreach ($classes as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
@@ -99,7 +95,6 @@ class AssignmentEdit extends Component {
       $assignment->link_description = null;
     } else {
       $this->preview = LinkPreview::create($assignment->link)->updatePreview($assignment->link);
-      $assignment->link = Crypt::encryptString($assignment->link);
       $assignment->link_image = $this->preview->getPreview();
       $assignment->link_description = $this->preview->getText();
     }
@@ -109,8 +104,6 @@ class AssignmentEdit extends Component {
     $assignment->save();
 
     $this->emit('toastMessage', 'Changes successfully saved');
-
-    $assignment->link = Crypt::decryptString($assignment->link);
 
     $this->emit('refreshAssignmentPage');
   }
