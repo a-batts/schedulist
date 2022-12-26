@@ -19,42 +19,48 @@ class Assignment extends Model {
     'description' => 'encrypted',
   ];
 
-  public function getClassNameAttribute() {
+  protected $appends = [
+    'humanDue', 'isLate', 'dueInNextMonth'
+  ];
+
+  public function getClassNameAttribute(): string {
     if ($this->class_id == null)
       return 'No Class';
 
     $class = Classes::where('id', $this->class_id)->first();
-    if ($class != null)
-      return $class->name;
-    return 'Deleted Class';
+    return $class != null ? $class->name : 'Deleted Class';
   }
 
-  public function getDueDateAttribute() {
+  public function getHumanDueAttribute(): string {
+    return Carbon::parse($this->due)->format('M j, g:i A');
+  }
+
+  public function getDueDateAttribute(): string {
     return Carbon::parse($this->due)->format('M j, Y');
   }
 
-  public function getDueDateWAttribute() {
+  public function getDueDateWAttribute(): string {
     return Carbon::parse($this->due)->format('D');
   }
 
-  public function getDueTimeAttribute() {
+  public function getDueTimeAttribute(): string {
     return Carbon::parse($this->due)->format('g:i A');
   }
 
-  public function getCreatedDateAttribute() {
+  public function getCreatedDateAttribute(): string {
     return Carbon::parse($this->created_at)->format('M j, Y');
   }
 
-  public function getEditedDateAttribute() {
-    if ($this->created_at != $this->updated_at)
-      return Carbon::parse($this->updated_at)->format('M j');
-    return null;
+  public function getEditedDateAttribute(): ?string {
+    return $this->created_at != $this->updated_at ? Carbon::parse($this->updated_at)->format('M j') : null;
   }
 
-  public function getIsLateAttribute() {
-    if (Carbon::parse($this->due) < Carbon::now())
-      return true;
-    return false;
+  public function getIsLateAttribute(): bool {
+    return Carbon::parse($this->due) < Carbon::now();
+  }
+
+  public function getDueInNextMonthAttribute(): bool {
+    return Carbon::parse($this->due)->setTime(0, 0) < Carbon::now()->addDays(30)->setTime(0, 1);
   }
 
   public function reminders() {
