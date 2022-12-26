@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="pt-2 mt-2 border-t border-gray-200">
                                         <template x-for="(time, index) in classData[selectedClass]['times'].sort((a,b) => a.day_of_week - b.day_of_week)" :key="index">
-                                            <div class="flex px-2 py-2 text-gray-700">
+                                            <div class="flex px-2 py-2">
                                                 <div class="flex items-center flex-grow">
                                                     <p>
                                                         <span x-text="time.day"></span>, 
@@ -167,7 +167,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="">
-                                                    <button class="mdc-icon-button material-icons icon-secondary" @click="deleteClassTime(time.id)">
+                                                    <button class="mdc-icon-button material-icons" @click="deleteClassTime(time.id)">
                                                         <div class="mdc-icon-button__ripple"></div>
                                                         do_not_disturb_on
                                                     </button>    
