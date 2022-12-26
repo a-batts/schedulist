@@ -7,8 +7,6 @@ use App\Models\Assignment;
 
 use Carbon\Carbon;
 
-use Illuminate\Contracts\Encryption\DecryptException;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -82,6 +80,8 @@ class AssignmentList extends Component {
       $assignments[$key]['due_time'] = $due->format('g:i A');
       $assignments[$key]['due_date'] = $due->format('M j, Y');
 
+      $assignments[$key]['link'] = $value['link'];
+
       if ($value['class_id'] != null) {
         $k = array_search($value['class_id'], array_column($this->classes, 'id'));
         if ($k === false)
@@ -90,11 +90,6 @@ class AssignmentList extends Component {
           $assignments[$key]['class_name'] = $this->classes[$k]['name'];
       } else
         $assignments[$key]['class_name'] = 'No Class';
-
-      try {
-        $assignments[$key]['link'] = Crypt::decryptString($value['link']);
-      } catch (DecryptException $e) {
-      }
     }
     return $assignments;
   }

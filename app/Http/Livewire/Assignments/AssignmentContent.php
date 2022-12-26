@@ -141,16 +141,8 @@ class AssignmentContent extends Component {
    * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
    */
   public function render() {
-    if ($this->assignment->link != null)
-      $link = Crypt::decryptString($this->assignment->link);
-    else
-      $link = "";
-
-    $this->preview = LinkPreview::create($link);
-    if (($this->assignment->link_description == null) || ($this->assignment->link_image == null))
-      $this->preview = $this->preview->withoutExisting();
-    else
-      $this->preview = $this->preview->withExisting($this->assignment->link_image, $this->assignment->link_description);
+    $this->preview = LinkPreview::create($this->assignment->link);
+    $this->preview = ($this->assignment->link_description == null) || ($this->assignment->link_image == null) ? $this->preview->withoutExisting() : $this->preview->withExisting($this->assignment->link_image, $this->assignment->link_description);
 
     return view('livewire.assignments.assignment-content')->with('preview', $this->preview);
   }
