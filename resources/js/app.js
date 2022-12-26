@@ -90,7 +90,7 @@ for (const el of document.querySelectorAll('.mdc-switch')) {
   return new MDCRipple(el);
 });
 //Select menus
-var selectElements = [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-select'), function (el) {
   return new MDCSelect(el);
 });
 //Register MDCTextFields
@@ -159,6 +159,16 @@ function initTooltip(e) {
     tooltips[e] = new MDCTooltip(document.getElementById(e));
 }
 window.initTooltip = initTooltip;
+
+//Regenerate MDC selects on page - useful if being used inside an Alpine x-if
+function regenSelects() {
+  setTimeout(() => {
+    document.querySelectorAll('.mdc-select').forEach((el) => {
+      return new MDCSelect(el);
+    })
+  }, 75);
+}
+window.regenSelects = regenSelects;
 
 if (document.querySelector('.mdc-banner') !== null) {
   var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
@@ -238,3 +248,4 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
 [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
   return new MDCTooltip(el);
 });
+

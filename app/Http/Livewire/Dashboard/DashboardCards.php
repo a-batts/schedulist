@@ -87,10 +87,7 @@ class DashboardCards extends Component {
   public function refresh(): void {
     $this->currentClass = $this->getCurrentClass();
 
-    $assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
-    foreach ($assignments as $assignment)
-      $assignment->due = Carbon::parse($assignment->due)->format('M j, g:i A');
-    $this->assignments = $assignments;
+    $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
 
     $date = Carbon::now();
     $dayIso = $date->dayOfWeekIso;
