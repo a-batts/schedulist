@@ -96,7 +96,7 @@
                           <p class="text-sm text-gray-600">{{$assignment->class_name}}</p>
                         </div>
                         <div class="mt-12 mb-4 assignment-card-right md:float-right md:my-0">
-                          <p class="mt-3 text-sm text-green">Due {{$assignment->due}}</p>
+                          <p class="mt-3 text-sm text-green">Due {{$assignment->humanDue}}</p>
                         </div>
                       </div>
                     </div>

@@ -34,8 +34,11 @@
 @use "@material/select/mdc-select";
 @use "@material/snackbar/mdc-snackbar";
 @use "@material/snackbar";
+@use "@material/chips";
 
 @use '@material/switch/styles' as switch-style;
+
+@use "@material/chips/styles" as chip-style;
 
 @use "@material/ripple";
 @use "@material/layout-grid/mdc-layout-grid";
@@ -928,6 +931,10 @@ input:-webkit-autofill:active {
 
 .section-border {
   border-top: 1px solid;
+}
+
+.icon-secondary.material-icons {
+  color: var(--secondary-text-color);
 }
 
 /*

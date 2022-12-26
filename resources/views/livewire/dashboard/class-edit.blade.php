@@ -2,7 +2,7 @@
 @edit-class.window="selectClass(event.detail.id)">
   <x-ui.modal bind="dialog" title="Edit Class" class="top-3 bottom-3">
     <x-slot name="actions">
-      <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" @click="$dispatch('delete-class', selectedClass.id); dialog = false">delete</button>
+      <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" @click="$dispatch('delete-class', editClass.id); dialog = false">delete</button>
       <x-ui.tooltip tooltip-id="delete-class" text="Delete Class"/>
       <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="edit">
         <span class="mdc-button__ripple"></span>Save
@@ -10,54 +10,54 @@
     </x-slot>
     <div class="flex w-full space-x-3">
       <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['selectedClass.name'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['editClass.name'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label mdc-floating-label--float-above" id="edit-class-name-label">Name</span>
-          <input class="mdc-text-field__input" wire:model.lazy="selectedClass.name" x-model="selectedClass.name" type="text" aria-labelledby="edit-class-name-label" required>
+          <input class="mdc-text-field__input" wire:model.lazy="editClass.name" x-model="editClass.name" type="text" aria-labelledby="edit-class-name-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error for="selectedClass.name"/>
+        <x-ui.validation-error for="editClass.name"/>
       </div>
       <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['selectedClass.location'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['editClass.location'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label mdc-floating-label--float-above" id="edit-class-location-label">Location</span>
-          <input class="mdc-text-field__input" wire:model.lazy="selectedClass.location" x-model="selectedClass.location" type="text" aria-labelledby="edit-class-location-label">
+          <input class="mdc-text-field__input" wire:model.lazy="editClass.location" x-model="editClass.location" type="text" aria-labelledby="edit-class-location-label">
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error for="selectedClass.location"/>
+        <x-ui.validation-error for="editClass.location"/>
       </div>
     </div>
 
     <div class="flex w-full space-x-3">
       <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['selectedClass.teacher'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['editClass.teacher'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label mdc-floating-label--float-above" id="edit-class-teacher-label">Teacher</span>
-          <input class="mdc-text-field__input" wire:model.lazy="selectedClass.teacher" x-model="selectedClass.teacher" type="text" aria-labelledby="edit-class-teacher-label" required>
+          <input class="mdc-text-field__input" wire:model.lazy="editClass.teacher" x-model="editClass.teacher" type="text" aria-labelledby="edit-class-teacher-label" required>
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error for="selectedClass.teacher"/>
+        <x-ui.validation-error for="editClass.teacher"/>
       </div>
       <div class="w-full">
-        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['selectedClass.teacher_email'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['editClass.teacher_email'] != undefined}" wire:ignore>
           <span class="mdc-text-field__ripple"></span>
           <span class="mdc-floating-label mdc-floating-label--float-above" id="teacher-email-label">Teacher email</span>
-          <input class="mdc-text-field__input" wire:model.lazy="selectedClass.teacher_email" x-model="selectedClass.teacher_email" type="text" aria-labelledby="teacher-email-label">
+          <input class="mdc-text-field__input" wire:model.lazy="editClass.teacher_email" x-model="editClass.teacher_email" type="text" aria-labelledby="teacher-email-label">
           <span class="mdc-line-ripple"></span>
         </label>
-        <x-ui.validation-error for="selectedClass.teacher_email"/>
+        <x-ui.validation-error for="editClass.teacher_email"/>
       </div>
     </div>
 
-    <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['selectedClass.video_link'] != undefined}" wire:ignore>
+    <label class="w-full mdc-text-field mdc-text-field--filled" :class="{'mdc-text-field--invalid': errorMessages['editClass.video_link'] != undefined}" wire:ignore>
       <span class="mdc-text-field__ripple"></span>
       <span class="mdc-floating-label mdc-floating-label--float-above" id="vid-link-label">Zoom/Google Meet link</span>
-      <input class="mdc-text-field__input" wire:model.lazy="selectedClass.video_link" x-model="selectedClass.video_link" type="text" aria-labelledby="vid-link-label">
+      <input class="mdc-text-field__input" wire:model.lazy="editClass.video_link" x-model="editClass.video_link" type="text" aria-labelledby="vid-link-label">
       <span class="mdc-line-ripple"></span>
     </label>
-    <x-ui.validation-error for="selectedClass.video_link"/>
-  
+    <x-ui.validation-error for="editClass.video_link"/>
+
     <div class="ml-1 text-lg font-medium text-gray-700">Color</div>
     <div class="py-3 mx-auto mb-2 px-auto">
       @foreach ($colorOptions as $color)
@@ -122,14 +122,13 @@
     function classEdit(){
       return{
         dialog: false,
-
         color: '',
-        classData: @entangle('classData'),
         links: @entangle('links').defer,
+        loading: false,
 
         errorMessages: @entangle('errorMessages'),
 
-        selectedClass: -1,
+        editClass: -1,
 
         init: function () {
           this.$watch('color', (val) => {
@@ -138,15 +137,15 @@
         },
 
         selectClass: function(id) {
-          this.selectedClass = this.classData[id];
+          this.editClass = this.classData[id];
 
           this.links = [];
 
-          this.selectedClass.links.forEach((val) => {
+          this.editClass.links.forEach((val) => {
             this.links.push({name: val.name, link: val.link});
           })
 
-          this.color = this.selectedClass.color;
+          this.color = this.editClass.color;
           this.$wire.call('selectClass', id);
 
           this.dialog = true;

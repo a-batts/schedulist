@@ -12,6 +12,7 @@
   'dashboard' => 'App\\Http\\Livewire\\Dashboard',
   'dashboard.class-create' => 'App\\Http\\Livewire\\Dashboard\\ClassCreate',
   'dashboard.class-delete' => 'App\\Http\\Livewire\\Dashboard\\ClassDelete',
+  'dashboard.class-details' => 'App\\Http\\Livewire\\Dashboard\\ClassDetails',
   'dashboard.class-edit' => 'App\\Http\\Livewire\\Dashboard\\ClassEdit',
   'dashboard.class-list' => 'App\\Http\\Livewire\\Dashboard\\ClassList',
   'dashboard.dashboard-cards' => 'App\\Http\\Livewire\\Dashboard\\DashboardCards',
