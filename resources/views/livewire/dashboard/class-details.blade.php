@@ -297,7 +297,7 @@
                 
                 selectedClass: -1,
                 
-                showingClassDetails: true,
+                showingClassDetails: false,
 
                 addTime: false,
 
