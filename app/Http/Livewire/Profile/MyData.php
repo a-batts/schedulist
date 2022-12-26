@@ -105,7 +105,7 @@ class MyData extends Component {
                         'class' => [$classes->find($assignment->class_id) != null ? $classes->find($assignment->class_id)['name'] : ''],
                         'description' => $assignment->description,
                         'due' => $assignment->due,
-                        'link' => $assignment->link != null ? Crypt::decryptString($assignment->link) : '',
+                        'link' => $assignment->link,
                         'status' => $assignment->status == 'done' ? 'done' : 'incomplete',
                     ]);
                 }
@@ -118,17 +118,17 @@ class MyData extends Component {
                     foreach ($class->links as $link)
                         array_push($linkData, [
                             'name' => $link->name,
-                            'link' => $link->link != null ? Crypt::decryptString($link->link) : '',
+                            'link' => $link->link,
                         ]);
                     array_push($data, [
                         'name' => $class->name,
                         'period' => $class->period,
-                        'location' => $class->class_location != null ? Crypt::decryptString($class->class_location) : '',
+                        'location' => $class->class_location,
                         'teacher' => [
-                            'teacherName' => $class->teacher != null ? Crypt::decryptString($class->teacher) : '',
-                            'teacherEmail' => $class->teacher_email != null ? Crypt::decryptString($class->teacher_email) : '',
+                            'teacherName' => $class->teacher,
+                            'teacherEmail' => $class->teacher_email,
                         ],
-                        'videoLink' => $class->video_link != null ? Crypt::decryptString($class->video_link) : '',
+                        'videoLink' => $class->video_link,
                         'color' => $class->color,
                         'links' => $linkData,
                     ]);
@@ -142,7 +142,7 @@ class MyData extends Component {
                 $events = Auth::user()->events()->with('users')->get();
                 foreach ($events as $event) {
                     $eventData = [
-                        'name' => $event->name != null ? Crypt::decryptString($event->name) : '',
+                        'name' => $event->name,
                         'category' => $event->category,
                         'time' => [
                             'date' => $event->date,
