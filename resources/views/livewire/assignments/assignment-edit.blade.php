@@ -79,11 +79,13 @@
             </div>
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
               <ul class="mdc-deprecated-list dark-theme-list" role="listbox">
-                @foreach($classes as $x)
-                  <li class="mdc-deprecated-list-item" role="option" data-value="{{$x['id']}}" wire:click="setClass({{$x['id']}})">
+                @foreach($classes as $each)
+                  <li class="mdc-deprecated-list-item @if($each['id'] == $assignment->class_id) mdc-deprecated-list-item--selected @endif" role="option" 
+                    @if($each['id'] == $assignment->class_id) aria-selected="true" @endif
+                    data-value="{{$each['id']}}"  wire:click="setClass({{$each['id']}})">
                     <span class="mdc-deprecated-list-item__ripple"></span>
                     <span class="mdc-deprecated-list-item__text">
-                      {{$x['name']}}
+                      {{$each['name']}}
                     </span>
                   </li>
                 @endforeach
