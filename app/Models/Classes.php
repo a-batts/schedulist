@@ -21,7 +21,7 @@ class Classes extends Model {
   ];
 
   public function assignments() {
-    return $this->hasMany(Assignment::class, 'class_id');
+    return $this->hasMany(Assignment::class, 'class_id')->orderBy('due');
   }
 
   public function links() {
@@ -30,5 +30,9 @@ class Classes extends Model {
 
   public function times() {
     return $this->hasMany(ClassTime::class, 'class_id');
+  }
+
+  public function schedule() {
+    return $this->belongsTo(ClassSchedule::class, 'schedule_id');
   }
 }
