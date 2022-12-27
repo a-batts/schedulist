@@ -1,6 +1,5 @@
 require('./bootstrap');
 
-import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 import Clipboard from '@ryangjchandler/alpine-clipboard'
 import focus from '@alpinejs/focus'
