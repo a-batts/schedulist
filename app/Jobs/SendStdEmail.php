@@ -35,7 +35,7 @@ class SendStdEmail implements ShouldQueue {
         $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
             ->setEncryption('tls')
             ->setUsername('noreply@schedulist.xyz')
-            ->setPassword('***REMOVED***');
+            ->setPassword(env('NOREPLY_EMAIL_PASSWORD'));
 
         $mailer = app(\Illuminate\Mail\Mailer::class);
         $mailer->setSwiftMailer(new \Swift_Mailer($transport));

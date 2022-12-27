@@ -12,8 +12,7 @@ use App\Mail\TextMessage;
 use Mail;
 use Config;
 
-class SendText implements ShouldQueue
-{
+class SendText implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $details;
@@ -22,8 +21,7 @@ class SendText implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($details)
-    {
+    public function __construct($details) {
         $this->details = $details;
     }
 
@@ -32,12 +30,11 @@ class SendText implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
-    {
-      $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
-        ->setEncryption('tls')
-        ->setUsername('reminders@schedulist.xyz')
-        ->setPassword('***REMOVED***');
+    public function handle() {
+        $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
+            ->setEncryption('tls')
+            ->setUsername('reminders@schedulist.xyz')
+            ->setPassword(env('REMINDER_EMAIL_PASSWORD'));
 
         $mailer = app(\Illuminate\Mail\Mailer::class);
         $mailer->setSwiftMailer(new \Swift_Mailer($transport));
