@@ -1,5 +1,5 @@
 <div x-data="schedule()"
-  @update-current-date.window="stopLoading(); agenda = @this.agenda; currentDayData = agenda[day]"
+  @update-current-date.window="agenda = @this.agenda; currentDayData = agenda[day]"
   id="agenda"
   class="w-full mdc-typograpy"
   >
