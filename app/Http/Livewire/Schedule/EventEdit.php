@@ -7,7 +7,6 @@ use App\Models\Event;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
 use Livewire\Component;
