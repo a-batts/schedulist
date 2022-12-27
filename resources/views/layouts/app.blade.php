@@ -49,14 +49,12 @@
       <x-footer/>
     @endif
     
-    @stack('modals')
+    @stack('scripts')
 
     @livewireScripts
 
     <script src="{{ mix('js/scripts.js') }}" defer></script>
     <script src="{{ mix('js/bundle.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
-    @stack('scripts')
 
     <script>
         Livewire.on('toastMessage', message => {
