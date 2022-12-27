@@ -5,7 +5,7 @@
       <x-ui.dashboard-card :background_color="'background-'.strtolower($currentClass->color)" title="Current Class">
         <x-slot name="actionButton">
           @isset ($currentClass->video_link)
-            <a href="{{Crypt::decryptString($currentClass->video_link)}}" class="-mt-1 mdc-icon-button material-icons" aria-describedby="video-label" target="_blank">
+            <a href="{{$currentClass->video_link}}" class="-mt-1 mdc-icon-button material-icons" aria-describedby="video-label" target="_blank">
               <div class="mdc-icon-button__ripple"></div>
               videocam
             </a>
@@ -19,7 +19,7 @@
         <p class="text-4xl font-semibold capitalize md:text-6xl">{{$currentClass->name}}</p>
         @isset ($currentClass->teacher_email)
           <div class="mt-2 -ml-2">
-            <a class="mdc-button mdc-button-ripple mdc-button--icon-tailing text-inherit" href="mailto:{{Crypt::decryptString($currentClass->teacher_email)}}">
+            <a class="mdc-button mdc-button-ripple mdc-button--icon-tailing text-inherit" href="mailto:{{$currentClass->teacher_email}}">
               <span class="mdc-button__ripple"></span>
               <span class="text-lg font-normal tracking-normal capitalize mdc-button__label">{{$currentClass->teacher_name}}</span>
               <i class="material-icons mdc-button__icon" aria-hidden="true">email</i>
@@ -36,7 +36,7 @@
           <div class="mt-5 border-gray-100 section-border"></div>
           <div class="pt-3 pb-5">
             @foreach($currentClass->links as $link)
-              <a class="mr-2 mdc-button mdc-button-ripple text-inherit" href="{{Crypt::decryptString($link->link)}}" target="_blank">
+              <a class="mr-2 mdc-button mdc-button-ripple text-inherit" href="{{$link->link}}" target="_blank">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">{{$link->name}}</span>
               </a>
@@ -64,7 +64,7 @@
         @isset($nextClass)
           <p class="mt-5 mb-4 text-base">Your next class is {{$nextClass->name}} at {{$nextClass->timestring}}</p>
         @else
-          <p class="mt-5 mb-4 text-base">No upcoming classes. You can add classes to your schedule by clicking on the gear icon at the top of the page</p>
+          <p class="mt-5 mb-4 text-base">No upcoming classes.</p>
         @endisset
         <!--
           <span class="absolute left-0 right-0 text-center text-gray-300 material-icons text-8xl">nights_stay</span>
