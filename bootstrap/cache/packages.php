@@ -190,6 +190,13 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
+  'queueworker/sansdaemon' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Queueworker\\SansDaemon\\SansDaemonServiceProvider',
+    ),
+  ),
   'thomaswelton/laravel-gravatar' => 
   array (
     'providers' => 

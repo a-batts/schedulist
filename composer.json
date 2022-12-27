@@ -28,6 +28,7 @@
         "livewire/livewire": "^2.3",
         "nesbot/carbon": "^2.41",
         "pusher/pusher-php-server": "5.0.2",
+        "queueworker/sansdaemon": "^1.2",
         "react/event-loop": "^1.1",
         "react/http": "^1.3",
         "torann/geoip": "^3.0",
