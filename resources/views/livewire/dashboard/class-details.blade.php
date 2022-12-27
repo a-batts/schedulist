@@ -4,34 +4,36 @@
 
     <div class="px-4 mt-16 md:px-24">
         <p class="text-3xl font-semibold">All of your classes</p>
-        <div class="my-5 border-t border-gray-200"></div>
-        <template x-for="(cl, index) in classData" :key="index">
-            <div class="px-6 py-6 my-4 transition-colors mdc-card mdc-card--outlined md:px-10" :class="'background-' + cl.color.toLowerCase()">
-                <div class="flex">
-                    <div class="flex-grow">
-                        <p class="text-2xl font-semibold" x-text="cl.name"></p>
-                        <span class="inline-block mt-1 text-lg tracking-normal" x-text="cl.teacher"></span>
-                        <p class="mt-1 text-base" x-text="cl.location"></p>
+        <div class="mt-5 mb-10 border-t border-gray-200"></div>
+        <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <template x-for="(cl, index) in classData" :key="index">
+                <div class="px-4 py-6 transition-colors mdc-card mdc-card--outlined md:px-8" :class="'background-' + cl.color.toLowerCase()">
+                    <div class="flex h-full">
+                        <div class="flex-grow">
+                            <p class="text-2xl font-semibold" x-text="cl.name"></p>
+                            <span class="inline-block mt-1 text-lg tracking-normal" x-text="cl.teacher"></span>
+                            <p class="mt-1 text-base" x-text="cl.location"></p>
+                        </div>
+                        <div class="flex items-center">
+                            <button class="text-black mdc-button mdc-button--icon-trailing" @click="selectClass(index)">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label">Class details</span>
+                                <i class="material-icons mdc-button__icon" aria-hidden="true">read_more</i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex items-center">
-                        <button class="text-black mdc-button mdc-button--icon-trailing" @click="selectClass(index)">
-                            <span class="mdc-button__ripple"></span>
-                            <span class="mdc-button__label">View more</span>
-                            <i class="material-icons mdc-button__icon" aria-hidden="true">read_more</i>
-                        </button>
-                    </div>
-                </div>
-              </div>
-        </template>
+                  </div>
+            </template>
+        </div>
     </div>
 
 
     <div class="inset-0 bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="showingClassDetails" x-cloak></div>
     <template x-if="hasClasses">
-        <div class="fixed top-0 flex items-baseline justify-center w-screen h-screen overflow-y-auto modal-container" style="display: none" x-show.important="showingClassDetails" x-trap.noscroll="showingClassDetails" x-transition x-cloak>
+        <div class="fixed top-0 flex items-baseline justify-center w-screen h-screen overflow-y-auto modal-container" style="display: none" x-show.important="showingClassDetails" x-trap.noscroll="showingClassDetails" @keydown.escape="showingClassDetails = false" x-transition x-cloak>
             <div class="w-full max-w-full mr-0 md:mt-10 sm:w-4/5 mdc-card mdc-card--outlined border-hidden">
                 <div class="p-5 mr-0 rounded-b-none mdc-card border-hidden" :class="'background-' + classData[selectedClass]['color'].toLowerCase()">
-                    <div class="flex">
+                    <div class="flex h-full">
                         <div class="flex-grow">
                             <button class="mdc-icon-button material-icons" @click="showingClassDetails = false">
                                 <div class="mdc-icon-button__ripple"></div>
