@@ -65,7 +65,7 @@ class AuthController extends Controller {
         } else if ($existingUser != null) {
           return redirect()->route('confirm-link')->with('data', (array) $data);
         } else {
-          return redirect('/login/set-password')->with('data', (array) $data);
+          return redirect()->route('set-password')->with('data', (array) $data);
         }
       } catch (Exception $e) {
         return 'error';
@@ -94,7 +94,7 @@ class AuthController extends Controller {
     } else if ($existingUser != null) {
       return redirect()->route('confirm-link')->with('data', (array) $data);
     } else {
-      return redirect('/login/set-password')->with('data', (array) $data);
+      return redirect()->route('set-password')->with('data', (array) $data);
     }
   }
 }

@@ -48,7 +48,7 @@ Route::get('privacy-policy', function () {
   return view('privacy-policy');
 })->name('privacy-policy');
 
-Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('google-login');
 
 Route::get('login/callback/google', [AuthController::class, 'handleGoogleCallback']);
 

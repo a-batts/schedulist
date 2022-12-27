@@ -121,7 +121,7 @@
         <p>OR REGISTER WITH</p>
       </div>
       <div class="logincontainer secondcontainer">
-        <button class="mdc-button mdc-button-ripple mdc-button--outlined google-signin" onclick="document.location='/login/google'" wire:ignore>
+        <button class="mdc-button mdc-button-ripple mdc-button--outlined google-login" onclick="document.location='{{route('google-login')}}'" wire:ignore>
           <span class="mdc-button__ripple"></span>
           <img class="mdc-button__icon" src="/images/logo/vendor/google.png" width="18px" height="18px" aria-hidden="true">Google
         </button>
