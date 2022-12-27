@@ -34,9 +34,11 @@ Route::get('/', function () {
   return view('landing');
 })->name('landing');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('dashboard', function () {
   return view('livewire.dashboard');
 })->name('dashboard');
+
+Route::redirect('app', 'dashboard');
 
 Route::get('offline', function () {
   return view('offline');
