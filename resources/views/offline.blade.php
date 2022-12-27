@@ -16,9 +16,6 @@
     <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-    <!-- Scripts -->
-    <script src="{{ mix('js/turbo.js') }}"></script>
-
     <style>
     .wifi_icon{
       font-size: 80px;
