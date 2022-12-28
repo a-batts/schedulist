@@ -5,15 +5,12 @@ namespace App\Http\Livewire\Profile;
 use App\Helpers\CarrierEmailHelper;
 use Exception;
 
-use App\Jobs\SendText;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Livewire\Component;
 
 use Twilio\Rest\Client;
-use App\Actions\Core\NotifyUser;
 
 class UpdateProfile extends Component {
   public $state = [];

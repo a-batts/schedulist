@@ -20,13 +20,11 @@ class NotificationSettings extends Component {
    * Mount component
    * @return void
    */
-  public function mount() {
-    $userSettings = Auth::user()->settings()->first();
-    if ($userSettings == null) {
-      $userSettings = new UserSettings();
-      $userSettings->user_id = Auth::user()->id;
-      $userSettings->save();
-    }
+  public function mount(): void {
+    $userSettings = Auth::User()->settings;
+    if ($userSettings == null)
+      $userSettings = Auth::User()->settings()->create();
+
     $this->userSettings = $userSettings;
   }
 
@@ -35,19 +33,18 @@ class NotificationSettings extends Component {
    * @param  string $component
    * @return void
    */
-  public function toggle($component) {
+  public function toggle($component): void {
     $userSettings = $this->userSettings;
-    if ($userSettings[$component] != null) {
-      $userSettings[$component] = !$userSettings[$component];
-      $userSettings->save();
-      $this->emit('toastMessage', 'Preferences were saved');
-    }
+
+    $userSettings[$component] = !boolval($userSettings[$component]);
+    $userSettings->save();
+    $this->emit('toastMessage', 'Preferences were saved');
 
     switch ($component) {
       case 'account_alert_texts':
         if ($userSettings->account_alert_texts === false) {
           $message = ('SMS account alerts were just disabled for your Schedulist account. If this wasn\'t you, reset your password ASAP.');
-          NotifyUser::createNotification($message, Auth::user())->sendText();
+          NotifyUser::createNotification($message, Auth::User())->sendText();
         }
         break;
       case 'account_alert_emails':
@@ -59,7 +56,7 @@ class NotificationSettings extends Component {
             'link_title' => 'Go to account settings',
             'subject' => 'Security alert - Account status emails disabled',
           ];
-          NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+          NotifyUser::createNotification($message, Auth::User())->sendEmail('security-alert');
         }
         break;
     }
@@ -69,7 +66,7 @@ class NotificationSettings extends Component {
    * Return formatted phone number for display
    * @return string
    */
-  public function getFormattedPhoneNumberProperty() {
+  public function getFormattedPhoneNumberProperty(): string {
     $phoneNumber = Auth::user()->phone;
     return '(' . substr($phoneNumber, 0, 3) . ') ' . substr($phoneNumber, 3, 3) . '-' . substr($phoneNumber, 6, 4);
   }

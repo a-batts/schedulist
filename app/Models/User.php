@@ -94,10 +94,6 @@ class User extends Authenticatable implements FilamentUser {
     return $this->filament_user;
   }
 
-  public function getNumClassesAttribute() {
-    return Classes::where('user_id', Auth::user()->id)->count();
-  }
-
   public function getNameAttribute() {
     return "{$this->firstname} {$this->lastname}";
   }
@@ -108,10 +104,6 @@ class User extends Authenticatable implements FilamentUser {
       $this->attributes['firstname'] = $names[0];
       $this->attributes['lastname'] = $names[1];
     }
-  }
-
-  public function getNumAssignmentsAttribute() {
-    return Assignment::where(['user_id' => Auth::user()->id, 'status' => 'inc'])->count();
   }
 
   public function getHasPasswordAttribute() {
