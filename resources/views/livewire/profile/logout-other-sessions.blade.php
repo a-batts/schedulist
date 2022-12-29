@@ -42,7 +42,7 @@ x-data="{
             </div>
         @endif
         <div class="mt-5">
-            <button class="mt-5 mdc-button mdc-button--raised mdc-button-ripple tfa-button" x-on:click="fixBody(); passwordConfirmation = true; setTimeout(() => $refs.password.focus(), 250)" wire:ignore>
+            <button class="mt-5 mdc-button mdc-button--raised mdc-button-ripple tfa-button" @click="passwordConfirmation = true; setTimeout(() => $refs.password.focus(), 250)" wire:ignore>
             <span class="mdc-button__ripple"></span>
             Sign Out Other Devices
             </button>
@@ -50,10 +50,10 @@ x-data="{
     </div>
   </x-ui.settings-card>
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="passwordConfirmation" x-cloak></div>
-  <div class="fixed w-screen h-screen pb-6 overflow-y-auto modal-container top-12" x-transition x-show="passwordConfirmation" x-cloak wire:ignore.self>
+  <div class="fixed w-screen h-screen pb-6 overflow-y-auto modal-container top-12" x-transition x-show.important="passwordConfirmation" x-trap.noscroll="passwordConfirmation" x-cloak wire:ignore.self>
     <div class="px-6 pt-6 mdc-card mdc-card--outlined modal-card">
         <div>
-            <h6 class="text-3xl font-medium">Confirm your password</h6>
+            <h6 class="text-3xl font-bold">Confirm your password</h6>
             <div class="mt-3 text-base text-left text-gray-600">Before we can sign out your other devices, we need you to verify your identity.</div>
         </div>
         <div class="mt-5 mb-2 border-t border-gray-200"></div>
