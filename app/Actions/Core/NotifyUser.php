@@ -40,9 +40,7 @@ class NotifyUser {
      * @return $this
      */
     public function sendEmail($template = null) {
-        $user = $this->user;
-        $details = ['email' => $user->email, 'data' => $this->message];
-        SendStdEmail::dispatch($details, $template);
+        SendStdEmail::dispatch($this->user, $this->message, $template);
         return $this;
     }
 
