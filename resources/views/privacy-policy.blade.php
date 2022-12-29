@@ -1,9 +1,9 @@
 <x-guest-layout title="Privacy Policy">
-  <div class="mdc-typography mr-3 ml-3 px-6 md:mr-12 md:px-12 md:pr-16">
+  <div class="px-6 ml-3 mr-3 mdc-typography md:mr-12 md:px-12 md:pr-16">
     <h1 class="text-4xl font-bold" style="padding-top: 120px">
       Schedulist Privacy Policy
     </h1>
-    <p class="mdc-typography--headline6 mt-4 text-base">
+    <p class="mt-4 text-base mdc-typography--headline6">
       Last updated January 21, 2021
     </p>
     <p class="mt-12">
@@ -21,11 +21,11 @@
       This privacy notice applies to all information collected through our Services (which, as described above, includes our  Website ), as well as, any related services, sales, marketing or events. Please read this privacy notice carefully as it will help you understand what we do with the information that we collect.
     </p>
     <x-jet-section-border />
-    <p class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <p class="mt-2 text-3xl font-bold mdc-typography--headline6">
       Table of Contents
     </p>
     <div class="mt-8">
-      <ul class="mdc-typography--subtitle2 ml-2">
+      <ul class="ml-2 mdc-typography--subtitle2">
         <li class="mt-2">
           <a href="#section1" class="text-blue-500">1. WHAT INFORMATION DO WE COLLECT?</a>
         </li>
@@ -68,7 +68,7 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-4 text-3xl font-bold" id="section1">
+    <h6 class="mt-4 text-3xl font-bold mdc-typography--headline6" id="section1">
       1. WHAT INFORMATION DO WE COLLECT?
     </h6>
     <div class="mt-10" id="section1">
@@ -88,14 +88,14 @@
       <p class="mt-6">
         <span class="font-bold">Social Media Login Data.</span> We may provide you with the option to register with us using your existing social media account details,
         like your Facebook, Twitter or other social media account. If you choose to register in this way, we will collect the Information described in the section called
-        <a href="#section5" class="mdc-typography--subtitle2 text-blue-500">"HOW DO WE HANDLE YOUR SOCIAL LOGINS"</a> below.
+        <a href="#section5" class="text-blue-500 mdc-typography--subtitle2">"HOW DO WE HANDLE YOUR SOCIAL LOGINS"</a> below.
       </p>
       <p class="mt-6">
         All personal information that you provide to us must be true, complete and accurate, and you must notify us of any changes to such personal information.
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       2. HOW DO WE USE YOUR INFORMATION?
     </h6>
     <div class="mt-10" id="section2">
@@ -113,7 +113,7 @@
         <li class="mt-4">
           <span class="font-bold">To facilitate account creation and logon process.</span> If you choose to link your account with us to a third-party account (such as your Google or Facebook account),
           we use the information you allowed us to collect from those third parties to facilitate account creation and logon process for the performance of the contract.
-          See the section below headed <a href="#section5" class="mdc-typography--subtitle2 text-blue-500">"HOW DO WE HANDLE YOUR SOCIAL LOGINS"</a> for further information.
+          See the section below headed <a href="#section5" class="text-blue-500 mdc-typography--subtitle2">"HOW DO WE HANDLE YOUR SOCIAL LOGINS"</a> for further information.
         </li>
         <li class="mt-4">
           <span class="font-bold">To post testimonials.</span> We post testimonials on our Website that may contain personal information. Prior to posting a testimonial, we will obtain your consent to use
@@ -151,7 +151,7 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?
     </h6>
     <div class="mt-10" id="section3">
@@ -181,7 +181,7 @@
           regarding potential violations of our policies, suspected fraud, situations involving potential threats to the safety of any person and illegal activities, or
           as evidence in litigation in which we are involved.
         </li>
-        <p class="mt-6 -ml-4 mb-2">
+        <p class="mt-6 mb-2 -ml-4">
           More specifically, we may need to process your data or share your personal information in the following situations:
         </p>
         <li class="mt-4">
@@ -191,7 +191,7 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?
     </h6>
     <div class="mt-10" id="section4">
@@ -202,7 +202,7 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       5. HOW DO WE HANDLE YOUR SOCIAL LOGINS?
     </h6>
     <div class="mt-10" id="section5">
@@ -221,7 +221,7 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       6. HOW LONG DO WE KEEP YOUR INFORMATION?
     </h6>
     <div class="mt-10" id="section6">
@@ -238,7 +238,7 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6">
       7. HOW DO WE KEEP YOUR INFORMATION SAFE?
     </h6>
     <div class="mt-10" id="section7">
@@ -252,7 +252,7 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section8">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section8">
       8. WHAT ARE YOUR PRIVACY RIGHTS?
     </h6>
     <div class="mt-10">
@@ -302,7 +302,7 @@
       </ul>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section9">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section9">
       9. CONTROLS FOR DO-NOT-TRACK FEATURES
     </h6>
     <div class="mt-10">
@@ -315,18 +315,18 @@
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section10">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section10">
       10. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
     </h6>
     <div class="mt-10">
       <p class="mt-2 text-lg italic">In Short:  Yes, if you are a resident of California, you are granted specific rights regarding access to your personal information.</p>
-      <p class="mdc-typograpy--body1 mt-6">
+      <p class="mt-6 mdc-typograpy--body1">
         California Civil Code Section 1798.83, also known as the "Shine The Light" law, permits our users who are California residents to request and obtain from us, once a
         year and free of charge, information about categories of personal information (if any) we disclosed to third parties for direct marketing purposes and the names and
         addresses of all third parties with which we shared personal information in the immediately preceding calendar year. If you are a California resident and would like to
         make such a request, please submit your request in writing to us using the contact information provided below.
       </p>
-      <p class="mdc-typograpy--body1 mt-6">
+      <p class="mt-6 mdc-typograpy--body1">
         If you are under 18 years of age, reside in California, and have a registered account with the Website, you have the right to request removal of unwanted data that you
         publicly post on the Website. To request removal of such data, please contact us using the contact information provided below, and include the email address associated
         with your account and a statement that you reside in California. We will make sure the data is not publicly displayed on the Website, but please be aware that the
@@ -336,7 +336,7 @@
       <p class="mt-6">
         The California Code of Regulations defines a "resident" as:
       </p>
-      <div class="ml-4 mt-6">
+      <div class="mt-6 ml-4">
         <p>(1) every individual who is in the State of California for other than a temporary or transitory purpose and</p>
         <p>(2) every individual who is domiciled in the State of California who is outside the State of California for a temporary or transitory purpose</p>
       </div>
@@ -350,75 +350,75 @@
       <p class="mt-6">
         We have collected the following categories of personal information in the past twelve (12) months:
       </p>
-      <div class="mdc-data-table mt-8 max-w-full">
+      <div class="max-w-full mt-8 mdc-data-table">
         <div class="mdc-data-table__table-container">
           <table class="mdc-data-table__table" aria-label="Dessert calories">
             <thead>
               <tr class="mdc-data-table__header-row">
                 <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Category</th>
-                <th class="mdc-data-table__header-cell table-fixed break-words text-left" role="columnheader" scope="col">Examples</th>
+                <th class="text-left break-words table-fixed mdc-data-table__header-cell" role="columnheader" scope="col">Examples</th>
                 <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Collected</th>
               </tr>
             </thead>
             <tbody class="mdc-data-table__content">
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">A. Identifiers</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Contact details, such as real name, alias, postal address, telephone or
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">A. Identifiers</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Contact details, such as real name, alias, postal address, telephone or
                   mobile contact number, unique personal identifier, online identifier, Internet Protocol address, email address and account name</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">YES</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">YES</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">B. Personal information categories listed in the California Customer Records statute</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Name, contact information, education, employment, employment history and financial information</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">YES</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">B. Personal information categories listed in the California Customer Records statute</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Name, contact information, education, employment, employment history and financial information</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">YES</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">C. Protected classification characteristics under California or federal law</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Gender and date of birth</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">C. Protected classification characteristics under California or federal law</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Gender and date of birth</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">D. Commercial information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Transaction information, purchase history, financial details and payment information</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">D. Commercial information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Transaction information, purchase history, financial details and payment information</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">E. Biometric information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Fingerprints and voiceprints</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">E. Biometric information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Fingerprints and voiceprints</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">F. Internet or other similar network activity</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Browsing history, search history, online behavior, interest data, and interactions with our and other
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">F. Internet or other similar network activity</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Browsing history, search history, online behavior, interest data, and interactions with our and other
                   websites, applications, systems and advertisements</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">G. Geolocation data</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Device location</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">G. Geolocation data</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Device location</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">H. Audio, electronic, visual, thermal, olfactory, or similar information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Images and audio, video or call recordings created in connection with our business activities</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">H. Audio, electronic, visual, thermal, olfactory, or similar information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Images and audio, video or call recordings created in connection with our business activities</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">I. Professional or employment-related information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Business contact details in order to provide you our services at a business level, job title as well as
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">I. Professional or employment-related information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Business contact details in order to provide you our services at a business level, job title as well as
                   work history and professional qualifications if you apply for a job with us</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">J. Education Information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Student records and directory information</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">YES</td>
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">J. Education Information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Student records and directory information</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">YES</td>
               </tr>
               <tr class="mdc-data-table__row">
-                <th class="mdc-data-table__cell whitespace-normal py-4" scope="row">K. Inferences drawn from other personal information</th>
-                <td class="mdc-data-table__cell whitespace-normal py-4">Inferences drawn from any of the collected personal information listed above to create a profile or
+                <th class="py-4 whitespace-normal mdc-data-table__cell" scope="row">K. Inferences drawn from other personal information</th>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">Inferences drawn from any of the collected personal information listed above to create a profile or
                   summary about, for example, an individual’s preferences and characteristics</td>
-                <td class="mdc-data-table__cell whitespace-normal py-4">NO</td>
+                <td class="py-4 whitespace-normal mdc-data-table__cell">NO</td>
               </tr>
             </tbody>
           </table>
@@ -434,7 +434,7 @@
       </ul>
       <p class="mt-6 text-lg font-bold">How do we use and share your personal information?</p>
       <p class="mt-6">More information about our data collection and sharing practices can be found in this privacy notice.</p>
-      <p class="mt-6">You may contact us by email at mail@schedulist.xyz, by visiting <a href="http://schedulist.xyz/contact" class="text-blue-500">schedulist.xyz/contact</a>, or by referring to the contact details at the bottom of this document.</p>
+      <p class="mt-6">You may contact us by email at mail@schedulist.xyz, by visiting <a href="{{route('contact')}}" class="text-blue-500">https{{route('contact')}}</a>, or by referring to the contact details at the bottom of this document.</p>
       <p class="mt-6"> If you are using an authorized agent to exercise your right to opt-out we may deny a request if the authorized agent does not submit proof that they have
         been validly authorized to act on your behalf.</p>
       <p class="mt-6 text-lg font-bold">Will your information be shared with anyone else?</p>
@@ -486,45 +486,45 @@
           the request as soon as feasibly possible, but no later than 15 days from the date of the request submission.</li>
       </ul>
       <p class="mt-6">
-        To exercise these rights, you can contact us by email at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>, by visiting <a href="http://schedulist.xyz/contact" class="text-blue-500">schedulist.xyz/contact</a>, or by referring to the contact details at the bottom
+        To exercise these rights, you can contact us by email at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>, by visiting <a href="{{route('contact')}}" class="text-blue-500">https{{route('contact')}}</a>, or by referring to the contact details at the bottom
         of this document. If you have a complaint about how we handle your data, we would like to hear from you.
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section11">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section11">
       11. DO WE MAKE UPDATES TO THIS NOTICE?
     </h6>
     <div class="mt-10">
       <p class="mt-2 text-lg italic">In Short:  Yes, we will update this notice as necessary to stay compliant with relevant laws.</p>
-      <p class="mdc-typograpy--body1 mt-6">
+      <p class="mt-6 mdc-typograpy--body1">
         We may update this privacy notice from time to time. The updated version will be indicated by an updated "Revised" date and the updated version will be effective as
         soon as it is accessible. If we make material changes to this privacy notice, we may notify you either by prominently posting a notice of such changes or by directly
         sending you a notification. We encourage you to review this privacy notice frequently to be informed of how we are protecting your information.
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section12">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section12">
       12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?
     </h6>
     <div class="mt-10">
-      <p class="mdc-typograpy--body1 mt-6">
+      <p class="mt-6 mdc-typograpy--body1">
         If you have questions or comments about this notice, you may email us at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>
       </p>
     </div>
     <x-jet-section-border />
-    <h6 class="mdc-typography--headline6 mt-2 text-3xl font-bold" id="section13">
+    <h6 class="mt-2 text-3xl font-bold mdc-typography--headline6" id="section13">
       13. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?
     </h6>
     <div class="mt-10">
-      <p class="mdc-typograpy--body1 mt-6">
+      <p class="mt-6 mdc-typograpy--body1">
         Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or
-        delete it in some circumstances. To request to review, update, or delete your personal information, please visit: <a href="https://schedulist.xyz/user/profile" class="text-blue-500">
-          schedulist.xyz/user/profile</a>. We will respond to your
+        delete it in some circumstances. To request to review, update, or delete your personal information, please visit: <a href="{{route('profile')}}" class="text-blue-500">
+          https{{route('profile')}}</a>. We will respond to your
         request within 30 days.
       </p>
     </div>
     <x-jet-section-border />
-    <div class="mt-2 pb-8">
+    <div class="pb-8 mt-2">
       <p>
         This privacy policy was created using Termly’s Privacy Policy Generator.
       </p>
