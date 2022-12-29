@@ -3,9 +3,6 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-
-use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 

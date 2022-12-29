@@ -1,6 +1,6 @@
 <div class="px-4 md:px-24">
   @livewire('dashboard.dashboard-header')
-  <div x-data="{ cardExpanded: false }" class="pt-6" wire:poll.40000ms="refresh">
+  <div class="pt-6" wire:poll.40000ms="refresh">
     @if($currentClass)
       <x-ui.dashboard-card :background_color="'background-'.strtolower($currentClass->color)" title="Current Class">
         <x-slot name="actionButton">
@@ -10,11 +10,7 @@
               videocam
             </a>
             <x-ui.tooltip tooltip-id="video-label" text="Join video call"/>
-          @endif
-          <button class="-mt-1 mdc-icon-button material-icons" aria-describedby="edit-label" @click="$dispatch('edit-class', { id: {{$currentClass->id}}})">
-            <div class="mdc-icon-button__ripple"></div>
-            edit
-          </button>
+          @endisset
         </x-slot>
         <p class="text-4xl font-semibold capitalize md:text-6xl">{{$currentClass->name}}</p>
         @isset ($currentClass->teacher_email)
@@ -31,26 +27,7 @@
         @isset($currentClass->location)
           <span class="mt-1">{{$currentClass->location}}</span>
         @endisset
-        <span class="mt-1">{{$currentClass->timestring}}</span>
-        <div class="h-5" x-transition x-show="cardExpanded" x-cloak>
-          <div class="mt-5 border-gray-100 section-border"></div>
-          <div class="pt-3 pb-5">
-            @foreach($currentClass->links as $link)
-              <a class="mr-2 mdc-button mdc-button-ripple text-inherit" href="{{$link->link}}" target="_blank">
-                <span class="mdc-button__ripple"></span>
-                <span class="mdc-button__label">{{$link->name}}</span>
-              </a>
-            @endforeach
-          </div>
-        </div>
-        <div class="pt-3">
-          <button class="float-right mdc-button mdc-button-ripple mdc-button--icon-tailing text-inherit" @click="cardExpanded = !cardExpanded">
-            <span class="mdc-button__ripple"></span>
-            <span class="mdc-button__label" x-text="cardExpanded ? 'Hide Class Links' : 'Show Class Links'"></span>
-            <i class="material-icons mdc-button__icon" aria-hidden="true" x-text="cardExpanded ? 'expand_less' : 'expand_more'"></i>
-          </button>
-        </div>
-        <x-ui.tooltip tooltip-id="edit-label" text="Edit class"/>
+        <span class="mt-1 mb-2">{{$currentClass->timestring}}</span>
       </x-ui.dashboard-card>
     @else
       <x-ui.dashboard-card background-color="" title="Current Class">
@@ -66,9 +43,6 @@
         @else
           <p class="mt-5 mb-4 text-base">No upcoming classes.</p>
         @endisset
-        <!--
-          <span class="absolute left-0 right-0 text-center text-gray-300 material-icons text-8xl">nights_stay</span>
-        -->
       </x-ui.dashboard-card>
     @endif
     <div class="flex flex-wrap dual-dashboard-cards">
@@ -118,7 +92,7 @@
           <div class="block w-full text-center">
             @if($events->isEmpty())
             <p class="mx-0 mt-10 text-center select-none material-icons assignment-card-icon text-9xl">event_busy</p>
-            <p class="mt-1 text-lg font-medium text-center text-gray-600">No events scheduled for today. Movie night?</p>
+            <p class="mt-1 text-lg font-medium text-center text-gray-600">{{$this->getEventPhrase()}}</p>
             @else
               <div class="mt-2">
                 @foreach ($events as $index => $event)

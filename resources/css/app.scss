@@ -172,6 +172,10 @@ body {
   .background-lemon {
     background-color: #ffeb3b !important;
     color: black;
+
+    button.mdc-button {
+      color: black;
+    }
   }
 
   .background-mint {

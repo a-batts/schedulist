@@ -41,7 +41,19 @@ class DashboardCards extends Component {
    */
   public Collection $events;
 
-  protected $listeners = ['refreshClasses' => 'refresh'];
+  /**
+   * Array of possible phrases for when a user does not have any events
+   *
+   * @var array
+   */
+  private array $noEventPhrases = [
+    'No events scheduled. Movie night?',
+    'No more events today! Time to hit the town.',
+    'No events coming up today. Nap time!',
+    'Nothing scheduled tonight. Feel free to catch up on work.'
+  ];
+
+  protected $listeners = ['refreshClasses' => 'refresh', 'updatedClassTime' => 'refresh'];
 
   /**
    * Mount the component
@@ -61,7 +73,7 @@ class DashboardCards extends Component {
     $scheduleHelper = new ClassScheduleHelper();
     $currentClass = $scheduleHelper->getCurrentClass(Carbon::now());
 
-    //If there is no current class, determine the next class and return void
+    //If there is no current class, determine the next class and return null
     if ($currentClass == null) {
       $nextClass = $scheduleHelper->getNextClass(Carbon::now());
 
@@ -86,40 +98,43 @@ class DashboardCards extends Component {
    */
   public function refresh(): void {
     $this->currentClass = $this->getCurrentClass();
-
     $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
 
     $date = Carbon::now();
     $dayIso = $date->dayOfWeekIso;
 
-    $this->events = new Collection();
+    $events = new Collection();
 
-    foreach (Auth::user()->events()->orderBy('end_time', 'asc')->get() as $each) {
-      $eventDate = Carbon::parse($each->date);
-      if ($each->reoccuring)
-        $days = explode(',', (string) $each->days);
+    foreach (Auth::user()->events()->orderBy('end_time', 'asc')->get() as $event) {
+      $eventDate = Carbon::parse($event->date);
 
-      $eventIsToday = ($eventDate->toDateString() == $date->toDateString());
+      if ($event->reoccuring)
+        $days = explode(',', (string) $event->days);
 
-      if ($each->frequency == 31)
-        $repeatsToday = ($eventDate > $date && Carbon::now()->setDay($eventDate->format('j'))->between($date->copy()->startOfWeek(), $date->copy()->endOfWeek()) && in_array($dayIso, $days));
-      elseif ($each->frequency != null)
-        $repeatsToday = (($eventDate->diffInDays($date) % $each->frequency == 0 || $eventDate->diffInDays($date) % $each->frequency < 7 && $eventDate->diffInDays($date) % $each->frequency > -7) && in_array($dayIso, $days));
-      else
+      if ($event->frequency == null)
         $repeatsToday = false;
+      else {
+        $repeatsToday = $event->frequency == 31
+          ? ($eventDate > $date && Carbon::now()->setDay($eventDate->format('j'))->between($date->copy()->startOfWeek(), $date->copy()->endOfWeek()) && in_array($dayIso, $days))
+          : (($eventDate->diffInDays($date) % $event->frequency == 0 || $eventDate->diffInDays($date) % $event->frequency < 7 && $eventDate->diffInDays($date) % $event->frequency > -7) && in_array($dayIso, $days));
+      }
 
-      if ($eventIsToday || ($each->reoccuring && $repeatsToday)) {
-        $each->timestring = Carbon::parse($each->start_time)->format('g:i A') . ' - ' . Carbon::parse($each->end_time)->format('g:i A');
-        $this->events->push($each);
+      if ($eventDate->toDateString() == $date->toDateString() || ($event->reoccuring && $repeatsToday)) {
+        $event->timestring = Carbon::parse($event->start_time)->format('g:i A') . ' - ' . Carbon::parse($event->end_time)->format('g:i A');
+        $events->push($event);
       }
     }
-    $this->events = $this->events->take(8);
+    $this->events = $events->take(8);
+  }
+
+  public function getEventPhrase(): string {
+    return $this->noEventPhrases[array_rand($this->noEventPhrases)];
   }
 
   /**
    * Render the component
    *
-   * @return void
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
    */
   public function render() {
     return view('livewire.dashboard.dashboard-cards');
