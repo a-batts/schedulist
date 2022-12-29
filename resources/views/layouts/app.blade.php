@@ -31,14 +31,14 @@
 
     <!-- Scripts -->
   </head>
-  <body class="antialiased theme-div mdc-typography @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer">
+  <body class="antialiased theme-div mdc-typography overflow-x-clip @if($theme == "dark") theme-dark @endif @if(Request::is('agenda*')) overflow-y-hidden @endif" id="themer">
     <div class="min-h-screen content-div" id="makefixed" wire:ignore.self>
       @livewire('navigation-menu')
 
       <x-ui.snackbar/>
       <x-pwa-snackbar/>
 
-      <main class="min-h-screen pt-20 overflow-x-hidden">
+      <main class="min-h-screen pt-20">
         <div id="main" class="relative">
             {{ $slot }}
         </div>
