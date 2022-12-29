@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class ClassController extends Controller {
 
-    private array $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    private array $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     /**
      * Change the schedule a class is attached to

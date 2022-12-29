@@ -39,7 +39,6 @@ class ClassScheduleHelper {
     $day = [];
 
     $date = $date->copy()->startOfDay();
-
     $activeSchedule = $this->getActiveSchedule($date);
 
     if ($activeSchedule == null)

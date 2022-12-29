@@ -309,7 +309,7 @@
 
                 newTimeDay: '',
 
-                days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 
                 newLink: {
                     title: '',

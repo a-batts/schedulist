@@ -18,7 +18,7 @@ class ClassTime extends Model {
     ];
 
     private $daysOfWeek = [
-        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     ];
 
     public function getDayAttribute(): string {
