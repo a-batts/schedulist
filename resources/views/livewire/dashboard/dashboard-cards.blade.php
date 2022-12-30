@@ -92,7 +92,7 @@
           <div class="block w-full text-center">
             @if($events->isEmpty())
             <p class="mx-0 mt-10 text-center select-none material-icons assignment-card-icon text-9xl">event_busy</p>
-            <p class="mt-1 text-lg font-medium text-center text-gray-600">{{$this->getEventPhrase()}}</p>
+            <p class="mt-1 text-lg font-medium text-center text-gray-400">{{$this->getEventPhrase()}}</p>
             @else
               <div class="mt-2">
                 @foreach ($events as $index => $event)

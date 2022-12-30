@@ -73,9 +73,6 @@ class DashboardCards extends Component {
     $scheduleHelper = new ClassScheduleHelper();
 
     $currentClass = $scheduleHelper->getCurrentClass(Carbon::now());
-    if ($currentClass == null) {
-      return null;
-    }
 
     //If there is no current class, determine the next class and return null
     if ($currentClass == null) {

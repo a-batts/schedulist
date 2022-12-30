@@ -4,6 +4,26 @@
             <div>
                 <div>
                     <h4 class="mt-2 text-4xl font-bold">Settings</h4>
+                    <p class="mt-2 text-gray-600">Customize your account to make it yours.</p>
+                </div>
+                <div class="mt-5 border-t border-gray-200"></div>
+                <p class="pt-4 text-lg">Other settings</p>
+                <span class="-mt-1 text-sm text-gray-500 mdc-deprecated-list-item__secondary-text">Modify additional options not displayed on this page</span>
+                <div class="flex pt-4 space-x-3">
+                    <div>
+                        <a class="mdc-button mdc-button--outlined mdc-button--icon-leading" href="{{route('themes')}}">
+                            <span class="mdc-button__ripple"></span>
+                            <i class="material-icons mdc-button__icon" aria-hidden="true">format_paint</i>
+                            <span class="mdc-button__label">Change site theme</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a class="mdc-button mdc-button--outlined mdc-button--icon-leading" href="{{route('schedule-settings')}}">
+                            <span class="mdc-button__ripple"></span>
+                            <i class="material-icons mdc-button__icon" aria-hidden="true">edit_calendar</i>
+                            <span class="mdc-button__label">Manage class schedules</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div>
