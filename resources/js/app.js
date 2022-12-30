@@ -245,6 +245,10 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
 
 //Tooltips Init
 [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
-  return new MDCTooltip(el);
-});
+  try {
+    return new MDCTooltip(el);
+  }
+  catch (e) {
 
+  }
+});
