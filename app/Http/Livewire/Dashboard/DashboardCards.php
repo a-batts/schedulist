@@ -71,13 +71,18 @@ class DashboardCards extends Component {
    */
   public function getCurrentClass(): ?Classes {
     $scheduleHelper = new ClassScheduleHelper();
+
     $currentClass = $scheduleHelper->getCurrentClass(Carbon::now());
+    if ($currentClass == null) {
+      return null;
+    }
 
     //If there is no current class, determine the next class and return null
     if ($currentClass == null) {
       $nextClass = $scheduleHelper->getNextClass(Carbon::now());
 
-      if (isset($nextClass)) {
+      if (isset($nextClass) && count($nextClass) != 0) {
+        dd($nextClass);
         $nextClass['class']->timestring = $nextClass['start']->format('g:i A') . ' on ' . $nextClass['start']->format('D, F jS');
         $this->nextClass = $nextClass['class'];
       }
