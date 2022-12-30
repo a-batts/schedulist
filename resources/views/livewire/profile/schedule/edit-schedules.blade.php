@@ -1,7 +1,6 @@
 <div class="pt-20" x-data="schedules()">
-    <x-ui.settings-card title="Manage Your Schedules"
-    description="Edit or delete a previously created schedule, or create a new one."
-    back-button>
+    <x-ui.settings-card title="Manage your schedules"
+    description="Edit or delete a previously created schedule, or create a new one.">
         <div>
             <div class="pt-1 pb-6 border-b border-gray-200">
                 <div class="h-10 my-2" wire:ignore>

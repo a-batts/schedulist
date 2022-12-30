@@ -1,9 +1,9 @@
 <div x-data="theme()">
   <x-ui.settings-card title="Change theme"
-  description="Switch between light and dark themes, or have Schedulist follow your system theme.">
+  description="Switch between light and dark themes, or have Schedulist follow your device's theme.">
     <div class="py-6">
-      <img src="{{ asset('images/theme/auto.svg') }}" width="280px" style="margin:auto" class="no-theme auto-opt m-auto" x-bind:class="{'theme-border': theme == 'auto'}"></img>
-        <div class="mx-auto mt-3 w-56">
+      <img src="{{ asset('images/theme/auto.svg') }}" width="280px" style="margin:auto" class="m-auto no-theme auto-opt" x-bind:class="{'theme-border': theme == 'auto'}"></img>
+        <div class="w-56 mx-auto mt-3">
           <div class="mdc-checkbox mdc-checkbox--touch" x-on:click="theme == 'auto' ? setTheme(getSystemTheme()) : setTheme('auto')">
             <input type="checkbox"
                    class="mdc-checkbox__native-control"
@@ -19,14 +19,14 @@
             </div>
             <div class="mdc-checkbox__ripple"fi></div>
           </div>
-          <label for="checkbox-1" class="agenda-filter-label mx-auto w-full">Follow System Theme</label>
+          <label for="checkbox-1" class="w-full mx-auto agenda-filter-label">Follow System Theme</label>
       </div>
       <div class="mt-8 border-t border-gray-200"></div>
       <div class="mt-8">
         <div class="mdc-layout-grid">
           <div class="mdc-layout-grid__inner">
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-              <img src="{{ asset('images/theme/light.svg') }}" width="280px" class="no-theme light-opt m-auto" x-bind:class="{'theme-border': theme == 'light'}"></img>
+              <img src="{{ asset('images/theme/light.svg') }}" width="280px" class="m-auto no-theme light-opt" x-bind:class="{'theme-border': theme == 'light'}"></img>
               <div class="mx-auto mt-3 w-36">
                 <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}">
                   <input class="mdc-radio__native-control" type="radio" id="light-radio" name="radios" x-bind:checked="theme == 'light' || (theme == 'auto' && getSystemTheme() == 'light')" x-bind:disabled="theme == 'auto'" @click="setTheme('light')">
@@ -36,11 +36,11 @@
                   </div>
                   <div class="mdc-radio__ripple"></div>
                 </div>
-                <label for="light-radio" class="agenda-filter-label mt-3 w-full" style="vertical-align: 4px">Light Theme</label>
+                <label for="light-radio" class="w-full mt-3 agenda-filter-label" style="vertical-align: 4px">Light Theme</label>
               </div>
             </div>
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-              <img src="{{ asset('images/theme/dark.svg') }}" width="280px" class="no-theme dark-opt m-auto" x-bind:class="{'theme-border': theme == 'dark'}"></img>
+              <img src="{{ asset('images/theme/dark.svg') }}" width="280px" class="m-auto no-theme dark-opt" x-bind:class="{'theme-border': theme == 'dark'}"></img>
               <div class="mx-auto mt-3 w-36">
                 <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}">
                   <input class="mdc-radio__native-control" type="radio" id="dark-radio" name="radios" x-bind:checked="theme == 'dark' || (theme == 'auto' && getSystemTheme() == 'dark')" x-bind:disabled="theme == 'auto'" @click="setTheme('dark')">
@@ -50,7 +50,7 @@
                   </div>
                   <div class="mdc-radio__ripple"></div>
                 </div>
-                <label for="dark-radio" class="agenda-filter-label mt-3 w-full" style="vertical-align: 4px">Dark Theme</label>
+                <label for="dark-radio" class="w-full mt-3 agenda-filter-label" style="vertical-align: 4px">Dark Theme</label>
               </div>
             </div>
           </div>
