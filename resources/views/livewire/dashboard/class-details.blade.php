@@ -25,14 +25,19 @@
                   </div>
             </template>
         </div>
+        <template x-if="classData.length < 1">
+            <div>
+                Hello
+            </div>
+        </template>
     </div>
 
 
     <div class="inset-0 bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="showingClassDetails" x-cloak></div>
-    <template x-if="hasClasses">
+    <template x-if="hasClasses && classData[selectedClass] != undefined">
         <div class="fixed top-0 flex items-baseline justify-center w-screen h-screen overflow-y-auto modal-container" style="display: none" x-show.important="showingClassDetails" x-trap.noscroll="showingClassDetails" @keydown.escape="showingClassDetails = false" x-transition x-cloak>
             <div class="w-full max-w-full mr-0 md:mt-10 sm:w-4/5 mdc-card mdc-card--outlined border-hidden">
-                <div class="p-5 mr-0 rounded-b-none mdc-card border-hidden" :class="'background-' + classData[selectedClass]['color'].toLowerCase()">
+                <div class="p-5 mr-0 rounded-b-none mdc-card border-hidden" :class="'background-' + classData?.[selectedClass]?.['color'].toLowerCase()">
                     <div class="flex h-full">
                         <div class="flex-grow">
                             <button class="mdc-icon-button material-icons" @click="showingClassDetails = false">
@@ -41,22 +46,22 @@
                             </button>
                         </div>
                         <div>
-                            <button class="mdc-icon-button material-icons" @click="$dispatch('edit-class', { id: classData[selectedClass]['id']}); showingClassDetails = false">
+                            <button class="mdc-icon-button material-icons" @click="$dispatch('edit-class', { id: classData?.[selectedClass]?.['id']}); showingClassDetails = false">
                                 <div class="mdc-icon-button__ripple"></div>
                                 edit
                             </button>
                         </div>
                     </div>
                     <div class="px-2 py-4">
-                        <h2 class="text-4xl font-bold md:text-7xl" x-text="classData[selectedClass]['name']"></h2>
+                        <h2 class="text-4xl font-bold md:text-7xl" x-text="classData?.[selectedClass]?.['name']"></h2>
                         <div class="flex">
                             <div class="flex-grow">
-                                <p class="mt-3 text-xl" x-text="classData[selectedClass]['teacher']"></p>
-                                <p class="mt-1 text-xl" x-text="classData[selectedClass]['location']"></p>
+                                <p class="mt-3 text-xl" x-text="classData?.[selectedClass]?.['teacher']"></p>
+                                <p class="mt-1 text-xl" x-text="classData?.[selectedClass]?.['location']"></p>
                             </div>
                             <div class="-mr-2">
-                                <a :class="{'pointer-events-none': classData[selectedClass]['teacher_email'] == null}" :href="'mailto:' + classData[selectedClass]['teacher_email']">
-                                    <button class="mdc-icon-button material-icons" :disabled="classData[selectedClass]['teacher_email'] == null" wire:ignore>
+                                <a :class="{'pointer-events-none': classData?.[selectedClass]?.['teacher_email'] == null}" :href="'mailto:' + classData?.[selectedClass]?.['teacher_email']">
+                                    <button class="mdc-icon-button material-icons" :disabled="classData?.[selectedClass]?.['teacher_email'] == null" wire:ignore>
                                         <div class="mdc-icon-button__ripple"></div>
                                         email
                                     </button>
@@ -71,7 +76,7 @@
                         <div class="mt-4">
                             <span class="mdc-evolution-chip-set" role="grid">
                                 <span class="mdc-evolution-chip-set__chips" role="presentation">
-                                    <template x-for="(link, index) in classData[selectedClass]['links']">
+                                    <template x-for="(link, index) in classData?.[selectedClass]?.['links']">
                                         <span class="mdc-evolution-chip" role="row" :id="'c' + selectedClass + '' + index">
                                             <span class="mdc-evolution-chip__cell mdc-evolution-chip__cell--primary" role="gridcell">
                                                 <a class="mdc-evolution-chip__action mdc-evolution-chip__action--primary" :href="link.link" tabindex="0" target="_blank">
@@ -90,7 +95,7 @@
                     </div>
                     <div class="pt-7 lg:grid lg:grid-cols-2">
                         <div class="lg:pr-5">
-                            <template x-if="!classData[selectedClass]['schedule_id']">
+                            <template x-if="!classData?.[selectedClass]?.['schedule_id']">
                                 <div class="mt-1">
                                     <p>To set when this class takes place you must add it to a schedule</p>
                                     <div class="pt-4">
@@ -143,15 +148,15 @@
                                     </div>
                                 </div>
                             </template>
-                            <template x-if="classData[selectedClass]['schedule_id']">
+                            <template x-if="classData?.[selectedClass]?.['schedule_id']">
                                 <div>
                                     <div class="flex items-center">
                                         <div class="pb-4">
-                                            <p class="text-2xl font-semibold" x-text="schedules[classData[selectedClass]['schedule_id']].name"></p>
+                                            <p class="text-2xl font-semibold" x-text="schedules[classData?.[selectedClass]?.['schedule_id']]?.name"></p>
                                             <p class="mt-2 text-sm">
-                                                (<span x-text="schedules[classData[selectedClass]['schedule_id']].human_start"></span>
+                                                (<span x-text="schedules[classData?.[selectedClass]?.['schedule_id']]?.human_start"></span>
                                                 -
-                                                <span x-text="schedules[classData[selectedClass]['schedule_id']].human_end"></span>)
+                                                <span x-text="schedules[classData?.[selectedClass]?.['schedule_id']]?.human_end"></span>)
                                             </p>
                                         </div>                                       
                                         <button class="ml-6 mdc-icon-button material-icons" @click="changeSchedule()">
@@ -160,7 +165,7 @@
                                         </button>   
                                     </div>
                                     <div class="pt-2 mt-2 border-t border-gray-200">
-                                        <template x-for="(time, index) in classData[selectedClass]['times'].sort((a,b) => a.day_of_week - b.day_of_week)" :key="index">
+                                        <template x-for="(time, index) in classData?.[selectedClass]?.['times'].sort((a,b) => a.day_of_week - b.day_of_week)" :key="index">
                                             <div class="flex px-2 py-2">
                                                 <div class="flex items-center flex-grow">
                                                     <p>
@@ -177,7 +182,7 @@
                                             </div>
                                         </template>
                                         <div class="pt-3">
-                                            <button class="mdc-button mdc-button--icon-leading" type="button" @click="addTime = !addTime" :disabled="classData[selectedClass]['times'].length >= 7">
+                                            <button class="mdc-button mdc-button--icon-leading" type="button" @click="addTime = !addTime" :disabled="classData?.[selectedClass]?.['times'].length >= 7">
                                                 <span class="mdc-button__ripple"></span>
                                                 <i class="material-icons mdc-button__icon" aria-hidden="true">add_circle_outline</i>
                                                 <span class="mdc-button__label">Add time</span>
@@ -253,7 +258,7 @@
                                 <h3 class="text-2xl font-semibold">Assignments</h3>
                                 <p class="mt-2 text-sm">Late or due in the next 30 days</p>
                                 <div class="pt-3">
-                                    <template x-for="assignment in classData[selectedClass]['assignments'].filter((el, index) => {return el.status == 'inc' && el.dueInNextMonth && index < assignmentCount})" :key="assignment.id">
+                                    <template x-for="assignment in classData?.[selectedClass]?.['assignments'].filter((el, index) => {return el.status == 'inc' && el.dueInNextMonth && index < assignmentCount})" :key="assignment.id">
                                         <div>
                                             <a :href="'/assignments/assignment/' + assignment.url_string">
                                                 <div class="mt-3 mdc-card mdc-card--outlined">
@@ -267,7 +272,7 @@
                                               </a>
                                         </div>
                                     </template>
-                                    <template x-if="classData[selectedClass]['assignments'].length == 0">
+                                    <template x-if="classData?.[selectedClass]?.['assignments'].length == 0">
                                         <div class="py-12 text-center text-gray-600">
                                             <h3 class="text-xl font-medium">You are all caught up!</h3>
                                             <p class="mt-2">Nothing due for this class in the next month</p>
@@ -275,7 +280,7 @@
                                     </template>
                                 </div>
                                 <div class="pt-4">
-                                    <a class="mdc-button" class="" :href="'assignments/' + classData[selectedClass]['id']">
+                                    <a class="mdc-button" class="" :href="'assignments/' + classData?.[selectedClass]?.['id']">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__label">View all</span>
                                     </a>
@@ -344,10 +349,11 @@
 
                 get filteredDays() {
                     let usedDays = [];
-
-                    this.classData[this.selectedClass]['times'].forEach((time) => {
+                    if (this.selectedClass != -1 && this.classData[this.selectedClass] != undefined){
+                        this.classData[this.selectedClass]['times'].forEach((time) => {
                         usedDays.push(this.days[time.day_of_week]); 
-                    })
+                        })
+                    }
                     
                     return this.days.filter((el) => {
                         return !usedDays.includes(el);
