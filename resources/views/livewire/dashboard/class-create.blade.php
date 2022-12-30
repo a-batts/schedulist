@@ -137,8 +137,6 @@
           this.$watch('color', (val) => {
             this.$wire.call('setColor', val);
           })
-
-          this.$watch('errorMessages', (val) => {console.log(val)} )
         },
 
         addLink: function(){
