@@ -5,8 +5,55 @@
     <div class="px-4 mt-16 md:px-24">
         <p class="text-3xl font-semibold">All of your classes</p>
         <div class="mt-5 mb-10 border-t border-gray-200"></div>
+        <div class="w-full mb-6 mdc-select mdc-select--filled md:max-w-sm" wire:ignore>
+            <div class="mdc-select__anchor"
+                 role="button"
+                 aria-haspopup="listbox"
+                 aria-expanded="false">
+                <span class="mdc-select__ripple"></span>
+                <span class="mdc-floating-label mdc-floating-label--float-above">Sort by schedule</span>
+                <span class="mdc-select__selected-text-container">
+                    <span class="mdc-select__selected-text"></span>
+                </span>
+                <span class="mdc-select__dropdown-icon">
+                    <svg
+                        class="mdc-select__dropdown-icon-graphic"
+                        viewBox="7 10 10 5" focusable="false">
+                    <polygon
+                        class="mdc-select__dropdown-icon-inactive"
+                        stroke="none"
+                        fill-rule="evenodd"
+                        points="7 10 12 15 17 10">
+                    </polygon>
+                    <polygon
+                        class="mdc-select__dropdown-icon-active"
+                        stroke="none"
+                        fill-rule="evenodd"
+                        points="7 15 12 10 17 15">
+                    </polygon>
+                    </svg>
+                </span>
+                <span class="mdc-line-ripple"></span>
+            </div>
+            <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+                <ul class="mdc-deprecated-list dark-theme-list" role="listbox">
+                    <li class="mdc-deprecated-list-item mdc-deprecated-list-item--selected" role="option" :data-value="-1" @click="sortSchedule = -1">
+                        <span class="mdc-deprecated-list-item__ripple"></span>
+                        <span class="mdc-deprecated-list-item__text">All
+                        </span>
+                    </li>
+                    <template x-for="(schedule, index) in schedules">
+                        <li class="mdc-deprecated-list-item" role="option" :data-value="index" @click="sortSchedule = schedule.id">
+                            <span class="mdc-deprecated-list-item__ripple"></span>
+                            <span class="mdc-deprecated-list-item__text" x-text="schedule.name">
+                            </span>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
         <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            <template x-for="(cl, index) in classData" :key="index">
+            <template x-for="(cl, index) in filteredClasses" :key="index">
                 <div class="px-4 py-6 transition-colors mdc-card mdc-card--outlined md:px-8" :class="'background-' + cl.color.toLowerCase()">
                     <div class="flex h-full">
                         <div class="flex-grow">
@@ -26,8 +73,9 @@
             </template>
         </div>
         <template x-if="classData.length < 1">
-            <div>
-                Hello
+            <div class="flex flex-col items-center justify-center py-8">
+                <p class="text-9xl material-icons assignment-card-icon">add_box</p>
+                <p class="mt-4 text-2xl font-medium text-gray-400">Add a class to get started</p>
             </div>
         </template>
     </div>
@@ -325,6 +373,8 @@
 
                 assignmentCount: 4,
 
+                sortSchedule: -1,
+
                 init: function() {
                     const keys = Object.keys(this.classData);
                     this.selectedClass = keys[0] ?? -1;
@@ -358,6 +408,18 @@
                     return this.days.filter((el) => {
                         return !usedDays.includes(el);
                     })  
+                },
+
+                get filteredClasses() {
+                    if (this.sortSchedule == -1)
+                        return this.classData;
+                        
+                    let filteredData = {};
+                    for(const [key, value] of Object.entries(this.classData)){
+                        if (value.schedule_id == this.sortSchedule)
+                            filteredData[key] = value;
+                    }
+                    return filteredData;
                 },
 
                 addClassTime: function() {
