@@ -434,7 +434,7 @@
       </ul>
       <p class="mt-6 text-lg font-bold">How do we use and share your personal information?</p>
       <p class="mt-6">More information about our data collection and sharing practices can be found in this privacy notice.</p>
-      <p class="mt-6">You may contact us by email at mail@schedulist.xyz, by visiting <a href="{{route('contact')}}" class="text-blue-500">https{{route('contact')}}</a>, or by referring to the contact details at the bottom of this document.</p>
+      <p class="mt-6">You may contact us by email at mail@schedulist.xyz, by visiting <a href="{{route('contact')}}" class="text-blue-500">{{route('contact')}}</a>, or by referring to the contact details at the bottom of this document.</p>
       <p class="mt-6"> If you are using an authorized agent to exercise your right to opt-out we may deny a request if the authorized agent does not submit proof that they have
         been validly authorized to act on your behalf.</p>
       <p class="mt-6 text-lg font-bold">Will your information be shared with anyone else?</p>
@@ -486,7 +486,7 @@
           the request as soon as feasibly possible, but no later than 15 days from the date of the request submission.</li>
       </ul>
       <p class="mt-6">
-        To exercise these rights, you can contact us by email at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>, by visiting <a href="{{route('contact')}}" class="text-blue-500">https{{route('contact')}}</a>, or by referring to the contact details at the bottom
+        To exercise these rights, you can contact us by email at <a href="mailto:mail@schedulist.xyz" class="text-blue-500">mail@schedulist.xyz</a>, by visiting <a href="{{route('contact')}}" class="text-blue-500">{{route('contact')}}</a>, or by referring to the contact details at the bottom
         of this document. If you have a complaint about how we handle your data, we would like to hear from you.
       </p>
     </div>
@@ -519,7 +519,7 @@
       <p class="mt-6 mdc-typograpy--body1">
         Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or
         delete it in some circumstances. To request to review, update, or delete your personal information, please visit: <a href="{{route('profile')}}" class="text-blue-500">
-          https{{route('profile')}}</a>. We will respond to your
+          {{route('profile')}}</a>. We will respond to your
         request within 30 days.
       </p>
     </div>
