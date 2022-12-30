@@ -29,14 +29,9 @@ mix.js('resources/js/app.js', 'public/js/bundle.js')
   .injectManifest({
     swSrc: './resources/js/sw.js',
     additionalManifestEntries: [
-      { url: '/images/plane.svg', revision: 'null' },
       { url: 'site.webmanifest', revision: '100' },
 
-      { url: 'https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js', revision: 'null' },
       { url: 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', revision: 'null' },
-      { url: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js', revision: 'null' },
-      { url: 'https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js', revision: 'null' },
-      { url: 'https://cdn.jsdelivr.net/gh/livewire/vue@v0.3.x/dist/livewire-vue.js', revision: 'null' },
     ],
   });
 
