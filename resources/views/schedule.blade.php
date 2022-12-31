@@ -1,6 +1,6 @@
 <x-app-layout title="Agenda">
   <div class="mx-auto">
-    <div class="fixed w-full">
+    <div class="fixed w-full" wire:ignore>
       @livewire('schedule.agenda-widget', ['initDate' => $initDate])
     </div>
     @livewire('schedule.event-create')
