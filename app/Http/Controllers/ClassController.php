@@ -60,7 +60,7 @@ class ClassController extends Controller {
             $end = Carbon::now()->setHours($end[0])->setMinutes($end[1]);
 
             if ($start > $end)
-                return response()->json(['error', 'Start time must be before end time'], 400);
+                return response()->json(['error' => 'Start time must be before end time'], 400);
 
             $schedule = $class->schedule;
 
