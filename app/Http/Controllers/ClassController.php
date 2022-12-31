@@ -62,7 +62,7 @@ class ClassController extends Controller {
             $schedule = $class->schedule;
 
             foreach ($schedule->times as $time) {
-                if ($day == $time->day_of_week)
+                if ($day == $time->day_of_week && $time->class_id == $class->id)
                     return response()->json(['error' => 'Cannot have a class twice on the same day'], 400);
             }
 
