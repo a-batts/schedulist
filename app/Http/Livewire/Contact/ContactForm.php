@@ -6,6 +6,7 @@ use Livewire\Component;
 use Auth;
 use Mail;
 use App\Mail\ContactUs;
+use Google\Service\AuthorizedBuyersMarketplace\Contact;
 
 class ContactForm extends Component {
   public $name;
@@ -65,7 +66,7 @@ class ContactForm extends Component {
     } else
       $replyName = $this->name;
 
-    $mail_data = [
+    $data = [
       'name' => $this->name,
       'reason' => $this->reason,
       'message' => $this->message,
@@ -73,7 +74,7 @@ class ContactForm extends Component {
       'replyName' => $replyName,
     ];
 
-    $this->sendEmail($mail_data);
+    $this->sendEmail($data);
   }
 
   /**
@@ -82,23 +83,10 @@ class ContactForm extends Component {
    * @return void
    */
   public function sendEmail(array $data) {
-    $this->emit('startloading');
-    $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
-      ->setEncryption('tls')
-      ->setUsername('noreply@schedulist.xyz')
-      ->setPassword(env('NOREPLY_EMAIL_PASSWORD'));
-
-    $mailer = app(\Illuminate\Mail\Mailer::class);
-    $mailer->setSwiftMailer(new \Swift_Mailer($transport));
-
-    $mail = $mailer
-      ->to('mail@schedulist.xyz')
-      ->send(new ContactUs($data));
-
+    Mail::to('mail@schedulist.xyz')->send(new ContactUs($data));
     $this->message = null;
     $this->emit('toastMessage', 'Message sent! We\'ll get back to you soon.');
     $this->dispatchBrowserEvent('disable-send-button');
-    $this->emit('stoploading');
   }
 
   /**
