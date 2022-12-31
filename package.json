@@ -1,14 +1,9 @@
 {
     "private": true,
     "scripts": {
-        "build": "webpack",
+        "build": "vite build",
         "start": "webpack serve",
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "dev": "vite"
     },
     "devDependencies": {
         "@babel/core": "^7.13.1",
