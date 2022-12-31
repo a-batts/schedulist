@@ -2,7 +2,7 @@
 @edit-class.window="selectClass(event.detail.id)">
   <x-ui.modal bind="dialog" title="Edit Class" class="top-3 bottom-3">
     <x-slot name="actions">
-      <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" @click="$dispatch('delete-class', editClass.id); dialog = false">delete</button>
+      <button class="float-left mr-3 -mt-1 mdc-icon-button material-icons" type="button" aria-describedby="delete-class" aria-label="close" @click="$dispatch('delete-class', selectedClass); dialog = false">delete</button>
       <x-ui.tooltip tooltip-id="delete-class" text="Delete Class"/>
       <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="edit">
         <span class="mdc-button__ripple"></span>Save
