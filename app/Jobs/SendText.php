@@ -38,7 +38,7 @@ class SendText implements ShouldQueue {
             $twilio = new Client($sid, $token);
 
             $twilio->messages->create(
-                Auth::User()->phone,
+                explode('@', $this->details['email'])[0],
                 [
                     'body' => $this->details['message'],
                     'from' => '+15715208808',

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Actions\Core\NotifyUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,8 +10,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\EventInvitation;
-use Mail;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class SendEventInvitation implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -31,15 +32,13 @@ class SendEventInvitation implements ShouldQueue {
      * @return void
      */
     public function handle() {
-        $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
-            ->setEncryption('tls')
-            ->setUsername('noreply@schedulist.xyz')
-            ->setPassword(env('NOREPLY_EMAIL_PASSWORD'));
+        $settings = $this->details['user']->settings;
 
-        $mailer = app(\Illuminate\Mail\Mailer::class);
-        $mailer->setSwiftMailer(new \Swift_Mailer($transport));
-        $mail = $mailer
-            ->to($this->details['email'])
-            ->send(new EventInvitation($this->details['owner'], $this->details['eventName'], $this->details['route']));
+        if ($settings->eventTextsEnabled()) {
+            $message = $this->details['owner']['name'] . ' just shared their event, "' . $this->details['eventName'] . '" with you.';
+            NotifyUser::createNotification($message, $this->details['user'])->sendText()->addText($this->details['route']);
+        }
+        if ($settings->eventEmailsEnabled())
+            Mail::to($this->details['user'])->send(new EventInvitation($this->details['owner'], $this->details['eventName'], $this->details['route']));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Actions\Core;
 use App\Helpers\CarrierEmailHelper;
 use App\Jobs\SendText;
 use App\Jobs\SendStdEmail;
+use App\Models\User;
 
 /**
  * Dispatches notification to user's selected notification channels 
@@ -18,7 +19,7 @@ class NotifyUser {
 
     public $user;
 
-    public function __construct($message, $user) {
+    public function __construct(array|string $message, User $user) {
         $this->message = $message;
         $this->user = $user;
     }
@@ -26,10 +27,10 @@ class NotifyUser {
     /**
      * Creates a new instance of self with user data
      *
-     * @param App/Models/User $user
-     * @return App/Models/NotifyUser
+     * @param User $user
+     * @return NotifyUser
      */
-    public static function createNotification($message, $user) {
+    public static function createNotification(array|string $message, User $user): NotifyUser {
         return new NotifyUser($message, $user);
     }
 
@@ -37,9 +38,9 @@ class NotifyUser {
      * Dispatch email to user
      *
      * @param string $template email template to use (defaults to plaintext email on Schedulist template)
-     * @return $this
+     * @return NotifyUser
      */
-    public function sendEmail($template = null) {
+    public function sendEmail(?string $template = null): NotifyUser {
         SendStdEmail::dispatch($this->user, $this->message, $template);
         return $this;
     }
@@ -47,9 +48,9 @@ class NotifyUser {
     /**
      * Dispatch text message to user
      *
-     * @return $this
+     * @return NotifyUser
      */
-    public function sendText() {
+    public function sendText(): NotifyUser {
         $user = $this->user;
         if ($user->phone != null) {
             $details = ['email' => $user->phone . CarrierEmailHelper::getCarrierEmail($user->carrier), 'message' => $this->message];
@@ -62,9 +63,9 @@ class NotifyUser {
      * Send additional texts after first text
      *
      * @param string $message
-     * @return $this
+     * @return NotifyUser
      */
-    public function addText($message) {
+    public function addText(string $message): NotifyUser {
         $user = $this->user;
         $details = ['email' => $user->phone . CarrierEmailHelper::getCarrierEmail($user->carrier), 'message' => $message];
         SendText::dispatchSync($details);
