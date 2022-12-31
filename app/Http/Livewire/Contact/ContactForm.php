@@ -3,15 +3,16 @@
 namespace App\Http\Livewire\Contact;
 
 use Livewire\Component;
-use Auth;
-use Mail;
-use App\Mail\ContactUs;
+use App\Mail\FeedbackForm;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContactForm extends Component {
-  public $name;
-  public $email;
-  public $reason;
-  public $message;
+
+  public string $name = '';
+  public ?string $email = null;
+  public string $reason = '';
+  public string $message = '';
 
   function rules() {
     return [
@@ -28,14 +29,9 @@ class ContactForm extends Component {
    */
   public function mount() {
     if (Auth::check()) {
-      $this->name = Auth::User()->firstname . ' ' . Auth::User()->lastname;
+      $this->name = Auth::User()->name;
       $this->email = Auth::User()->email;
-    } else {
-      $this->name = null;
-      $this->email = null;
     }
-    $this->reason = null;
-    $this->message = null;
   }
 
   /**
@@ -43,7 +39,7 @@ class ContactForm extends Component {
    * @param  mixed $propertyName
    * @return void
    */
-  public function updated($propertyName) {
+  public function updated($propertyName): void {
     $this->validateOnly($propertyName);
   }
 
@@ -51,7 +47,7 @@ class ContactForm extends Component {
    * Submit contact form
    * @return void
    */
-  public function submit() {
+  public function submit(): void {
     $this->validate();
 
     if (!$this->reason) {
@@ -65,7 +61,7 @@ class ContactForm extends Component {
     } else
       $replyName = $this->name;
 
-    $mail_data = [
+    $data = [
       'name' => $this->name,
       'reason' => $this->reason,
       'message' => $this->message,
@@ -73,7 +69,7 @@ class ContactForm extends Component {
       'replyName' => $replyName,
     ];
 
-    $this->sendEmail($mail_data);
+    $this->sendEmail($data);
   }
 
   /**
@@ -81,31 +77,19 @@ class ContactForm extends Component {
    * @param  array  $data
    * @return void
    */
-  public function sendEmail(array $data) {
-    $this->emit('startloading');
-    $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
-      ->setEncryption('tls')
-      ->setUsername('noreply@schedulist.xyz')
-      ->setPassword(env('NOREPLY_EMAIL_PASSWORD'));
-
-    $mailer = app(\Illuminate\Mail\Mailer::class);
-    $mailer->setSwiftMailer(new \Swift_Mailer($transport));
-
-    $mail = $mailer
-      ->to('mail@schedulist.xyz')
-      ->send(new ContactUs($data));
+  public function sendEmail(array $data): void {
+    Mail::to('mail@schedulist.xyz')->send(new FeedbackForm($data));
 
     $this->message = null;
     $this->emit('toastMessage', 'Message sent! We\'ll get back to you soon.');
     $this->dispatchBrowserEvent('disable-send-button');
-    $this->emit('stoploading');
   }
 
   /**
    * Sets value of reason property from select component
    * @param string $value
    */
-  public function setReason(string $value) {
+  public function setReason(string $value): void {
     $this->reason = $value;
   }
 

@@ -4,6 +4,6 @@
   <meta charset="utf-8">
 </head>
 <body>
- <p style="white-space: prewrap">{{$messageText}}</p>
+ <p style="white-space: prewrap">{{$message}}</p>
 </body>
 </html>
