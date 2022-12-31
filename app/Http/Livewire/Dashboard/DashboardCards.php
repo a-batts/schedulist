@@ -6,6 +6,7 @@ use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,7 +54,7 @@ class DashboardCards extends Component {
     'Nothing scheduled tonight. Feel free to catch up on work.'
   ];
 
-  protected $listeners = ['refreshClasses' => 'refresh', 'updateCurrentClass'];
+  protected $listeners = ['refreshClasses' => 'refresh', 'updateCurrentClass', 'deleteClass'];
 
   /**
    * Mount the component
@@ -148,6 +149,27 @@ class DashboardCards extends Component {
 
   public function getEventPhrase(): string {
     return $this->noEventPhrases[array_rand($this->noEventPhrases)];
+  }
+
+  /**
+   * Delete class with the specified id - needed to prevent 404 errors
+   *
+   * @param integer $id
+   * @return void
+   */
+  public function deleteClass(int $id): void {
+    try {
+      $this->currentClass = null;
+      $this->nextClass = null;
+      $class = Auth::User()->classes()->findOrFail($id)->first();
+      $class->times()->delete();
+      $class->delete();
+
+      $this->emit('toastMessage', 'Class successfully deleted');
+      $this->emit('refreshClasses');
+    } catch (ModelNotFoundException $e) {
+      $this->emit('toastMessage', 'Unable to delete class');
+    }
   }
 
   /**
