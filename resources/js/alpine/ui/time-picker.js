@@ -173,9 +173,10 @@ export default (timeObj) => ({
     },
 
     toggleIsMorning: function (val) {
-        if (val == true && this.selectedTime.h >= 12) {
-            this.selectedTime.h = this.selectedTime.h - 12;
-        }
+        if (val == true && this.selectedTime.h >= 12)
+            this.selectedTime.h -= 12;
+        else
+            this.selectedTime.h += 12;
 
         this.isMorning = val;
     },
