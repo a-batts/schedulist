@@ -19,4 +19,12 @@ class UserSettings extends Model {
     public function eventTextsEnabled() {
         return $this->event_texts === 1;
     }
+
+    public function assignmentEmailsEnabled() {
+        return $this->assignment_emails === 1;
+    }
+
+    public function assignmentTextsEnabled() {
+        return $this->assignment_texts === 1;
+    }
 }

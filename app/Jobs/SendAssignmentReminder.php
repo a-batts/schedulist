@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Actions\Core\NotifyUser;
 use App\Helpers\CarrierEmailHelper;
 use App\Models\Assignment;
 use App\Models\AssignmentReminder;
@@ -17,13 +18,7 @@ use Illuminate\Support\Facades\Crypt;
 class SendAssignmentReminder implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Assignment $assignment;
-
-    protected User $owner;
-
-    protected int $reminderId;
-
-    protected $timeTillDue;
+    protected AssignmentReminder $reminder;
 
     /**
      * Create a new job instance.
@@ -31,11 +26,7 @@ class SendAssignmentReminder implements ShouldQueue {
      * @return void
      */
     public function __construct(AssignmentReminder $reminder) {
-        $this->assignment = $reminder->assignment;
-        $this->owner = $this->assignment->user;
-        $this->reminderId = $reminder->id;
-        $this->timeTillDue = $reminder->hours_before;
-        $this->sent = boolval($reminder->sent);
+        $this->reminder = $reminder;
     }
 
     /**
@@ -44,13 +35,17 @@ class SendAssignmentReminder implements ShouldQueue {
      * @return void
      */
     public function handle() {
-        if ($this->assignment->status == 'inc' && $this->owner->phone != null && !$this->sent) {
-            $message = 'Reminder: Your assignment "' . $this->assignment->name . '" is due in ' . $this->timeTillDue . ' hours';
-            $email = $this->owner->phone . CarrierEmailHelper::getCarrierEmail($this->owner->carrier);
-            $details = ['email' => $email, 'message' => $message];
+        $assignment = $this->reminder->assignment;
+        $settings = $assignment->user->settings;
 
-            SendText::dispatch($details);
-            AssignmentReminder::destroy($this->reminderId);
-        }
+        $message = 'Reminder: Your assignment "' . $assignment->name . '" is due in ' . $this->reminder->hours_before . ' hours.';
+
+        $notification = NotifyUser::createNotification($message, $assignment->user);
+
+        if ($settings->assignmentTextsEnabled())
+            $notification->sendText();
+
+        if ($settings->assignmentEmailsEnabled())
+            $notification->sendEmail();
     }
 }
