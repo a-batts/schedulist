@@ -46,7 +46,7 @@ class TwoFactorAuth extends Component {
         $userSettings = Auth::user()->settings()->first();
         if ($userSettings->account_alert_texts === 1) {
             $message = ('Two factor authentication was just turned on for your account. You\'ll need to enter a 2FA code for future sign ins.');
-            $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
+            NotifyUser::createNotification($message, Auth::user())->sendText();
         }
         if ($userSettings->account_alert_emails === 1) {
             $message = [
@@ -56,7 +56,7 @@ class TwoFactorAuth extends Component {
                 'link_title' => '2FA Settings',
                 'subject' => 'Security alert - 2FA enabled',
             ];
-            $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+            NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
         }
     }
 
@@ -108,18 +108,18 @@ class TwoFactorAuth extends Component {
 
         $userSettings = Auth::user()->settings()->first();
         if ($userSettings->account_alert_texts === 1) {
-            $message = ('Two factor authentication was just turned on for your account. You\'ll need to enter a 2FA code for future sign ins.');
-            $notification = NotifyUser::createNotification($message, Auth::user())->sendText();
+            $message = ('Two factor authentication was just turned off for your account. If that wasn\'t you, you should change your password immediately.');
+            NotifyUser::createNotification($message, Auth::user())->sendText();
         }
         if ($userSettings->account_alert_emails === 1) {
             $message = [
                 'alert' => 'Two factor authentication turned off',
-                'body' => 'Two factor authentication was just turned off for your account. You can turn it back on at any time in account security settings.',
+                'body' => 'Two factor authentication was just turned off for your account. If that wasn\'t you, you should change your password immediately.',
                 'link' => route('account.two-factor'),
                 'link_title' => '2FA Settings',
                 'subject' => 'Security alert - 2FA disabled',
             ];
-            $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+            NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
         }
     }
 
