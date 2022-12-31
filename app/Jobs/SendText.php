@@ -15,7 +15,7 @@ class SendText implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $details;
-    /**
+    /*
      * Create a new job instance.
      *
      * @return void
@@ -37,7 +37,7 @@ class SendText implements ShouldQueue {
             $token = config('twilio.auth_token');
             $twilio = new Client($sid, $token);
 
-            $message = $twilio->messages->create(
+            $twilio->messages->create(
                 Auth::User()->phone,
                 [
                     'body' => $this->details['message'],
