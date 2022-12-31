@@ -13,7 +13,7 @@
 
     @stack('meta')
 
-    <script src="{{ mix('js/theme-engine.js') }}"></script>
+    @vite('resources/js/theme-engine.js')
 
     <title>{{$title}}</title>
     <!-- Fonts -->
@@ -25,8 +25,8 @@
     @stack('fonts')
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @vite('resources/css/bundle.css')
+    @vite('resources/css/app.css')
     @livewireStyles
 
     <!-- Scripts -->
@@ -52,8 +52,8 @@
 
     @livewireScripts
 
-    <script src="{{ mix('js/scripts.js') }}" defer></script>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
+    @vite('resources/js/scripts.js')
+    @vite('resources/js/bundle.js')
 
     <script>
         Livewire.on('toastMessage', message => {

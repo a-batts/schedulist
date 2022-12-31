@@ -11,7 +11,7 @@
     <link rel="manifest" href="{{ asset('/site.webmanifest') }}">
     <meta name="theme-color" content="#0180FF">
 
-    <script src="{{ mix('js/theme-engine.js') }}"></script>
+    @vite('resources/js/theme-engine.js')
 
     @stack('meta')
 
@@ -24,8 +24,8 @@
     @stack('fonts')
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @vite('resources/css/bundle.css')
+    @vite('resources/css/app.css')
     @livewireStyles
 
     <!-- Scripts -->
@@ -107,8 +107,8 @@
 
     @livewireScripts
 
-    <script src="{{ mix('js/scripts.js') }}" defer></script>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
+    @vite('resources/js/scripts.js')
+    @vite('resources/js/bundle.js')
     <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
     @stack('scripts')
 

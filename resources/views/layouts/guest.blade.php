@@ -10,7 +10,7 @@
         <link rel="manifest" href="{{ asset('/site.webmanifest') }}">
         <meta name="theme-color" content="#0180FF">
 
-        <script src="{{ mix('js/theme-engine.js') }}"></script>
+        @vite('resources/js/theme-engine.js')
 
         @stack('meta')
 
@@ -24,12 +24,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@75,724&display=swap" rel="stylesheet" type="text/css" media="print" onload="this.media='all'">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/bundle.css') }}">
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        @vite('resources/css/bundle.css')
+        @vite('resources/css/app.css')
 
         <!-- Scripts -->
         
-        <script src="{{ mix('js/scripts.js') }}" async></script>
+        @vite('resources/js/scripts.js')
     </head>
     <body class="theme-div @if($theme == "dark") theme-dark @endif mdc-typography overflow-x-hidden" id="themer">
       <header
@@ -101,7 +101,7 @@
 
       @livewireScripts
       <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
-      <script src="{{ mix('js/bundle.js') }}" defer></script>
+      @vite('resources/js/bundle.js')
       <script type="module">
         import {Workbox, messageSW} from 'https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-window.prod.mjs';
 
