@@ -59,7 +59,7 @@ class ClassScheduleHelper {
 
     usort(
       $day,
-      fn ($a, $b) => $a->start_time->timestamp <=> $b->start_time->timestamp
+      fn ($a, $b) => $a['start']->timestamp <=> $b['start']->timestamp
     );
 
     return $day;
