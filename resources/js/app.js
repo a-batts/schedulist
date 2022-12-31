@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 import Alpine from 'alpinejs'
 import Clipboard from '@ryangjchandler/alpine-clipboard'
@@ -49,7 +49,8 @@ import { MDCLinearProgress } from '@material/linear-progress';
 /*
 import Echo from 'laravel-echo';
 
-window.Pusher = require('pusher-js');
+import Pusher from 'pusher-js';
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
   broadcaster: 'pusher',
