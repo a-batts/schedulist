@@ -21,8 +21,8 @@
                 </div>
                 <label class="w-full mt-3 md:w-3/5 mdc-text-field mdc-text-field--filled" wire:ignore>
                     <span class="mdc-text-field__ripple"></span>
-                    <span class="mdc-floating-label" :class="{'mdc-floating-label--float-above': editing != -1}" id="event-name-label">Name</span>
-                    <input class="mdc-text-field__input" x-model="name" type="text" aria-labelledby="event-name-label" required>
+                    <span class="mdc-floating-label mdc-floating-label--float-above" id="schedule-name-label">Name</span>
+                    <input class="mdc-text-field__input" x-model="name" type="text" aria-labelledby="schedule-name-label" required>
                     <span class="mdc-line-ripple"></span>
                 </label>
                 <x-ui.validation-error for="schedule.name"/>
