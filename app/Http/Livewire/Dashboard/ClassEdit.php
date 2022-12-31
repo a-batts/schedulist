@@ -33,6 +33,8 @@ class ClassEdit extends Component {
 
   public array $errorMessages = [];
 
+  protected $listeners = ['deleteClass' => 'mount'];
+
   /**
    * Validation messages
    *

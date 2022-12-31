@@ -16,16 +16,7 @@ class ClassDelete extends Component {
    * @return void
    */
   public function delete(int $id): void {
-    try {
-      $class = Auth::User()->classes()->findOrFail($id)->first();
-      $class->times()->delete();
-      $class->delete();
-      $this->emit('toastMessage', 'Class successfully deleted');
-      $this->emit('refreshClasses');
-    } catch (ModelNotFoundException $e) {
-      $this->emit('toastMessage', 'Unable to delete class');
-    }
-    $this->dispatchBrowserEvent('deletion-finished');
+    $this->emit('deleteClass', $id);
   }
 
   /**

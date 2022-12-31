@@ -6,6 +6,7 @@ use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,7 +54,7 @@ class DashboardCards extends Component {
     'Nothing scheduled tonight. Feel free to catch up on work.'
   ];
 
-  protected $listeners = ['refreshClasses' => 'refresh', 'updatedClassTime' => 'refresh'];
+  protected $listeners = ['refreshClasses' => 'refresh', 'updateCurrentClass', 'deleteClass'];
 
   /**
    * Mount the component
@@ -62,6 +63,26 @@ class DashboardCards extends Component {
    */
   public function mount(): void {
     $this->refresh();
+  }
+
+  /**
+   * Update the current class
+   *
+   * @return void
+   */
+  public function updateCurrentClass(): void {
+    $this->currentClass = $this->getCurrentClass();
+  }
+
+  /**
+   * Refresh the component
+   *
+   * @return void
+   */
+  public function refresh(): void {
+    $this->currentClass = $this->getCurrentClass();
+    $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
+    $this->events = $this->getEvents()->take(8);
   }
 
   /**
@@ -79,7 +100,6 @@ class DashboardCards extends Component {
       $nextClass = $scheduleHelper->getNextClass(Carbon::now());
 
       if (isset($nextClass) && count($nextClass) != 0) {
-        dd($nextClass);
         $nextClass['class']->timestring = $nextClass['start']->format('g:i A') . ' on ' . $nextClass['start']->format('D, F jS');
         $this->nextClass = $nextClass['class'];
       }
@@ -94,14 +114,11 @@ class DashboardCards extends Component {
   }
 
   /**
-   * Refresh the component
+   * Get the user's upcoming events
    *
-   * @return void
+   * @return Collection
    */
-  public function refresh(): void {
-    $this->currentClass = $this->getCurrentClass();
-    $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
-
+  public function getEvents(): Collection {
     $date = Carbon::now();
     $dayIso = $date->dayOfWeekIso;
 
@@ -126,11 +143,33 @@ class DashboardCards extends Component {
         $events->push($event);
       }
     }
-    $this->events = $events->take(8);
+
+    return $events;
   }
 
   public function getEventPhrase(): string {
     return $this->noEventPhrases[array_rand($this->noEventPhrases)];
+  }
+
+  /**
+   * Delete class with the specified id - needed to prevent 404 errors
+   *
+   * @param integer $id
+   * @return void
+   */
+  public function deleteClass(int $id): void {
+    try {
+      $this->currentClass = null;
+      $this->nextClass = null;
+      $class = Auth::User()->classes()->findOrFail($id)->first();
+      $class->times()->delete();
+      $class->delete();
+
+      $this->emit('toastMessage', 'Class successfully deleted');
+      $this->emit('refreshClasses');
+    } catch (ModelNotFoundException $e) {
+      $this->emit('toastMessage', 'Unable to delete class');
+    }
   }
 
   /**

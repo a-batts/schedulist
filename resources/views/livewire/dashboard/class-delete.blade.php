@@ -3,7 +3,6 @@
     deleteClass: -1,
   }" 
   @delete-class.window = "deleteClass = event.detail; openAssignmentDialog()"
-  @deletion-finished.window = ""
   wire:ignore>
   <div class="mdc-dialog__container">
     <div class="mdc-dialog__surface"
