@@ -62,33 +62,15 @@ class User extends Authenticatable {
     'profile_photo_url',
   ];
 
-  public static function getFilamentAdminColumn() {
-    return 'filament_admin';
+  protected static function booted() {
+    //Run upon creation of a new user model
+
+    static::created(function ($user) {
+      $user->settings()->create();
+      $user->save();
+    });
   }
 
-  public static function getFilamentRolesColumn() {
-    return 'filament_roles';
-  }
-
-  public static function getFilamentUserColumn() {
-    return 'filament_user';
-  }
-
-  public static function getFilamentAvatarColumn() {
-    return 'profile_photo_path';
-  }
-
-  public function getFilamentAvatar() {
-    return $this->getProfilePhotoUrlAttribute();
-  }
-
-  public function isFilamentAdmin() {
-    return $this->filament_admin;
-  }
-
-  public function canAccessFilament() {
-    return $this->filament_user;
-  }
 
   public function getNameAttribute() {
     return "{$this->firstname} {$this->lastname}";
@@ -96,7 +78,7 @@ class User extends Authenticatable {
 
   public function setNameAttribute($value) {
     if (isset($value)) {
-      $names = explode(' ', $value);
+      $names = explode(' ', $value, 2);
       $this->attributes['firstname'] = $names[0];
       $this->attributes['lastname'] = $names[1];
     }
@@ -124,5 +106,33 @@ class User extends Authenticatable {
 
   public function settings() {
     return $this->hasOne(UserSettings::class);
+  }
+
+  public static function getFilamentAdminColumn() {
+    return 'filament_admin';
+  }
+
+  public static function getFilamentRolesColumn() {
+    return 'filament_roles';
+  }
+
+  public static function getFilamentUserColumn() {
+    return 'filament_user';
+  }
+
+  public static function getFilamentAvatarColumn() {
+    return 'profile_photo_path';
+  }
+
+  public function getFilamentAvatar() {
+    return $this->getProfilePhotoUrlAttribute();
+  }
+
+  public function isFilamentAdmin() {
+    return $this->filament_admin;
+  }
+
+  public function canAccessFilament() {
+    return $this->filament_user;
   }
 }
