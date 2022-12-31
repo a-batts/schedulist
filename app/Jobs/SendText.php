@@ -9,12 +9,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
 
 class SendText implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $details;
+    public array $details;
+
     /*
      * Create a new job instance.
      *
@@ -31,8 +33,7 @@ class SendText implements ShouldQueue {
      */
     public function handle() {
         if (str_contains($this->details['email'], 'vtext')) {
-            //VText is broken so send a text if the user has Verizon
-
+            //@vtext is broken so send an actual text if the user has Verizon
             $sid = config('twilio.account_sid');
             $token = config('twilio.auth_token');
             $twilio = new Client($sid, $token);
@@ -44,17 +45,7 @@ class SendText implements ShouldQueue {
                     'from' => '+15715208808',
                 ]
             );
-        } else {
-            $transport = (new \Swift_SmtpTransport('smtp.hostinger.com', '587'))
-                ->setEncryption('tls')
-                ->setUsername('reminders@schedulist.xyz')
-                ->setPassword(env('REMINDER_EMAIL_PASSWORD'));
-
-            $mailer = app(\Illuminate\Mail\Mailer::class);
-            $mailer->setSwiftMailer(new \Swift_Mailer($transport));
-            $mail = $mailer
-                ->to($this->details['email'])
-                ->send(new TextMessage($this->details['message']));
-        }
+        } else
+            Mail::to($this->details['email'])->send(new TextMessage($this->details['message']));
     }
 }
