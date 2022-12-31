@@ -443,7 +443,7 @@
                                 this.classData[this.selectedClass]['times'].push(JSON.parse(data.data));
                                 this.addTime = false;
                             });
-                            this.$wire.emit('updatedClassTime');
+                            this.$wire.emit('updateCurrentClass');
                         }
                         else{
                             let json = response.json().then((data) => {this.error = data.error});
@@ -467,7 +467,7 @@
                         if (response.ok){
                             const index = this.classData[this.selectedClass]['times'].findIndex((el) => el.id == id);
                             this.classData[this.selectedClass]['times'].splice(index, 1);
-                            this.$wire.emit('updatedClassTime');
+                            this.$wire.emit('updateCurrentClass');
                         }
                     })
                 },

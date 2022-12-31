@@ -53,7 +53,7 @@ class DashboardCards extends Component {
     'Nothing scheduled tonight. Feel free to catch up on work.'
   ];
 
-  protected $listeners = ['refreshClasses' => 'refresh', 'updatedClassTime' => 'refresh'];
+  protected $listeners = ['refreshClasses' => 'refresh', 'updateCurrentClass'];
 
   /**
    * Mount the component
@@ -62,6 +62,26 @@ class DashboardCards extends Component {
    */
   public function mount(): void {
     $this->refresh();
+  }
+
+  /**
+   * Update the current class
+   *
+   * @return void
+   */
+  public function updateCurrentClass(): void {
+    $this->currentClass = $this->getCurrentClass();
+  }
+
+  /**
+   * Refresh the component
+   *
+   * @return void
+   */
+  public function refresh(): void {
+    $this->currentClass = $this->getCurrentClass();
+    $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
+    $this->events = $this->getEvents()->take(8);
   }
 
   /**
@@ -79,7 +99,6 @@ class DashboardCards extends Component {
       $nextClass = $scheduleHelper->getNextClass(Carbon::now());
 
       if (isset($nextClass) && count($nextClass) != 0) {
-        dd($nextClass);
         $nextClass['class']->timestring = $nextClass['start']->format('g:i A') . ' on ' . $nextClass['start']->format('D, F jS');
         $this->nextClass = $nextClass['class'];
       }
@@ -94,14 +113,11 @@ class DashboardCards extends Component {
   }
 
   /**
-   * Refresh the component
+   * Get the user's upcoming events
    *
-   * @return void
+   * @return Collection
    */
-  public function refresh(): void {
-    $this->currentClass = $this->getCurrentClass();
-    $this->assignments = Auth::User()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
-
+  public function getEvents(): Collection {
     $date = Carbon::now();
     $dayIso = $date->dayOfWeekIso;
 
@@ -126,7 +142,8 @@ class DashboardCards extends Component {
         $events->push($event);
       }
     }
-    $this->events = $events->take(8);
+
+    return $events;
   }
 
   public function getEventPhrase(): string {
