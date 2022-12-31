@@ -32,7 +32,7 @@
     @else
       <x-ui.dashboard-card background-color="" title="Current Class">
         <x-slot name="actionButton">
-          <button class="-mt-1 mdc-icon-button material-icons" aria-describedby="edit-label" wire:click="refresh()" type="button" wire:ignore>
+          <button class="-mt-1 mdc-icon-button material-icons" aria-describedby="edit-label" wire:click="updateCurrentClass()" type="button" wire:ignore>
             <div class="mdc-icon-button__ripple"></div>
             refresh
           </button>
