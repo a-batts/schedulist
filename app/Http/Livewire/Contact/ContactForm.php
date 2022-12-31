@@ -3,16 +3,16 @@
 namespace App\Http\Livewire\Contact;
 
 use Livewire\Component;
-use Auth;
-use Mail;
-use App\Mail\ContactUs;
-use Google\Service\AuthorizedBuyersMarketplace\Contact;
+use App\Mail\FeedbackForm;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContactForm extends Component {
-  public $name;
-  public $email;
-  public $reason;
-  public $message;
+
+  public string $name = '';
+  public ?string $email = null;
+  public string $reason = '';
+  public string $message = '';
 
   function rules() {
     return [
@@ -29,14 +29,9 @@ class ContactForm extends Component {
    */
   public function mount() {
     if (Auth::check()) {
-      $this->name = Auth::User()->firstname . ' ' . Auth::User()->lastname;
+      $this->name = Auth::User()->name;
       $this->email = Auth::User()->email;
-    } else {
-      $this->name = null;
-      $this->email = null;
     }
-    $this->reason = null;
-    $this->message = null;
   }
 
   /**
@@ -44,7 +39,7 @@ class ContactForm extends Component {
    * @param  mixed $propertyName
    * @return void
    */
-  public function updated($propertyName) {
+  public function updated($propertyName): void {
     $this->validateOnly($propertyName);
   }
 
@@ -52,7 +47,7 @@ class ContactForm extends Component {
    * Submit contact form
    * @return void
    */
-  public function submit() {
+  public function submit(): void {
     $this->validate();
 
     if (!$this->reason) {
@@ -82,8 +77,9 @@ class ContactForm extends Component {
    * @param  array  $data
    * @return void
    */
-  public function sendEmail(array $data) {
-    Mail::to('mail@schedulist.xyz')->send(new ContactUs($data));
+  public function sendEmail(array $data): void {
+    Mail::to('mail@schedulist.xyz')->send(new FeedbackForm($data));
+
     $this->message = null;
     $this->emit('toastMessage', 'Message sent! We\'ll get back to you soon.');
     $this->dispatchBrowserEvent('disable-send-button');
@@ -93,7 +89,7 @@ class ContactForm extends Component {
    * Sets value of reason property from select component
    * @param string $value
    */
-  public function setReason(string $value) {
+  public function setReason(string $value): void {
     $this->reason = $value;
   }
 
