@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class UserSettings extends Model {
     use HasFactory;
 
-    public function User() {
+    public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function eventEmailsEnabled() {
+        return $this->event_emails === 1;
+    }
+
+    public function eventTextsEnabled() {
+        return $this->event_texts === 1;
     }
 }
