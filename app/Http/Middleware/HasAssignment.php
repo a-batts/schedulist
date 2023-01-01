@@ -5,11 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 
 use App\Models\Assignment;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 class HasAssignment {
   /**
@@ -21,13 +18,14 @@ class HasAssignment {
    * @return mixed
    */
   public function handle(Request $request, Closure $next) {
-    $assignmentString = $request->route('assignment_string');
-    $assignment = Assignment::where('user_id', Auth::user()->id)->where('url_string', $assignmentString)->first();
-    if ($assignment != null) {
-      $assignmentTitle = $assignment->name;
-      view()->share(['assignment' => $assignment->id, 'assignmentTitle' => $assignmentTitle]);
+    $urlString = $request->route('assignment_string');
+
+    try {
+      $assignment = Assignment::where(['user_id' => $request->user()->id, 'url_string' => $urlString])->firstOrFail();
+      view()->share(['assignment' => $assignment->id, 'title' => $assignment->name]);
       return $next($request);
+    } catch (ModelNotFoundException) {
+      abort(403);
     }
-    abort(403);
   }
 }
