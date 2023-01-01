@@ -3,13 +3,13 @@
 namespace App\Actions\Fortify;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
-use Auth;
 
-class UpdateUserProfileInformation implements UpdatesUserProfileInformation
-{
+class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
+
     /**
      * Validate and update the given user's profile information.
      *
@@ -17,8 +17,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param  array  $input
      * @return void
      */
-    public function update($user, array $input)
-    {
+    public function update($user, array $input): void {
         Validator::make($input, [
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
@@ -32,11 +31,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+        if (
+            $input['email'] !== $user->email &&
+            $user instanceof MustVerifyEmail
+        ) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            $user = Auth::user();
+            $user = Auth::User();
             $user->firstname = $input['firstname'];
             $user->lastname = $input['lastname'];
             $user->email = $input['email'];
@@ -53,8 +54,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param  array  $input
      * @return void
      */
-    protected function updateVerifiedUser($user, array $input)
-    {
+    protected function updateVerifiedUser($user, array $input): void {
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],

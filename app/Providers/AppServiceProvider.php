@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Filament\Filament;
 use Illuminate\Support\Facades\Cookie;
 
 class AppServiceProvider extends ServiceProvider {
@@ -26,7 +25,7 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function boot() {
         view()->composer('*', function ($view) {
-            $theme = \Cookie::get('theme');
+            $theme = Cookie::get('theme');
             if ($theme != 'dark' && $theme != 'light') {
                 $theme = 'auto';
             }

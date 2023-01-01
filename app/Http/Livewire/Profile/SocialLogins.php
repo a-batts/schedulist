@@ -2,25 +2,30 @@
 
 namespace App\Http\Livewire\Profile;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Auth;
-use App\Models\User;
 
 class SocialLogins extends Component {
+
   /**
    * Remove Google account from user
    * @return void
    */
-  public function disconnectGoogle() {
-    $user = Auth::user();
+  public function disconnectGoogle(): void {
+    $user = Auth::User();
     $user->google_email = null;
     $user->google_id = "0";
     $user->save();
     $this->emit('toastMessage', 'Sucessfully disconnected Google Account');
   }
 
-  public function getHasGoogleAccountProperty() {
-    return !(Auth::user()->google_id == "0" || Auth::user()->google_id == null);
+  /**
+   * Determine if the user has a Google account linked
+   *
+   * @return boolean
+   */
+  public function getHasGoogleAccountProperty(): bool {
+    return !(Auth::User()->google_id == "0" || Auth::User()->google_id == null);
   }
 
   public function render() {
