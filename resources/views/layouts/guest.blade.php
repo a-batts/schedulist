@@ -72,7 +72,7 @@
                   <span class="mdc-icon-button__focus-ring"></span>
                   <span x-text="themeIcon"></span>
                 </a>
-                @if(Auth::check())
+                @auth
                   <a href="{{ route('dashboard') }}"class="float-right mt-1.5 max-w-xs rounded-full bg-gray-800 text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   aria-label="User menu" aria-haspopup="true">
                     <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
@@ -83,7 +83,7 @@
                     <span class="mdc-button__focus-ring"></span>
                     <span class="font-medium tracking-normal normal-case mdc-button__label">Sign In</span>
                   </a>
-                @endif
+                @endauth
               </div>
             </div>
           </div>
