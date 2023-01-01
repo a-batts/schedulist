@@ -141,7 +141,7 @@ class EventCreate extends Component {
     $this->validate();
     $this->dispatchBrowserEvent('close-create-modal');
 
-    $event->owner = Auth::user()->id;
+    $event->owner = Auth::id();
     $event->color = 'blue';
 
     $event->save();
@@ -149,7 +149,7 @@ class EventCreate extends Component {
     $this->emit('updateAgendaData');
     $this->emit('toastMessage', 'Event was successfully created');
 
-    $eventUser = new EventUser(['user_id' => Auth::user()->id, 'event_id' => $event->id, 'accepted' => true]);
+    $eventUser = new EventUser(['user_id' => Auth::id(), 'event_id' => $event->id, 'accepted' => true]);
     $eventUser->save();
   }
 

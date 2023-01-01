@@ -75,7 +75,7 @@ class AssignmentEdit extends Component {
   public function mount() {
     $this->due = Carbon::parse($this->assignment->due);
 
-    $classes = Classes::where('user_id', Auth::User()->id)->get();
+    $classes = Classes::where('user_id', Auth::id())->get();
     foreach ($classes as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
   }
@@ -125,7 +125,7 @@ class AssignmentEdit extends Component {
    * @return void
    */
   public function setClass(int $id): void {
-    if (Classes::where('id', $id)->where('user_id', Auth::User()->id)->exists() || $id == -1)
+    if (Classes::where('id', $id)->where('user_id', Auth::id())->exists() || $id == -1)
       $this->assignment->class_id = $id;
   }
 

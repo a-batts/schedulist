@@ -57,12 +57,12 @@ class AssignmentList extends Component {
    * @return void
    */
   public function mount(): void {
-    $usersClasses = Classes::where('user_id', Auth::User()->id)->get();
+    $usersClasses = Classes::where('user_id', Auth::id())->get();
     foreach ($usersClasses as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
 
     if ($this->class != -1)
-      $this->class = Classes::where('id', (int) $this->class)->where('user_id', Auth::User()->id)->first()->id;
+      $this->class = Classes::where('id', (int) $this->class)->where('user_id', Auth::id())->first()->id;
 
     $this->assignments = $this->getAssignments();
   }
@@ -73,7 +73,7 @@ class AssignmentList extends Component {
    * @return array
    */
   public function getAssignments(): array {
-    $assignments = Assignment::where('user_id', Auth::User()->id)->orderBy('due', 'asc')->get()->toArray();
+    $assignments = Assignment::where('user_id', Auth::id())->orderBy('due', 'asc')->get()->toArray();
     foreach ($assignments as $key => $value) {
       $due = Carbon::parse($value['due']);
 
@@ -131,7 +131,7 @@ class AssignmentList extends Component {
     $assignment = Assignment::findOrFail($id);
 
     //Only allow user to modify an assignment they own
-    if ($assignment->user_id == Auth::User()->id) {
+    if ($assignment->user_id == Auth::id()) {
       $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
 
       $assignment->save();

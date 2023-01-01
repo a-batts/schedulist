@@ -62,7 +62,7 @@ class DeleteAccount extends Component {
             ]);
         }
 
-        $this->deleteData(Auth::user()->id);
+        $this->deleteData(Auth::id());
         $deleter->delete(Auth::user()->fresh());
         $auth->logout();
 

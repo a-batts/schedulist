@@ -73,14 +73,14 @@ class AssignmentCreate extends Component {
   public function mount(): void {
     $this->assignment = new Assignment;
 
-    $this->assignment->user_id = Auth::User()->id;
+    $this->assignment->user_id = Auth::id();
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
 
     $this->assignment->status = 'inc';
 
-    $classes = Classes::where('user_id', Auth::User()->id)->get();
+    $classes = Classes::where('user_id', Auth::id())->get();
     foreach ($classes as $class)
       $this->classes[] = ['id' => $class->id, 'name' => $class->name];
   }
@@ -125,7 +125,7 @@ class AssignmentCreate extends Component {
   public function clear(): void {
     $this->assignment = new Assignment;
 
-    $this->assignment->user_id = Auth::User()->id;
+    $this->assignment->user_id = Auth::id();
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
@@ -140,7 +140,7 @@ class AssignmentCreate extends Component {
    * @return void
    */
   public function setClass(int $id): void {
-    if (Classes::where('id', $id)->where('user_id', Auth::User()->id)->exists() || $id == -1)
+    if (Classes::where('id', $id)->where('user_id', Auth::id())->exists() || $id == -1)
       $this->assignment->class_id = $id;
   }
 

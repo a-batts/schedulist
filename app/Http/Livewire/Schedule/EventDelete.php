@@ -21,14 +21,14 @@ class EventDelete extends Component {
   }
 
   public function deleteEvent() {
-    $event = Event::where('id', $this->eventId)->where('owner', Auth::User()->id)->firstOrFail();
+    $event = Event::where('id', $this->eventId)->where('owner', Auth::id())->firstOrFail();
     $event->delete();
     $this->emit('updateAgendaData');
     $this->emit('toastMessage', 'Event was succesfully deleted');
   }
 
   public function unsubEvent() {
-    $subscription = EventUser::where(['user_id' => Auth::User()->id, 'event_id' => $this->eventId]);
+    $subscription = EventUser::where(['user_id' => Auth::id(), 'event_id' => $this->eventId]);
     $subscription->delete();
 
     $this->emit('updateAgendaData');

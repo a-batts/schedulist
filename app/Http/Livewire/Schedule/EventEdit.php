@@ -139,7 +139,7 @@ class EventEdit extends Component {
 
     $this->validate();
 
-    if ($event->owner == Auth::user()->id) {
+    if ($event->owner == Auth::id()) {
       $event->save();
       $this->emit('updateAgendaData');
       $this->dispatchBrowserEvent('close-edit-modal');
@@ -158,7 +158,7 @@ class EventEdit extends Component {
 
     $event = Event::find($id);
 
-    if ($event->owner == Auth::User()->id) {
+    if ($event->owner == Auth::id()) {
       switch ($event->frequency) {
         case 1:
           $this->frequency = 'Day';

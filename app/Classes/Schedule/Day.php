@@ -164,7 +164,7 @@ class Day implements Countable {
                     [
                         'category' => $item->category,
                         'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
-                        'isOwner' => Auth::User()->id === $item->owner,
+                        'isOwner' => Auth::id() === $item->owner,
                     ]
 
                 );

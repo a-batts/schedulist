@@ -43,10 +43,10 @@ class MyData extends Component {
         $zip = new ZipArchive;
         $fileName = Auth::user()->firstname . '_' . Carbon::now()->toDateString() . '_' . rand(1, 99) . '_archive.zip';
         if ($zip->open(storage_path('app/exported-archives/' . $fileName), ZipArchive::CREATE) === TRUE) {
-            $archiveRecord = DB::table('user_archives')->where('user_id', Auth::user()->id)->first();
+            $archiveRecord = DB::table('user_archives')->where('user_id', Auth::id())->first();
             if ($archiveRecord !== null && $archiveRecord->filename != $fileName)
                 unlink(storage_path('app/exported-archives/' . $archiveRecord->filename));
-            DB::table('user_archives')->where('user_id', Auth::user()->id)->delete();
+            DB::table('user_archives')->where('user_id', Auth::id())->delete();
 
             foreach ($this->selectedData as $category)
                 $zip = $this->getData($category, $zip);
@@ -54,7 +54,7 @@ class MyData extends Component {
             $zip->close();
 
             DB::table('user_archives')->insert([
-                'user_id' => Auth::user()->id,
+                'user_id' => Auth::id(),
                 'filename' => $fileName,
                 'backup_contains' => implode(',', $this->selectedData),
                 'created_at' => Carbon::now(),
@@ -86,8 +86,8 @@ class MyData extends Component {
                 $this->emit('toastMessage', 'Your classes have been successfully deleted');
                 break;
             case 'events':
-                Event::where('owner', Auth::user()->id)->delete();
-                EventUser::where('user_id', Auth::user()->id)->delete();
+                Event::where('owner', Auth::id())->delete();
+                EventUser::where('user_id', Auth::id())->delete();
                 $this->emit('toastMessage', 'Your events have been successfully deleted and unshared');
                 break;
         }
@@ -150,7 +150,7 @@ class MyData extends Component {
                             'end' => $event->end_time,
                         ],
                         'sharing' => [
-                            'isOwner' => (string) Auth::user()->id == $event->users->first()->id,
+                            'isOwner' => (string) Auth::id() == $event->users->first()->id,
                             'owner' => $event->users->first()->firstname . ' ' . $event->users->first()->lastname,
                         ],
                         'color' => $event->color,
@@ -172,7 +172,7 @@ class MyData extends Component {
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
             case 'profile':
-                $profile = User::where('id', Auth::user()->id)->get(['firstname', 'lastname', 'email', 'phone', 'carrier', 'school', 'grade_level', 'avatar'])->first();
+                $profile = User::where('id', Auth::id())->get(['firstname', 'lastname', 'email', 'phone', 'carrier', 'school', 'grade_level', 'avatar'])->first();
                 $data = [
                     'firstName' => $profile->firstname,
                     'lastName' => $profile->lastname,
@@ -205,7 +205,7 @@ class MyData extends Component {
     }
 
     public function render() {
-        $archiveRecord = DB::table('user_archives')->where('user_id', Auth::user()->id)->first();
+        $archiveRecord = DB::table('user_archives')->where('user_id', Auth::id())->first();
         if ($archiveRecord != null) {
             $contains = '';
             $exploded = explode(',', $archiveRecord->backup_contains);

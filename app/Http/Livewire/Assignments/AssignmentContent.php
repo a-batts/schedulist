@@ -93,7 +93,7 @@ class AssignmentContent extends Component {
     $assignment = $this->assignment;
 
     //Only allow user to modify an assignment they own
-    if ($assignment->user_id == Auth::User()->id) {
+    if ($assignment->user_id == Auth::id()) {
       $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
 
       $assignment->save();

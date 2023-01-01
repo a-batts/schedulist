@@ -27,7 +27,7 @@ class UpdateProfile extends Component {
       'state.firstname' => 'required|string|max:50',
       'state.lastname' => 'required|string|max:50',
       'state.school' => 'nullable|string|max:100',
-      'state.email' => 'required|email|max:255|unique:users,email,' . Auth::user()->id,
+      'state.email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
       'state.phone' => 'nullable|digits:10'
     ];
   }
@@ -80,7 +80,7 @@ class UpdateProfile extends Component {
     $this->dispatchBrowserEvent('display-phone-verification');
 
     DB::table('two_factor_codes')->insert([
-      'user_id' => Auth::user()->id,
+      'user_id' => Auth::id(),
       'two_factor_code' => $code,
     ]);
   }
@@ -91,7 +91,7 @@ class UpdateProfile extends Component {
    */
   public function confirmVerification() {
     $user = Auth::user();
-    $verify = DB::table('two_factor_codes')->where('user_id', Auth::user()->id)->first();
+    $verify = DB::table('two_factor_codes')->where('user_id', Auth::id())->first();
 
     if ($this->verificationCodeInput == $verify->two_factor_code) {
       $this->dispatchBrowserEvent('hide-phone-verification');
@@ -144,7 +144,7 @@ class UpdateProfile extends Component {
     $code = rand(100000, 999999);
     $this->sendTextMessage($code);
     DB::table('two_factor_codes')->insert([
-      'user_id' => Auth::user()->id,
+      'user_id' => Auth::id(),
       'two_factor_code' => $code,
     ]);
     $this->emit('toastMessage', 'A new verification code was sent');
@@ -198,7 +198,7 @@ class UpdateProfile extends Component {
       $this->emit('toastMessage', 'Profile changes saved');
       $this->emit('refresh-navigation-menu');
       if (Auth::user()->phone != $this->state['phone']) {
-        DB::table('two_factor_codes')->where('user_id', Auth::user()->id)->delete();
+        DB::table('two_factor_codes')->where('user_id', Auth::id())->delete();
         $validated = $this->validatePhoneNumber($this->state['phone']);
         if ($validated && CarrierEmailHelper::getCarrierEmail($this->state['carrier']) != null)
           $this->showPhoneConfirmation($this->state['phone']);

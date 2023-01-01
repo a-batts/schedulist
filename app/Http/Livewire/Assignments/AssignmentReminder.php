@@ -95,7 +95,7 @@ class AssignmentReminder extends Component {
      * @return void
      */
     public function removeReminder($id): void {
-        if ($this->assignment->owner = Auth::User()->id)
+        if ($this->assignment->owner = Auth::id())
             ModelsAssignmentReminder::destroy($id);
         $this->reminders = $this->assignment->reminders()->get()->toArray();
     }

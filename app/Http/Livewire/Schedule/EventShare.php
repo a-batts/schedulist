@@ -70,7 +70,7 @@ class EventShare extends Component {
       $this->addError('query', 'You are already the owner of this event');
       return;
     }
-    $user = User::where('email', 'like', '%' . $this->query . '%')->where('id', '<>', Auth::User()->id)->first();
+    $user = User::where('email', 'like', '%' . $this->query . '%')->where('id', '<>', Auth::id())->first();
     if ($user == null) {
       $this->addError('query', 'That email address does not have a Schedulist account associated with it');
       return;
@@ -80,7 +80,7 @@ class EventShare extends Component {
     if (!EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists()) {
       $eventUser = new EventUser(['user_id' => $user->id, 'event_id' => $this->event->id, 'accepted' => false]);
       $eventUser->save();
-      $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
+      $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
     } else {
       $this->addError('query', 'This event has already been shared with that user');
       return;
@@ -95,7 +95,7 @@ class EventShare extends Component {
   public function unshare($id) {
     $sharedEvent = EventUser::where(['user_id' => $id, 'event_id' => $this->event->id])->first();
     $sharedEvent->delete();
-    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
+    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
   }
 
   /**
@@ -105,14 +105,14 @@ class EventShare extends Component {
    * @return void
    */
   public function setEvent($id): void {
-    $this->event = Event::where('id', $id)->where('owner', Auth::User()->id)->firstOrFail();
+    $this->event = Event::where('id', $id)->where('owner', Auth::id())->firstOrFail();
     $this->clearValidation();
     $this->dispatchBrowserEvent('open-share-modal');
     if ($this->event->public)
       $this->publicLink = $this->generateRoute($this->event->id);
     else
       $this->publicLink = null;
-    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::user()->id)->get();
+    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
   }
 
   /**
