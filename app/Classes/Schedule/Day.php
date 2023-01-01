@@ -105,7 +105,7 @@ class Day implements Countable {
                 'class',
                 $item['class']->name,
                 null,
-                'red',
+                $item['class']->color,
                 $start,
                 $end,
                 CarbonInterval::minutes($start->format('i'))->hours($start->format('G'))->totalSeconds / Schedule::SCALE_FACTOR,
