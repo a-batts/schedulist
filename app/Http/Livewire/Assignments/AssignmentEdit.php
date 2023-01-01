@@ -114,7 +114,7 @@ class AssignmentEdit extends Component {
    */
   public function delete(): void {
     $this->assignment->delete();
-    $this->redirect('assignments');
+    $this->redirect(route('assignments'));
     $this->emit('toastMessage', 'Assignment was deleted');
   }
 
