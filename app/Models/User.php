@@ -70,10 +70,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar {
 
   protected static function booted(): void {
     //Run upon creation of a new user model
-
-    static::created(function ($user) {
+    static::created(function (User $user) {
       $user->settings()->create();
       $user->save();
+    });
+
+    static::deleting(function (User $user) {
+      $user->settings()->delete();
     });
   }
 
@@ -116,23 +119,4 @@ class User extends Authenticatable implements FilamentUser, HasAvatar {
   public function getFilamentAvatarUrl(): ?string {
     return $this->getProfilePhotoUrlAttribute();
   }
-
-
-  /*
-  public static function getFilamentAdminColumn() {
-    return 'filament_admin';
-  }
-
-  public static function getFilamentRolesColumn() {
-    return 'filament_roles';
-  }
-
-  public static function getFilamentUserColumn() {
-    return 'filament_user';
-  }
-
-  public function isFilamentAdmin() {
-    return $this->filament_admin;
-  }
-  */
 }

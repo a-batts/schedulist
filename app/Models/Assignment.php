@@ -29,7 +29,7 @@ class Assignment extends Model {
 
   protected static function booted(): void {
 
-    static::deleted(function ($assignment) {
+    static::deleting(function (Assignment $assignment) {
       $assignment->notes()->delete();
       $assignment->reminders()->delete();
     });

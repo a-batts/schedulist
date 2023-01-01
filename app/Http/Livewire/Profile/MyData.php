@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\EventUser;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Collection;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MyData extends Component {
 
@@ -32,20 +33,22 @@ class MyData extends Component {
      */
     public array $selectedData = [];
 
-    public $user;
+    public User $user;
 
     /**
      * Create zip archive and return download to user
      *
      * @return void|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function createArchive() {
+    public function createArchive(): ?BinaryFileResponse {
         $zip = new ZipArchive;
         $fileName = Auth::user()->firstname . '_' . Carbon::now()->toDateString() . '_' . rand(1, 99) . '_archive.zip';
-        if ($zip->open(storage_path('app/exported-archives/' . $fileName), ZipArchive::CREATE) === TRUE) {
-            $archiveRecord = DB::table('user_archives')->where('user_id', Auth::id())->first();
-            if ($archiveRecord !== null && $archiveRecord->filename != $fileName)
-                unlink(storage_path('app/exported-archives/' . $archiveRecord->filename));
+
+        if ($zip->open(storage_path('app/exported-archives/' . $fileName), ZipArchive::CREATE) === true) {
+            $archive = DB::table('user_archives')->where('user_id', Auth::id())->first();
+
+            if ($archive !== null && $archive->filename != $fileName)
+                unlink(storage_path('app/exported-archives/' . $archive->filename));
             DB::table('user_archives')->where('user_id', Auth::id())->delete();
 
             foreach ($this->selectedData as $category)
@@ -73,16 +76,15 @@ class MyData extends Component {
      * @param string $category
      * @return void
      */
-    public function deleteData(string $category) {
+    public function deleteData(string $category): void {
         switch ($category) {
             case 'assignments':
-                Auth::user()->assignments()->delete();
+                foreach (Auth::user()->assignments as $assignment)
+                    $assignment->delete();
                 $this->emit('toastMessage', 'Your assignments have been successfully deleted');
             case 'classes':
-                $classes = Auth::user()->classes()->with('links')->get();
-                foreach ($classes as $class)
-                    $class->links()->delete();
-                Auth::user()->classes()->delete();
+                foreach (Auth::user()->classes as $class)
+                    $class->delete();
                 $this->emit('toastMessage', 'Your classes have been successfully deleted');
                 break;
             case 'events':
@@ -90,10 +92,14 @@ class MyData extends Component {
                 EventUser::where('user_id', Auth::id())->delete();
                 $this->emit('toastMessage', 'Your events have been successfully deleted and unshared');
                 break;
+            case 'schedules':
+                Auth::user()->schedules()->delete();
+                $this->emit('toastMessage', 'Your schedules have been successfully deleted');
+                break;
         }
     }
 
-    public function getData(string $category, ZipArchive $zip) {
+    public function getData(string $category, ZipArchive $zip): ZipArchive {
         $data = [];
         switch ($category) {
             case 'assignments':
@@ -172,7 +178,7 @@ class MyData extends Component {
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
             case 'profile':
-                $profile = User::where('id', Auth::id())->get(['firstname', 'lastname', 'email', 'phone', 'carrier', 'school', 'grade_level', 'avatar'])->first();
+                $profile = User::where('id', Auth::id())->get(['firstname', 'lastname', 'email', 'phone', 'carrier', 'school', 'grade_level', 'profile_photo_path'])->first();
                 $data = [
                     'firstName' => $profile->firstname,
                     'lastName' => $profile->lastname,
@@ -189,7 +195,7 @@ class MyData extends Component {
                 $zip->addEmptyDir('profile');
                 $zip->addFromString('profile/profile-info.json', json_encode($data));
                 if ($profile->avatar !== null)
-                    $zip->addFile(public_path('storage/' . $profile->avatar), 'profile/profile-photo.' . explode('.', $profile->avatar)[1]);
+                    $zip->addFile(public_path('storage/' . $profile->profile_photo_path), 'profile/profile-photo.' . explode('.', $profile->profile_photo_path)[1]);
         }
         return $zip;
     }
@@ -199,7 +205,7 @@ class MyData extends Component {
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function redownload() {
+    public function redownload(): BinaryFileResponse {
         $this->dispatchBrowserEvent('finished-redownload');
         return response()->download(storage_path('app/exported-archives/' . $this->existingBackup['filename']));
     }

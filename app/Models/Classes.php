@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Classes extends Model {
   use HasFactory;
@@ -20,19 +22,27 @@ class Classes extends Model {
     'location' => 'encrypted'
   ];
 
-  public function assignments() {
+  protected static function booted(): void {
+
+    static::deleting(function (Classes $class) {
+      $class->links()->delete();
+      $class->times()->delete();
+    });
+  }
+
+  public function assignments(): HasMany {
     return $this->hasMany(Assignment::class, 'class_id')->orderBy('due');
   }
 
-  public function links() {
+  public function links(): HasMany {
     return $this->hasMany(ClassLink::class, 'class_id');
   }
 
-  public function times() {
+  public function times(): HasMany {
     return $this->hasMany(ClassTime::class, 'class_id');
   }
 
-  public function schedule() {
+  public function schedule(): BelongsTo {
     return $this->belongsTo(ClassSchedule::class, 'schedule_id');
   }
 }

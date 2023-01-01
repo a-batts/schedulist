@@ -4,10 +4,13 @@ namespace App\Http\Livewire\Profile;
 
 use App\Models\Event;
 use App\Models\EventUser;
+use App\Models\User;
+use ErrorException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
@@ -23,26 +26,36 @@ class DeleteAccount extends Component {
     public $password = '';
 
     /**
-     * Deletes all of the associated data for a specified user
+     * Delete the specified user's data
      *
-     * @param integer $userId
+     * @param User $user
      * @return void
      */
-    public function deleteData(int $userId) {
+    private function deleteUserData(User $user): void {
         //Delete assignments
-        Auth::user()->assignments()->delete();
+        foreach ($user->assignments as $assignment)
+            $assignment->delete();
+
         //Delete classes
-        $classes = Auth::user()->classes()->with('links')->get();
-        foreach ($classes as $class)
-            $class->links()->delete();
-        Auth::user()->classes()->delete();
-        //Delete class schedule
-        DB::table('class_schedule_user')->where('user_id', $userId)->delete();
-        //Delete events and access to shared events
-        Event::where('owner', $userId)->delete();
-        EventUser::where('user_id', $userId)->delete();
-        //Delete user settings
-        Auth::user()->settings()->delete();
+        foreach ($user->classes as $class)
+            $class->delete();
+
+        //Delete class schedules
+        $user->schedules()->delete();
+
+        //Delete events, and the access to other events shared with this user
+        Event::where('owner', $user->id)->delete();
+        EventUser::where('user_id', $user->id)->delete();
+
+        //Delete user backup if exists
+        $archive = DB::table('user_archives')->where('user_id', $user->id)->first();
+        if ($archive != null) {
+            try {
+                unlink(storage_path('app/exported-archives/' . $archive->filename));
+            } catch (ErrorException) {
+            }
+            DB::table('user_archives')->where('user_id', $user->id)->delete();
+        }
     }
 
     /**
@@ -62,7 +75,7 @@ class DeleteAccount extends Component {
             ]);
         }
 
-        $this->deleteData(Auth::id());
+        $this->deleteUserData(Auth::user());
         $deleter->delete(Auth::user()->fresh());
         $auth->logout();
 
