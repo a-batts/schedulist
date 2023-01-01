@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MyData extends Component {
 
+    public User $user;
+
     /**
      * Holds information about user's existing backup 
      * 
@@ -33,7 +35,7 @@ class MyData extends Component {
      */
     public array $selectedData = [];
 
-    public User $user;
+    private array $isoDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     /**
      * Create zip archive and return download to user
@@ -93,7 +95,8 @@ class MyData extends Component {
                 $this->emit('toastMessage', 'Your events have been successfully deleted and unshared');
                 break;
             case 'schedules':
-                Auth::user()->schedules()->delete();
+                foreach (Auth::user()->schedules as $schedule)
+                    $schedule->delete();
                 $this->emit('toastMessage', 'Your schedules have been successfully deleted');
                 break;
         }
@@ -103,30 +106,44 @@ class MyData extends Component {
         $data = [];
         switch ($category) {
             case 'assignments':
-                $assignments = Auth::user()->assignments()->get(['class_id', 'name', 'link', 'description', 'status', 'due']);
-                $classes = Auth::user()->classes()->get(['id', 'name']);
-                foreach ($assignments as $assignment) {
-                    array_push($data, [
+                $classes = $this->user->classes;
+
+                foreach ($this->user->assignments as $assignment) {
+                    $notes = [];
+                    foreach ($assignment->notes as $note)
+                        $notes[] = ['content' => $note->content];
+
+                    $data[] = [
                         'name' => $assignment->name,
                         'class' => [$classes->find($assignment->class_id) != null ? $classes->find($assignment->class_id)['name'] : ''],
                         'description' => $assignment->description,
                         'due' => $assignment->due,
                         'link' => $assignment->link,
                         'status' => $assignment->status == 'done' ? 'done' : 'incomplete',
-                    ]);
+                        'notes' => $notes
+                    ];
                 }
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
+
             case 'classes':
-                $classes = Auth::user()->classes()->orderBy('name', 'asc')->with('links')->get();
-                foreach ($classes as $class) {
-                    $linkData = [];
+                foreach ($this->user->classes as $class) {
+                    $links = [];
                     foreach ($class->links as $link)
-                        array_push($linkData, [
+                        $links[] = [
                             'name' => $link->name,
                             'link' => $link->link,
-                        ]);
-                    array_push($data, [
+                        ];
+
+                    $times = [];
+                    foreach ($class->times as $time)
+                        $times[] = [
+                            'day_of_week' => $this->isoDays[$time->day_of_week],
+                            'start_time' => $time->start_time,
+                            'end_time' => $time->end_time,
+                        ];
+
+                    $data[] = [
                         'name' => $class->name,
                         'period' => $class->period,
                         'location' => $class->class_location,
@@ -136,17 +153,16 @@ class MyData extends Component {
                         ],
                         'videoLink' => $class->video_link,
                         'color' => $class->color,
-                        'links' => $linkData,
-                    ]);
+                        'schedule_id' => $class->schedule_id,
+                        'links' => $links,
+                        'times' => $times,
+                    ];
                 }
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
-            case 'class schedule':
-                //Finish at some point
-                break;
+
             case 'events':
-                $events = Auth::user()->events()->with('users')->get();
-                foreach ($events as $event) {
+                foreach ($this->user->events as $event) {
                     $eventData = [
                         'name' => $event->name,
                         'category' => $event->category,
@@ -161,41 +177,52 @@ class MyData extends Component {
                         ],
                         'color' => $event->color,
                     ];
-                    if ((bool)$event->reoccuring) {
-                        $isoDays = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
+                    if (boolval($event->reoccuring)) {
                         $frequencies = [1 => 'every day', 7 => 'every week', 14 => 'every two weeks', 31 => 'every month'];
                         $days = explode(',', $event->days);
                         for ($i = 0; $i < count($days); $i++)
-                            $days[$i] = $isoDays[$days[$i]];
+                            $days[$i] = $this->isoDays[$days[$i]];
                         $eventData['reoccuring'] = [
                             'frequency' => $frequencies[$event->frequency],
                             'days' => $days,
                         ];
                     } else
                         $eventData['reoccuring'] = 'false';
-                    array_push($data, $eventData);
+
+                    $data[] = $eventData;
                 }
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
+
+            case 'schedules':
+                foreach ($this->user->schedules as $schedule)
+                    $data[] = [
+                        'name' => $schedule->name,
+                        'start_date' => $schedule->start_date,
+                        'end_date' => $schedule->end_date,
+                    ];
+                $zip->addFromString($category . '.json', json_encode($data));
+                break;
+
             case 'profile':
-                $profile = User::where('id', Auth::id())->get(['firstname', 'lastname', 'email', 'phone', 'carrier', 'school', 'grade_level', 'profile_photo_path'])->first();
+                $user = $this->user;
                 $data = [
-                    'firstName' => $profile->firstname,
-                    'lastName' => $profile->lastname,
-                    'email' => $profile->email,
+                    'firstName' => $user->firstname,
+                    'lastName' => $user->lastname,
+                    'email' => $user->email,
                     'phone' => [
-                        'number' => $profile->phone,
-                        'carrier' => $profile->carrier,
+                        'number' => $user->phone,
+                        'carrier' => $user->carrier,
                     ],
                     'school' => [
-                        'name' => $profile->school,
-                        'gradeLevel' => $profile->grade_level
+                        'name' => $user->school,
+                        'gradeLevel' => $user->grade_level
                     ]
                 ];
                 $zip->addEmptyDir('profile');
                 $zip->addFromString('profile/profile-info.json', json_encode($data));
-                if ($profile->avatar !== null)
-                    $zip->addFile(public_path('storage/' . $profile->profile_photo_path), 'profile/profile-photo.' . explode('.', $profile->profile_photo_path)[1]);
+                if ($user->avatar !== null)
+                    $zip->addFile(public_path('storage/' . $user->profile_photo_path), 'profile/profile-photo.' . explode('.', $user->profile_photo_path)[1]);
         }
         return $zip;
     }
@@ -211,7 +238,9 @@ class MyData extends Component {
     }
 
     public function render() {
-        $archiveRecord = DB::table('user_archives')->where('user_id', Auth::id())->first();
+        $this->user = Auth::user()->with(['assignments', 'classes', 'events', 'schedules'])->first();
+
+        $archiveRecord = DB::table('user_archives')->where('user_id', $this->user->id)->first();
         if ($archiveRecord != null) {
             $contains = '';
             $exploded = explode(',', $archiveRecord->backup_contains);
@@ -232,7 +261,6 @@ class MyData extends Component {
             ];
             $this->existingBackup = $existingBackup;
         }
-        $this->user = Auth::user()->with(['assignments', 'classes', 'events'])->first();
         return view('livewire.profile.my-data')
             ->layout('layouts.app')
             ->layoutData(['title' => 'Your Data']);
