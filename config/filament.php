@@ -1,5 +1,18 @@
 <?php
 
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Http\Middleware\MirrorConfigToSubpackages;
+use Filament\Pages;
+use Filament\Widgets;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
 return [
 
     /*
@@ -16,6 +29,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Filament Core Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the path which Filament will use to load its core routes and assets.
+    | You may change it if it conflicts with your other routes.
+    |
+    */
+
+    'core_path' => env('FILAMENT_CORE_PATH', 'filament'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filament Domain
     |--------------------------------------------------------------------------
     |
@@ -24,7 +49,30 @@ return [
     |
     */
 
-    'domain' => env('FILAMENT_DOMAIN', null),
+    'domain' => env('FILAMENT_DOMAIN'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Homepage URL
+    |--------------------------------------------------------------------------
+    |
+    | This is the URL that Filament will redirect the user to when they click
+    | on the sidebar's header.
+    |
+    */
+
+    'home_url' => '/',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Brand Name
+    |--------------------------------------------------------------------------
+    |
+    | This will be displayed on the login page and in the sidebar's header.
+    |
+    */
+
+    'brand' => env('APP_NAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +85,10 @@ return [
     */
 
     'auth' => [
-        'guard' => env('FILAMENT_AUTH_GUARD', 'filament'),
+        'guard' => env('FILAMENT_AUTH_GUARD', 'web'),
+        'pages' => [
+            'login' => \Filament\Http\Livewire\Auth\Login::class,
+        ],
     ],
 
     /*
@@ -46,13 +97,16 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is the namespace and directory that Filament will automatically
-    | register pages from.
+    | register pages from. You may also register pages here.
     |
     */
 
     'pages' => [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
+        'register' => [
+            Pages\Dashboard::class,
+        ],
     ],
 
     /*
@@ -61,28 +115,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is the namespace and directory that Filament will automatically
-    | register resources from.
+    | register resources from. You may also register resources here.
     |
     */
 
     'resources' => [
         'namespace' => 'App\\Filament\\Resources',
         'path' => app_path('Filament/Resources'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    |
-    | This is the namespace and directory that Filament will automatically
-    | register roles from.
-    |
-    */
-
-    'roles' => [
-        'namespace' => 'App\\Filament\\Roles',
-        'path' => app_path('Filament/Roles'),
+        'register' => [],
     ],
 
     /*
@@ -91,18 +131,150 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is the namespace and directory that Filament will automatically
-    | register widgets from.
+    | register dashboard widgets from. You may also register widgets here.
     |
     */
 
     'widgets' => [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
-        'default' => [
-            'account' => true,
-            'info' => true,
+        'register' => [
+            Widgets\AccountWidget::class,
+            Widgets\FilamentInfoWidget::class,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Livewire
+    |--------------------------------------------------------------------------
+    |
+    | This is the namespace and directory that Filament will automatically
+    | register Livewire components inside.
+    |
+    */
+
+    'livewire' => [
+        'namespace' => 'App\\Filament',
+        'path' => app_path('Filament'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dark mode
+    |--------------------------------------------------------------------------
+    |
+    | By enabling this feature, your users are able to select between a light
+    | and dark appearance for the admin panel, or let their system decide.
+    |
+    */
+
+    'dark_mode' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Database notifications
+    |--------------------------------------------------------------------------
+    |
+    | By enabling this feature, your users are able to open a slide-over within
+    | the admin panel to view their database notifications.
+    |
+    */
+
+    'database_notifications' => [
+        'enabled' => false,
+        'polling_interval' => '30s',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Broadcasting
+    |--------------------------------------------------------------------------
+    |
+    | By uncommenting the Laravel Echo configuration, you may connect your
+    | admin panel to any Pusher-compatible websockets server.
+    |
+    | This will allow your admin panel to receive real-time notifications.
+    |
+    */
+
+    'broadcasting' => [
+
+        // 'echo' => [
+        //     'broadcaster' => 'pusher',
+        //     'key' => env('VITE_PUSHER_APP_KEY'),
+        //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
+        //     'forceTLS' => true,
+        // ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    |
+    | This is the configuration for the general layout of the admin panel.
+    |
+    | You may configure the max content width from `xl` to `7xl`, or `full`
+    | for no max width.
+    |
+    */
+
+    'layout' => [
+        'actions' => [
+            'modal' => [
+                'actions' => [
+                    'alignment' => 'left',
+                ],
+            ],
+        ],
+        'forms' => [
+            'actions' => [
+                'alignment' => 'left',
+            ],
+            'have_inline_labels' => false,
+        ],
+        'footer' => [
+            'should_show_logo' => true,
+        ],
+        'max_content_width' => null,
+        'notifications' => [
+            'vertical_alignment' => 'top',
+            'alignment' => 'right',
+        ],
+        'sidebar' => [
+            'is_collapsible_on_desktop' => false,
+            'groups' => [
+                'are_collapsible' => true,
+            ],
+            'width' => null,
+            'collapsed_width' => null,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon
+    |--------------------------------------------------------------------------
+    |
+    | This is the path to the favicon used for pages in the admin panel.
+    |
+    */
+
+    'favicon' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Avatar Provider
+    |--------------------------------------------------------------------------
+    |
+    | This is the service that will be used to retrieve default avatars if one
+    | has not been uploaded.
+    |
+    */
+
+    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -118,50 +290,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Resource
+    | Google Fonts
     |--------------------------------------------------------------------------
     |
-    | This is the user resource class that Filament will use to generate tables
-    | and forms to manage users.
+    | This is the URL for Google Fonts that should be loaded. You may use any
+    | font, or set to `null` to prevent any Google Fonts from loading.
+    |
+    | When using a custom font, you should also set the font family in your
+    | custom theme's `tailwind.config.js` file.
     |
     */
 
-    'user_resource' => App\Filament\Resources\UserResource::class,
+    'google_fonts' => 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
 
     /*
     |--------------------------------------------------------------------------
-    | Avatar Provider
+    | Middleware
     |--------------------------------------------------------------------------
     |
-    | This is the service that will be used to retrieve default avatars if one
-    | has not been uploaded.
+    | You may customize the middleware stack that Filament uses to handle
+    | requests.
     |
     */
 
-    'avatar_provider' => \App\Helpers\UiAvatarProvider::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cache
-    |--------------------------------------------------------------------------
-    |
-    | This is the cache disk Filament will use, you may use any of the disks
-    | defined in the `config/filesystems.php`.
-    |
-    */
-
-    'cache_disk' => env('FILAMENT_CACHE_DISK', 'local'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Path Prefix
-    |--------------------------------------------------------------------------
-    |
-    | This is the cache path prefix used by Filament. It is relative to the
-    | disk defined above.
-    |
-    */
-
-    'cache_path_prefix' => 'filament/cache',
+    'middleware' => [
+        'auth' => [
+            Authenticate::class,
+        ],
+        'base' => [
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            AuthenticateSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            DispatchServingFilamentEvent::class,
+            MirrorConfigToSubpackages::class,
+        ],
+    ],
 
 ];

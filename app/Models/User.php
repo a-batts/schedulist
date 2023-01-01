@@ -4,14 +4,20 @@ namespace App\Models;
 
 use App\Helpers;
 use App\Helpers\HasProfilePhoto;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable implements FilamentUser, HasAvatar {
   use HasApiTokens;
   use HasFactory;
   use HasProfilePhoto;
@@ -62,7 +68,7 @@ class User extends Authenticatable {
     'profile_photo_url',
   ];
 
-  protected static function booted() {
+  protected static function booted(): void {
     //Run upon creation of a new user model
 
     static::created(function ($user) {
@@ -71,43 +77,48 @@ class User extends Authenticatable {
     });
   }
 
-
-  public function getNameAttribute() {
-    return "{$this->firstname} {$this->lastname}";
+  protected function name(): Attribute {
+    return new Attribute(
+      get: fn () => "{$this->firstname} {$this->lastname}",
+    );
   }
 
-  public function setNameAttribute($value) {
-    if (isset($value)) {
-      $names = explode(' ', $value, 2);
-      $this->attributes['firstname'] = $names[0];
-      $this->attributes['lastname'] = $names[1];
-    }
+  protected function hasPassword(): Attribute {
+    return new Attribute(
+      get: fn () => isset($this->password) && strlen($this->password) > 0,
+    );
   }
 
-  public function getHasPasswordAttribute() {
-    return (isset($this->password) && $this->password != '');
-  }
-
-  public function assignments() {
+  public function assignments(): HasMany {
     return $this->hasMany(Assignment::class, 'user_id');
   }
 
-  public function classes() {
+  public function classes(): HasMany {
     return $this->hasMany(Classes::class, 'user_id');
   }
 
-  public function schedules() {
+  public function schedules(): HasMany {
     return $this->hasMany(ClassSchedule::class)->with('times');
   }
 
-  public function events() {
+  public function events(): BelongsToMany {
     return $this->belongsToMany(Event::class)->wherePivot('accepted', 1);
   }
 
-  public function settings() {
+  public function settings(): HasOne {
     return $this->hasOne(UserSettings::class);
   }
 
+  public function canAccessFilament(): bool {
+    return $this->filament_user;
+  }
+
+  public function getFilamentAvatarUrl(): ?string {
+    return $this->getProfilePhotoUrlAttribute();
+  }
+
+
+  /*
   public static function getFilamentAdminColumn() {
     return 'filament_admin';
   }
@@ -120,19 +131,8 @@ class User extends Authenticatable {
     return 'filament_user';
   }
 
-  public static function getFilamentAvatarColumn() {
-    return 'profile_photo_path';
-  }
-
-  public function getFilamentAvatar() {
-    return $this->getProfilePhotoUrlAttribute();
-  }
-
   public function isFilamentAdmin() {
     return $this->filament_admin;
   }
-
-  public function canAccessFilament() {
-    return $this->filament_user;
-  }
+  */
 }
