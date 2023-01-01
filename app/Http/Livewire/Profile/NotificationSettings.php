@@ -21,9 +21,9 @@ class NotificationSettings extends Component {
    * @return void
    */
   public function mount(): void {
-    $userSettings = Auth::User()->settings;
+    $userSettings = Auth::user()->settings;
     if ($userSettings == null)
-      $userSettings = Auth::User()->settings()->create();
+      $userSettings = Auth::user()->settings()->create();
 
     $this->userSettings = $userSettings;
   }
@@ -44,7 +44,7 @@ class NotificationSettings extends Component {
       case 'account_alert_texts':
         if ($userSettings->account_alert_texts === false) {
           $message = ('SMS account alerts were just disabled for your Schedulist account. If this wasn\'t you, reset your password ASAP.');
-          NotifyUser::createNotification($message, Auth::User())->sendText();
+          NotifyUser::createNotification($message, Auth::user())->sendText();
         }
         break;
       case 'account_alert_emails':
@@ -56,7 +56,7 @@ class NotificationSettings extends Component {
             'link_title' => 'Go to account settings',
             'subject' => 'Security alert - Account status emails disabled',
           ];
-          NotifyUser::createNotification($message, Auth::User())->sendEmail('security-alert');
+          NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
         }
         break;
     }

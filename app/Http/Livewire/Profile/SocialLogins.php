@@ -12,7 +12,7 @@ class SocialLogins extends Component {
    * @return void
    */
   public function disconnectGoogle(): void {
-    $user = Auth::User();
+    $user = Auth::user();
     $user->google_email = null;
     $user->google_id = "0";
     $user->save();
@@ -25,7 +25,7 @@ class SocialLogins extends Component {
    * @return boolean
    */
   public function getHasGoogleAccountProperty(): bool {
-    return !(Auth::User()->google_id == "0" || Auth::User()->google_id == null);
+    return !(Auth::user()->google_id == "0" || Auth::user()->google_id == null);
   }
 
   public function render() {

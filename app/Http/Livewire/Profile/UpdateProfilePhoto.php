@@ -19,10 +19,10 @@ class UpdateProfilePhoto extends Component {
 
 
   public function mount() {
-    if (Auth::User()->profile_photo_path == null)
+    if (Auth::user()->profile_photo_path == null)
       $this->profilePhotoUrl == null;
     else
-      $this->profilePhotoUrl = Auth::User()->profile_photo_url;
+      $this->profilePhotoUrl = Auth::user()->profile_photo_url;
   }
 
   /**
@@ -30,13 +30,13 @@ class UpdateProfilePhoto extends Component {
    * @return void
    */
   public function save() {
-    if (Auth::User()->profile_photo_path == $this->profilePhoto) {
+    if (Auth::user()->profile_photo_path == $this->profilePhoto) {
       $this->dispatchBrowserEvent('close-photo-dialog');
       $this->emit('refreshProfileCard');
       $this->emit('refresh-navigation-menu');
       return;
     }
-    $user = Auth::User();
+    $user = Auth::user();
     if ($this->profilePhotoUrl != null && $this->profilePhoto == null) {
       $this->dispatchBrowserEvent('close-photo-dialog');
       $this->emit('refreshProfileCard');
@@ -53,7 +53,7 @@ class UpdateProfilePhoto extends Component {
       $user->profile_photo_path = substr($filename, strpos($filename, '/profile'));
       $user->save();
 
-      $this->profilePhotoUrl = Auth::User()->profile_photo_url;
+      $this->profilePhotoUrl = Auth::user()->profile_photo_url;
     } else {
       $user->profile_photo_path = null;
       $user->save();
@@ -80,7 +80,7 @@ class UpdateProfilePhoto extends Component {
   }
 
   public function render() {
-    if (Auth::User()->profile_photo_path != null)
+    if (Auth::user()->profile_photo_path != null)
       $this->hasProfilePicture = true;
     else
       $this->hasProfilePicture = false;

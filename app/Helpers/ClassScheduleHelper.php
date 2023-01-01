@@ -25,8 +25,8 @@ class ClassScheduleHelper {
   private Collection $classes;
 
   public function __construct() {
-    $this->schedules = Auth::User()->schedules;
-    $this->classes = Auth::User()->classes;
+    $this->schedules = Auth::user()->schedules;
+    $this->classes = Auth::user()->classes;
   }
 
   /**

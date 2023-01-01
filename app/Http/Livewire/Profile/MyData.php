@@ -112,7 +112,7 @@ class MyData extends Component {
                 $zip->addFromString($category . '.json', json_encode($data));
                 break;
             case 'classes':
-                $classes = Auth::User()->classes()->orderBy('name', 'asc')->with('links')->get();
+                $classes = Auth::user()->classes()->orderBy('name', 'asc')->with('links')->get();
                 foreach ($classes as $class) {
                     $linkData = [];
                     foreach ($class->links as $link)

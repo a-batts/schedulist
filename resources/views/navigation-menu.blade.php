@@ -59,7 +59,7 @@
             <div class="flex-shrink-0">
               <button aria-describedby="switchacct-tooltip" class="flex items-center max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full profilebutton focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               id="user-menu" @click="profileMenu = !profileMenu" aria-label="User menu" aria-haspopup="true">
-                <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{Auth::user()->firstname}}" />
               </button>
             </div>
             <div class="absolute right-0 mt-6 origin-top-right mdc-card mdc-card-outlined profile-menu"
@@ -118,10 +118,10 @@
               </a>
             </div>
             <div class="block px-6 mt-4">
-              <img class="float-left object-cover w-16 h-16 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+              <img class="float-left object-cover w-16 h-16 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{Auth::user()->firstname}}" />
               <div class="inline-block mt-2 ml-6">
-                <h6 class="text-lg font-medium text-white nav-menu-name">{{Auth::User()->firstname." ".Auth::User()->lastname }}</h6>
-                <h1 class="text-sm nav-menu-email">{{ Auth::User()->email}}</h1>
+                <h6 class="text-lg font-medium text-white nav-menu-name">{{Auth::user()->firstname." ".Auth::user()->lastname }}</h6>
+                <h1 class="text-sm nav-menu-email">{{ Auth::user()->email}}</h1>
               </div>
             </div>
           </div>

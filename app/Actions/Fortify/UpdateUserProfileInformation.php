@@ -37,7 +37,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
         ) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            $user = Auth::User();
+            $user = Auth::user();
             $user->firstname = $input['firstname'];
             $user->lastname = $input['lastname'];
             $user->email = $input['email'];

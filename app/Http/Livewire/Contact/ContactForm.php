@@ -29,8 +29,8 @@ class ContactForm extends Component {
    */
   public function mount() {
     if (Auth::check()) {
-      $this->name = Auth::User()->name;
-      $this->email = Auth::User()->email;
+      $this->name = Auth::user()->name;
+      $this->email = Auth::user()->email;
     }
   }
 

@@ -75,7 +75,7 @@
                 @auth
                   <a href="{{ route('dashboard') }}"class="float-right mt-1.5 max-w-xs rounded-full bg-gray-800 text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   aria-label="User menu" aria-haspopup="true">
-                    <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::User()->profile_photo_url }}" alt="{{Auth::User()->firstname}}" />
+                    <img class="object-cover w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{Auth::user()->firstname}}" />
                   </a>
                 @else
                   <a class="float-right text-lg w-22 mdc-button mdc-button--raised h-11" href="{{route('login')}}" wire:ignore>

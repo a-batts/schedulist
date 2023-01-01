@@ -52,7 +52,7 @@ class EditSchedules extends Component {
      * @return void
      */
     public function mount(): void {
-        $this->schedules = Auth::User()->schedules()->get()->keyBy('id');
+        $this->schedules = Auth::user()->schedules()->get()->keyBy('id');
         $this->start = Carbon::now();
         $this->end = Carbon::now()->addDay();
     }
@@ -72,7 +72,7 @@ class EditSchedules extends Component {
         $newSchedule->end_date = $this->end->toDateString();
 
         if (!$this->checkForOverlap()) {
-            Auth::User()->schedules()->save($newSchedule);
+            Auth::user()->schedules()->save($newSchedule);
             $this->schedules->add($newSchedule);
 
             $this->start = Carbon::now();
@@ -90,7 +90,7 @@ class EditSchedules extends Component {
         $this->validate();
 
         try {
-            $editSchedule = Auth::User()->schedules()->findOrFail($id);
+            $editSchedule = Auth::user()->schedules()->findOrFail($id);
 
             $editSchedule->name = $this->name;
             $editSchedule->start_date = $this->start->toDateString();
@@ -120,8 +120,8 @@ class EditSchedules extends Component {
      */
     public function delete(int $id): void {
         try {
-            Auth::User()->schedules()->findOrFail($id)->first()->times()->delete();
-            Auth::User()->schedules()->findOrFail($id)->delete();
+            Auth::user()->schedules()->findOrFail($id)->first()->times()->delete();
+            Auth::user()->schedules()->findOrFail($id)->delete();
             $this->schedules = $this->schedules->except($id);
         } catch (ModelNotFoundException $e) {
         }

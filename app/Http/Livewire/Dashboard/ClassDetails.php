@@ -28,8 +28,8 @@ class ClassDetails extends Component {
      * @return void
      */
     public function mount(): void {
-        $this->classData = Auth::User()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
-        $this->schedules = Auth::User()->schedules()->get()->keyBy('id')->toArray();
+        $this->classData = Auth::user()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
+        $this->schedules = Auth::user()->schedules()->get()->keyBy('id')->toArray();
     }
 
     /**
@@ -38,7 +38,7 @@ class ClassDetails extends Component {
      * @return void
      */
     public function updateClassData(): void {
-        $this->classData = Auth::User()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
+        $this->classData = Auth::user()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
     }
 
     public function getScheduleNames(): array {
