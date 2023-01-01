@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Classes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Assignment extends Model {
   use HasFactory;
@@ -21,58 +24,89 @@ class Assignment extends Model {
   ];
 
   protected $appends = [
-    'humanDue', 'isLate', 'dueInNextMonth'
+    'human_due', 'is_late', 'due_in_next_month'
   ];
 
-  public function getClassNameAttribute(): string {
-    if ($this->class_id == null)
-      return 'No Class';
+  protected static function booted(): void {
 
-    $class = Classes::where('id', $this->class_id)->first();
-    return $class != null ? $class->name : 'Deleted Class';
+    static::deleted(function ($assignment) {
+      $assignment->notes()->delete();
+      $assignment->reminders()->delete();
+    });
   }
 
-  public function getHumanDueAttribute(): string {
-    return Carbon::parse($this->due)->format('M j, g:i A');
+  protected function className(): Attribute {
+    return new Attribute(
+      get: function () {
+        if ($this->class_id == null)
+          return 'No Class';
+
+        return $this->class != null ? $this->class->name : 'Deleted Class';
+      },
+    );
   }
 
-  public function getDueDateAttribute(): string {
-    return Carbon::parse($this->due)->format('M j, Y');
+  protected function humanDue(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due)->format('M j, g:i A'),
+    );
   }
 
-  public function getDueDateWAttribute(): string {
-    return Carbon::parse($this->due)->format('D');
+  protected function dueDate(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due)->format('M j, Y'),
+    );
   }
 
-  public function getDueTimeAttribute(): string {
-    return Carbon::parse($this->due)->format('g:i A');
+  protected function dueDateW(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due)->format('D'),
+    );
   }
 
-  public function getCreatedDateAttribute(): string {
-    return Carbon::parse($this->created_at)->format('M j, Y');
+  protected function dueTime(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due)->format('g:i A'),
+    );
   }
 
-  public function getEditedDateAttribute(): ?string {
-    return $this->created_at != $this->updated_at ? Carbon::parse($this->updated_at)->format('M j') : null;
+  protected function createdDate(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->created_at)->format('M j, Y'),
+    );
   }
 
-  public function getIsLateAttribute(): bool {
-    return Carbon::parse($this->due) < Carbon::now();
+  protected function editedDate(): Attribute {
+    return new Attribute(
+      get: fn () => $this->created_at != $this->updated_at ? Carbon::parse($this->updated_at)->format('M j') : null,
+    );
   }
 
-  public function getDueInNextMonthAttribute(): bool {
-    return Carbon::parse($this->due)->setTime(0, 0) < Carbon::now()->addDays(30)->setTime(0, 1);
+  protected function isLate(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due) < Carbon::now(),
+    );
   }
 
-  public function reminders() {
-    return $this->hasMany(AssignmentReminder::class);
+  protected function dueInNextMonth(): Attribute {
+    return new Attribute(
+      get: fn () => Carbon::parse($this->due)->setTime(0, 0) < Carbon::now()->addDays(30)->setTime(0, 1),
+    );
   }
 
-  public function user() {
+  public function class(): BelongsTo {
+    return $this->belongsTo(Classes::class, 'class_id');
+  }
+
+  public function user(): BelongsTo {
     return $this->belongsTo(User::class);
   }
 
-  public function notes() {
+  public function notes(): HasMany {
     return $this->hasMany(AssignmentNote::class);
+  }
+
+  public function reminders(): HasMany {
+    return $this->hasMany(AssignmentReminder::class);
   }
 }
