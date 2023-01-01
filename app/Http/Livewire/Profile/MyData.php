@@ -179,9 +179,13 @@ class MyData extends Component {
                     ];
                     if (boolval($event->reoccuring)) {
                         $frequencies = [1 => 'every day', 7 => 'every week', 14 => 'every two weeks', 31 => 'every month'];
-                        $days = explode(',', $event->days);
-                        for ($i = 0; $i < count($days); $i++)
-                            $days[$i] = $this->isoDays[$days[$i]];
+                        if (strlen($event->days) > 1) {
+                            $days = explode(',', $event->days);
+                            for ($i = 0; $i < count($days); $i++)
+                                $days[$i] = $this->isoDays[$days[$i]];
+                        } else
+                            $days[0] = $event->days;
+
                         $eventData['reoccuring'] = [
                             'frequency' => $frequencies[$event->frequency],
                             'days' => $days,

@@ -100,46 +100,45 @@ class EventEdit extends Component {
 
     $event = $this->event;
 
-    if ($event->reoccuring) {
-      if ($this->frequency != null) {
-        switch ($this->frequency) {
-          case 'Day':
-            $event->frequency = 1;
-            break;
-          case 'Week':
-            $event->frequency = 7;
-            break;
-          case 'Two Weeks':
-            $event->frequency = 14;
-            break;
-          case 'Month':
-            $event->frequency = 31;
-            break;
-          default:
-            $event->frequency = null;
-            break;
-        }
-      }
-      $eventDay = Carbon::parse($this->event->date)->format('D');
-      if (!in_array($eventDay, $this->days))
-        $this->days[] = $eventDay;
-
-      $isoVals = [];
-
-      foreach ($this->days as $day)
-        $isoVals[] = array_search($day, Self::DAYS) + 1;
-
-
-      sort($isoVals);
-      $this->event->days = implode(',', $isoVals);
-    } else {
-      $event->frequency = null;
-      $event->days = null;
-    }
-
-    $this->validate();
-
     if ($event->owner == Auth::id()) {
+      if ($event->reoccuring) {
+        if ($this->frequency != null) {
+          switch ($this->frequency) {
+            case 'Day':
+              $event->frequency = 1;
+              break;
+            case 'Week':
+              $event->frequency = 7;
+              break;
+            case 'Two Weeks':
+              $event->frequency = 14;
+              break;
+            case 'Month':
+              $event->frequency = 31;
+              break;
+            default:
+              $event->frequency = null;
+              break;
+          }
+        }
+        $eventDay = Carbon::parse($this->event->date)->format('D');
+        if (!in_array($eventDay, $this->days))
+          $this->days[] = $eventDay;
+
+        $isoVals = [];
+
+        foreach ($this->days as $day)
+          $isoVals[] = array_search($day, Self::DAYS) + 1;
+
+        sort($isoVals);
+        $event->days = implode(',', $isoVals);
+      } else {
+        $event->frequency = null;
+        $event->days = null;
+      }
+
+      $this->validate();
+
       $event->save();
       $this->emit('updateAgendaData');
       $this->dispatchBrowserEvent('close-edit-modal');
@@ -307,9 +306,9 @@ class EventEdit extends Component {
   /**
    * Get the event reoccurance days
    *
-   * @return mixed
+   * @return array
    */
-  public function getDays() {
+  public function getDays(): array {
     return $this->days;
   }
 
@@ -319,8 +318,8 @@ class EventEdit extends Component {
    * @param array $val
    * @return void
    */
-  public function setDays($val) {
-    $this->day = $val;
+  public function setDays($val): void {
+    $this->days = $val;
   }
 
   /**

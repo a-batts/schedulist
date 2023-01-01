@@ -1,4 +1,4 @@
-<div x-data="eventEdit()"
+  <div x-data="eventEdit()"
 @update-content.window="updateContent($wire)"
 @close-edit-modal.window="modal = false"
 class="mdc-typography">
