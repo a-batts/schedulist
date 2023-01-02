@@ -2,6 +2,7 @@
 
 namespace App\Classes\Schedule;
 
+use App\Helpers\ClassScheduleHelper;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
@@ -20,15 +21,13 @@ class Schedule {
      * @return Day
      */
     public static function getSingleDay(Carbon $date): Day {
-        $userSchedule = Auth::user()->classSchedule()->get();
-        if (isset($userSchedule))
-            $userSchedule = $userSchedule->toArray();
+        $scheduleHelper = new ClassScheduleHelper;
 
         $queriedData = [
             'assignments' => Auth::user()->assignments()->where('due', $date)->get(),
             'classes' => Auth::user()->classes()->get(),
             'events' => Auth::user()->events()->get(),
-            'schedule' => $userSchedule,
+            'schedule' => $scheduleHelper,
         ];
 
         return new Day($date, $queriedData);
