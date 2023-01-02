@@ -96,11 +96,11 @@
             @else
               <div class="mt-2">
                 @foreach ($events as $index => $event)
-                  <div class="mdc-card mdc-card--outlined mt-3 background-{{$event->color ?? 'blue'}}">
+                  <div class="mdc-card mdc-card--outlined mt-3 background-{{$event['color'] ?? 'blue'}}">
                     <div class="px-5 text-left truncate mdc-card__primary-action assignment-card-dashboard" tabindex="0">
                       <div class="float-left assignment-card-left">
-                        <p class="-mt-0.5 text-xl font-medium">{{$event->name}}</p>
-                        <p class="text-sm">{{$event->timestring}}</p>
+                        <p class="-mt-0.5 text-xl font-medium">{{$event['name']}}</p>
+                        <p class="text-sm">{{$event['timestring']}}</p>
                       </div>
                     </div>
                   </div>
