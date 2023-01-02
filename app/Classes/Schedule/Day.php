@@ -9,7 +9,6 @@ use Carbon\CarbonInterval;
 use Countable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 class Day implements Countable {
 
@@ -130,6 +129,10 @@ class Day implements Countable {
 
             if ($item->reoccuring)
                 $days = explode(',', (string) $item->days);
+
+            //If an event's first date is before this day, break the loop to prevent it from being added
+            if ($this->date < $date)
+                break;
 
             switch ($item->frequency) {
                 case (null):
