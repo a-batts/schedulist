@@ -79,12 +79,13 @@ autosize(document.querySelectorAll('textarea.autosize'));
 
 [].map.call(docuemnt.querySelectorAll('.mdc-switch'), function (el) {
   return new MDCSwitch(el);
-})
+});
 
 //Register regular button ripples
 [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
   return new MDCRipple(el);
 });
+
 [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
   return new MDCRipple(el);
 });
