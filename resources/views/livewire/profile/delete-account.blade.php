@@ -105,7 +105,7 @@ x-data="{
         </div>
         <div class="mt-5 mb-2 border-t border-gray-200"></div>
         <div class="w-full pt-4">
-            <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" class="rounded-full"></div>
+            <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" class="rounded-full"></div>
             <p class="mx-auto mt-3 text-xl font-medium text-center">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
             <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{Auth::user()->email}}</p>
         </div>

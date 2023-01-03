@@ -66,7 +66,7 @@
             x-show="profileMenu" @click.outside="profileMenu = false" x-transition x-cloak>
               <div class="mb-4">
                 <div class="w-full py-2">
-                  <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" class="rounded-full"></div>
+                  <div class="w-16 h-16 mx-auto"><img src="{{Auth::user()->profile_photo_url}}" alt="Profile photo" alt="Profile photo" class="rounded-full"></div>
                   <p class="mx-auto mt-3 text-xl font-medium text-center">{{Auth::user()->firstname.' '.Auth::user()->lastname}}</p>
                   <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{Auth::user()->email}}</p>
               </div>

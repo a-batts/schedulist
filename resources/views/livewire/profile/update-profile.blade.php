@@ -19,7 +19,7 @@ class="" id="profile_settings">
       <div>
         <div class="block w-full mt-5">
           <div class="w-full">
-            <img class="w-24 h-24 mx-auto rounded-full" src="{{Auth::user()->profile_photo_url}}"/>
+            <img class="w-24 h-24 mx-auto rounded-full" src="{{Auth::user()->profile_photo_url}}" alt="Profile photo"/>
           </div>
           <div class="block text-center mt-7">
             <button class="inline-block mdc-button mdc-button--outlined mdc-button-ripple" type="button" @click="$dispatch('open-photo-dialog')" wire:ignore>
