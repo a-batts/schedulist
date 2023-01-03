@@ -172,8 +172,8 @@ class MyData extends Component {
                             'end' => $event->end_time,
                         ],
                         'sharing' => [
-                            'isOwner' => (string) Auth::id() == $event->users->first()->id,
-                            'owner' => $event->users->first()->firstname . ' ' . $event->users->first()->lastname,
+                            'isOwner' => (string) Auth::id() == $event->creator->id,
+                            'owner' => $event->creator->name,
                         ],
                         'color' => $event->color,
                     ];
