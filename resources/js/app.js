@@ -77,14 +77,15 @@ Alpine.start();
 //Automatically autosize all <textarea>s with the autosize class on it
 autosize(document.querySelectorAll('textarea.autosize'));
 
-for (const el of document.querySelectorAll('.mdc-switch')) {
-  new MDCSwitch(el);
-}
+[].map.call(docuemnt.querySelectorAll('.mdc-switch'), function (el) {
+  return new MDCSwitch(el);
+});
 
 //Register regular button ripples
 [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
   return new MDCRipple(el);
 });
+
 [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
   return new MDCRipple(el);
 });
@@ -139,7 +140,7 @@ if (document.getElementById("unsub-dialog") !== null) {
 });
 //Checkbox Init
 [].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
-  new MDCCheckbox(el);
+  return new MDCCheckbox(el);
 });
 
 [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
@@ -149,7 +150,7 @@ if (document.getElementById("unsub-dialog") !== null) {
 });
 
 document.querySelectorAll('.mdc-linear-progress').forEach((el) => {
-  new MDCLinearProgress(el);
+  return new MDCLinearProgress(el);
 });
 
 

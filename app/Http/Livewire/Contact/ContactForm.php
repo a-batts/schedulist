@@ -14,7 +14,7 @@ class ContactForm extends Component {
   public string $reason = '';
   public string $message = '';
 
-  function rules() {
+  protected function rules() {
     return [
       'name' => 'required',
       'email' => 'nullable|email',

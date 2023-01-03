@@ -142,7 +142,6 @@ setCatchHandler(({ event }) => {
       // If using precached URLs:
       // return matchPrecache(FALLBACK_HTML_URL);
       return caches.match('/offline');
-      break;
 
     /* case 'image':
       // If using precached URLs:

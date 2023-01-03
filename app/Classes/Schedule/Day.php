@@ -182,7 +182,7 @@ class Day implements Countable {
      *
      * @return integer
      */
-    function count(): int {
+    public function count(): int {
         return count($this->events);
     }
 

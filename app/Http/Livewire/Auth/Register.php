@@ -5,15 +5,10 @@ namespace App\Http\Livewire\Auth;
 use App\Actions\Fortify\PasswordValidationRules;
 
 use App\Models\User;
-
-use App\Providers\RouteServiceProvider;
-
 use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 use Livewire\Component;
 
@@ -73,7 +68,7 @@ class Register extends Component {
    *
    * @return array
    */
-  function rules(): array {
+  protected function rules(): array {
     return [
       'firstName' => ['required', 'max:50'],
       'lastName' => ['required', 'max:50'],

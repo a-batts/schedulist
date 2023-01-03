@@ -18,18 +18,15 @@ class UpdateProfilePhoto extends Component {
   protected $listeners = ['filePondError'];
 
 
-  public function mount() {
-    if (Auth::user()->profile_photo_path == null)
-      $this->profilePhotoUrl == null;
-    else
-      $this->profilePhotoUrl = Auth::user()->profile_photo_url;
+  public function mount(): void {
+    $this->profilePhotoUrl = Auth::user()->profile_photo_path != null ? Auth::user()->profile_photo_url : null;
   }
 
   /**
    * Save the new picture
    * @return void
    */
-  public function save() {
+  public function save(): void {
     if (Auth::user()->profile_photo_path == $this->profilePhoto) {
       $this->dispatchBrowserEvent('close-photo-dialog');
       $this->emit('refreshProfileCard');
@@ -58,7 +55,7 @@ class UpdateProfilePhoto extends Component {
       $user->profile_photo_path = null;
       $user->save();
 
-      $this->profilePhotoUrl == null;
+      $this->profilePhotoUrl = null;
     }
     $this->dispatchBrowserEvent('close-photo-dialog');
     $this->emit('refreshProfileCard');
@@ -75,7 +72,7 @@ class UpdateProfilePhoto extends Component {
     $user->profile_photo_path = null;
     $user->save();
 
-    $this->profilePhotoUrl == null;
+    $this->profilePhotoUrl = null;
     $this->dispatchBrowserEvent('toastMessage', 'Profile photo was successfully removed');
   }
 
