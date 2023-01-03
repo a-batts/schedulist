@@ -17,7 +17,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,10 +117,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     return view('schedule')->with('initDate', Carbon::now());
   })->name('schedule');
 
-  Route::middleware('verifyevent')->get('agenda/invite/{id}/{user?}', function (Request $request, $id, $user = null) {
+  Route::middleware('verifyevent')->get('agenda/invite/{event_id}/{user_id?}', function (Request $request, int $event_id, int $user_id = null) {
     if (!$request->hasValidSignature())
       abort(401);
-    return view('schedule')->with('sharedEvent', Event::find($id));
+
+    return view('schedule')->with('sharedEvent', Event::with('creator')->find($event_id));
   })->name('share-event');
 
   Route::get('agenda/{month}/{day}/{year}', function ($month, $day, $year) {

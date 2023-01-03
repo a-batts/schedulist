@@ -7,7 +7,7 @@
     @livewire('schedule.event-edit')
     @livewire('schedule.event-share')
     @livewire('schedule.event-delete')
-    @livewire('schedule.event-invite', ['sharedEvent' => $sharedEvent ?? null, 'invalidEvent' => $invalidEvent ?? false])
+    @livewire('schedule.event-invite', ['sharedEvent' => $sharedEvent ?? null])
 
     <x-offline-banner/>
   </div>

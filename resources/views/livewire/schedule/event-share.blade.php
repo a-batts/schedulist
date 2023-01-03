@@ -31,10 +31,10 @@
       <x-ui.validation-error for="query"/>
     </div>
     <div class="mt-2">
-      @if($sharedWith->count() > 0)
+      @if($event->sharedWith->count() > 0)
         <p class="mb-3 ml-3 text-xl font-medium">Shared with</p>
       @endif
-      @foreach ($sharedWith as $user)
+      @foreach ($event->sharedWith as $user)
         <div class="w-full px-3 py-2 mb-2 h-14">
           <img src="{{$user->profile_photo_url}}" class="float-left w-10 h-10 mt-1 rounded-full">
           <div class="float-left ml-4">

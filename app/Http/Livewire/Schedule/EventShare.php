@@ -7,13 +7,19 @@ use App\Jobs\SendEventInvitation;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\EventUser;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 
 class EventShare extends Component {
+
+  /**
+   * The event being shared
+   *
+   * @var Event
+   */
   public Event $event;
 
   /**
@@ -21,14 +27,7 @@ class EventShare extends Component {
    *
    * @var string
    */
-  public string $query;
-
-  /**
-   * Collection of users the event is shared with
-   *
-   * @var Illuminate\Support\Collection
-   */
-  public Collection $sharedWith;
+  public string $query = '';
 
   /**
    * The public link for the event
@@ -41,6 +40,11 @@ class EventShare extends Component {
 
   protected $listeners = ['setShareEvent' => 'setEvent'];
 
+  /**
+   * Validation rules
+   *
+   * @return array
+   */
   function rules(): array {
     return [
       'query' => 'nullable',
@@ -54,8 +58,6 @@ class EventShare extends Component {
    */
   public function mount(): void {
     $this->event = new Event();
-    $this->query = '';
-    $this->sharedWith = collect([]);
   }
 
   /**
@@ -75,44 +77,49 @@ class EventShare extends Component {
       $this->addError('query', 'That email address does not have a Schedulist account associated with it');
       return;
     }
-    $this->query = '';
+    $this->reset('query');
 
-    if (!EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists()) {
-      $eventUser = new EventUser(['user_id' => $user->id, 'event_id' => $this->event->id, 'accepted' => false]);
-      $eventUser->save();
-      $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
-    } else {
+    if (EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists()) {
       $this->addError('query', 'This event has already been shared with that user');
       return;
     }
 
+    EventUser::create(['user_id' => $user->id, 'event_id' => $this->event->id, 'accepted' => false])->save();
     //Dispatch an email to the invited user with a generated link for the event
-    $route = $this->generateRoute($this->event->id, $user->id);
-    $details = ['owner' => Auth::user(), 'eventName' => $this->event->name, 'route' => $route, 'user' => $user];
-    SendEventInvitation::dispatchSync($details);
-  }
-
-  public function unshare($id) {
-    $sharedEvent = EventUser::where(['user_id' => $id, 'event_id' => $this->event->id])->first();
-    $sharedEvent->delete();
-    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
+    SendEventInvitation::dispatchSync([
+      'owner' => Auth::user(),
+      'eventName' => $this->event->name,
+      'route' => $this->generateRoute($this->event->id, $user->id),
+      'user' => $user
+    ]);
   }
 
   /**
-   * Get the sharing data for a specified event
+   * Unshare event with the specified user
    *
    * @param int $id
    * @return void
    */
-  public function setEvent($id): void {
-    $this->event = Event::where('id', $id)->where('owner', Auth::id())->firstOrFail();
-    $this->clearValidation();
-    $this->dispatchBrowserEvent('open-share-modal');
-    if ($this->event->public)
-      $this->publicLink = $this->generateRoute($this->event->id);
-    else
-      $this->publicLink = null;
-    $this->sharedWith = $this->event->users()->where('user_id', '!=', Auth::id())->get();
+  public function unshare(int $userId): void {
+    EventUser::where(['event_id' => $this->event->id, 'user_id' => $userId])->delete();
+    $this->event = Event::find($this->event->id);
+  }
+
+  /**
+   * Select the event to be shared
+   *
+   * @param int $id
+   * @return void
+   */
+  public function setEvent(int $eventId): void {
+    try {
+      $this->event = Event::where(['id' => $eventId, 'owner' => Auth::id()])->firstOrFail();
+      $this->publicLink = $this->event->public ? $this->generateRoute($this->event->id) : null;
+
+      $this->clearValidation();
+      $this->dispatchBrowserEvent('open-share-modal');
+    } catch (ModelNotFoundException) {
+    }
   }
 
   /**
@@ -122,8 +129,8 @@ class EventShare extends Component {
    */
   public function makePublic(): void {
     $this->event->public = true;
-    $this->publicLink = $this->generateRoute($this->event->id);
     $this->event->save();
+    $this->publicLink = $this->generateRoute($this->event->id);
   }
 
   /**
@@ -133,29 +140,28 @@ class EventShare extends Component {
    */
   public function makePrivate(): void {
     $this->event->public = false;
-    $this->publicLink = null;
     $this->event->save();
+    $this->publicLink = null;
   }
 
   /**
    * Generate a link for the event
    *
-   * @param int $id
-   * @param User|null $user
+   * @param int $eventId
+   * @param null|int $userId
    * @return string
    */
-  public function generateRoute($id, $user = null): string {
-    return URL::signedRoute('share-event', ['user' => $user, 'id' => $id]);
+  public function generateRoute(int $eventId, ?int $userId = null): string {
+    return URL::signedRoute('share-event', ['event_id' => $eventId, 'user_id' => $userId]);
   }
 
   /**
    * Render the component
    *
-   * @return void
+   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
    */
   public function render() {
     $this->errorMessages = $this->getErrorBag()->toArray();
-
     return view('livewire.schedule.event-share');
   }
 }

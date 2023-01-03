@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Schedule;
 
 use App\Models\Event;
-use App\Models\Subscription;
 
 use Illuminate\Support\Facades\Auth;
 
