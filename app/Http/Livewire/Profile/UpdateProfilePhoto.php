@@ -91,6 +91,7 @@ class UpdateProfilePhoto extends Component {
 
     $this->reset('profilePhotoUrl');
     $this->updateListeners();
+    $this->dispatchBrowserEvent('clear-photo-picker');
     $this->dispatchBrowserEvent('toastMessage', 'Profile photo was successfully removed');
   }
 

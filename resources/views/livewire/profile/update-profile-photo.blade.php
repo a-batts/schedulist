@@ -1,6 +1,7 @@
 <div x-data="updateProfilePhoto()"
-@close-photo-dialog.window="photoPicker = false;"
 @open-photo-dialog.window="initPond(); photoPicker = true"
+@close-photo-dialog.window="photoPicker = false;"
+@clear-photo-picker.window="clearPhotoPicker()"
 >
   <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="photoPicker" x-cloak></div>
   <div class="fixed w-screen h-screen pb-6 overflow-y-auto modal-container mdc-typography top-12" x-show="photoPicker" x-trap.noscroll="photoPicker" x-transition x-cloak>
@@ -98,7 +99,7 @@
           }
           function initPond(){
             setTimeout(() => {
-              this.pond = FilePond.create( document.getElementById('photo-picker'), config );
+              window.pond = FilePond.create( document.getElementById('photo-picker'), config );
               pondEvent = document.querySelector('.filepond--root')
               pondEvent.addEventListener('FilePond:error', e => {
                 @this.filePondError(e.detail.error.main);
@@ -113,6 +114,16 @@
             }, 20);
           }
           window.initPond = initPond;
+        },
+
+        clearPhotoPicker: function() {
+          const filePond = window.pond;
+
+          if (filePond.getFiles().length != 0) {
+            for (var i = 0; i <= filePond.getFiles().length - 1; i++) {
+              filePond.removeFile(filePond.getFiles()[0].id);
+            }
+          }
         }
       }
     }
