@@ -77,7 +77,7 @@ Alpine.start();
 //Automatically autosize all <textarea>s with the autosize class on it
 autosize(document.querySelectorAll('textarea.autosize'));
 
-[].map.call(docuemnt.querySelectorAll('.mdc-switch'), function (el) {
+[].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
   return new MDCSwitch(el);
 });
 
