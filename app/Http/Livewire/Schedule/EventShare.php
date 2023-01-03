@@ -45,7 +45,7 @@ class EventShare extends Component {
    *
    * @return array
    */
-  function rules(): array {
+  protected function rules(): array {
     return [
       'query' => 'nullable',
     ];

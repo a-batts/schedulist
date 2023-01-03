@@ -22,7 +22,7 @@ class UpdateProfile extends Component {
 
   protected $listeners = ['refreshProfileCard' => '$refresh'];
 
-  function rules() {
+  protected function rules() {
     return [
       'state.firstname' => 'required|string|max:50',
       'state.lastname' => 'required|string|max:50',

@@ -58,7 +58,7 @@ class EventCreate extends Component {
    *
    * @return array
    */
-  function rules(): array {
+  protected function rules(): array {
     return [
       'event.name' => 'required',
       'event.category' => ['required', Rule::in($this->categories)],

@@ -17,7 +17,7 @@ class UpdatePassword extends Component {
 
   public array $errorMessages;
 
-  function rules() {
+  protected function rules() {
     return [
       'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
       'passwordConfirmation' => 'required|string|same:password'
