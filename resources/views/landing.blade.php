@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-  <head lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark light">
@@ -97,8 +97,8 @@
           </a>
         </div>
         <div class="float-right pb-12 -mr-12 h-fit xl:mr-0 xl:-mt-6 xl:h-auto">
-          <img src="{{ asset('images/landing/landing.png')}}" class="show-light" height="1071" width="787"/>
-          <img src="{{ asset('images/landing/landing-dark.png')}}" class="show-dark" height="1071" width="787"/>
+          <img src="{{ asset('images/landing/landing.png')}}" alt="Schedulist homepage preview" class="show-light" height="1071" width="787"/>
+          <img src="{{ asset('images/landing/landing-dark.png')}}" alt="Schedulist homepage preview" class="show-dark" height="1071" width="787"/>
         </div>
       </div>
     </main>

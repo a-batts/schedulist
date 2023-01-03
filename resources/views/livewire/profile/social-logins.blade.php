@@ -14,7 +14,7 @@
       <div class="float-right mt-3">
         <button class="float-left mdc-button mdc-button-ripple mdc-button--outlined google-signin" @if($this->hasGoogleAccount) wire:click="disconnectGoogle" @else onclick="document.location='{{route('google-login')}}'" @endif>
           <span class="mdc-button__ripple"></span>
-          <img class="mdc-button__icon" src="/images/logo/vendor/google.png" width="18px" height="18px" aria-hidden="true">
+          <img class="mdc-button__icon" src="/images/logo/vendor/google.png" alt="Google logo" width="18px" height="18px" aria-hidden="true">
           {{$this->hasGoogleAccount ? 'Disconnect Account' : 'Connect Account'}}
         </button>
       </div>

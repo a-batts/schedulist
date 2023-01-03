@@ -36,9 +36,9 @@
       @endif
       @foreach ($event->sharedWith as $user)
         <div class="w-full px-3 py-2 mb-2 h-14">
-          <img src="{{$user->profile_photo_url}}" class="float-left w-10 h-10 mt-1 rounded-full">
+          <img src="{{$user->profile_photo_url}}" alt="{{$user->name}}" class="float-left w-10 h-10 mt-1 rounded-full">
           <div class="float-left ml-4">
-            <span class="block mt-1 mb-0 text-base font-medium">{{$user->firstname}} {{$user->lastname}}</span>
+            <span class="block mt-1 mb-0 text-base font-medium">{{$user->name}}</span>
             <br />
             <span class="block -mt-6 text-xs text-gray-600">{{$user->email}}</span>
           </div>

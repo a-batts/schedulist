@@ -2,7 +2,7 @@
   <x-ui.settings-card title="Change theme"
   description="Switch between light and dark themes, or have Schedulist follow your device's theme.">
     <div class="py-6">
-      <img src="{{ asset('images/theme/auto.svg') }}" width="280px" style="margin:auto" class="m-auto no-theme auto-opt" x-bind:class="{'theme-border': theme == 'auto'}"></img>
+      <img src="{{ asset('images/theme/auto.svg') }}" alt="auto-theme" width="280px" style="margin:auto" class="m-auto no-theme auto-opt" x-bind:class="{'theme-border': theme == 'auto'}"></img>
         <div class="w-56 mx-auto mt-3">
           <div class="mdc-checkbox mdc-checkbox--touch" x-on:click="theme == 'auto' ? setTheme(getSystemTheme()) : setTheme('auto')">
             <input type="checkbox"
@@ -26,7 +26,7 @@
         <div class="mdc-layout-grid">
           <div class="mdc-layout-grid__inner">
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-              <img src="{{ asset('images/theme/light.svg') }}" width="280px" class="m-auto no-theme light-opt" x-bind:class="{'theme-border': theme == 'light'}"></img>
+              <img src="{{ asset('images/theme/light.svg') }}" alt="light-theme" width="280px" class="m-auto no-theme light-opt" x-bind:class="{'theme-border': theme == 'light'}"></img>
               <div class="mx-auto mt-3 w-36">
                 <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}">
                   <input class="mdc-radio__native-control" type="radio" id="light-radio" name="radios" x-bind:checked="theme == 'light' || (theme == 'auto' && getSystemTheme() == 'light')" x-bind:disabled="theme == 'auto'" @click="setTheme('light')">
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-              <img src="{{ asset('images/theme/dark.svg') }}" width="280px" class="m-auto no-theme dark-opt" x-bind:class="{'theme-border': theme == 'dark'}"></img>
+              <img src="{{ asset('images/theme/dark.svg') }}" alt="dark-theme" width="280px" class="m-auto no-theme dark-opt" x-bind:class="{'theme-border': theme == 'dark'}"></img>
               <div class="mx-auto mt-3 w-36">
                 <div class="mdc-radio" x-bind:class="{'mdc-radio--disabled': theme == 'auto'}">
                   <input class="mdc-radio__native-control" type="radio" id="dark-radio" name="radios" x-bind:checked="theme == 'dark' || (theme == 'auto' && getSystemTheme() == 'dark')" x-bind:disabled="theme == 'auto'" @click="setTheme('dark')">
