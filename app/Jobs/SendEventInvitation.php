@@ -34,10 +34,6 @@ class SendEventInvitation implements ShouldQueue {
     public function handle() {
         $settings = $this->details['user']->settings;
 
-        if ($settings->eventTextsEnabled()) {
-            $message = $this->details['owner']['name'] . ' just shared their event, "' . $this->details['eventName'] . '" with you.';
-            NotifyUser::createNotification($message, $this->details['user'])->sendText()->addText($this->details['route']);
-        }
         if ($settings->eventEmailsEnabled())
             Mail::to($this->details['user'])->send(new EventInvitation($this->details['owner'], $this->details['eventName'], $this->details['route']));
     }
