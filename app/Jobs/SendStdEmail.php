@@ -40,7 +40,7 @@ class SendStdEmail implements ShouldQueue {
      *
      * @return void
      */
-    public function __construct(array $data, string $template, User $user) {
+    public function __construct(array $data, ?string $template, User $user) {
         $this->data = $data;
         $this->template = $template;
         $this->user = $user;

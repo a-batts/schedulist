@@ -21,7 +21,7 @@ class StdEmail extends Mailable {
 
     /**
      * The template to use for the email
-     *
+     * 
      * @var string
      */
     public string $template = 'blank-email';
@@ -29,11 +29,23 @@ class StdEmail extends Mailable {
     /**
      * Create a new message instance.
      *
+     * Data fields to fill in if using the default `blank-email` template:
+     * 
+     * `subject`: Email subject
+     * 
+     * `heading`: Email title
+     * 
+     * `icon`: (Optional) material icon to include on the email
+     * 
+     * `link` and `link-title`: (Optional) a link and the associated link title, displayed as a button
+     * 
+     * `footer`: Footer message text
+     *
      * @return void
      */
-    public function __construct(array $data, string $template) {
+    public function __construct(array $data, ?string $template) {
         $this->data = $data;
-        $this->template = $template;
+        $this->template = $template ?? $this->template;
     }
 
     /**

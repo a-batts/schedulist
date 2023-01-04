@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Profile;
 
 use App\Actions\Core\NotifyUser;
-use App\Models\UserSettings;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -50,13 +49,14 @@ class NotificationSettings extends Component {
       case 'account_alert_emails':
         if ($userSettings->account_alert_emails === false) {
           $message = [
-            'alert' => 'Account status emails were disabled',
+            'heading' => 'Account status emails were disabled',
             'body' => 'Email alerts for important security alerts about your Schedulist account were just turned off. If that wasn\'t you, you should reset your password as soon as possible.',
             'link' => route('profile'),
             'link_title' => 'Go to account settings',
+            'footer' => 'You received this email because you turned on email alerts for account updates.',
             'subject' => 'Security alert - Account status emails disabled',
           ];
-          NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+          NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }
         break;
     }

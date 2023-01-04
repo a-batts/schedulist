@@ -14,10 +14,17 @@ class NotifyUser {
 
     /**
      * Message to send to user
+     *
+     * @var array|string
      */
-    public $message;
+    public array|string $message;
 
-    public $user;
+    /**
+     * User to notify
+     *
+     * @var User
+     */
+    public User $user;
 
     public function __construct(array|string $message, User $user) {
         $this->message = $message;
