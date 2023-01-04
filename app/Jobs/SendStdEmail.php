@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\StdEmail;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,19 +14,36 @@ use Illuminate\Support\Facades\Mail;
 class SendStdEmail implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $user;
-    public $details;
-    public $template = null;
+    /**
+     * Email data
+     *
+     * @var array
+     */
+    public array $data;
+
+    /**
+     * The template to use for the email
+     *
+     * @var string|null
+     */
+    public ?string $template = null;
+
+    /**
+     * The user to send the email to
+     *
+     * @var User
+     */
+    public User $user;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $details, $template) {
-        $this->user = $user;
-        $this->details = $details;
+    public function __construct(array $data, string $template, User $user) {
+        $this->data = $data;
         $this->template = $template;
+        $this->user = $user;
     }
 
     /**
@@ -33,7 +51,7 @@ class SendStdEmail implements ShouldQueue {
      *
      * @return void
      */
-    public function handle() {
-        Mail::to($this->user)->send(new StdEmail($this->details, $this->template));
+    public function handle(): void {
+        Mail::to($this->user)->send(new StdEmail($this->data, $this->template));
     }
 }
