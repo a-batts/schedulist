@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -18,15 +17,15 @@ class FeedbackForm extends Mailable {
      *
      * @var array
      */
-    public array $mail_data;
+    public array $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(array $mail_data) {
-        $this->mail_data = $mail_data;
+    public function __construct(array $data) {
+        $this->data = $data;
     }
 
     /**
@@ -34,11 +33,11 @@ class FeedbackForm extends Mailable {
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope() {
+    public function envelope(): Envelope {
         return new Envelope(
             from: new Address('feedback@schedulist.xyz', 'Feedback Email'),
             replyTo: new Address('alex.batts05@gmail.com', 'alex.batts05@gmail.com'),
-            subject: ('New contact form message')
+            subject: ('New contact form message - ' . $this->data['reason'])
         );
     }
 
@@ -47,7 +46,7 @@ class FeedbackForm extends Mailable {
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content() {
+    public function content(): Content {
         return new Content(
             view: 'emails.feedback',
         );
