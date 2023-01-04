@@ -13,6 +13,11 @@ class TextMessage extends Mailable {
 
   use Queueable, SerializesModels;
 
+  /**
+   * The text message to send
+   *
+   * @var string
+   */
   public string $message;
 
   /**
@@ -20,7 +25,7 @@ class TextMessage extends Mailable {
    *
    * @return void
    */
-  public function __construct($message) {
+  public function __construct(string $message) {
     $this->message = $message;
   }
 
@@ -29,7 +34,7 @@ class TextMessage extends Mailable {
    *
    * @return \Illuminate\Mail\Mailables\Envelope
    */
-  public function envelope() {
+  public function envelope(): Envelope {
     return new Envelope(
       from: new Address('reminders@schedulist.xyz', ''),
       subject: (' ')
@@ -41,7 +46,7 @@ class TextMessage extends Mailable {
    *
    * @return \Illuminate\Mail\Mailables\Content
    */
-  public function content() {
+  public function content(): Content {
     return new Content(
       view: 'emails.text-message',
     );
