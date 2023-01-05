@@ -39,7 +39,7 @@
                     <table class="content" role="presentation" style="width:600px; border-collapse:collapse; border:0px; text-align:left;">
                         <tr>
                             <td style="padding:0; text-align: center">
-                                <a href="{{route('landing')}}">
+                                <a href="{{route('landing')}}" target="_blank" rel="noopener">
                                     <img class="logo-image" src="{{asset('images/logo/logo_dark.png')}}" alt="Schedulist Logo" title="Schedulist Logo" />
                                 </a> 
                             </td>
@@ -78,7 +78,7 @@
                         </tr>
                         <tr>
                             <td style="padding:30px 0px 60px; text-align: center;">
-                                <a href="{{$data['route']}}" class="button" style="display: inline-block; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 16px" target="_blank">View event</a>
+                                <a href="{{$data['route']}}" class="button" style="display: inline-block; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 16px" target="_blank" rel="noopener">View event</a>
                             </td>
                         </tr>
                         <tr>
