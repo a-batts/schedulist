@@ -3,7 +3,6 @@
 namespace App\Classes\Schedule;
 
 use App\Helpers\ClassScheduleHelper;
-use App\Models\ClassSchedule;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Countable;
@@ -167,7 +166,7 @@ class Day implements Countable {
                     [
                         'category' => $item->category,
                         'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
-                        'isOwner' => Auth::id() === $item->owner,
+                        'isOwner' => Auth::id() == $item->owner,
                     ]
 
                 );

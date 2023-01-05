@@ -149,8 +149,7 @@ class EventCreate extends Component {
     $this->emit('updateAgendaData');
     $this->emit('toastMessage', 'Event was successfully created');
 
-    $eventUser = new EventUser(['user_id' => Auth::id(), 'event_id' => $event->id, 'accepted' => true]);
-    $eventUser->save();
+    EventUser::create(['user_id' => Auth::id(), 'event_id' => $event->id, 'accepted' => true])->save();
   }
 
   /**
