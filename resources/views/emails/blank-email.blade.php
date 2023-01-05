@@ -59,7 +59,7 @@
                                     <tr>
                                         @isset($data['icon'])
                                         <td style="padding-right: 10px;">
-                                            <img style="height: 36px" class="icon" src="https://material-icons.github.io/material-icons-png/png/black/{{$data['icon']}}/outline-4x.png" height="36px">
+                                            <img style="height: 36px" alt="{{$data['icon']}} icon" class="icon" src="https://material-icons.github.io/material-icons-png/png/black/{{$data['icon']}}/outline-4x.png" height="36px">
                                         </td>
                                         @endisset
                                         <td style="font-size: 16px; @empty($data['icon']) text-align: center @else margin-left: 10px; display: inline-block @endempty">
