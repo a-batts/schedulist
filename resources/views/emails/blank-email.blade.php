@@ -1,95 +1,89 @@
 <!doctype html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet" type="text/css">
-        <style type="text/css">
-            .logo-image-light-theme{
-                display: block;
-            }
-            .logo-image-dark-theme{
-                display: none;
-                mso-hide: all;
-            }
-            @media (prefers-color-scheme: light) {
-                .logo-image-dark-theme { display: none; mso-hide: all;}
-                .logo-image-light-theme { display: block; } 
-            }
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="x-apple-disable-message-reformatting">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+        <title></title>
+        <!--[if mso]> 
+            <noscript> 
+            <xml> 
+            <o:OfficeDocumentSettings> 
+            <o:PixelsPerInch>96</o:PixelsPerInch> 
+            </o:OfficeDocumentSettings> 
+            </xml> 
+            </noscript> 
+        <![endif]-->
+        <style>
+            table, td, div, h1, p { font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif; }
+            table.content { border: solid 0.5px #e0e0e0 !important; background-color: white }
+            .logo-image { height: 52px; padding: 30px 0px; margin-left: auto; margin-right: auto; display: inline-block }
+            .button:hover { filter: brightness(105%); transition: all }
+            td { color: black}
+            a.button { background-color: #1674d3; color: white}
+            .footer-text, .secondary-text { color: #423f3f}
+            .link { text-decoration: none }
+            .link:hover { text-decoration: underline }
             @media (prefers-color-scheme: dark) {
-                .logo-image-dark-theme { display: block; mso-hide: none;}
-                .logo-image-light-theme { display: none; mso-hide: all;} 
-            }
-            .logo-image{
-                height: 50px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .outlined-card{
-                border-width: 1px;
-                border-style: solid;
-                border-color: #E0E0E0;
-                width: 90vw;
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 50px;
-                border-radius: 12px;
-                padding-bottom: 40px;
-            }
-            .footer-note{
-                width: 90vw;
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 10px;
-                border-radius: 12px;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            table{
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            [style*='Noto Sans'] {
-                font-family: 'Noto Sans', Roboto, Arial, sans-serif !important;
+                td{ color: #FFFFFFDE !important}
+                table.content{ background-color: #1C1C1C !important}
+                a.button { background-color: #95CFFE !important; color: black !important}
+                .logo-image, .icon { filter: brightness(0) invert(1) !important}
+                .footer-text, .secondary-text{ color: #FFFFFF99 !important}
+                .link { color: #95CFFE }
             }
         </style>
     </head>
-    <body>
-        <table style="font-family: Roboto, Arial, sans-serif, 'Noto Sans'" class="outlined-card" cellpadding="0" cellspacing="0">
+    <body style="margin:0; padding:0;">
+        <table role="presentation" style="width:100%; border-collapse:collapse; border:0; border-spacing:0;">
             <tr>
-                <td style="text-align: center; padding-top: 20px; padding-bottom: 20px; margin-top:10px">
-                    <img class="logo-image logo-image-light-theme" src="https://schedulist.xyz/images/logo/logo_dark.png" alt="Schedulist Logo" title="Schedulist Logo" /> 
-                    <img class="logo-image logo-image-dark-theme" src="https://schedulist.xyz/images/logo/logo_light.png" alt="Schedulist Logo" title="Schedulist Logo" />   
+                <td align="center" style="padding:0;">
+                    <table class="content" role="presentation" style="width:600px; border-collapse:collapse; border:0px; text-align:left;">
+                        <tr>
+                            <td style="padding:0; text-align: center">
+                                <a href="{{route('landing')}}">
+                                    <img class="logo-image" src="{{asset('images/logo/logo_dark.png')}}" alt="Schedulist Logo" title="Schedulist Logo" />
+                                </a> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 25px 45px; text-align: center; font-weight: bold; font-size: 36px;">
+                                <span>{{$data['heading']}}</span> 
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 30px 45px;">
+                                <table>
+                                    <tr>
+                                        @isset($data['icon'])
+                                        <td style="padding-right: 10px;">
+                                            <img style="height: 36px" class="icon" src="https://material-icons.github.io/material-icons-png/png/black/{{$data['icon']}}/outline-4x.png" height="36px">
+                                        </td>
+                                        @endisset
+                                        <td style="font-size: 16px; @empty($data['icon']) text-align: center @else margin-left: 10px; display: inline-block @endempty">
+                                            {{$data['body']}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:30px 0px 60px; text-align: center;">
+                                <a href="{{$data['link']}}" class="button" style="display: inline-block; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 16px" target="_blank">{{$data['link_title']}}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 0.5px solid #e0e0e0;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 45px 60px; text-align: center;">
+                                <span style="font-size: 12px; line-height: 20px">{{$data['footer']}}<br> You can update notification settings for your account ({{$data['user_email']}}) by visiting <a class="link" style="color: #1674d3" href="{{route('profile')}}">{{route('profile')}}</a></span>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; font-size: 32px; padding-left: 6px; padding-right: 6px;
-                text-align: center; padding-bottom: 20px; margin-top: 10px; text: black">{{$data['heading']}}</td>
-            </tr>
-            <tr>
-                <td style="border-top: 1px solid #D2DCDC;"></td>
-            </tr>
-            @isset($data['icon'])
-                <tr>
-                        <td style="text-align: center; padding-top: 20px; color: #4B5563;"><img src="https://material-icons.github.io/material-icons-png/png/black/{{$data['icon']}}/outline-4x.png" style="height: 80px"></td>
-                    </tr>
-            @endisset
-            <tr>
-                <td style="color: #4B5563; padding-left: 25px; padding-right: 25px; text-align: center; padding-top: 40px; padding-bottom: 60px; font-size: 15px;">{{$data['body']}}</td>
-            </tr>
-            @isset($data['link'])
-            <tr>
-                <td style="color: #4B5563; padding-left: 10px; padding-right: 10px; text-align: center">
-                    <a style="display: inline-block; background-color: #1674d3; color: white; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; text-transform: uppercase; font-weight: 500; letter-spacing: 1.2px; border-radius: 7px; text-align: center; cursor: pointer; text-decoration: none;" 
-                    href="{{$data['link']}}" target="_blank">{{$data['link_title']}}</a>
-                </td>
-            </tr>
-            @endisset
-        </table>
-        <table class="footer-note" cellpadding="0" cellspacing="0" border="0">
-            <tr>
-                <td style="color: #6b7280; text-align: center; font-size: 12px; padding-top: 40px">{{$data['footer']}}</td>
             </tr>
         </table>
     </body>

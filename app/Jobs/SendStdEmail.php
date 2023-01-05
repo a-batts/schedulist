@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class SendStdEmail implements ShouldQueue {
@@ -52,6 +53,7 @@ class SendStdEmail implements ShouldQueue {
      * @return void
      */
     public function handle(): void {
+        $this->data['user_email'] = $this->user->email;
         Mail::to($this->user)->send(new StdEmail($this->data, $this->template));
     }
 }

@@ -56,6 +56,7 @@ class TwoFactorAuth extends Component {
                 'link_title' => '2FA Settings',
                 'footer' => 'You received this email because you turned on email alerts for account updates.',
                 'subject' => 'Security alert - 2FA enabled',
+                'icon' => 'vpn_key'
             ];
             NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }
@@ -120,6 +121,7 @@ class TwoFactorAuth extends Component {
                 'link_title' => '2FA Settings',
                 'footer' => 'You received this email because you turned on email alerts for account updates.',
                 'subject' => 'Security alert - 2FA disabled',
+                'icon' => 'vpn_key'
             ];
             NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }

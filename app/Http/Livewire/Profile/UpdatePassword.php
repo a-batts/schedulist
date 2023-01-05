@@ -85,6 +85,7 @@ class UpdatePassword extends Component {
             'link_title' => 'Password reset',
             'subject' => 'Security alert - Account password changed',
             'footer' => 'You received this email because you turned on email alerts for account updates.',
+            'icon' => 'lock'
           ];
           NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }

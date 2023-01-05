@@ -48,15 +48,16 @@ class NotificationSettings extends Component {
         break;
       case 'account_alert_emails':
         if ($userSettings->account_alert_emails === false) {
-          $message = [
+          $data = [
             'heading' => 'Account status emails were disabled',
-            'body' => 'Email alerts for important security alerts about your Schedulist account were just turned off. If that wasn\'t you, you should reset your password as soon as possible.',
+            'body' => 'Email security alerts for your Schedulist account were just disabled. If you didn\'t perform this action, your account may be compromised.',
             'link' => route('profile'),
             'link_title' => 'Go to account settings',
             'footer' => 'You received this email because you turned on email alerts for account updates.',
             'subject' => 'Security alert - Account status emails disabled',
+            'icon' => 'security'
           ];
-          NotifyUser::createNotification($message, Auth::user())->sendEmail();
+          NotifyUser::createNotification($data, Auth::user())->sendEmail();
         }
         break;
     }
