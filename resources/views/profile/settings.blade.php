@@ -9,7 +9,7 @@
                 <div class="mt-5 border-t border-gray-200"></div>
                 <p class="pt-4 text-lg">Other settings</p>
                 <span class="-mt-1 text-sm text-gray-500 mdc-deprecated-list-item__secondary-text">Modify additional options not displayed on this page</span>
-                <div class="flex pt-4 space-x-3">
+                <div class="flex flex-wrap pt-4 gap-x-3 gap-y-3">
                     <div>
                         <a class="mdc-button mdc-button--outlined mdc-button--icon-leading" href="{{route('themes')}}">
                             <span class="mdc-button__ripple"></span>
