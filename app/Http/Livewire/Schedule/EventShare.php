@@ -72,6 +72,11 @@ class EventShare extends Component {
       $this->addError('query', 'You are already the owner of this event');
       return;
     }
+    if (strlen($this->query) < 6 || !str_contains($this->query, '@') || !str_contains($this->query, '.')) {
+      $this->addError('query', 'Invalid email inputted');
+      return;
+    }
+
     $user = User::where('email', 'like', '%' . $this->query . '%')->where('id', '<>', Auth::id())->first();
     if ($user == null) {
       $this->addError('query', 'That email address does not have a Schedulist account associated with it');

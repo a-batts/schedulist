@@ -18,7 +18,7 @@
         </p>
         <p class="ml-2">Invited users will recieve an invatation to add the event to their personal calendar but won't be able to make changes to it.</p>
       </div>
-      <label class="w-full mdc-text-field mdc-text-field--outlined" :class="{'mdc-text-field--invalid': errorMessages['query'] != undefined}" wire:ignore>
+      <label class="w-full mdc-text-field mdc-text-field--outlined relative" :class="{'mdc-text-field--invalid': errorMessages['query'] != undefined}" wire:ignore>
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
@@ -27,6 +27,12 @@
           <span class="mdc-notched-outline__trailing"></span>
         </span>
         <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" autocomplete="qekfk" wire:model.debounce.50ms="query" @keydown.enter.prevent="$wire.share()">
+        <div class="absolute right-0 h-full flex items-center pr-1">
+          <button class="mdc-icon-button material-icons" type="button" @click="$wire.share()"> 
+            <div class="mdc-icon-button__ripple"></div>
+            send
+          </button>
+        </div>
       </label>
       <x-ui.validation-error for="query"/>
     </div>
