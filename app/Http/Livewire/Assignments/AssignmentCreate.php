@@ -100,8 +100,6 @@ class AssignmentCreate extends Component {
     $assignment->due = $this->due;
     $assignment->url_string = Str::random(16);
 
-    $assignment->link = isset($assignment->link) ? Crypt::encryptString($assignment->link) : null;
-
     $assignment->save();
 
     $this->dispatchBrowserEvent('close-dialog');
