@@ -40,13 +40,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar {
    */
   protected $casts = [
     'email_verified_at' => 'datetime',
-    /*
     'phone' => 'encrypted',
     'carrier' => 'encrypted',
     'school' => 'encrypted',
     'google_id' => 'encrypted',
     'google_email' => 'encrypted',
-    */
   ];
 
   /**
