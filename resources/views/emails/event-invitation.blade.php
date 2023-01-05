@@ -45,7 +45,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="padding: 25px 30px; text-align: center; font-weight: bold; font-size: 36px;">
+                            <td style="padding: 25px 45px; text-align: center; font-weight: bold; font-size: 36px;">
                                 <span>{{$data['owner']->name}} shared an event with you.</span> 
                                 
                             </td>
