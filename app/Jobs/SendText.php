@@ -15,15 +15,20 @@ use Twilio\Rest\Client;
 class SendText implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public array $details;
+    /**
+     * Email data
+     *
+     * @var array
+     */
+    public array $data;
 
     /*
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($details) {
-        $this->details = $details;
+    public function __construct(array $data) {
+        $this->data = $data;
     }
 
     /**
@@ -31,21 +36,21 @@ class SendText implements ShouldQueue {
      *
      * @return void
      */
-    public function handle() {
-        if (str_contains($this->details['email'], 'vtext')) {
+    public function handle(): void {
+        if (str_contains($this->data['email'], 'vtext')) {
             //@vtext is broken so send an actual text if the user has Verizon
             $sid = config('twilio.account_sid');
             $token = config('twilio.auth_token');
             $twilio = new Client($sid, $token);
 
             $twilio->messages->create(
-                explode('@', $this->details['email'])[0],
+                explode('@', $this->data['email'])[0],
                 [
-                    'body' => $this->details['message'],
+                    'body' => $this->data['message'],
                     'from' => '+15715208808',
                 ]
             );
         } else
-            Mail::to($this->details['email'])->send(new TextMessage($this->details['message']));
+            Mail::to($this->data['email'])->send(new TextMessage($this->data['message']));
     }
 }

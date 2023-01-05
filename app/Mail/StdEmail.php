@@ -3,35 +3,71 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class StdEmail extends Mailable {
     use Queueable, SerializesModels;
 
-    public $details;
+    /**
+     * Email data
+     *
+     * @var array
+     */
+    public array $data;
 
-    public $template = 'blank_email';
+    /**
+     * The template to use for the email
+     * 
+     * @var string
+     */
+    public string $template = 'blank-email';
 
     /**
      * Create a new message instance.
      *
+     * Data fields to fill in if using the default `blank-email` template:
+     * 
+     * `subject`: Email subject
+     * 
+     * `heading`: Email title
+     * 
+     * `icon`: (Optional) material icon to include on the email
+     * 
+     * `link` and `link-title`: (Optional) a link and the associated link title, displayed as a button
+     * 
+     * `footer`: Footer message text
+     *
      * @return void
      */
-    public function __construct($details, $template) {
-        $this->details = $details;
-        $this->template = $template;
+    public function __construct(array $data, ?string $template) {
+        $this->data = $data;
+        $this->template = $template ?? $this->template;
     }
 
     /**
-     * Build the message.
+     * Get the message envelope.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build() {
-        return $this->from('noreply@schedulist.xyz', 'Schedulist')
-            ->subject($this->details['subject'])
-            ->view('emails.' . $this->template);
+    public function envelope(): Envelope {
+        return new Envelope(
+            from: new Address('noreply@schedulist.xyz', 'Schedulist'),
+            subject: $this->data['subject'],
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     *
+     * @return \Illuminate\Mail\Mailables\Content
+     */
+    public function content(): Content {
+        return new Content(
+            view: 'emails.' . $this->template,
+        );
     }
 }

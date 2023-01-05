@@ -3,21 +3,21 @@
 namespace App\Jobs;
 
 use App\Actions\Core\NotifyUser;
-use App\Helpers\CarrierEmailHelper;
-use App\Models\Assignment;
 use App\Models\AssignmentReminder;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Crypt;
 
 class SendAssignmentReminder implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * The assignment reminder to send
+     *
+     * @var AssignmentReminder
+     */
     protected AssignmentReminder $reminder;
 
     /**
@@ -34,18 +34,29 @@ class SendAssignmentReminder implements ShouldQueue {
      *
      * @return void
      */
-    public function handle() {
+    public function handle(): void {
         $assignment = $this->reminder->assignment;
         $settings = $assignment->user->settings;
 
-        $message = 'Reminder: Your assignment "' . $assignment->name . '" is due in ' . $this->reminder->hours_before . ' hours.';
+        if ($settings->assignmentTextsEnabled()) {
+            NotifyUser::createNotification(
+                'Reminder: Your assignment "' . $assignment->name . '" is due in ' . $this->reminder->hours_before . ' hours.',
+                $assignment->user
+            )->sendText();
+        }
 
-        $notification = NotifyUser::createNotification($message, $assignment->user);
-
-        if ($settings->assignmentTextsEnabled())
-            $notification->sendText();
-
-        if ($settings->assignmentEmailsEnabled())
-            $notification->sendEmail();
+        if ($settings->assignmentEmailsEnabled()) {
+            NotifyUser::createNotification(
+                [
+                    'heading' => 'Don\'t forget to finish ' . $assignment->name,
+                    'body' => 'Reminder: Your assignment "' . $assignment->name . '" is due in ' . $this->reminder->hours_before . ' hours.',
+                    'link' => $assignment->link,
+                    'link-title' => 'View assignment details',
+                    'footer' => 'You received this email because you have assignment reminder emails turned on.',
+                    'subject' => 'Schedulist: Assignment due date reminder',
+                ],
+                $assignment->user
+            )->sendEmail();
+        }
     }
 }

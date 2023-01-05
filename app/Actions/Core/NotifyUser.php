@@ -14,10 +14,17 @@ class NotifyUser {
 
     /**
      * Message to send to user
+     *
+     * @var array|string
      */
-    public $message;
+    public array|string $message;
 
-    public $user;
+    /**
+     * User to notify
+     *
+     * @var User
+     */
+    public User $user;
 
     public function __construct(array|string $message, User $user) {
         $this->message = $message;
@@ -41,7 +48,11 @@ class NotifyUser {
      * @return NotifyUser
      */
     public function sendEmail(?string $template = null): NotifyUser {
-        SendStdEmail::dispatch($this->user, $this->message, $template);
+        SendStdEmail::dispatch(
+            data: $this->message,
+            template: $template,
+            user: $this->user
+        );
         return $this;
     }
 

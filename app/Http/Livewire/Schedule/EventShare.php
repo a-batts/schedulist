@@ -88,10 +88,11 @@ class EventShare extends Component {
     //Dispatch an email to the invited user with a generated link for the event
     SendEventInvitation::dispatchSync([
       'owner' => Auth::user(),
-      'eventName' => $this->event->name,
+      'event' => $this->event,
       'route' => $this->generateRoute($this->event->id, $user->id),
       'user' => $user
     ]);
+    $this->event = Event::find($this->event->id);
   }
 
   /**

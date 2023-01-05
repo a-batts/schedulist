@@ -50,13 +50,15 @@ class TwoFactorAuth extends Component {
         }
         if ($userSettings->account_alert_emails === 1) {
             $message = [
-                'alert' => 'Two factor authentication turned on',
+                'heading' => 'Two factor authentication turned on',
                 'body' => 'Two factor authentication was just turned on for your account. You\'ll need to enter a code from your 2FA app for future sign ins. If you haven\'t already, make sure to save a copy of your backup codes in a safe place. You can also turn 2FA back off at any time in account security settings.',
                 'link' => route('account.two-factor'),
                 'link_title' => '2FA Settings',
+                'footer' => 'You received this email because you turned on email alerts for account updates.',
                 'subject' => 'Security alert - 2FA enabled',
+                'icon' => 'vpn_key'
             ];
-            NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+            NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }
     }
 
@@ -113,13 +115,15 @@ class TwoFactorAuth extends Component {
         }
         if ($userSettings->account_alert_emails === 1) {
             $message = [
-                'alert' => 'Two factor authentication turned off',
+                'heading' => 'Two factor authentication turned off',
                 'body' => 'Two factor authentication was just turned off for your account. If that wasn\'t you, you should change your password immediately.',
                 'link' => route('account.two-factor'),
                 'link_title' => '2FA Settings',
+                'footer' => 'You received this email because you turned on email alerts for account updates.',
                 'subject' => 'Security alert - 2FA disabled',
+                'icon' => 'vpn_key'
             ];
-            NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+            NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }
     }
 

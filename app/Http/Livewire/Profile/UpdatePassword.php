@@ -70,20 +70,24 @@ class UpdatePassword extends Component {
     } elseif ($this->password == $this->passwordConfirmation) {
       $user = Auth::user();
       if (!$this->settingNewPassword) {
-        $userSettings = Auth::user()->settings()->first();
+        $userSettings = Auth::user()->settings;
+
         if ($userSettings->account_alert_texts === 1) {
           $message = ('The password for your Schedulist account was just updated. If that wasn\'t you, you should recover your password as soon as possible.');
-          $notification = NotifyUser::createNotification($message, Auth::user())->sendText()->addText(route('password.request'));
+          NotifyUser::createNotification($message, Auth::user())->sendText()->addText(route('password.request'));
         }
+
         if ($userSettings->account_alert_emails === 1) {
           $message = [
-            'alert' => 'Password was changed',
+            'heading' => 'Password was changed',
             'body' => 'Your Schedulist password was just changed. If this was you, you can safely ignore this message. If you did not just update your password, someone else has access to your account, and you should reset your password as soon as possible.',
             'link' => route('password.request'),
             'link_title' => 'Password reset',
             'subject' => 'Security alert - Account password changed',
+            'footer' => 'You received this email because you turned on email alerts for account updates.',
+            'icon' => 'lock'
           ];
-          $notification = NotifyUser::createNotification($message, Auth::user())->sendEmail('security-alert');
+          NotifyUser::createNotification($message, Auth::user())->sendEmail();
         }
       }
 
