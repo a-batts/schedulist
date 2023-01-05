@@ -56,7 +56,7 @@
                                     <table>
                                         <tr>
                                             <td>
-                                                <img style="height: 36px" class="icon" src="https://material-icons.github.io/material-icons-png/png/black/event_note/outline-4x.png" height="36px">
+                                                <img style="height: 36px" class="icon" alt="Event icon" src="https://material-icons.github.io/material-icons-png/png/black/event_note/outline-4x.png" height="36px">
                                             </td>
                                             <td style="padding-left: 10px;">
                                                 <span style="font-weight: 600; font-size: 20px; line-height: 24px">

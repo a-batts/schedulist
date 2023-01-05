@@ -19,7 +19,7 @@
     </style>
   </head>
   <body>
-    <div class="intmess" style="font-family: 'Noto Sans'">
+    <div class="intmess" style="font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;">
       <img src="{{ asset('images/icon/security.png') }}" height="18px" width="18px" alt="Security icon">
       <span class="message-span">This email has been internally sent from feedback@schedulist.xyz</span>
     </div>
