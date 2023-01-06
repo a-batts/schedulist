@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Mail\FeedbackForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 class ContactForm extends Component {
 
@@ -50,10 +51,10 @@ class ContactForm extends Component {
   public function submit(): void {
     $this->validate();
 
-    if (!$this->reason) {
-      $this->addError('reason', 'A message reason is required');
-      return;
-    }
+    if (!$this->reason)
+      throw ValidationException::withMessages([
+        'reason' => 'A message reason is required'
+      ]);
 
     if (!$this->email) {
       $this->email = 'feedback@schedulist.xyz';

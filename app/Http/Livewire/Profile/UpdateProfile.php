@@ -127,14 +127,14 @@ class UpdateProfile extends Component {
 
       if ($lookupService->validate($this->state['phone'])) {
         $this->state['carrier'] = $lookupService->carrier;
-        if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) !== null) {
-          //Send a verification code and then show the verification popup
-          $this->formattedPhoneNumber = $this->getFormattedNumber($this->state['phone']);
-          $this->dispatchBrowserEvent('display-phone-verification');
-          $this->sendVerificationCode($this->state['phone']);
-        }
-      } else
-        $this->addError('state.phone', 'The phone number you entered is not compatible.');
+        if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
+          throw ValidationException::withMessages([
+            'state.phone' => 'The phone number you entered is not compatible.'
+          ]);
+        $this->formattedPhoneNumber = $this->getFormattedNumber($this->state['phone']);
+        $this->dispatchBrowserEvent('display-phone-verification');
+        $this->sendVerificationCode($this->state['phone']);
+      }
     }
   }
 
@@ -162,14 +162,14 @@ class UpdateProfile extends Component {
       $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
 
       if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
-        $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
-      else {
-        $body = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
-        $client->messages->create(
-          $number,
-          ['body' => $body, 'from' => env('TWILIO_PHONE_NUMBER', '+15715208808')]
-        );
-      }
+        throw ValidationException::withMessages([
+          'verificationCodeInput' => 'The phone number you entered is not compatible.'
+        ]);
+      $body = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
+      $client->messages->create(
+        $number,
+        ['body' => $body, 'from' => env('TWILIO_PHONE_NUMBER', '+15715208808')]
+      );
     } catch (TooManyRequestsException $exception) {
       $this->dispatchBrowserEvent('set-timer', $exception->secondsUntilAvailable);
       throw ValidationException::withMessages([
@@ -195,15 +195,17 @@ class UpdateProfile extends Component {
     $user = Auth::user();
     $verificationCode = DB::table('two_factor_codes')->where('user_id', Auth::id())->first()->two_factor_code;
 
-    if ($this->verificationCodeInput == $verificationCode) {
-      $this->dispatchBrowserEvent('hide-phone-verification');
-      $this->emit('toastMessage', 'Phone number successfully verified');
+    if ($this->verificationCodeInput != $verificationCode)
+      throw ValidationException::withMessages([
+        'verificationCodeInput' => 'The verification code you inputted is incorrect.'
+      ]);
 
-      $user->phone = $this->state['phone'];
-      $user->carrier = $this->state['carrier'];
-      $user->save();
-    } else
-      $this->addError('verificationCodeInput', 'The verification code you inputted is incorrect');
+    $this->dispatchBrowserEvent('hide-phone-verification');
+    $this->emit('toastMessage', 'Phone number successfully verified');
+
+    $user->phone = $this->state['phone'];
+    $user->carrier = $this->state['carrier'];
+    $user->save();
     $this->reset('verificationCodeInput');
   }
 

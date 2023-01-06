@@ -10,7 +10,7 @@ use App\Models\EventUser;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class EventShare extends Component {
@@ -68,26 +68,27 @@ class EventShare extends Component {
   public function share(): void {
     $this->clearValidation();
 
-    if ($this->query == Auth::user()->email) {
-      $this->addError('query', 'You are already the owner of this event');
-      return;
-    }
-    if (strlen($this->query) < 6 || !str_contains($this->query, '@') || !str_contains($this->query, '.')) {
-      $this->addError('query', 'Invalid email inputted');
-      return;
-    }
+    if ($this->query == Auth::user()->email)
+      throw ValidationException::withMessages([
+        'query' => 'You are already the owner of this event.'
+      ]);
+
+    if (strlen($this->query) < 6 || !str_contains($this->query, '@') || !str_contains($this->query, '.'))
+      throw ValidationException::withMessages([
+        'query' => 'Invalid email inputted.'
+      ]);
 
     $user = User::where('email', 'like', '%' . $this->query . '%')->where('id', '<>', Auth::id())->first();
-    if ($user == null) {
-      $this->addError('query', 'That email address does not have a Schedulist account associated with it');
-      return;
-    }
     $this->reset('query');
+    if ($user == null)
+      throw ValidationException::withMessages([
+        'query' => 'Doesn\'t look like there\'s a Schedulist account associated with the email you inputted.'
+      ]);
 
-    if (EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists()) {
-      $this->addError('query', 'This event has already been shared with that user');
-      return;
-    }
+    if (EventUser::where(['user_id' => $user->id, 'event_id' => $this->event->id])->exists())
+      throw ValidationException::withMessages([
+        'query' => 'You have already shared this event with that user.'
+      ]);
 
     EventUser::create(['user_id' => $user->id, 'event_id' => $this->event->id, 'accepted' => false])->save();
     //Dispatch an email to the invited user with a generated link for the event

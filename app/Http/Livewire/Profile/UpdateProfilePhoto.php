@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Profile;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -113,7 +114,9 @@ class UpdateProfilePhoto extends Component {
    */
   public function filePondError(?string $message): void {
     $this->resetErrorBag('uploadedPhoto');
-    $this->addError('uploadedPhoto', $message);
+    throw ValidationException::withMessages([
+      'uploadedPhoto' => $message
+    ]);
   }
 
   /**

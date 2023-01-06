@@ -9,7 +9,7 @@ use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Register extends Component {
@@ -112,9 +112,10 @@ class Register extends Component {
    */
   public function setGradeLevel(string $level): void {
     if (!isset($this->gradeOptions[$level]))
-      $this->addError('gradeLevel', 'Invalid grade level');
-    else
-      $this->gradeLevel = $this->gradeOptions[$level];
+      throw ValidationException::withMessages([
+        'gradeLevel' => 'Invalid grade level'
+      ]);
+    $this->gradeLevel = $this->gradeOptions[$level];
   }
 
   /**

@@ -8,6 +8,7 @@ use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class EditSchedules extends Component {
@@ -71,14 +72,16 @@ class EditSchedules extends Component {
         $newSchedule->start_date = $this->start->toDateString();
         $newSchedule->end_date = $this->end->toDateString();
 
-        if (!$this->checkForOverlap()) {
-            Auth::user()->schedules()->save($newSchedule);
-            $this->schedules->add($newSchedule);
+        if ($this->checkForOverlap())
+            throw ValidationException::withMessages([
+                'start_date' => 'Your new schedule cannot overlap with your other schedules.'
+            ]);
 
-            $this->start = Carbon::now();
-            $this->end = Carbon::now()->addDay();
-        } else
-            $this->addError('start_date', 'Your new schedule cannot overlap with your other schedules');
+        Auth::user()->schedules()->save($newSchedule);
+        $this->schedules->add($newSchedule);
+
+        $this->start = Carbon::now();
+        $this->end = Carbon::now()->addDay();
     }
 
     /**
@@ -91,24 +94,25 @@ class EditSchedules extends Component {
 
         try {
             $editSchedule = Auth::user()->schedules()->findOrFail($id);
-
             $editSchedule->name = $this->name;
             $editSchedule->start_date = $this->start->toDateString();
             $editSchedule->end_date = $this->end->toDateString();
 
-            if (!$this->checkForOverlap($id)) {
-                $editSchedule->save();
+            if ($this->checkForOverlap($id))
+                throw ValidationException::withMessages([
+                    'start_date' => 'The new dates for this schedule cannot overlap with your other schedules.'
+                ]);
 
-                foreach ($this->schedules as $schedule) {
-                    if ($schedule->id == $id)
-                        $schedule = $editSchedule;
-                }
+            $editSchedule->save();
 
-                $this->start = Carbon::now();
-                $this->end = Carbon::now()->addDay();
-            } else
-                $this->addError('start_date', 'The new dates for this schedule cannot overlap with your other schedules');
-        } catch (ModelNotFoundException $e) {
+            foreach ($this->schedules as $schedule) {
+                if ($schedule->id == $id)
+                    $schedule = $editSchedule;
+            }
+
+            $this->start = Carbon::now();
+            $this->end = Carbon::now()->addDay();
+        } catch (ModelNotFoundException) {
         }
     }
 
@@ -120,7 +124,6 @@ class EditSchedules extends Component {
      */
     public function delete(int $id): void {
         try {
-            Auth::user()->schedules()->findOrFail($id)->first()->times()->delete();
             Auth::user()->schedules()->findOrFail($id)->delete();
             $this->schedules = $this->schedules->except($id);
         } catch (ModelNotFoundException $e) {

@@ -7,6 +7,7 @@ use App\Models\AssignmentReminder as ModelsAssignmentReminder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class AssignmentReminder extends Component {
@@ -49,10 +50,11 @@ class AssignmentReminder extends Component {
     public function addReminder(int $hoursBefore): ?array {
         $hoursBefore = round($hoursBefore);
 
-        if ($hoursBefore < 1 || $hoursBefore > 48) {
-            $this->addError('hoursBefore', 'You can set a reminder for no more than 48 hours prior to the assignment due date');
-            return null;
-        }
+        if ($hoursBefore < 1 || $hoursBefore > 48)
+            throw ValidationException::withMessages([
+                'hoursBefore' => 'You can set a reminder for no more than 48 hours prior to the assignment due date'
+            ]);
+
 
         Validator::make(
             ['hoursBefore' => $hoursBefore],
@@ -66,16 +68,16 @@ class AssignmentReminder extends Component {
 
         $due = Carbon::parse($this->assignment->due);
 
-        if ($due->copy()->subHours($hoursBefore) < Carbon::now()) {
-            $this->addError('hoursBefore', 'You can\'t set a reminder for a past time');
-            return null;
-        }
+        if ($due->copy()->subHours($hoursBefore) < Carbon::now())
+            throw ValidationException::withMessages([
+                'hoursBefore' => 'You can\'t set a reminder for a past time'
+            ]);
 
         foreach ($this->reminders as $reminder) {
-            if ($reminder['hours_before'] == $hoursBefore) {
-                $this->addError('hoursBefore', 'You already have a reminder set for this time');
-                return null;
-            }
+            if ($reminder['hours_before'] == $hoursBefore)
+                throw ValidationException::withMessages([
+                    'hoursBefore' => 'You already have a reminder set for this time'
+                ]);
         }
 
 

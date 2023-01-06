@@ -10,6 +10,7 @@ use App\Models\Classes;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 use Livewire\Component;
 
@@ -148,14 +149,16 @@ class AssignmentEdit extends Component {
     $hours = $time['h'];
     $mins = $time['m'];
 
-    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59) {
-      $this->addError('due_time', 'Invalid time inputted');
-      return;
-    }
+    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59)
+      throw ValidationException::withMessages([
+        'due_time' => 'Invalid time inputted'
+      ]);
     try {
       $this->due->setTime($hours, $mins);
     } catch (InvalidArgumentException $e) {
-      $this->addError('due_time', 'Invalid time inputted');
+      throw ValidationException::withMessages([
+        'due_time' => 'Invalid time inputted'
+      ]);
     }
   }
 

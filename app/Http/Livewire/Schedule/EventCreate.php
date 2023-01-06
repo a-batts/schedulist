@@ -9,7 +9,7 @@ use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class EventCreate extends Component {
@@ -159,11 +159,12 @@ class EventCreate extends Component {
    * @return void
    */
   public function setCategory(string $category): void {
-    if (in_array($category, $this->categories)) {
-      $this->event->category = $category;
-      $this->clearValidation('event.category');
-    } else
-      $this->addError('event.category', 'You\'ve selected an invalid category');
+    if (!in_array($category, $this->categories))
+      throw ValidationException::withMessages([
+        'event.category' => 'You\'ve selected an invalid category.'
+      ]);
+
+    $this->event->category = $category;
   }
 
   /**
@@ -176,19 +177,19 @@ class EventCreate extends Component {
     $hours = $time['h'];
     $mins = $time['m'];
 
-    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59) {
-      $this->addError('start_time', 'Invalid start time');
-      return;
-    }
+    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59)
+      throw ValidationException::withMessages([
+        'start_time' => 'Invalid start time'
+      ]);
 
     //Ensure that the start time is not after the end time
     $endTime = explode(':', $this->event->end_time);
     if (
       ($endTime[0] < $hours || ($endTime[0] == $hours && $endTime[1] < $mins))
-    ) {
-      $this->addError('start_time', 'The event end time must be after the start time');
-      return;
-    }
+    )
+      throw ValidationException::withMessages([
+        'start_time' => 'The event start time must be before the end time.'
+      ]);
 
     $this->event->start_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
@@ -203,19 +204,19 @@ class EventCreate extends Component {
     $hours = $time['h'];
     $mins = $time['m'];
 
-    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59) {
-      $this->addError('start_time', 'Invalid end time');
-      return;
-    }
+    if ($hours < 0 || $hours > 23 || $mins < 0 || $mins > 59)
+      throw ValidationException::withMessages([
+        'end_time' => 'Invalid end time'
+      ]);
 
     //Ensure that the end time is not before the start time
     $startTime = explode(':', $this->event->start_time);
     if (
       ($startTime[0] > $hours || ($startTime[0] == $hours && $startTime[1] > $mins))
-    ) {
-      $this->addError('end_time', 'The event end time must be after the start time');
-      return;
-    }
+    )
+      throw ValidationException::withMessages([
+        'end_time' => 'The event end time must be after the start time.'
+      ]);
 
     $this->event->end_time = $hours . ':' . str_pad($mins, 2, '0', STR_PAD_LEFT);
   }
