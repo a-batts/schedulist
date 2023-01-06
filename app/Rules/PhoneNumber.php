@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Service\Twilio\PhoneNumberLookupService;
+use App\Services\Twilio\PhoneNumberLookupService;
 use Illuminate\Contracts\Validation\Rule;
 
 class PhoneNumber implements Rule {
