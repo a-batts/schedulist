@@ -1,0 +1,17 @@
+/.idea
+/.serenata
+/vendor
+/node_modules
+.env
+.env_example
+.htaccess
+/tests
+/.vscode
+/.tmp.driveupload
+.tmp.drivedownload
+_ide_helper_models.php
+_ide_helper.php
+.phpstorm.meta.php
+/public/storage
+/bootstrap/cache
+/storage
