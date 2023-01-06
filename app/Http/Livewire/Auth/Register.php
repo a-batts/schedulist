@@ -3,12 +3,13 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Actions\Fortify\PasswordValidationRules;
-
+use App\Enums\User\GradeLevel;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -34,7 +35,10 @@ class Register extends Component {
   public string $school = '';
 
   /** @var string */
-  public string $gradeLevel = '';
+  public GradeLevel $gradeLevel = GradeLevel::College;
+
+  /** @var array<GradeLevel> */
+  public array $gradeLevels;
 
   /** @var array */
   public array $errorMessages = [];
@@ -75,15 +79,24 @@ class Register extends Component {
       'email' => ['required', 'email', 'max:255', 'unique:users'],
       'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
       'passwordConfirmation' => 'required|string|same:password',
-      'gradeLevel' => ['required'],
+      'gradeLevel' => ['nullable', new Enum(GradeLevel::class)],
       'school' => ['nullable'],
     ];
   }
 
   /**
-   * Create the new user
+   * Mount the component
    *
-   * @return \Livewire\Redirector
+   * @return void
+   */
+  public function mount(): void {
+    $this->gradeLevels = $this->getGradeLevels();
+  }
+
+  /**
+   * Create a new user and sign them in to the app
+   *
+   * @return
    */
   public function create() {
     $this->validate();
@@ -105,17 +118,29 @@ class Register extends Component {
   }
 
   /**
-   * Set the user's grade level
-   *
-   * @param string $level
-   * @return void
+   * Sets user grade value from select menu
+   * @param int $grade
    */
-  public function setGradeLevel(string $level): void {
-    if (!isset($this->gradeOptions[$level]))
-      throw ValidationException::withMessages([
-        'gradeLevel' => 'Invalid grade level'
-      ]);
-    $this->gradeLevel = $this->gradeOptions[$level];
+  public function setGrade(int $grade): void {
+    $this->gradeLevel = GradeLevel::from($grade);
+  }
+
+  /**
+   * Get the array of all grade level enums 
+   *
+   * @return array
+   */
+  public function getGradeLevels(): array {
+    $levels = [];
+    foreach (GradeLevel::cases() as $case) {
+      $levels[] =
+        [
+          'name' => $case->name,
+          'value' => $case->value,
+          'formatted_name' => $case->formattedName()
+        ];
+    }
+    return $levels;
   }
 
   /**

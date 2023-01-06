@@ -96,8 +96,50 @@
       </label>
       <x-ui.validation-error for="passwordConfirmation"/>
 
-      <x-ui.select :data="json_encode(array_keys($gradeOptions))" title="Grade level" bind="grade" style="outlined" class="w-full mt-4" required />
-      <x-ui.validation-error for="gradeLevel"/>
+      <div class="w-full mdc-select mdc-select--outlined" wire:ignore>
+        <div class="mdc-select__anchor">
+          <span class="mdc-notched-outline">
+            <span class="mdc-notched-outline__leading"></span>
+            <span class="mdc-notched-outline__notch">
+              <span id="outlined-select-label" class="mdc-floating-label mdc-floating-label--float-above">Grade level</span>
+            </span>
+            <span class="mdc-notched-outline__trailing"></span>
+          </span>
+          <span class="mdc-select__selected-text-container outlined_select">
+            <span id="grade-selected-text" class="mdc-select__selected-text"></span>
+          </span>
+          <span class="mdc-select__dropdown-icon">
+            <svg
+                class="mdc-select__dropdown-icon-graphic"
+                viewBox="7 10 10 5">
+              <polygon
+                  class="mdc-select__dropdown-icon-inactive"
+                  stroke="none"
+                  fill-rule="evenodd"
+                  points="7 10 12 15 17 10">
+              </polygon>
+              <polygon
+                  class="mdc-select__dropdown-icon-active"
+                  stroke="none"
+                  fill-rule="evenodd"
+                  points="7 15 12 10 17 15">
+              </polygon>
+            </svg>
+          </span>
+        </div>
+
+        <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fixed">
+          <ul class="mdc-deprecated-list dark-theme-list">
+            @foreach ($gradeLevels as $level)
+              <li class="mdc-deprecated-list-item @if($gradeLevel->value == $level['value']) mdc-deprecated-list-item--selected @endif" wire:click="setGrade({{$level['value']}})" data-value="{{$level['value']}}">
+                <span class="mdc-deprecated-list-item__ripple"></span>
+                <span class="mdc-deprecated-list-item__text">{{$level['formatted_name']}}</span>
+              </li>
+            @endforeach
+          </ul>
+        </div>
+        <x-ui.validation-error for="gradeLevel"/>
+      </div>
 
       <div class="mt-4">
         <label class="w-full mdc-text-field mdc-text-field--outlined" :class="{'mdc-text-field--invalid': errorMessages['school'] != undefined}" wire:ignore>
