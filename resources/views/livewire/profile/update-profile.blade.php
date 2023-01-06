@@ -1,14 +1,7 @@
 <div x-data="phoneVerification()" 
-x-init="$watch('numberConfirmationDialog', value =>{
-  if (value)
-    fixBody()
-  else
-    undoFixBody()
-})"
-@start-countdown.window="countdown($refs)"
-@display-phone-verification.window="numberConfirmationDialog = true"
-@hide-phone-verification.window="numberConfirmationDialog = false"
-class="" id="profile_settings">
+@display-phone-verification.window="confirmingNumber = true; timeout()"
+@hide-phone-verification.window="confirmingNumber = false"
+id="profile_settings">
   @livewire('profile.update-profile-photo')
   <form wire:submit.prevent="save">
     <x-ui.settings-card title="Personal info"
@@ -33,7 +26,7 @@ class="" id="profile_settings">
     <x-jet-section-border />
     <div class="mt-2">
       <div class="float-left w-1/2 pr-1.5">
-        <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['state.firstname'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" :class="{'mdc-text-field--invalid': errorMessages['state.firstname'] != undefined}" wire:ignore>
           <span class="mdc-notched-outline">
             <span class="mdc-notched-outline__leading"></span>
             <span class="mdc-notched-outline__notch">
@@ -46,7 +39,7 @@ class="" id="profile_settings">
         <x-ui.validation-error for="state.firstname"/>
       </div>
       <div class="float-right w-1/2 pl-1.5">
-        <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['state.lastname'] != undefined}" wire:ignore>
+        <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" :class="{'mdc-text-field--invalid': errorMessages['state.lastname'] != undefined}" wire:ignore>
           <span class="mdc-notched-outline">
             <span class="mdc-notched-outline__leading"></span>
             <span class="mdc-notched-outline__notch">
@@ -59,7 +52,7 @@ class="" id="profile_settings">
         <x-ui.validation-error for="state.lastname"/>
       </div>
       </div>
-      <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['state.email'] != undefined}" wire:ignore>
+      <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" :class="{'mdc-text-field--invalid': errorMessages['state.email'] != undefined}" wire:ignore>
         <span class="mdc-notched-outline">
           <span class="mdc-notched-outline__leading"></span>
           <span class="mdc-notched-outline__notch">
@@ -72,7 +65,7 @@ class="" id="profile_settings">
       <x-ui.validation-error for="state.email"/>
       <div class="w-full">
         <div class="float-left w-1/2 pr-1.5">
-          <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['state.phone'] != undefined}" wire:ignore>
+          <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" :class="{'mdc-text-field--invalid': errorMessages['state.phone'] != undefined}" wire:ignore>
             <span class="mdc-notched-outline">
               <span class="mdc-notched-outline__leading"></span>
               <span class="mdc-notched-outline__notch">
@@ -87,7 +80,7 @@ class="" id="profile_settings">
       </div>
       <div>
         <div class="float-left clear-left w-1/2 pr-1.5">
-          <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" x-bind:class="{'mdc-text-field--invalid': errorMessages['state.school'] != undefined}" wire:ignore>
+          <label class="w-full mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating" :class="{'mdc-text-field--invalid': errorMessages['state.school'] != undefined}" wire:ignore>
             <span class="mdc-notched-outline">
               <span class="mdc-notched-outline__leading"></span>
               <span class="mdc-notched-outline__notch">
@@ -134,26 +127,12 @@ class="" id="profile_settings">
     
             <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fixed">
               <ul class="mdc-deprecated-list dark-theme-list">
-                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="es") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('es')" data-value="es">
-                  <span class="mdc-deprecated-list-item__ripple"></span>
-                  <span class="mdc-deprecated-list-item__text">Elementary School (K-5/6)</span>
-                </li>
-                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="ms") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('ms')" data-value="ms">
-                  <span class="mdc-deprecated-list-item__ripple"></span>
-                  <span class="mdc-deprecated-list-item__text">Middle School (6/7-8)</span>
-                </li>
-                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="hs") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('hs')" data-value="hs">
-                  <span class="mdc-deprecated-list-item__ripple"></span>
-                  <span class="mdc-deprecated-list-item__text">High School (9-12)</span>
-                </li>
-                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="university") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('university')" data-value="university">
-                  <span class="mdc-deprecated-list-item__ripple"></span>
-                  <span class="mdc-deprecated-list-item__text">College/University</span>
-                </li>
-                <li class="mdc-deprecated-list-item @if(Auth::user()->grade_level=="other") mdc-deprecated-list-item--selected @endif" wire:click="setGrade('other')" data-value="other">
-                  <span class="mdc-deprecated-list-item__ripple"></span>
-                  <span class="mdc-deprecated-list-item__text">Other</span>
-                </li>
+                @foreach ($gradeLevels as $level)
+                  <li class="mdc-deprecated-list-item @if($state['grade_level'] == $level['value']) mdc-deprecated-list-item--selected @endif" wire:click="setGrade({{$level['value']}})" data-value="{{$level['value']}}">
+                    <span class="mdc-deprecated-list-item__ripple"></span>
+                    <span class="mdc-deprecated-list-item__text">{{$level['formatted_name']}}</span>
+                  </li>
+                @endforeach
               </ul>
             </div>
             <x-ui.validation-error for="state.grade_level"/>
@@ -169,15 +148,15 @@ class="" id="profile_settings">
   </form>
   <!-- Phone number confirmation menu -->
   <div>
-    <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="numberConfirmationDialog" x-cloak wire:ignore.self></div>
-    <div class="fixed w-screen h-screen pb-6 overflow-y-auto modal-container mdc-typography top-20" x-transition x-show="numberConfirmationDialog" x-cloak wire:ignore.self>
+    <div class="inset-0 hidden bg-gray-500 opacity-75 modal-skim" style="display: none" x-show="confirmingNumber" x-cloak wire:ignore.self></div>
+    <div class="fixed w-screen h-screen pb-6 overflow-y-auto modal-container mdc-typography top-20" x-show="confirmingNumber" x-transition x-trap.noscroll="confirmingNumber" x-cloak wire:ignore.self>
       <div class="px-6 pb-6 mdc-card mdc-card--outlined modal-card">
         <h6 class="mt-4">
           <span class="ml-1 mr-4 select-none material-icons" style="vertical-align: -2px">textsms</span>
-          <span class="mt-4 text-3xl font-medium">Verify your phone number</span>
+          <span class="mt-4 text-3xl font-bold">Verify your phone number</span>
         </h6>
         <p class="mt-3 text-gray-600">We just sent a text with a confirmation code to {{$formattedPhoneNumber ?? 'null'}}.</p>
-        <p class="mt-1 text-sm text-blue" style="cursor: pointer" @click="numberConfirmationDialog = false" wire:click="cancelValidation()">Wrong phone number?</p>
+        <p class="mt-1 text-sm text-blue" style="cursor: pointer" @click="confirmingNumber = false" wire:click="cancelValidation()">Wrong phone number?</p>
         <label class="mt-7 mdc-text-field mdc-text-field--outlined @error('verificationCodeInput') mdc-text-field--invalid @enderror login-form mdc-text-field--label-floating">
           <input type="number" class="mdc-text-field__input" aria-labelledby="confirmation-code-label" wire:model.debounce.250ms="verificationCodeInput" autocomplete="chrome-off" maxlength="6" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
           <span class="mdc-notched-outline mdc-notched-outline--notched" wire:ignore>
@@ -190,15 +169,16 @@ class="" id="profile_settings">
         </label>
         <x-ui.validation-error for="verificationCodeInput"/>
         <div class="mt-10">
-          <button class="float-left mdc-button mdc-button-ripple tfa-button" wire:ignore wire:click="resendAndCount()" id="countdown-button" x-ref="countdownButton">
+          <button class="float-left mdc-button mdc-button-ripple tfa-button" type="button" @click="$wire.resendCode(); timeout()" :disabled="seconds > 0" wire:ignore>
             <span class="mdc-button__ripple"></span>
-              Resend code <span id="countdown-time" x-ref="countdownTime" style="white-space: pre"> (120)</span>
+              Resend code 
+              <p class="whitespace-pre"> (<span x-text="seconds"></span>)</p>
           </button>
-          <button class="mdc-button mdc-button--raised mdc-button-ripple tfa-button" wire:ignore wire:click="confirmVerification()">
+          <button class="mdc-button mdc-button--raised mdc-button-ripple tfa-button" wire:click="confirmVerification()" wire:ignore>
             <span class="mdc-button__ripple"></span>
               Submit
           </button>
-          <button class="mr-3 mdc-button mdc-button-ripple tfa-button" @click="numberConfirmationDialog = false" wire:click="cancelValidation()" wire:ignore>
+          <button class="mr-3 mdc-button mdc-button-ripple tfa-button" @click="confirmingNumber = false" wire:click="cancelValidation()" wire:ignore>
             <span class="mdc-button__ripple"></span>
               Cancel
           </button>
@@ -212,14 +192,21 @@ class="" id="profile_settings">
   <script>
     function phoneVerification(){
       return{
+        confirmingNumber: false,
+
         errorMessages: @entangle('errorMessages'),
-        numberConfirmationDialog: false,
-        countdown: function($refs){
-          $refs.countdownTime.innerHTML = ' (120)';
-          $refs.countdownButton.disabled = true;
-          sleep(1000).then(function () {
-            countdownClock(120, $refs);
-          });
+
+        seconds: 120,
+
+        timeout: function(){
+          this.seconds = 120;
+
+          const timer = setInterval(() => {
+            if (this.seconds == 0)
+              clearInterval(timer);
+            else
+              this.seconds--;
+          }, 1000);
         },
       }
     }

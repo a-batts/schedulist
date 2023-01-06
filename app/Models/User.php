@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\User\GradeLevel;
 use App\Helpers\HasProfilePhoto;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Crypt;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -45,6 +44,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar {
     'school' => 'encrypted',
     'google_id' => 'encrypted',
     'google_email' => 'encrypted',
+    'grade_level' => GradeLevel::class,
   ];
 
   /**

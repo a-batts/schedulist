@@ -19,7 +19,7 @@ class CarrierEmailHelper {
      * @return string|null email for provided carrier or null if the carrier does not have an associated email
      */
     public static function getCarrierEmail($carrierName) {
-        if (static::$carrierEmails[$carrierName] != null)
+        if (isset(static::$carrierEmails[$carrierName]))
             return self::$carrierEmails[$carrierName];
         return null;
     }
