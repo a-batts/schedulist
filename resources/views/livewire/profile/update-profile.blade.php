@@ -1,6 +1,7 @@
 <div x-data="phoneVerification()" 
 @display-phone-verification.window="confirmingNumber = true; timeout()"
 @hide-phone-verification.window="confirmingNumber = false"
+@set-timer.window="seconds = event.detail"
 id="profile_settings">
   @livewire('profile.update-profile-photo')
   <form wire:submit.prevent="save">

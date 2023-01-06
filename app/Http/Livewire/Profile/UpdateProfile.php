@@ -5,13 +5,18 @@ namespace App\Http\Livewire\Profile;
 use App\Enums\User\GradeLevel;
 use App\Helpers\CarrierEmailHelper;
 use App\Services\Twilio\PhoneNumberLookupService;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Twilio\Rest\Client;
 
 class UpdateProfile extends Component {
+  use WithRateLimiting;
+
   /**
    * Possible grade level options
    *
@@ -125,8 +130,8 @@ class UpdateProfile extends Component {
         if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) !== null) {
           //Send a verification code and then show the verification popup
           $this->formattedPhoneNumber = $this->getFormattedNumber($this->state['phone']);
-          $this->sendVerificationCode($this->state['phone']);
           $this->dispatchBrowserEvent('display-phone-verification');
+          $this->sendVerificationCode($this->state['phone']);
         }
       } else
         $this->addError('state.phone', 'The phone number you entered is not compatible.');
@@ -140,25 +145,36 @@ class UpdateProfile extends Component {
    * @return void
    */
   protected function sendVerificationCode(string $number): void {
-    //Delete any prior verification codes
-    DB::table('two_factor_codes')->where('user_id', Auth::id())->delete();
-    $code = mt_rand(100000, 999999);
-
-    DB::table('two_factor_codes')->insert([
-      'user_id' => Auth::id(),
-      'two_factor_code' => $code,
-    ]);
-
-    $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
-
-    if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
-      $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
-    else {
-      $body = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
-      $client->messages->create(
-        $number,
-        ['body' => $body, 'from' => env('TWILIO_PHONE_NUMBER', '+15715208808')]
+    try {
+      $this->rateLimit(
+        maxAttempts: 1,
+        decaySeconds: 120
       );
+      //Delete any prior verification codes
+      DB::table('two_factor_codes')->where('user_id', Auth::id())->delete();
+      $code = mt_rand(100000, 999999);
+
+      DB::table('two_factor_codes')->insert([
+        'user_id' => Auth::id(),
+        'two_factor_code' => $code,
+      ]);
+
+      $client = new Client(env('TWILIO_ACCOUNT_SID'), env('TWILIO_AUTH_TOKEN'));
+
+      if (CarrierEmailHelper::getCarrierEmail($this->state['carrier']) == null)
+        $this->addError('verificationCodeInput', 'The phone number you entered is not compatible.');
+      else {
+        $body = 'Hey there! Your verification code for Schedulist is ' . $code . '. If you didn\'t request one feel free to ignore this text.';
+        $client->messages->create(
+          $number,
+          ['body' => $body, 'from' => env('TWILIO_PHONE_NUMBER', '+15715208808')]
+        );
+      }
+    } catch (TooManyRequestsException $exception) {
+      $this->dispatchBrowserEvent('set-timer', $exception->secondsUntilAvailable);
+      throw ValidationException::withMessages([
+        'verificationCodeInput' => "You need to wait another {$exception->secondsUntilAvailable} seconds before requesting a new code."
+      ]);
     }
   }
 
