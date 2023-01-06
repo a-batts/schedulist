@@ -220,7 +220,7 @@ class MyData extends Component {
                     ],
                     'school' => [
                         'name' => $user->school,
-                        'gradeLevel' => $user->grade_level
+                        'gradeLevel' => $user->grade_level->formattedName()
                     ]
                 ];
                 $zip->addEmptyDir('profile');
