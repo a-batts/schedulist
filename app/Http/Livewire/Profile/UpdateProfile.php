@@ -152,7 +152,7 @@ class UpdateProfile extends Component {
       );
       //Delete any prior verification codes
       DB::table('two_factor_codes')->where('user_id', Auth::id())->delete();
-      $code = mt_rand(100000, 999999);
+      $code = random_int(100000, 999999);
 
       DB::table('two_factor_codes')->insert([
         'user_id' => Auth::id(),
