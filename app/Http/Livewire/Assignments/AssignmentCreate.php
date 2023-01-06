@@ -62,7 +62,6 @@ class AssignmentCreate extends Component {
     'due' => 'required',
     'assignment.link' => 'url|nullable',
     'assignment.description' => 'required',
-    'assignment.status' => 'required',
     'assignment.user_id' => 'required',
   ];
 
@@ -77,8 +76,6 @@ class AssignmentCreate extends Component {
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
-
-    $this->assignment->status = 'inc';
 
     $classes = Classes::where('user_id', Auth::id())->get();
     foreach ($classes as $class)
@@ -127,8 +124,6 @@ class AssignmentCreate extends Component {
 
     $this->due = Carbon::now();
     $this->due->setTime('23', '59', '59');
-
-    $this->assignment->status = 'inc';
   }
 
   /**

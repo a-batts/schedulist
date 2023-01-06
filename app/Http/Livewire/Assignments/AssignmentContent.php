@@ -3,16 +3,12 @@
 namespace App\Http\Livewire\Assignments;
 
 use App\Classes\LinkPreview;
-
 use App\Models\Classes;
 use App\Models\Assignment;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 use Livewire\Component;
-use LogicException;
 
 class AssignmentContent extends Component {
   /**
@@ -92,13 +88,9 @@ class AssignmentContent extends Component {
   public function toggleCompletion(): void {
     $assignment = $this->assignment;
 
-    //Only allow user to modify an assignment they own
-    if ($assignment->user_id == Auth::id()) {
-      $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
-
-      $assignment->save();
-      $this->emit('toastMessage', 'Marked assignment as ' . ($assignment->status == 'done' ? 'complete' : 'incomplete'));
-    }
+    $assignment->status = $assignment->status->inverse();
+    $assignment->save();
+    $this->emit('toastMessage', 'Marked assignment as ' . (strtolower($assignment->status->name)));
   }
 
   /**

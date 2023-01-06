@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Assignment\AssignmentStatus;
 use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -21,10 +22,11 @@ class Assignment extends Model {
     'name' => 'encrypted',
     'description' => 'encrypted',
     'link' => 'encrypted',
+    'status' => AssignmentStatus::class,
   ];
 
   protected $appends = [
-    'human_due', 'is_late', 'due_in_next_month'
+    'human_due', 'is_late', 'due_in_next_month', 'status_name'
   ];
 
   protected static function booted(): void {
@@ -91,6 +93,12 @@ class Assignment extends Model {
   protected function dueInNextMonth(): Attribute {
     return new Attribute(
       get: fn () => Carbon::parse($this->due)->setTime(0, 0) < Carbon::now()->addDays(30)->setTime(0, 1),
+    );
+  }
+
+  protected function statusName(): Attribute {
+    return new Attribute(
+      get: fn () => strtolower($this->status->name ?? ''),
     );
   }
 

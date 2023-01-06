@@ -152,7 +152,7 @@
         
         getStatus: function (el){
           let date = new Date();
-          if (el['status'] == 'done')
+          if (el['status'] == 1)
             return 'Marked complete';
           else if (new Date(el['due']).toDateString() == date.toDateString())
             return 'Due at ' + el['due_time'];
@@ -199,7 +199,7 @@
         },
 
         get filteredAssignments() { 
-          const filterStatus = this.due.toLowerCase() == 'completed' ? 'done' : 'inc';
+          const filterStatus = this.due == 'Completed' ? 1 : 0;
 
           return this.assignments.filter(item => 
               item['status'] == filterStatus &&

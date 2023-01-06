@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Enums\Assignment\AssignmentStatus;
 use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
 use Carbon\Carbon;
@@ -81,7 +82,7 @@ class DashboardCards extends Component {
    */
   public function refresh(): void {
     $this->currentClass = $this->getCurrentClass();
-    $this->assignments = Auth::user()->assignments()->where('due', '>', Carbon::now())->where('status', 'inc')->take(8)->orderBy('due', 'asc')->get();
+    $this->assignments = Auth::user()->assignments()->where('due', '>', Carbon::now())->where('status', AssignmentStatus::Incomplete->value)->take(8)->orderBy('due', 'asc')->get();
     $this->events = $this->getEvents()->take(8);
   }
 
@@ -161,13 +162,13 @@ class DashboardCards extends Component {
     try {
       $this->currentClass = null;
       $this->nextClass = null;
-      $class = Auth::user()->classes()->findOrFail($id)->first();
+      $class = Auth::user()->classes()->firstOrFail($id);
       $class->times()->delete();
       $class->delete();
 
       $this->emit('toastMessage', 'Class successfully deleted');
       $this->emit('refreshClasses');
-    } catch (ModelNotFoundException $e) {
+    } catch (ModelNotFoundException) {
       $this->emit('toastMessage', 'Unable to delete class');
     }
   }

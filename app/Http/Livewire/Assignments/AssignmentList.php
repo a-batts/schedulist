@@ -132,11 +132,10 @@ class AssignmentList extends Component {
 
     //Only allow user to modify an assignment they own
     if ($assignment->user_id == Auth::id()) {
-      $assignment->status = $assignment->status == 'inc' ? 'done' : 'inc';
-
+      $assignment->status = $assignment->status->inverse();
       $assignment->save();
       $this->refreshAssignments();
-      $this->emit('toastMessage', 'Marked assignment as ' . ($assignment->status == 'done' ? 'done' : 'incomplete'));
+      $this->emit('toastMessage', 'Marked assignment as ' . (strtolower($assignment->status->name)));
     }
   }
 

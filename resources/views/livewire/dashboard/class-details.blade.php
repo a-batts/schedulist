@@ -306,14 +306,14 @@
                                 <h3 class="text-2xl font-semibold">Assignments</h3>
                                 <p class="mt-2 text-sm">Late or due in the next 30 days</p>
                                 <div class="pt-3">
-                                    <template x-for="assignment in classData?.[selectedClass]?.['assignments'].filter((el, index) => {return el.status == 'inc' && el.dueInNextMonth && index < assignmentCount})" :key="assignment.id">
+                                    <template x-for="assignment in classData?.[selectedClass]?.['assignments'].filter((el, index) => {return el.status == 0 && (el.is_late || el.due_in_next_month) && index < assignmentCount})" :key="assignment.id">
                                         <div>
                                             <a :href="'/assignments/assignment/' + assignment.url_string">
                                                 <div class="mt-3 mdc-card mdc-card--outlined">
                                                   <div class="flex px-5 truncate mdc-card__primary-action assignment-card-dashboard" tabindex="0">
                                                     <div class="flex-grow">
                                                       <p class="-mt-0.5 text-xl font-medium" x-text="assignment.name"></p>
-                                                      <p class="mt-1 text-sm" :class="assignment.isLate ? 'text-red' : 'text-green'">Due <span x-text="assignment.humanDue"></span></p>
+                                                      <p class="mt-1 text-sm" :class="assignment.is_late ? 'text-red' : 'text-green'">Due <span x-text="assignment.human_due"></span></p>
                                                     </div>
                                                   </div>
                                                 </div>

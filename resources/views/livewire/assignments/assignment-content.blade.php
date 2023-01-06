@@ -12,7 +12,7 @@ x-data="{
         <div class="ml-8">
           <h1 class="text-xl font-bold sm:text-4xl md:text-6xl">{{$assignment->name}}</h1>
           <div class="mt-2 text-sm md:mt-6">
-            @if($assignment->status == 'done')
+            @if($assignment->status->value == 1)
             <p class="text-gray-500">Marked complete • Originally due on {{$assignment->due_date}} at {{$assignment->due_time}}</p>
             @else
               <p class="{{$assignment->due < Carbon::now() ? 'text-red' : 'text-green'}}">
@@ -27,7 +27,7 @@ x-data="{
           <div class="mdc-icon-button__ripple"></div>
           edit
         </button>
-        <button class="mdc-icon-button material-icons" id="reminder-button" aria-describedby="notifications-label" @if($assignment->status != 'inc' || $assignment->is_late) disabled @endif wire:ignore>
+        <button class="mdc-icon-button material-icons" id="reminder-button" aria-describedby="notifications-label" @if($assignment->status->value == 1 || $assignment->is_late) disabled @endif wire:ignore>
           <div class="mdc-icon-button__ripple"></div>
           notifications_active
         </button>
@@ -113,7 +113,7 @@ x-data="{
   <div class="fab-button">
     <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Assignment" wire:click="toggleCompletion()">
       <div class="mdc-fab__ripple"></div>
-      @if ($assignment->status == 'inc')
+      @if ($assignment->status->value == 0)
         <span class="material-icons mdc-fab__icon">check_circle</span>
         <span class="mdc-fab__label">Mark As Completed</span>
       @else

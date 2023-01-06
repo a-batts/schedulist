@@ -12,12 +12,12 @@
         <div class="flex">
           <div class="self-center justify-center mr-2 text-sm align-middle">
             <span
-            :class="{'text-green': new Date(assignment['due']).getTime() >= new Date().getTime() && assignment['status'] == 'inc', 'text-red': new Date(assignment['due']).getTime() < new Date().getTime() && assignment['status'] == 'inc' }"
+            :class="{'text-green': new Date(assignment['due']).getTime() >= new Date().getTime() && assignment['status'] == 0, 'text-red': new Date(assignment['due']).getTime() < new Date().getTime() && assignment['status'] == 0 }"
             x-text="getStatus(assignment)"></span>
           </div>
           <button class="z-20 text-gray-600 t mdc-icon-button material-icons" type="button" @click.stop="$wire.toggleCompletion(assignment['id'])" :aria-describedby="`assignmentToggle${assignment['id']}`">
             <div class="mdc-icon-button__ripple"></div>
-            <span x-text="assignment['status'] == 'inc' ? 'check_circle' : 'unpublished'"></span>
+            <span x-text="assignment['status'] == 0 ? 'check_circle' : 'unpublished'"></span>
           </button>
           <template x-if="assignment['link'] != null && assignment['link'].match('.*[a-zA-Z].*')">
             <div>
@@ -36,7 +36,7 @@
       <div class="border-t border-gray-100"></div>
       <div class="px-6 pt-4">
         <div class="px-2">
-          <p class="w-full text-sm text-gray-500" :class="{'pb-3 mb-3': assignment['status'] == 'done'}" x-text="assignment['status'] == 'done' ? `Originally due on ${assignment['due_date']}` : ''"></p>
+          <p class="w-full text-sm text-gray-500" :class="{'pb-3 mb-3': assignment['status'] == 1}" x-text="assignment['status'] == 1 ? `Originally due on ${assignment['due_date']}` : ''"></p>
           <p class="w-full text-gray-600" x-text="assignment['description']"></p>
         </div>
         <div class="w-full pt-5">
@@ -62,7 +62,7 @@
     </div>
   </template>
   <div :id="`assignmentToggle${assignment['id']}`" class="mdc-tooltip" role="tooltip" aria-hidden="true">
-    <div class="mdc-tooltip__surface mdc-tooltip__surface-animation" x-text="assignment['status'] == 'inc' ? 'Mark assignment complete' : 'Mark assignment incomplete'">
+    <div class="mdc-tooltip__surface mdc-tooltip__surface-animation" x-text="assignment['status'] == 0 ? 'Mark assignment complete' : 'Mark assignment incomplete'">
     </div>
   </div>
 

@@ -119,7 +119,7 @@ class MyData extends Component {
                         'description' => $assignment->description,
                         'due' => $assignment->due,
                         'link' => $assignment->link,
-                        'status' => $assignment->status == 'done' ? 'done' : 'incomplete',
+                        '' => strtolower($assignment->status->name),
                         'notes' => $notes
                     ];
                 }
