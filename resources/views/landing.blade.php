@@ -41,6 +41,7 @@
         data-login_uri="login/callback/onetap"
         data-auto_select="true"
         data-prompt_parent_id="g_id_onload"
+        data-_token="{{ csrf_token() }}"
         style="position: fixed; top: 70px; right: 400px;
               width: 0; height: 0; z-index: 1001;">
         </div>
