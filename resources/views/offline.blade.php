@@ -16,8 +16,8 @@
     <link href="{{ asset('/site.webmanifest') }}" rel="manifest">
 
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite('resources/css/bundle.css')
+    @vite('resources/css/app.css')
 
     <style>
         .wifi_icon {
@@ -54,7 +54,7 @@
             </div>
         </main>
     </div>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
+    @vite('resources/js/bundle.js')
     <script>
         window.addEventListener('online', function(event) {
             location.reload();

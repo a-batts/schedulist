@@ -27,12 +27,12 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite('resources/css/bundle.css')
+    @vite('resources/css/app.css')
 
     <!-- Scripts -->
 
-    <script src="{{ mix('js/scripts.js') }}" async></script>
+    @vite('resources/js/scripts.js')
 </head>
 
 <body class="theme-div @if ($theme == 'dark') theme-dark @endif mdc-typography overflow-x-hidden"
@@ -107,7 +107,7 @@
     <x-footer />
 
     @livewireScripts
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
+    @vite('resources/js/bundle.js')
     <script type="module">
         import {Workbox, messageSW} from 'https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-window.prod.mjs';
 
