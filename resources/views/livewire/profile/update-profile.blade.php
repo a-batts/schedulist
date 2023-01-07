@@ -30,7 +30,8 @@
             <div class="mt-2">
                 <div class="float-left w-1/2 pr-1.5">
                     <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating w-full"
-                        :class="{ 'mdc-text-field--invalid': errorMessages['state.firstname'] != undefined }" wire:ignore>
+                        :class="{ 'mdc-text-field--invalid': errorMessages['state.firstname'] != undefined }"
+                        wire:ignore>
                         <span class="mdc-notched-outline">
                             <span class="mdc-notched-outline__leading"></span>
                             <span class="mdc-notched-outline__notch">
@@ -46,7 +47,8 @@
                 </div>
                 <div class="float-right w-1/2 pl-1.5">
                     <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--label-floating w-full"
-                        :class="{ 'mdc-text-field--invalid': errorMessages['state.lastname'] != undefined }" wire:ignore>
+                        :class="{ 'mdc-text-field--invalid': errorMessages['state.lastname'] != undefined }"
+                        wire:ignore>
                         <span class="mdc-notched-outline">
                             <span class="mdc-notched-outline__leading"></span>
                             <span class="mdc-notched-outline__notch">

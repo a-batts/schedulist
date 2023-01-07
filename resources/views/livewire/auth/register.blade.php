@@ -8,7 +8,7 @@
         }">
             <div class="flex w-full mt-8 space-x-4">
                 <div class="">
-                    <label class="w-full mdc-text-field mdc-text-field--outlined"
+                    <label class="mdc-text-field mdc-text-field--outlined w-full"
                         :class="{ 'mdc-text-field--invalid': errorMessages['firstName'] != undefined }" wire:ignore>
                         <input class="mdc-text-field__input" type="text" aria-labelledby="firstname-label"
                             autocomplete="given-name" maxlength="50" wire:model.lazy="firstName" required autofocus>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="">
-                    <label class="w-full mdc-text-field mdc-text-field--outlined"
+                    <label class="mdc-text-field mdc-text-field--outlined w-full"
                         :class="{ 'mdc-text-field--invalid': errorMessages['lastName'] != undefined }" wire:ignore>
                         <input class="mdc-text-field__input" type="text" aria-labelledby="lastname-label"
                             autocomplete="family-name" maxlength="50" wire:model.lazy="lastName" required>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="">
-                <label class="inline-block w-full mt-4 mdc-text-field mdc-text-field--outlined"
+                <label class="mdc-text-field mdc-text-field--outlined inline-block w-full mt-4"
                     :class="{ 'mdc-text-field--invalid': errorMessages['email'] != undefined }" wire:ignore>
                     <input class="mdc-text-field__input" type="email" aria-labelledby="email-label"
                         wire:model.lazy="email" autocomplete="email" required>
@@ -57,7 +57,7 @@
             </div>
 
             <div>
-                <label class="w-full mt-4 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon"
+                <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-4"
                     :class="{ 'mdc-text-field--invalid': errorMessages['password'] != undefined }" wire:ignore>
                     <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"
                         autocomplete="new-password" wire:model.lazy="password" required />
@@ -100,7 +100,7 @@
                 @endif
             </div>
 
-            <label class="w-full mt-4 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-4"
                 :class="{ 'mdc-text-field--invalid': errorMessages['passwordConfirmation'] != undefined }" wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="passwordconf-label" :type="passwordField"
                     autocomplete="new-password" wire:model.lazy="passwordConfirmation" required />
@@ -120,7 +120,7 @@
             </label>
             <x-ui.validation-error for="passwordConfirmation" />
 
-            <div class="w-full mdc-select mdc-select--outlined" wire:ignore>
+            <div class="mdc-select mdc-select--outlined w-full" wire:ignore>
                 <div class="mdc-select__anchor">
                     <span class="mdc-notched-outline">
                         <span class="mdc-notched-outline__leading"></span>
@@ -160,7 +160,7 @@
             </div>
 
             <div class="mt-4">
-                <label class="w-full mdc-text-field mdc-text-field--outlined"
+                <label class="mdc-text-field mdc-text-field--outlined w-full"
                     :class="{ 'mdc-text-field--invalid': errorMessages['school'] != undefined }" wire:ignore>
                     <input class="mdc-text-field__input" type="text" aria-labelledby="school_name"
                         wire:model.lazy="school">
@@ -174,7 +174,7 @@
                 </label>
                 <x-ui.validation-error for="school" />
 
-                <div class="mt-12 logincontainer">
+                <div class="logincontainer mt-12">
                     <button class="mdc-button mdc-button-ripple mdc-button--raised loginbutton" wire:ignore>
                         <span class="mdc-button__ripple"></span>Register
                     </button>

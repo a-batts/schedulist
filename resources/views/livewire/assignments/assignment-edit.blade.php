@@ -37,7 +37,8 @@
             <div class="flex space-x-3">
                 <div class="w-full">
                     <label class="mdc-text-field mdc-text-field--filled w-full"
-                        :class="{ 'mdc-text-field--invalid': errorMessages['assignment.name'] != undefined }" wire:ignore>
+                        :class="{ 'mdc-text-field--invalid': errorMessages['assignment.name'] != undefined }"
+                        wire:ignore>
                         <span class="mdc-text-field__ripple"></span>
                         <span class="mdc-floating-label" id="assignment-name-label">Name</span>
                         <input class="mdc-text-field__input" type="text" aria-labelledby="assignment-name-label"

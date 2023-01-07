@@ -5,7 +5,7 @@
     <x-ui.auth-card title="Confirm your password"
         description="To finish linking your Google Account, confirm ownership of the Schedulist Account with the same email address">
         <form wire:submit.prevent="authenticate">
-            <label class="w-full mt-8 mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-8"
                 :class="{ 'mdc-text-field--invalid': errorMessages['password'] != undefined }" wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"
                     autofill="current-password" wire:model.lazy="password" required />
@@ -26,7 +26,7 @@
             <x-ui.validation-error for="password" :message="$errorMessages" />
 
             <div>
-                <button class="float-right mt-6 mdc-button mdc-button-ripple mdc-button--raised" wire:ignore>
+                <button class="mdc-button mdc-button-ripple mdc-button--raised float-right mt-6" wire:ignore>
                     <span class="mdc-button__ripple"></span>Confirm Password
                 </button>
             </div>

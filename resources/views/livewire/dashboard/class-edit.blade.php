@@ -24,7 +24,8 @@
              </div>
              <div class="w-full">
                  <label class="mdc-text-field mdc-text-field--filled w-full"
-                     :class="{ 'mdc-text-field--invalid': errorMessages['editClass.location'] != undefined }" wire:ignore>
+                     :class="{ 'mdc-text-field--invalid': errorMessages['editClass.location'] != undefined }"
+                     wire:ignore>
                      <span class="mdc-text-field__ripple"></span>
                      <span class="mdc-floating-label mdc-floating-label--float-above"
                          id="edit-class-location-label">Location</span>
@@ -39,7 +40,8 @@
          <div class="flex w-full space-x-3">
              <div class="w-full">
                  <label class="mdc-text-field mdc-text-field--filled w-full"
-                     :class="{ 'mdc-text-field--invalid': errorMessages['editClass.teacher'] != undefined }" wire:ignore>
+                     :class="{ 'mdc-text-field--invalid': errorMessages['editClass.teacher'] != undefined }"
+                     wire:ignore>
                      <span class="mdc-text-field__ripple"></span>
                      <span class="mdc-floating-label mdc-floating-label--float-above"
                          id="edit-class-teacher-label">Teacher</span>

@@ -84,7 +84,7 @@
                         files: [],
                         server: {
                             process: (fieldName, file, metadata, load, error, progress, abort, transfer,
-                            options) => {
+                                options) => {
                                 @this.upload('uploadedPhoto', file, load, error, progress)
                             },
                             revert: (filename, load) => {

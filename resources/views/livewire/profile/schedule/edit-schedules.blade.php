@@ -20,7 +20,7 @@
                         </div>
                     </template>
                 </div>
-                <label class="w-full mt-3 mdc-text-field mdc-text-field--filled md:w-3/5" wire:ignore>
+                <label class="mdc-text-field mdc-text-field--filled w-full mt-3 md:w-3/5" wire:ignore>
                     <span class="mdc-text-field__ripple"></span>
                     <span class="mdc-floating-label mdc-floating-label--float-above"
                         id="schedule-name-label">Name</span>

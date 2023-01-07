@@ -63,8 +63,10 @@
                 <div class="h-[20rem] max-h-[20rem] overflow-y-scroll text-center" x-ref="yearsListContainer">
                     <template x-for="year in yearsList">
                         <div class="py-2"
-                            :class="{ 'text-2xl text-primary-theme font-bold selected-date cursor-pointer': year == viewDate
-                                    .getFullYear() }"
+                            :class="{
+                                'text-2xl text-primary-theme font-bold selected-date cursor-pointer': year == viewDate
+                                    .getFullYear()
+                            }"
                             @click="setYear(year)">
                             <p class="cursor-pointer" x-text="year"></p>
                         </div>

@@ -13,9 +13,13 @@
                 <div class="flex">
                     <div class="self-center justify-center mr-2 text-sm align-middle">
                         <span
-                            :class="{ 'text-green': new Date(assignment['due']).getTime() >= new Date().getTime() && assignment[
-                                    'status'] == 0, 'text-red': new Date(assignment['due']).getTime() < new Date()
-                                    .getTime() && assignment['status'] == 0 }"
+                            :class="{
+                                'text-green': new Date(assignment['due']).getTime() >= new Date().getTime() &&
+                                    assignment[
+                                        'status'] == 0,
+                                'text-red': new Date(assignment['due']).getTime() < new Date()
+                                    .getTime() && assignment['status'] == 0
+                            }"
                             x-text="getStatus(assignment)"></span>
                     </div>
                     <button class="t mdc-icon-button material-icons z-20 text-gray-600" type="button"

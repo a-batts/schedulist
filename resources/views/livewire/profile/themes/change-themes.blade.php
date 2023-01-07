@@ -2,7 +2,7 @@
     <x-ui.settings-card title="Change theme"
         description="Switch between light and dark themes, or have Schedulist follow your device's theme.">
         <div class="py-6">
-            <img class="m-auto no-theme auto-opt" src="{{ asset('images/theme/auto.svg') }}" alt="auto-theme"
+            <img class="no-theme auto-opt m-auto" src="{{ asset('images/theme/auto.svg') }}" alt="auto-theme"
                 style="margin:auto" width="280px" x-bind:class="{ 'theme-border': theme == 'auto' }"></img>
             <div class="w-56 mx-auto mt-3">
                 <div class="mdc-checkbox mdc-checkbox--touch"
@@ -18,7 +18,7 @@
                     </div>
                     <div class="mdc-checkbox__ripple"fi></div>
                 </div>
-                <label class="w-full mx-auto agenda-filter-label" for="checkbox-1">Follow System Theme</label>
+                <label class="agenda-filter-label w-full mx-auto" for="checkbox-1">Follow System Theme</label>
             </div>
             <div class="mt-8 border-t border-gray-200"></div>
             <div class="mt-8">
@@ -26,7 +26,7 @@
                     <div class="mdc-layout-grid__inner">
                         <div
                             class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-                            <img class="m-auto no-theme light-opt" src="{{ asset('images/theme/light.svg') }}"
+                            <img class="no-theme light-opt m-auto" src="{{ asset('images/theme/light.svg') }}"
                                 alt="light-theme" width="280px"
                                 x-bind:class="{ 'theme-border': theme == 'light' }"></img>
                             <div class="mx-auto mt-3 w-36">
@@ -41,13 +41,13 @@
                                     </div>
                                     <div class="mdc-radio__ripple"></div>
                                 </div>
-                                <label class="w-full mt-3 agenda-filter-label" for="light-radio"
+                                <label class="agenda-filter-label w-full mt-3" for="light-radio"
                                     style="vertical-align: 4px">Light Theme</label>
                             </div>
                         </div>
                         <div
                             class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-2-phone">
-                            <img class="m-auto no-theme dark-opt" src="{{ asset('images/theme/dark.svg') }}"
+                            <img class="no-theme dark-opt m-auto" src="{{ asset('images/theme/dark.svg') }}"
                                 alt="dark-theme" width="280px"
                                 x-bind:class="{ 'theme-border': theme == 'dark' }"></img>
                             <div class="mx-auto mt-3 w-36">
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="mdc-radio__ripple"></div>
                                 </div>
-                                <label class="w-full mt-3 agenda-filter-label" for="dark-radio"
+                                <label class="agenda-filter-label w-full mt-3" for="dark-radio"
                                     style="vertical-align: 4px">Dark Theme</label>
                             </div>
                         </div>

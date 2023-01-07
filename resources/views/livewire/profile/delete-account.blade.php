@@ -60,7 +60,8 @@
                             date_range
                         </span>
                         <span class="security-list-text mdc-deprecated-list-item__text">
-                            <span class="">{{ $this->numberEvents }} event{{ $this->numberEvents > 1 ? 's' : '' }},
+                            <span class="">{{ $this->numberEvents }}
+                                event{{ $this->numberEvents > 1 ? 's' : '' }},
                                 and access to shared events</span>
                         </span>
                     </li>

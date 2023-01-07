@@ -18,7 +18,7 @@
                             <span class="mdc-notched-outline__trailing"></span>
                         </span>
                     </label>
-                    <div class="h-2 mdc-text-field-helper-line">
+                    <div class="mdc-text-field-helper-line h-2">
                         @error('email')
                             <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent" id="email"
                                 aria-hidden="true">
@@ -64,12 +64,12 @@
                         </div>
                         <label class="check_label" for="remember_me">Keep me signed in</label>
                     </div>
-                    <div class="flex items-center justify-end mt-2 mr-2 forgot-password">
-                        <a class="text-sm text-primary-theme hover:underline"
+                    <div class="forgot-password flex items-center justify-end mt-2 mr-2">
+                        <a class="text-primary-theme text-sm hover:underline"
                             href="{{ route('password.request') }}">Forgot password?</a>
                     </div>
                 </div>
-                <div class="mt-10 logincontainer">
+                <div class="logincontainer mt-10">
                     <button class="mdc-button mdc-button-ripple mdc-button--raised loginbutton" wire:ignore>
                         <span class="mdc-button__ripple"></span>Sign In
                     </button>

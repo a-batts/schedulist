@@ -49,7 +49,8 @@
                                 'bg-primary-theme font-bold': selectedQuadrant == index * (numQuadrants / numLabels),
                                 'fade': !fading
                             }">
-                            <span class="inline-block align-sub" x-text="i" x-transition></span></div>
+                            <span class="inline-block align-sub" x-text="i" x-transition></span>
+                        </div>
                     </template>
                     <div class="bg-primary-theme absolute left-4 h-0.5 origin-right"
                         x-bind:style="`top: ${innerRadius + 15}px; width: ${innerRadius}px; transform: rotateZ(${(selectedQuadrant / numQuadrants * 360) + (90)}deg)`">
