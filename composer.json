@@ -20,7 +20,7 @@
         "guzzlehttp/guzzle": "^7.1",
         "ipinfo/ipinfo": "^2.3",
         "ipinfo/ipinfolaravel": "2.4",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.0",
         "laravel/sanctum": "^3.0",
         "laravel/socialite": "^5.0",
