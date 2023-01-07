@@ -1,3 +1,14 @@
 {
-    "singleQuote": true
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": ["*.blade.php"],
+            "options": {
+                "tabWidth": 4,
+                "parser": "blade",
+                "sortTailwindcssClasses": true,
+                "sortHtmlAttributes": "code-guide"
+            }
+        }
+    ]
 }

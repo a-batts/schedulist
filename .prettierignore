@@ -15,3 +15,4 @@ _ide_helper.php
 /public/storage
 /bootstrap/cache
 /storage
+/public/vendor
