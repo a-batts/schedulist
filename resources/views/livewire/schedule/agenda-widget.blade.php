@@ -32,7 +32,7 @@
             </button>
         </div>
     </div>
-    <div class="agenda-sidebar float-right w-full origin-right sm:w-[20rem] sm:!block overflow-y-scroll md:overflow-hidden"
+    <div class="agenda-sidebar float-right w-full origin-right overflow-y-scroll sm:!block sm:w-[20rem] md:overflow-hidden"
         x-show="showingSideMenu" x-transition>
         <div class="p-6 border-b border-gray-200">
             <x-agenda.mini-calendar />
@@ -88,11 +88,11 @@
                                 @click="setSelectedItem(index)"
                                 :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
                                 :style="`top: ${item.top}px;
-                                                                                                              left: ${item.left}px;
-                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
-                                                                                                              width: calc(100% - ${item.left + 55}px);
-                                                                                                              z-index: ${item.height};
-                                                                                                              min-height: 80px;`"
+                                                                                                                                                                                                              left: ${item.left}px;
+                                                                                                                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
+                                                                                                                                                                                                              width: calc(100% - ${item.left + 55}px);
+                                                                                                                                                                                                              z-index: ${item.height};
+                                                                                                                                                                                                              min-height: 80px;`"
                                 x-show="! filter.includes(`${item.type}`)" x-transition>
                                 <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                     <p class="agenda-text-primary text-xl font-medium truncate transition-all"
