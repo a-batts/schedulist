@@ -12,7 +12,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class SendStdEmail implements ShouldQueue {
+class SendStdEmail implements ShouldQueue
+{
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -41,7 +42,8 @@ class SendStdEmail implements ShouldQueue {
      *
      * @return void
      */
-    public function __construct(array $data, ?string $template, User $user) {
+    public function __construct(array $data, ?string $template, User $user)
+    {
         $this->data = $data;
         $this->template = $template;
         $this->user = $user;
@@ -52,7 +54,8 @@ class SendStdEmail implements ShouldQueue {
      *
      * @return void
      */
-    public function handle(): void {
+    public function handle(): void
+    {
         $this->data['user_email'] = $this->user->email;
         Mail::to($this->user)->send(new StdEmail($this->data, $this->template));
     }

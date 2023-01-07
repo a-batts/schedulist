@@ -1,5 +1,4 @@
 export default (dateObj, validDateFunction, showPrevYears = false) => ({
-
     viewDate: new Date(),
 
     daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
@@ -12,7 +11,7 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
 
     init: function () {
         this.$watch('selectedDate', (value) => {
-            this.viewDate = value
+            this.viewDate = value;
         });
     },
 
@@ -22,8 +21,7 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
         newDate.setMonth(this.viewDate.getMonth());
         newDate.setDate(parseInt(day));
 
-        if (!isNaN(newDate))
-            this.selectedDate = newDate;
+        if (!isNaN(newDate)) this.selectedDate = newDate;
         this.datePickerOpen = false;
     },
 
@@ -31,10 +29,8 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
         const newDate = new Date(this.viewDate.valueOf());
         newDate.setFullYear(year);
 
-        if (!isNaN(newDate))
-            this.viewDate = newDate;
+        if (!isNaN(newDate)) this.viewDate = newDate;
         this.showingYearSelector = false;
-
     },
 
     prevMonth: function () {
@@ -50,13 +46,24 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
     },
 
     isSelectedDate: function (day) {
-        return this.viewDate.getFullYear() == this.selectedDate.getFullYear() && this.viewDate.getMonth() == this.selectedDate.getMonth() && day == this.selectedDate.getDate();
+        return (
+            this.viewDate.getFullYear() == this.selectedDate.getFullYear() &&
+            this.viewDate.getMonth() == this.selectedDate.getMonth() &&
+            day == this.selectedDate.getDate()
+        );
     },
 
     //Getters
 
     get formattedDate() {
-        return (this.selectedDate.getMonth() + 1) + '/' + String(this.selectedDate.getDate()) + '/' + this.selectedDate.getFullYear();
+        return (
+            this.selectedDate.getMonth() +
+            1 +
+            '/' +
+            String(this.selectedDate.getDate()) +
+            '/' +
+            this.selectedDate.getFullYear()
+        );
     },
 
     get monthDays() {
@@ -66,7 +73,11 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
     },
 
     get numberBlanks() {
-        const firstDayOfMonth = new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1).getUTCDay();
+        const firstDayOfMonth = new Date(
+            this.viewDate.getFullYear(),
+            this.viewDate.getMonth(),
+            1
+        ).getUTCDay();
         var blanks = 0;
 
         for (var i = 0; i < firstDayOfMonth; i++) {
@@ -76,11 +87,21 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
     },
 
     get monthYear() {
-        return this.viewDate.toLocaleString('default', { month: 'long' }) + ' ' + this.viewDate.getFullYear();
+        return (
+            this.viewDate.toLocaleString('default', { month: 'long' }) +
+            ' ' +
+            this.viewDate.getFullYear()
+        );
     },
 
     get headerDateString() {
-        return this.selectedDate.toLocaleString('default', { weekday: 'short' }) + ', ' + this.selectedDate.toLocaleString('default', { month: 'short' }) + ' ' + (this.selectedDate.getDate());
+        return (
+            this.selectedDate.toLocaleString('default', { weekday: 'short' }) +
+            ', ' +
+            this.selectedDate.toLocaleString('default', { month: 'short' }) +
+            ' ' +
+            this.selectedDate.getDate()
+        );
     },
 
     get year() {
@@ -91,8 +112,7 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
         const currentYear = new Date().getFullYear();
 
         var start = currentYear;
-        if (this.showPrevYears)
-            start = start - 25;
+        if (this.showPrevYears) start = start - 25;
         const end = currentYear + 26;
 
         return Array.from({ length: end - start }, (v, k) => k + start);
@@ -100,16 +120,15 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
 
     //Functions used with templating
     set selectedDate($newVal) {
-        this[dateObj] = $newVal
+        this[dateObj] = $newVal;
     },
 
     get selectedDate() {
-        return this[dateObj]
+        return this[dateObj];
     },
 
     isValidDate: function (val) {
-        if (this.$parent[validDateFunction] == undefined)
-            return true
+        if (this.$parent[validDateFunction] == undefined) return true;
 
         var date = new Date();
         date.setFullYear(this.viewDate.getFullYear());
@@ -117,5 +136,5 @@ export default (dateObj, validDateFunction, showPrevYears = false) => ({
         date.setDate(parseInt(val));
 
         return this.$parent[validDateFunction](date);
-    }
-})
+    },
+});

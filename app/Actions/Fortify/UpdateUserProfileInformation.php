@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
-class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
-
+class UpdateUserProfileInformation implements UpdatesUserProfileInformation
+{
     /**
      * Validate and update the given user's profile information.
      *
@@ -17,13 +17,19 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
      * @param  array  $input
      * @return void
      */
-    public function update($user, array $input): void {
+    public function update($user, array $input): void
+    {
         Validator::make($input, [
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
             'school' => ['string', 'max:100'],
             'gradelev' => ['string', 'max:100'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'photo' => ['nullable', 'image', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
@@ -54,12 +60,15 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation {
      * @param  array  $input
      * @return void
      */
-    protected function updateVerifiedUser($user, array $input): void {
-        $user->forceFill([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'email_verified_at' => null,
-        ])->save();
+    protected function updateVerifiedUser($user, array $input): void
+    {
+        $user
+            ->forceFill([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'email_verified_at' => null,
+            ])
+            ->save();
 
         $user->sendEmailVerificationNotification();
     }

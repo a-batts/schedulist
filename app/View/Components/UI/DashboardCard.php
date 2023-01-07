@@ -14,9 +14,10 @@ class DashboardCard extends Component
      *
      * @return void
      */
-    public function __construct($backgroundColor, $title){
-      $this->backgroundColor = $backgroundColor;
-      $this->title = $title;
+    public function __construct($backgroundColor, $title)
+    {
+        $this->backgroundColor = $backgroundColor;
+        $this->title = $title;
     }
 
     /**
@@ -24,7 +25,8 @@ class DashboardCard extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render(){
-      return view('components.ui.dashboard-card');
+    public function render()
+    {
+        return view('components.ui.dashboard-card');
     }
 }

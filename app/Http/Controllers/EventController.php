@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
-class EventController extends Controller {
-
-    public function setColor(Request $request) {
+class EventController extends Controller
+{
+    public function setColor(Request $request)
+    {
         $validColors = Event::VALID_COLORS;
         $color = $request->color;
 
@@ -19,9 +20,18 @@ class EventController extends Controller {
                 $event->save();
                 return response()->json(['success' => 'Color updated'], 200);
             }
-            return response()->json(['error' => 'An invalid color option was provided'], 400);
+            return response()->json(
+                ['error' => 'An invalid color option was provided'],
+                400
+            );
         } else {
-            return response()->json(['error' => 'This request can only be made by the owner of the event'], 401);
+            return response()->json(
+                [
+                    'error' =>
+                        'This request can only be made by the owner of the event',
+                ],
+                401
+            );
         }
     }
 }

@@ -1,60 +1,61 @@
-@use "@material/theme" with ($primary: #0180FF,
-  $secondary: #0180FF,
-  $on-primary: #000000,
-  $on-secondary: #000000,
-  $background: #121212,
+@use '@material/theme' with (
+    $primary: #0180ff,
+    $secondary: #0180ff,
+    $on-primary: #000000,
+    $on-secondary: #000000,
+    $background: #121212
 );
-@use "@material/button";
-@use "@material/button/styles" as button-style;
+@use '@material/button';
+@use '@material/button/styles' as button-style;
 
-@use "@material/floating-label/mdc-floating-label";
-@use "@material/line-ripple/mdc-line-ripple";
-@use "@material/notched-outline/mdc-notched-outline";
-@use "@material/textfield";
-@use "@material/textfield/helper-text";
-@use "@material/textfield/icon";
-@use "@material/textfield/character-counter";
+@use '@material/floating-label/mdc-floating-label';
+@use '@material/line-ripple/mdc-line-ripple';
+@use '@material/notched-outline/mdc-notched-outline';
+@use '@material/textfield';
+@use '@material/textfield/helper-text';
+@use '@material/textfield/icon';
+@use '@material/textfield/character-counter';
 
-@use "@material/card";
+@use '@material/card';
 
-@use "@material/icon-button";
-@use "@material/icon-button/styles" as icon-button-style;
+@use '@material/icon-button';
+@use '@material/icon-button/styles' as icon-button-style;
 
-@use "@material/checkbox";
-@use "@material/form-field";
-@use "@material/elevation/mdc-elevation";
-@use "@material/shape";
-@use "@material/list";
-@use "@material/menu-surface";
-@use "@material/menu";
-@use "@material/fab";
-@use "@material/list/mdc-list";
-@use "@material/menu-surface/mdc-menu-surface";
-@use "@material/menu/mdc-menu";
-@use "@material/select/mdc-select";
-@use "@material/snackbar/mdc-snackbar";
-@use "@material/snackbar";
-@use "@material/chips";
+@use '@material/checkbox';
+@use '@material/form-field';
+@use '@material/elevation/mdc-elevation';
+@use '@material/shape';
+@use '@material/list';
+@use '@material/menu-surface';
+@use '@material/menu';
+@use '@material/fab';
+@use '@material/list/mdc-list';
+@use '@material/menu-surface/mdc-menu-surface';
+@use '@material/menu/mdc-menu';
+@use '@material/select/mdc-select';
+@use '@material/snackbar/mdc-snackbar';
+@use '@material/snackbar';
+@use '@material/chips';
 
 @use '@material/switch/styles' as switch-style;
 
-@use "@material/chips/styles" as chip-style;
+@use '@material/chips/styles' as chip-style;
 
-@use "@material/ripple";
-@use "@material/layout-grid/mdc-layout-grid";
-@use "@material/dialog";
-@use "@material/typography/mdc-typography";
-@use "@material/tooltip/styles";
-@use "@material/circular-progress/mdc-circular-progress";
+@use '@material/ripple';
+@use '@material/layout-grid/mdc-layout-grid';
+@use '@material/dialog';
+@use '@material/typography/mdc-typography';
+@use '@material/tooltip/styles';
+@use '@material/circular-progress/mdc-circular-progress';
 @use '@material/select';
-@use "@material/select/styles" as select-style;
+@use '@material/select/styles' as select-style;
 @use '@material/radio/styles' as radio-style;
 @use '@material/radio';
-@use "@material/data-table/data-table";
-@use "@material/data-table/styles" as tooltip-style;
-@use "@material/linear-progress";
+@use '@material/data-table/data-table';
+@use '@material/data-table/styles' as tooltip-style;
+@use '@material/linear-progress';
 
-@import "filepond/dist/filepond.min.css";
+@import 'filepond/dist/filepond.min.css';
 @import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 @include list.deprecated-core-styles;
@@ -70,229 +71,229 @@
 @include linear-progress.core-styles;
 
 html {
-  overflow: auto;
-  overflow: initial;
-  --mdc-typography-font-family: 'Noto Sans';
+    overflow: auto;
+    overflow: initial;
+    --mdc-typography-font-family: 'Noto Sans';
 }
 
 .material-icons {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
 }
-
 
 /*
   Light theme
 */
 body {
-  --text-color: #000000;
-  --secondary-text-color: #666666;
-  --disabled-text-color: #00000061;
-  --text-gray-500: #6b7280;
-  --text-gray-600: #4B5563;
-  --text-gray-700: #374151;
-  --mdc-text-primary-on-background: #000000;
-  --error: #B00020;
+    --text-color: #000000;
+    --secondary-text-color: #666666;
+    --disabled-text-color: #00000061;
+    --text-gray-500: #6b7280;
+    --text-gray-600: #4b5563;
+    --text-gray-700: #374151;
+    --mdc-text-primary-on-background: #000000;
+    --error: #b00020;
 
-  --mdc-theme-primary: #0D6ED1;
-  --mdc-theme-secondary: #0D6ED1;
-  --mdc-theme-on-primary: #FFFFFF;
-  --mdc-theme-on-secondary: #FFFFFF;
-  --mdc-theme-contrast: #95CFFE;
-  --mdc-checkbox-unchecked-color: #000000;
-  --mdc-theme-surface: #FFFFFF;
-  --mdc-checkbox-ink-color: #FFFFFF;
+    --mdc-theme-primary: #0d6ed1;
+    --mdc-theme-secondary: #0d6ed1;
+    --mdc-theme-on-primary: #ffffff;
+    --mdc-theme-on-secondary: #ffffff;
+    --mdc-theme-contrast: #95cffe;
+    --mdc-checkbox-unchecked-color: #000000;
+    --mdc-theme-surface: #ffffff;
+    --mdc-checkbox-ink-color: #ffffff;
 
-  --mdc-theme-background: #FFFFFF;
-  --sec-surface-background: #FFFFFF;
-  --ter-surface-background: #FFFFFF;
+    --mdc-theme-background: #ffffff;
+    --sec-surface-background: #ffffff;
+    --ter-surface-background: #ffffff;
 
-  --border-100: #f4f5f7;
-  --border-200: #D2DCDC;
-  --card-outline: transparent;
-  --outlined-card-outline: #E0E0E0;
-  --menu-surface: #FFFFFF;
-  --dialog-surface: #FFFFFF;
-  --textfield-fill-color: whitesmoke;
-  --textfield-outline-color: #D4D4D4;
-  --textfield-hover-outline-color: #000000;
-  --textfield-label-color: #666666;
-  --textfield-icon-color: #666666;
-  --element-disabled: #FAFAFA;
-  --snackbar-fill-color: #333333;
-  --snackbar-ink-color: #FFFFFF;
-  --helper-text: #00000099;
-  --current-class: #FFFFFF;
-  --list-selected-item: #EBEBEB;
+    --border-100: #f4f5f7;
+    --border-200: #d2dcdc;
+    --card-outline: transparent;
+    --outlined-card-outline: #e0e0e0;
+    --menu-surface: #ffffff;
+    --dialog-surface: #ffffff;
+    --textfield-fill-color: whitesmoke;
+    --textfield-outline-color: #d4d4d4;
+    --textfield-hover-outline-color: #000000;
+    --textfield-label-color: #666666;
+    --textfield-icon-color: #666666;
+    --element-disabled: #fafafa;
+    --snackbar-fill-color: #333333;
+    --snackbar-ink-color: #ffffff;
+    --helper-text: #00000099;
+    --current-class: #ffffff;
+    --list-selected-item: #ebebeb;
 
-  //Classes to control display on specific theme
+    //Classes to control display on specific theme
 
-  .show-light {
-    display: block;
-  }
-
-  .show-dark {
-    display: none;
-  }
-
-  //Base colors
-
-  .background-beige {
-    background-color: #9e9e9e !important;
-    color: white;
-  }
-
-  .background-blue {
-    background-color: #1976D2 !important;
-    color: white;
-  }
-
-  .background-green {
-    background-color: #2C734F !important;
-    color: white;
-  }
-
-  .background-lav {
-    background-color: #9F84CF !important;
-    color: white;
-  }
-
-  .background-lemon {
-    background-color: #ffeb3b !important;
-    color: black;
-
-    button.mdc-button {
-      color: black;
+    .show-light {
+        display: block;
     }
-  }
 
-  .background-mint {
-    background-color: #047A6F !important;
-    color: white;
-  }
-
-  .background-orange {
-    background-color: #ff9800 !important;
-    color: white;
-  }
-
-  .background-pink {
-    background-color: #DC4B82 !important;
-    color: white;
-  }
-
-  .background-purple {
-    background-color: #6200EE !important;
-    color: white;
-  }
-
-  .background-red {
-    background-color: #E6493B !important;
-    color: white;
-  }
-
-  .background-teal {
-    background-color: #42a5f5 !important;
-    color: white;
-  }
-
-  //Text colors
-
-  .text-primary {
-    color: black;
-  }
-
-  .text-secondary {
-    color: black;
-  }
-
-  .text-red {
-    color: #B00020;
-  }
-
-  .text-green {
-    color: #008b00;
-  }
-
-  //Other styling
-
-  .check-icon,
-  .check-icon-sm {
-    filter: invert(51%) sepia(100%) saturate(322%) hue-rotate(73deg) brightness(97%) contrast(78%);
-  }
-
-  #link-icon-theme {
-    background-image: url('https://schedulist.xyz/images/icon/link-black.svg');
-  }
-
-  .logo-image {
-    background-image: url('https://schedulist.xyz/images/logo/logo_dark.svg');
-  }
-
-  .nav-menu-email {
-    color: #878787;
-  }
-
-  .app-footer {
-    margin-top: 1.5rem;
-    background-color: #FFFFFF;
-    border-top: solid .7px #E8E9ED;
-  }
-
-  .footer-div {
-    background-color: #FFFFFF;
-  }
-
-  .turbolinks-progress-bar {
-    background: #0D6ED1;
-  }
-
-  //Agenda style
-
-  .agenda-sidebar {
-    border-left: 1px solid #E0E1E5;
-  }
-
-  .sidebar-line-header {
-    border-bottom: 1px solid #E0E1E5;
-  }
-
-  .day-selector:disabled {
-    background-color: #0d6ed169;
-    color: var(--mdc-theme-text-disabled-on-light);
-  }
-
-  .assignment-selected-card {
-    background-color: #D9D9D9;
-  }
-
-  .continue-with {
-    color: #6b7280;
-  }
-
-  .date-time-picker-bg {
-    background-color: var(--mdc-theme-primary);
-
-    p {
-      color: #FFFFFF99;
-
-      &.active {
-        color: #FFF;
-      }
+    .show-dark {
+        display: none;
     }
-  }
+
+    //Base colors
+
+    .background-beige {
+        background-color: #9e9e9e !important;
+        color: white;
+    }
+
+    .background-blue {
+        background-color: #1976d2 !important;
+        color: white;
+    }
+
+    .background-green {
+        background-color: #2c734f !important;
+        color: white;
+    }
+
+    .background-lav {
+        background-color: #9f84cf !important;
+        color: white;
+    }
+
+    .background-lemon {
+        background-color: #ffeb3b !important;
+        color: black;
+
+        button.mdc-button {
+            color: black;
+        }
+    }
+
+    .background-mint {
+        background-color: #047a6f !important;
+        color: white;
+    }
+
+    .background-orange {
+        background-color: #ff9800 !important;
+        color: white;
+    }
+
+    .background-pink {
+        background-color: #dc4b82 !important;
+        color: white;
+    }
+
+    .background-purple {
+        background-color: #6200ee !important;
+        color: white;
+    }
+
+    .background-red {
+        background-color: #e6493b !important;
+        color: white;
+    }
+
+    .background-teal {
+        background-color: #42a5f5 !important;
+        color: white;
+    }
+
+    //Text colors
+
+    .text-primary {
+        color: black;
+    }
+
+    .text-secondary {
+        color: black;
+    }
+
+    .text-red {
+        color: #b00020;
+    }
+
+    .text-green {
+        color: #008b00;
+    }
+
+    //Other styling
+
+    .check-icon,
+    .check-icon-sm {
+        filter: invert(51%) sepia(100%) saturate(322%) hue-rotate(73deg)
+            brightness(97%) contrast(78%);
+    }
+
+    #link-icon-theme {
+        background-image: url('https://schedulist.xyz/images/icon/link-black.svg');
+    }
+
+    .logo-image {
+        background-image: url('https://schedulist.xyz/images/logo/logo_dark.svg');
+    }
+
+    .nav-menu-email {
+        color: #878787;
+    }
+
+    .app-footer {
+        margin-top: 1.5rem;
+        background-color: #ffffff;
+        border-top: solid 0.7px #e8e9ed;
+    }
+
+    .footer-div {
+        background-color: #ffffff;
+    }
+
+    .turbolinks-progress-bar {
+        background: #0d6ed1;
+    }
+
+    //Agenda style
+
+    .agenda-sidebar {
+        border-left: 1px solid #e0e1e5;
+    }
+
+    .sidebar-line-header {
+        border-bottom: 1px solid #e0e1e5;
+    }
+
+    .day-selector:disabled {
+        background-color: #0d6ed169;
+        color: var(--mdc-theme-text-disabled-on-light);
+    }
+
+    .assignment-selected-card {
+        background-color: #d9d9d9;
+    }
+
+    .continue-with {
+        color: #6b7280;
+    }
+
+    .date-time-picker-bg {
+        background-color: var(--mdc-theme-primary);
+
+        p {
+            color: #ffffff99;
+
+            &.active {
+                color: #fff;
+            }
+        }
+    }
 }
 
 /*
@@ -300,255 +301,274 @@ body {
 */
 
 body.theme-dark {
-  --text-color: #FFFFFFDE;
-  --secondary-text-color: #FFFFFF99;
-  --disabled-text-color: #eaeaea61;
-  --text-gray-500: #FFFFFF99;
-  --text-gray-600: #FFFFFF99;
-  --text-gray-700: #FFFFFF99;
-  --mdc-text-primary-on-background: #FFFFFFDE;
-  --error: #CF6679;
+    --text-color: #ffffffde;
+    --secondary-text-color: #ffffff99;
+    --disabled-text-color: #eaeaea61;
+    --text-gray-500: #ffffff99;
+    --text-gray-600: #ffffff99;
+    --text-gray-700: #ffffff99;
+    --mdc-text-primary-on-background: #ffffffde;
+    --error: #cf6679;
 
-  --mdc-theme-primary: #95CFFE;
-  --mdc-theme-secondary: #95CFFE;
-  --mdc-theme-on-primary: #000000;
-  --mdc-theme-on-secondary: #000000;
-  --mdc-theme-contrast: #0D6ED1;
-  --mdc-checkbox-unchecked-color: #FFFFFFDE;
-  --mdc-theme-surface: #232323;
-  --mdc-checkbox-ink-color: #000000;
+    --mdc-theme-primary: #95cffe;
+    --mdc-theme-secondary: #95cffe;
+    --mdc-theme-on-primary: #000000;
+    --mdc-theme-on-secondary: #000000;
+    --mdc-theme-contrast: #0d6ed1;
+    --mdc-checkbox-unchecked-color: #ffffffde;
+    --mdc-theme-surface: #232323;
+    --mdc-checkbox-ink-color: #000000;
 
-  --mdc-theme-background: #1c1c1c;
-  --sec-surface-background: #232323;
-  --ter-surface-background: #2E2E2E;
+    --mdc-theme-background: #1c1c1c;
+    --sec-surface-background: #232323;
+    --ter-surface-background: #2e2e2e;
 
-  --border-100: #333333;
-  --border-200: #2E2E2E;
-  --card-outline: #2E2E2E;
-  --outlined-card-outline: #2E2E2E;
-  --menu-surface: #2C2C2C;
-  --dialog-surface: #2E2E2E;
-  --textfield-fill-color: #2C2C2C;
-  --textfield-outline-color: #7D7467;
-  --textfield-hover-outline-color: #FFFFFFDE;
-  --textfield-label-color: #FFFFFFDE;
-  --textfield-icon-color: #FFFFFFDE;
-  --element-disabled: #FFFFFF61;
-  --snackbar-fill-color: #FFFFFFDE;
-  --snackbar-ink-color: #000000;
-  --helper-text: #E2E1E1;
-  --current-class: #232323;
-  --list-selected-item: #565656;
+    --border-100: #333333;
+    --border-200: #2e2e2e;
+    --card-outline: #2e2e2e;
+    --outlined-card-outline: #2e2e2e;
+    --menu-surface: #2c2c2c;
+    --dialog-surface: #2e2e2e;
+    --textfield-fill-color: #2c2c2c;
+    --textfield-outline-color: #7d7467;
+    --textfield-hover-outline-color: #ffffffde;
+    --textfield-label-color: #ffffffde;
+    --textfield-icon-color: #ffffffde;
+    --element-disabled: #ffffff61;
+    --snackbar-fill-color: #ffffffde;
+    --snackbar-ink-color: #000000;
+    --helper-text: #e2e1e1;
+    --current-class: #232323;
+    --list-selected-item: #565656;
 
-  //Classes to control display on specific theme
+    //Classes to control display on specific theme
 
-  .show-light {
-    display: none;
-  }
-
-  .show-dark {
-    display: block;
-  }
-
-  //Base colors dark theme
-
-  .background-beige {
-    background-color: #CFCFCF !important;
-  }
-
-  .background-blue {
-    background-color: #64B5F6 !important;
-  }
-
-  .background-green {
-    background-color: #61B18F !important;
-  }
-
-  .background-lav {
-    background-color: #B4A9D9 !important;
-  }
-
-  .background-lemon {
-    background-color: #ffff72 !important;
-  }
-
-  .background-mint {
-    background-color: #63ADA1 !important;
-  }
-
-  .background-orange {
-    background-color: #ffc947 !important;
-  }
-
-  .background-pink {
-    background-color: #ff7eb1 !important;
-  }
-
-  .background-purple {
-    background-color: #BB86FC !important;
-  }
-
-  .background-red {
-    background-color: #E67C73 !important;
-  }
-
-  .background-teal {
-    background-color: #80d6ff !important;
-  }
-
-  //Text colors
-
-  .text-primary {
-    color: var(--text-color) !important;
-  }
-
-  .text-secondary,
-  .text-gray-400 {
-    color: var(--secondary-text-color);
-  }
-
-  .text-gray-900 {
-    color: var(--text-gray-700);
-  }
-
-  .text-red {
-    color: #CF6679;
-  }
-
-  .text-green {
-    color: #92D5BE;
-  }
-
-  //Other styling
-
-  .check-icon,
-  .check-icon-sm {
-    filter: invert(93%) sepia(15%) saturate(725%) hue-rotate(90deg) brightness(87%) contrast(88%);
-  }
-
-  #link-icon-theme {
-    background-image: url('https://schedulist.xyz/images/icon/link-white.svg');
-  }
-
-  .logo-image {
-    background-image: url('https://schedulist.xyz/images/logo/logo_light.svg');
-  }
-
-  .nav-menu-email {
-    color: #FFFFFF99;
-  }
-
-  .app-footer {
-    background-color: #1B1D1E;
-    border-top: none;
-  }
-
-  .footer-div {
-    background-color: #1B1D1E;
-  }
-
-  .mdc-icon-button:disabled {
-    color: var(--element-disabled);
-  }
-
-  .turbolinks-progress-bar {
-    background: #95CFFE;
-  }
-
-  //FilePond style
-
-  .filepond--panel-root {
-    background-color: var(--ter-surface-background);
-  }
-
-  //Agenda style
-
-  .agenda-timeslot {
-    border-color: var(--mdc-text-primary-on-background);
-  }
-
-  .agenda-text-primary,
-  .agenda-lemon .agenda-text-primary,
-  .agenda-orange .agenda-text-primary,
-  .agenda-teal .agenda-text-primary,
-  .agenda-beige .agenda-text-primary {
-    color: #000000;
-  }
-
-  .agenda-text-secondary,
-  .agenda-lemon .agenda-text-secondary,
-  .agenda-orange .agenda-text-secondary,
-  .agenda-teal .agenda-text-secondary,
-  .agenda-beige .agenda-text-secondary {
-    color: #1F2227;
-  }
-
-  .agenda-header {
-    margin-bottom: 0px;
-  }
-
-  .agenda-sidebar {
-    border-left: 1px solid #FFFFFFDE;
-  }
-
-  .sidebar-line-header {
-    border-bottom: 1px solid #FFFFFFDE;
-  }
-
-  .mdc-icon-button.day-selector:disabled {
-    background-color: #95cffe70;
-    color: #00000052;
-  }
-
-  .mdc-radio [aria-disabled=true] .mdc-radio__native-control:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle,
-  .mdc-radio .mdc-radio__native-control:disabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: var(--element-disabled);
-  }
-
-  .mdc-radio [aria-disabled=true] .mdc-radio__native-control:checked+.mdc-radio__background .mdc-radio__outer-circle,
-  .mdc-radio .mdc-radio__native-control:disabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
-    border-color: var(--element-disabled);
-  }
-
-  .mdc-radio [aria-disabled=true] .mdc-radio__native-control+.mdc-radio__background .mdc-radio__inner-circle,
-  .mdc-radio .mdc-radio__native-control:disabled+.mdc-radio__background .mdc-radio__inner-circle {
-    border-color: var(--element-disabled);
-  }
-
-  .share-link-box {
-    border: none;
-  }
-
-  .assignment-selected-card {
-    background-color: #2E2E2E;
-  }
-
-  .continue-with {
-    color: var(--secondary-text-color);
-  }
-
-  .assignment-card-icon.material-icons {
-    color: var(--secondary-text-color);
-  }
-
-  .nav-border {
-    border-color: #2D2D2D;
-  }
-
-  .date-time-picker-bg {
-    background-color: var(--ter-surface-background);
-
-    p {
-      color: #FFFFFF99;
-
-      &.active {
-        color: #FFF;
-      }
+    .show-light {
+        display: none;
     }
-  }
 
+    .show-dark {
+        display: block;
+    }
 
+    //Base colors dark theme
 
+    .background-beige {
+        background-color: #cfcfcf !important;
+    }
+
+    .background-blue {
+        background-color: #64b5f6 !important;
+    }
+
+    .background-green {
+        background-color: #61b18f !important;
+    }
+
+    .background-lav {
+        background-color: #b4a9d9 !important;
+    }
+
+    .background-lemon {
+        background-color: #ffff72 !important;
+    }
+
+    .background-mint {
+        background-color: #63ada1 !important;
+    }
+
+    .background-orange {
+        background-color: #ffc947 !important;
+    }
+
+    .background-pink {
+        background-color: #ff7eb1 !important;
+    }
+
+    .background-purple {
+        background-color: #bb86fc !important;
+    }
+
+    .background-red {
+        background-color: #e67c73 !important;
+    }
+
+    .background-teal {
+        background-color: #80d6ff !important;
+    }
+
+    //Text colors
+
+    .text-primary {
+        color: var(--text-color) !important;
+    }
+
+    .text-secondary,
+    .text-gray-400 {
+        color: var(--secondary-text-color);
+    }
+
+    .text-gray-900 {
+        color: var(--text-gray-700);
+    }
+
+    .text-red {
+        color: #cf6679;
+    }
+
+    .text-green {
+        color: #92d5be;
+    }
+
+    //Other styling
+
+    .check-icon,
+    .check-icon-sm {
+        filter: invert(93%) sepia(15%) saturate(725%) hue-rotate(90deg)
+            brightness(87%) contrast(88%);
+    }
+
+    #link-icon-theme {
+        background-image: url('https://schedulist.xyz/images/icon/link-white.svg');
+    }
+
+    .logo-image {
+        background-image: url('https://schedulist.xyz/images/logo/logo_light.svg');
+    }
+
+    .nav-menu-email {
+        color: #ffffff99;
+    }
+
+    .app-footer {
+        background-color: #1b1d1e;
+        border-top: none;
+    }
+
+    .footer-div {
+        background-color: #1b1d1e;
+    }
+
+    .mdc-icon-button:disabled {
+        color: var(--element-disabled);
+    }
+
+    .turbolinks-progress-bar {
+        background: #95cffe;
+    }
+
+    //FilePond style
+
+    .filepond--panel-root {
+        background-color: var(--ter-surface-background);
+    }
+
+    //Agenda style
+
+    .agenda-timeslot {
+        border-color: var(--mdc-text-primary-on-background);
+    }
+
+    .agenda-text-primary,
+    .agenda-lemon .agenda-text-primary,
+    .agenda-orange .agenda-text-primary,
+    .agenda-teal .agenda-text-primary,
+    .agenda-beige .agenda-text-primary {
+        color: #000000;
+    }
+
+    .agenda-text-secondary,
+    .agenda-lemon .agenda-text-secondary,
+    .agenda-orange .agenda-text-secondary,
+    .agenda-teal .agenda-text-secondary,
+    .agenda-beige .agenda-text-secondary {
+        color: #1f2227;
+    }
+
+    .agenda-header {
+        margin-bottom: 0px;
+    }
+
+    .agenda-sidebar {
+        border-left: 1px solid #ffffffde;
+    }
+
+    .sidebar-line-header {
+        border-bottom: 1px solid #ffffffde;
+    }
+
+    .mdc-icon-button.day-selector:disabled {
+        background-color: #95cffe70;
+        color: #00000052;
+    }
+
+    .mdc-radio
+        [aria-disabled='true']
+        .mdc-radio__native-control:not(:checked)
+        + .mdc-radio__background
+        .mdc-radio__outer-circle,
+    .mdc-radio
+        .mdc-radio__native-control:disabled:not(:checked)
+        + .mdc-radio__background
+        .mdc-radio__outer-circle {
+        border-color: var(--element-disabled);
+    }
+
+    .mdc-radio
+        [aria-disabled='true']
+        .mdc-radio__native-control:checked
+        + .mdc-radio__background
+        .mdc-radio__outer-circle,
+    .mdc-radio
+        .mdc-radio__native-control:disabled:checked
+        + .mdc-radio__background
+        .mdc-radio__outer-circle {
+        border-color: var(--element-disabled);
+    }
+
+    .mdc-radio
+        [aria-disabled='true']
+        .mdc-radio__native-control
+        + .mdc-radio__background
+        .mdc-radio__inner-circle,
+    .mdc-radio
+        .mdc-radio__native-control:disabled
+        + .mdc-radio__background
+        .mdc-radio__inner-circle {
+        border-color: var(--element-disabled);
+    }
+
+    .share-link-box {
+        border: none;
+    }
+
+    .assignment-selected-card {
+        background-color: #2e2e2e;
+    }
+
+    .continue-with {
+        color: var(--secondary-text-color);
+    }
+
+    .assignment-card-icon.material-icons {
+        color: var(--secondary-text-color);
+    }
+
+    .nav-border {
+        border-color: #2d2d2d;
+    }
+
+    .date-time-picker-bg {
+        background-color: var(--ter-surface-background);
+
+        p {
+            color: #ffffff99;
+
+            &.active {
+                color: #fff;
+            }
+        }
+    }
 }
 
 /*
@@ -556,426 +576,435 @@ body.theme-dark {
 */
 
 .bg-primary-theme {
-  background-color: var(--mdc-theme-primary);
-  color: var(--mdc-theme-on-primary);
+    background-color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-on-primary);
 }
 
 .bg-secondary-theme {
-  background-color: var(--mdc-theme-secondary);
+    background-color: var(--mdc-theme-secondary);
 }
 
 .theme-color-text,
 .text-primary-theme {
-  color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-primary);
 }
 
 .text-inherit {
-  color: inherit !important;
+    color: inherit !important;
 }
 
 //Style hyperlinks that are actually supposed to display as a link
 a.link {
-  color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-primary);
 
-  &:hover {
-    text-decoration: underline;
-  }
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .filepond--drop-label {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 .mdc-typography.white {
-  color: white;
+    color: white;
 }
 
 .mdc-icon-button.material-icons.colbutton {
-  color: white;
+    color: white;
 }
 
 .no-theme.theme-border {
-  border-color: var(--mdc-theme-primary);
+    border-color: var(--mdc-theme-primary);
 }
 
 .theme-div,
 .base-bg {
-  background-color: var(--mdc-theme-background) !important;
+    background-color: var(--mdc-theme-background) !important;
 }
 
 .text-error {
-  color: var(--error);
-  margin-top: -14px;
-  margin-bottom: -8px;
+    color: var(--error);
+    margin-top: -14px;
+    margin-bottom: -8px;
 }
 
 .modal-background {
-  background-color: var(--sec-surface-background);
+    background-color: var(--sec-surface-background);
 }
 
 .mdc-card.profile-menu {
-  @include card.fill-color(var(--ter-surface-background));
+    @include card.fill-color(var(--ter-surface-background));
 }
 
 .border-gray-200,
 .section-border.border-200 {
-  border-color: var(--border-200) !important;
+    border-color: var(--border-200) !important;
 }
 
 .border-gray-100,
 .section-border.border-100 {
-  border-color: var(--border-100) !important;
+    border-color: var(--border-100) !important;
 }
 
 .mdc-evolution-chip {
-  @include chips.container-color(transparent);
-  @include chips.outline-width(thin);
-  @include chips.text-label-color(var(--text-color));
-  @include chips.outline-color(var(--outlined-card-outline));
+    @include chips.container-color(transparent);
+    @include chips.outline-width(thin);
+    @include chips.text-label-color(var(--text-color));
+    @include chips.outline-color(var(--outlined-card-outline));
 }
 
 .mdc-card {
-  @include card.outline(var(--card-outline))
+    @include card.outline(var(--card-outline));
 }
 
 .mdc-card--outlined {
-  @include card.outline(var(--outlined-card-outline))
+    @include card.outline(var(--outlined-card-outline));
 }
 
 .mdc-text-field {
-  @include textfield.ink-color(var(--text-color));
-  @include textfield.shape-radius(15%);
-  @include textfield.outline-shape-radius(15%);
-  @include textfield.outline-color(var(--textfield-outline-color));
-  @include textfield.disabled-fill-color(var(--element-disabled));
+    @include textfield.ink-color(var(--text-color));
+    @include textfield.shape-radius(15%);
+    @include textfield.outline-shape-radius(15%);
+    @include textfield.outline-color(var(--textfield-outline-color));
+    @include textfield.disabled-fill-color(var(--element-disabled));
 }
 
 .mdc-text-field--filled,
-.mdc-select--filled>.mdc-select__anchor {
-  @include textfield.fill-color(var(--textfield-fill-color));
-  @include select.container-fill-color(var(--textfield-fill-color));
+.mdc-select--filled > .mdc-select__anchor {
+    @include textfield.fill-color(var(--textfield-fill-color));
+    @include select.container-fill-color(var(--textfield-fill-color));
 }
 
 .mdc-text-field:not(.mdc-text-field--focused):not(.mdc-text-field--invalid) {
-  @include textfield.label-color(var(--textfield-label-color));
+    @include textfield.label-color(var(--textfield-label-color));
 }
 
 .mdc-text-field.mdc-text-field--focused:not(.mdc-text-field--invalid) {
-  @include textfield.label-color(var(--mdc-theme-primary));
+    @include textfield.label-color(var(--mdc-theme-primary));
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--invalid) {
-  @include textfield.placeholder-color(var(--text-color));
-  @include icon.leading-icon-color(var(--textfield-icon-color));
-  @include icon.trailing-icon-color(var(--textfield-icon-color));
+    @include textfield.placeholder-color(var(--text-color));
+    @include icon.leading-icon-color(var(--textfield-icon-color));
+    @include icon.trailing-icon-color(var(--textfield-icon-color));
 }
 
 .mdc-text-field--outlined:not(.mdc-text-field--invalid) {
-  @include textfield.placeholder-color(var(--text-color));
-  @include textfield.hover-outline-color(var(--textfield-hover-outline-color));
-  @include icon.leading-icon-color(var(--textfield-icon-color));
-  @include icon.trailing-icon-color(var(--textfield-icon-color));
+    @include textfield.placeholder-color(var(--text-color));
+    @include textfield.hover-outline-color(
+        var(--textfield-hover-outline-color)
+    );
+    @include icon.leading-icon-color(var(--textfield-icon-color));
+    @include icon.trailing-icon-color(var(--textfield-icon-color));
 }
 
 .mdc-text-field--invalid,
 .mdc-select--invalid {
-  $states: ("default": var(--error), "focus": var(--error));
-  @include textfield.bottom-line-color(var(--error));
-  @include textfield.hover-outline-color(var(--error));
-  @include textfield.focused-outline-color(var(--error));
-  @include textfield.hover-bottom-line-color(var(--error));
-  @include textfield.line-ripple-color(var(--error));
-  @include textfield.placeholder-color(var(--error));
-  @include textfield.label-color(var(--error));
-  @include select.icon-color(var(--error));
-  @include select.label-color($states);
-  @include select.dropdown-icon-color($states);
-  @include icon.trailing-icon-color(var(--error));
+    $states: (
+        'default': var(--error),
+        'focus': var(--error),
+    );
+    @include textfield.bottom-line-color(var(--error));
+    @include textfield.hover-outline-color(var(--error));
+    @include textfield.focused-outline-color(var(--error));
+    @include textfield.hover-bottom-line-color(var(--error));
+    @include textfield.line-ripple-color(var(--error));
+    @include textfield.placeholder-color(var(--error));
+    @include textfield.label-color(var(--error));
+    @include select.icon-color(var(--error));
+    @include select.label-color($states);
+    @include select.dropdown-icon-color($states);
+    @include icon.trailing-icon-color(var(--error));
 }
 
-.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--leading,
-.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__icon--trailing {
-  color: var(--error);
+.mdc-text-field--invalid:not(.mdc-text-field--disabled)
+    .mdc-text-field__icon--leading,
+.mdc-text-field--invalid:not(.mdc-text-field--disabled)
+    .mdc-text-field__icon--trailing {
+    color: var(--error);
 }
 
 //Select Field
 .mdc-select {
-  @include select.filled-shape-radius(15%);
-  @include select.outline-shape-radius(15%);
-  @include select.outline-color(var(--textfield-outline-color));
-  @include select.ink-color(var(--text-color));
+    @include select.filled-shape-radius(15%);
+    @include select.outline-shape-radius(15%);
+    @include select.outline-color(var(--textfield-outline-color));
+    @include select.ink-color(var(--text-color));
 }
 
 .mdc-select--filled:not(.mdc-select--invalid) {
-  @include select.dropdown-icon-color(var(--textfield-icon-color));
-  @include select.icon-color(var(--textfield-icon-color));
+    @include select.dropdown-icon-color(var(--textfield-icon-color));
+    @include select.icon-color(var(--textfield-icon-color));
 }
 
 .mdc-select:not(.mdc-select--invalid):not(.mdc-select--activated) {
-  @include select.label-color(var(--textfield-label-color));
-
+    @include select.label-color(var(--textfield-label-color));
 }
 
 .mdc-select--activated:not(.mdc-select--invalid) {
-  @include select.label-color(var(--mdc-theme-primary));
+    @include select.label-color(var(--mdc-theme-primary));
 }
 
 .mdc-select--outlined:not(.mdc-select--invalid) {
-  $outlines: ("default": var(--textfield-outline-color), "hover": var(--textfield-hover-outline-color));
-  @include select.outline-color($outlines);
-  @include select.dropdown-icon-color(var(--textfield-icon-color));
-  @include select.icon-color(var(--textfield-icon-color));
+    $outlines: (
+        'default': var(--textfield-outline-color),
+        'hover': var(--textfield-hover-outline-color),
+    );
+    @include select.outline-color($outlines);
+    @include select.dropdown-icon-color(var(--textfield-icon-color));
+    @include select.icon-color(var(--textfield-icon-color));
 }
 
 .mdc-snackbar__action:not(:disabled) {
-  color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-primary);
 }
 
 .mdc-typography {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 .menu-buttons {
-  @include button.height(44px);
-  @include button.ink-color(var(--text-color));
+    @include button.height(44px);
+    @include button.ink-color(var(--text-color));
 }
 
 .text-error {
-  @include helper-text.helper-text-color(var(--error));
+    @include helper-text.helper-text-color(var(--error));
 }
 
 .text-white {
-  @include button.ink-color(#FFFFFF);
+    @include button.ink-color(#ffffff);
 }
 
 .text-black {
-  @include button.ink-color(#FFFFFFDE);
+    @include button.ink-color(#ffffffde);
 }
 
 .google-signin {
-  @include button.ink-color(#000000);
-  @include button.container-fill-color(#FFFFFF);
-  letter-spacing: normal;
-  font-weight: 500;
-  font-size: 15px;
-  font-family: system-ui;
-  text-transform: none;
+    @include button.ink-color(#000000);
+    @include button.container-fill-color(#ffffff);
+    letter-spacing: normal;
+    font-weight: 500;
+    font-size: 15px;
+    font-family: system-ui;
+    text-transform: none;
 }
 
 .navbar-button {
-  @include button.ink-color(#E2E8F0);
-  @include button.disabled-ink-color(#FFFFFFDE);
-  --mdc-theme-primary: #ffffff;
+    @include button.ink-color(#e2e8f0);
+    @include button.disabled-ink-color(#ffffffde);
+    --mdc-theme-primary: #ffffff;
 }
 
 .mdc-snackbar {
-  @include snackbar.fill-color(var(--snackbar-fill-color));
-  @include snackbar.label-ink-color(var(--snackbar-ink-color));
+    @include snackbar.fill-color(var(--snackbar-fill-color));
+    @include snackbar.label-ink-color(var(--snackbar-ink-color));
 }
 
-.mdc-text-field:not(.mdc-text-field--disabled)+.mdc-text-field-helper-line .mdc-text-field-helper-text {
-  color: var(--helper-text);
+.mdc-text-field:not(.mdc-text-field--disabled)
+    + .mdc-text-field-helper-line
+    .mdc-text-field-helper-text {
+    color: var(--helper-text);
 }
 
 .mdc-dialog {
-  @include dialog.container-fill-color(var(--dialog-surface));
+    @include dialog.container-fill-color(var(--dialog-surface));
 }
 
 div.mdc-dialog__title {
-  color: var(--text-color) !important;
+    color: var(--text-color) !important;
 }
 
 div.mdc-dialog__content {
-  color: var(--secondary-text-color) !important;
+    color: var(--secondary-text-color) !important;
 }
 
 .mdc-menu,
 .mdc-select__menu {
-  @include menu-surface.fill-color(var(--menu-surface));
-  @include menu-surface.ink-color(var(--text-color));
+    @include menu-surface.fill-color(var(--menu-surface));
+    @include menu-surface.ink-color(var(--text-color));
 }
 
 .mdc-deprecated-list.dark-theme-list {
-  @include list.deprecated-item-primary-text-ink-color(var(--text-color));
-  @include list.deprecated-item-secondary-text-ink-color(var(--text-color));
-  @include list.deprecated-item-selected-text-color(var(--text-color));
-  @include list.deprecated-item-graphic-fill-color(var(--text-color));
-  color: var(--text-color);
+    @include list.deprecated-item-primary-text-ink-color(var(--text-color));
+    @include list.deprecated-item-secondary-text-ink-color(var(--text-color));
+    @include list.deprecated-item-selected-text-color(var(--text-color));
+    @include list.deprecated-item-graphic-fill-color(var(--text-color));
+    color: var(--text-color);
 }
 
 .mdc-deprecated-list-item--selected,
 .mdc-deprecated-list-item--activated {
-  background-color: var(--list-selected-item);
+    background-color: var(--list-selected-item);
 }
 
 .mdc-icon-button.date-picker-button {
-  @include icon-button.density(-4);
+    @include icon-button.density(-4);
 }
 
 .char-counter.mdc-text-field-character-counter {
-  @include character-counter.character-counter-color(var(--text-color));
+    @include character-counter.character-counter-color(var(--text-color));
 }
 
 .nav-menu-name {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 .text-gray-500 {
-  color: var(--text-gray-500) !important;
+    color: var(--text-gray-500) !important;
 }
 
 .text-gray-600 {
-  color: var(--text-gray-600) !important;
+    color: var(--text-gray-600) !important;
 }
 
 .text-gray-700 {
-  color: var(--text-gray-700) !important;
+    color: var(--text-gray-700) !important;
 }
 
 .mdc-radio {
-  @include radio.unchecked-stroke-color(var(--text-color));
+    @include radio.unchecked-stroke-color(var(--text-color));
 }
 
 .mdc-typography.text-gray-800,
 .mdc-typography--subtitle1.text-gray-600 {
-  color: #FFFFFF99;
+    color: #ffffff99;
 }
 
 .char-counter.mdc-text-field-character-counter {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 .check-label {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 button.mdc-button:disabled:not(.navbar-button) {
-  color: var(--disabled-text-color);
+    color: var(--disabled-text-color);
 }
 
 button.mdc-button.navbar-button:disabled {
-  color: #eaeaea61;
+    color: #eaeaea61;
 }
 
-.mdc-text-field:not(.mdc-text-field--disabled) .char-counter.mdc-text-field-character-counter {
-  color: var(--text-color);
+.mdc-text-field:not(.mdc-text-field--disabled)
+    .char-counter.mdc-text-field-character-counter {
+    color: var(--text-color);
 }
 
 /* Agenda */
 .agenda-text-primary,
 .agenda-text-secondary {
-  color: inherit;
+    color: inherit;
 }
 
 .agenda-timeslot {
-  border-color: #DADCE0;
+    border-color: #dadce0;
 }
 
 .outer-agenda-container,
 .agenda-header,
 .agenda-padding {
-  background-color: var(--ter-surface-background);
+    background-color: var(--ter-surface-background);
 }
 
 .agenda-header {
-  margin-bottom: .15rem;
+    margin-bottom: 0.15rem;
 }
 
 .agenda-item-details,
 .agenda-color-picker {
-  background-color: var(--ter-surface-background);
+    background-color: var(--ter-surface-background);
 }
 
 .mdc-typography .agenda-date-active {
-  color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-primary);
 }
 
 .day-selector {
-  color: black !important;
-  background-color: #D1D5DB;
+    color: black !important;
+    background-color: #d1d5db;
 }
 
 .mdc-icon-button.day-selector.day-selector-selected {
-  color: var(--mdc-theme-on-primary) !important;
-  background-color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-on-primary) !important;
+    background-color: var(--mdc-theme-primary);
 }
-
 
 .mdc-checkbox {
-  @include checkbox.ink-color(--mdc-checkbox-ink-color);
+    @include checkbox.ink-color(--mdc-checkbox-ink-color);
 }
 
-
 .event-link-icon {
-  background-color: var(--mdc-theme-primary);
-  color: var(--mdc-theme-on-primary);
+    background-color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-on-primary);
 }
 
 .share-link-box {
-  background-color: var(--ter-surface-background);
-  color: var(--text-color);
-  border: 0.5px solid #DADCE0;
+    background-color: var(--ter-surface-background);
+    color: var(--text-color);
+    border: 0.5px solid #dadce0;
 }
 
 .event-share-info-div {
-  background-color: var(--ter-surface-background);
+    background-color: var(--ter-surface-background);
 }
 
 .assignment-card-icon.material-icons {
-  font-size: 8rem;
-  color: #CACACA;
+    font-size: 8rem;
+    color: #cacaca;
 }
 
 .link-field-left {
-  width: calc(100% - 3.5rem);
+    width: calc(100% - 3.5rem);
 }
 
 .nav-border {
-  border-color: #D2DCDC;
+    border-color: #d2dcdc;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
-  transition: color 9999s ease-out, background-color 9999s ease-out;
-  -webkit-transition-delay: 9999s;
-  transition-delay: 9999s;
+    -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
+    transition: color 9999s ease-out, background-color 9999s ease-out;
+    -webkit-transition-delay: 9999s;
+    transition-delay: 9999s;
 }
 
 .text-blue {
-  color: #0F61DB;
+    color: #0f61db;
 }
 
 .hover:hover {
-  text-decoration: underline;
-  color: #000000;
+    text-decoration: underline;
+    color: #000000;
 }
 
 .-va-5 {
-  vertical-align: -5px;
+    vertical-align: -5px;
 }
 
 .section-border {
-  border-top: 1px solid;
+    border-top: 1px solid;
 }
 
 .icon-secondary.material-icons {
-  color: var(--secondary-text-color);
+    color: var(--secondary-text-color);
 }
 
 /*
 Generic component targeting
                           */
 body {
-  padding-left: 0px;
-  padding-top: 0px;
-  height: 100vh;
-  width: 100vw;
-  padding-bottom: 5px;
+    padding-left: 0px;
+    padding-top: 0px;
+    height: 100vh;
+    width: 100vw;
+    padding-bottom: 5px;
 }
-
 
 a:active,
 a:focus,
@@ -986,234 +1015,234 @@ a:focus,
 .mdc-button:active,
 .mdc-icon-button:focus,
 .mdc-icon-button:active {
-  outline: 0;
-  border: none;
-  outline-style: none;
-  -moz-outline-style: none;
+    outline: 0;
+    border: none;
+    outline-style: none;
+    -moz-outline-style: none;
 }
 
 .turbolinks-progress-bar {
-  height: 2px;
+    height: 2px;
 }
 
 /*
 @media rules and other relative code
                                     */
 @media screen and (max-width: 600px) {
-  .modal-card {
-    width: 100vw;
-  }
+    .modal-card {
+        width: 100vw;
+    }
 
-  .schedule-modal {
-    width: 100vw;
-    margin-top: -250px;
-  }
+    .schedule-modal {
+        width: 100vw;
+        margin-top: -250px;
+    }
 
-  .due-textfield {
-    width: 60%;
-  }
+    .due-textfield {
+        width: 60%;
+    }
 
-  .time-textfield {
-    width: 39%;
-  }
+    .time-textfield {
+        width: 39%;
+    }
 
-  #snackbar {
-    z-index: 150;
-  }
+    #snackbar {
+        z-index: 150;
+    }
 
-  .assignment-page-title {
-    font-size: 28px;
-    width: calc(100% - 140px);
-    display: inline-block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-height: 80px;
-  }
+    .assignment-page-title {
+        font-size: 28px;
+        width: calc(100% - 140px);
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-height: 80px;
+    }
 
-  .assignment-due-line {
-    float: none;
-    display: inline-block;
-    margin-top: 0px;
-  }
+    .assignment-due-line {
+        float: none;
+        display: inline-block;
+        margin-top: 0px;
+    }
 
-  .assignment-page-right .mdc-button {
-    width: 100%;
-    margin-left: -10px;
-  }
+    .assignment-page-right .mdc-button {
+        width: 100%;
+        margin-left: -10px;
+    }
 
-  .assignment-page-right {
-    margin-top: -15px;
-    margin-bottom: 25px;
-  }
+    .assignment-page-right {
+        margin-top: -15px;
+        margin-bottom: 25px;
+    }
 
-  .assignment-page-left {
-    margin-left: -25px;
-    width: calc(100% + 35px);
-  }
+    .assignment-page-left {
+        margin-left: -25px;
+        width: calc(100% + 35px);
+    }
 
-  .assignment-page-left span {
-    display: inline-block;
-  }
+    .assignment-page-left span {
+        display: inline-block;
+    }
 
-  div.assignment-link {
-    height: 90px;
-    width: calc(100% - 25px);
-    max-width: 370px;
-  }
+    div.assignment-link {
+        height: 90px;
+        width: calc(100% - 25px);
+        max-width: 370px;
+    }
 
-  div.link-primary-text {
-    width: calc(100% - 92px);
-  }
+    div.link-primary-text {
+        width: calc(100% - 92px);
+    }
 
-  .assignment-border {
-    margin-left: -30px;
-  }
+    .assignment-border {
+        margin-left: -30px;
+    }
 }
 
 @media screen and (min-width: 601px) {
-  .schedule-modal {
-    width: 600px;
-    margin-top: -80px;
-  }
+    .schedule-modal {
+        width: 600px;
+        margin-top: -80px;
+    }
 
-  .modal-card {
-    width: 600px;
-  }
+    .modal-card {
+        width: 600px;
+    }
 
-  .due-textfield {
-    min-width: 335px;
-  }
+    .due-textfield {
+        min-width: 335px;
+    }
 
-  .assignment-page-left {
-    float: left;
-    width: calc(100% - 190px);
-  }
+    .assignment-page-left {
+        float: left;
+        width: calc(100% - 190px);
+    }
 
-  .assignment-page-right {
-    float: right;
-  }
+    .assignment-page-right {
+        float: right;
+    }
 
-  .assignment-page-right .mdc-button {
-    width: 200px;
-    margin-right: -25px;
-    margin-bottom: 10px;
-  }
+    .assignment-page-right .mdc-button {
+        width: 200px;
+        margin-right: -25px;
+        margin-bottom: 10px;
+    }
 
-  .assignment-due-line {
-    margin-top: 25px;
-    margin-right: -25px;
-  }
+    .assignment-due-line {
+        margin-top: 25px;
+        margin-right: -25px;
+    }
 
-  div.assignment-link {
-    height: 90px;
-    width: 390px;
-  }
+    div.assignment-link {
+        height: 90px;
+        width: 390px;
+    }
 
-  div.edit_assignment-link.assignment-link {
-    margin-left: 0px;
-    max-width: 370px;
-    width: 100%;
-    margin-top: 20px;
-  }
+    div.edit_assignment-link.assignment-link {
+        margin-left: 0px;
+        max-width: 370px;
+        width: 100%;
+        margin-top: 20px;
+    }
 
-  div.link-primary-text.edit-primary-text {
-    width: calc(100% - 90px);
-  }
+    div.link-primary-text.edit-primary-text {
+        width: calc(100% - 90px);
+    }
 
-  div.link-primary-text {
-    width: 278px;
-  }
+    div.link-primary-text {
+        width: 278px;
+    }
 }
 
 @media screen and (max-width: 639px) {
-  .assignmentc_select {
-    margin-left: 15px;
-    width: 160px;
-  }
+    .assignmentc_select {
+        margin-left: 15px;
+        width: 160px;
+    }
 
-  .mdc-typography--headline6.mb-20,
-  .assignment_card {
-    margin-left: 15px;
-  }
+    .mdc-typography--headline6.mb-20,
+    .assignment_card {
+        margin-left: 15px;
+    }
 
-  .assignment_button {
-    display: none;
-  }
+    .assignment_button {
+        display: none;
+    }
 
-  .text-green.assignment_all_text {
-    vertical-align: -5px;
-  }
+    .text-green.assignment_all_text {
+        vertical-align: -5px;
+    }
 
-  .assignment_name,
-  .assignment_class {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: 21.6px;
-    max-width: calc(80vw - 150px);
-    white-space: nowrap;
-  }
+    .assignment_name,
+    .assignment_class {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 21.6px;
+        max-width: calc(80vw - 150px);
+        white-space: nowrap;
+    }
 }
 
 @media screen and (max-width: 767px) {
-  .schedulist-logo-nav.justify-center {
-    justify-content: space-around;
-    margin-left: 3.75rem;
-  }
+    .schedulist-logo-nav.justify-center {
+        justify-content: space-around;
+        margin-left: 3.75rem;
+    }
 }
 
 @media screen and (max-width: 820px) {
-  .options_card {
-    margin-right: 15px;
-    padding: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
+    .options_card {
+        margin-right: 15px;
+        padding: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
 
 @media screen and (min-width: 821px) {
-  .options_card {
-    width: 65%;
-    padding-right: 30px;
-    padding-left: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-left: 17.5%;
-    margin-right: 17.5%;
-  }
+    .options_card {
+        width: 65%;
+        padding-right: 30px;
+        padding-left: 30px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-left: 17.5%;
+        margin-right: 17.5%;
+    }
 
-  .email_margins {
-    margin-right: 140px;
-  }
+    .email_margins {
+        margin-right: 140px;
+    }
 }
 
 ::-webkit-scrollbar {
-  width: 20px;
+    width: 20px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #d6dee1;
-  border-radius: 20px;
-  border: 6px solid transparent;
-  background-clip: content-box;
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #a8bbbf;
+    background-color: #a8bbbf;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+input[type='number'] {
+    -moz-appearance: textfield;
 }
 
 /*
@@ -1222,898 +1251,904 @@ All other CSS code below
       ********
                         */
 .continue-with {
-  display: grid;
-  width: 100%;
-  align-items: center;
-  text-align: center;
-  grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
-  grid-gap: 20px;
-  margin-top: 25px;
-  margin-bottom: 25px;
+    display: grid;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
+    grid-gap: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .continue-with:before,
 .continue-with:after {
-  content: '';
-  border-top: .5px solid;
+    content: '';
+    border-top: 0.5px solid;
 }
 
 label.login-form,
 div.login-form {
-  width: 98%;
-  margin-left: 1%;
-  margin-right: 1%;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
 }
 
 .login-form-email {
-  width: 99%;
-  margin-left: 5px;
-  margin-right: 5px;
+    width: 99%;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .mdc-notched-outline__notch {
-  border-left: none;
-  border-right: none;
+    border-left: none;
+    border-right: none;
 }
 
 .desktop-head {
-  display: block;
-  margin-left: 0px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  height: 64px;
-  padding-top: 10px;
+    display: block;
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    height: 64px;
+    padding-top: 10px;
 }
 
 .mobile-head {
-  margin-left: -10px;
-  margin-top: -8px;
-  margin-bottom: 30px;
-  height: 69px;
-  padding-top: auto;
-  padding-bottom: auto;
+    margin-left: -10px;
+    margin-top: -8px;
+    margin-bottom: 30px;
+    height: 69px;
+    padding-top: auto;
+    padding-bottom: auto;
 }
 
 .app-bar {
-  position: absolute;
+    position: absolute;
 }
 
 .navdrawer {
-  margin-left: -2px;
-  margin-top: -8px;
+    margin-left: -2px;
+    margin-top: -8px;
 }
 
 .menu_button_mobile {
-  margin-right: -48px;
+    margin-right: -48px;
 }
 
 span.mdc-notched-outline__notch.border_rem {
-  outline: none;
-  border-left: 0px;
-  border-right: 0px;
+    outline: none;
+    border-left: 0px;
+    border-right: 0px;
 }
 
 .pfpImg {
-  border: none;
+    border: none;
 }
 
 .but_nevermind {
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 div.forgot-password {
-  float: right;
-  margin-top: 11px;
-  margin-bottom: 20px;
+    float: right;
+    margin-top: 11px;
+    margin-bottom: 20px;
 }
 
 .loginbutton,
 .google-signin {
-  width: 200px;
+    width: 200px;
 }
 
 .logincontainer {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
 }
 
 .fab_button,
 .fab-button {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  z-index: 7;
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 7;
 }
 
 .password {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .remember_me {
-  margin-left: -7px;
+    margin-left: -7px;
 }
 
 .logincontainer.secondcontainer {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .addclass_card,
 .schedule-modal {
-  padding-top: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 99;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 99;
 }
 
 .reg-double {
-  margin-bottom: 6rem;
+    margin-bottom: 6rem;
 }
 
 .double_left {
-  width: 49%;
-  float: left;
+    width: 49%;
+    float: left;
 }
 
 .double_right {
-  width: 49%;
-  float: right;
+    width: 49%;
+    float: right;
 }
 
 .toprowcontainer,
 .top-row-container {
-  margin-left: -5px;
-  margin-right: 55px;
-  margin-bottom: 40px;
-  width: 100%;
+    margin-left: -5px;
+    margin-right: 55px;
+    margin-bottom: 40px;
+    width: 100%;
 }
 
 .addbutton,
 .action-submit-button {
-  margin-top: 6px;
-  float: right;
+    margin-top: 6px;
+    float: right;
 }
 
 .closebutton,
 .close-and-title {
-  float: left;
-  width: 250px;
+    float: left;
+    width: 250px;
 }
 
 .classroom_icon {
-  height: 24px;
-  width: 24px;
-  margin-left: 15px;
+    height: 24px;
+    width: 24px;
+    margin-left: 15px;
 }
 
 [x-cloak] {
-  display: none;
+    display: none;
 }
 
 .duration-100 {
-  transition-duration: 100ms;
+    transition-duration: 100ms;
 }
 
 .duration-50 {
-  transition-duration: 50ms;
+    transition-duration: 50ms;
 }
 
 .ease-in {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 .scale-90 {
-  transform: scale(.9);
+    transform: scale(0.9);
 }
 
 .scale-100 {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 div.modal_skim {
-  z-index: 75;
-  position: fixed;
-  height: 100%;
-  display: block;
+    z-index: 75;
+    position: fixed;
+    height: 100%;
+    display: block;
 }
 
 .add_class_div {
-  z-index: 99;
-  position: absolute;
-  right: 0;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
+    z-index: 99;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .closeleft {
-  float: left;
+    float: left;
 }
 
 .closeright,
 .modal-title {
-  float: left;
-  margin-top: -8px;
-  margin-bottom: 0px;
-  font-size: 19px;
+    float: left;
+    margin-top: -8px;
+    margin-bottom: 0px;
+    font-size: 19px;
 }
 
 .select-textfield-row {
-  width: 100%;
-  flex-direction: row;
-  flex-wrap: nowrap
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 .select-left-container {
-  margin-right: 0px;
-  float: left;
+    margin-right: 0px;
+    float: left;
 }
 
 .textfield-right-container {
-  float: right;
+    float: right;
 }
 
 .textfield-right,
 .textfield-right-label {
-  width: 100%;
+    width: 100%;
 }
 
 .period-select {
-  width: 120px;
+    width: 120px;
 }
 
 .toggle {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
 .additional_links_switch {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 5px;
 }
 
 .alertmessage {
-  padding-left: 15px;
-  padding-top: 12px;
-  padding-bottom: 8px;
-  margin-top: -30px;
-  margin-bottom: 10px;
-  background-color: #FFE0E0;
-  color: #B00020;
-  min-height: 50.4px;
-  transition-property: height;
-  transition-timing-function: ease-in-out;
-  transition-duration: .10s;
-
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    margin-top: -30px;
+    margin-bottom: 10px;
+    background-color: #ffe0e0;
+    color: #b00020;
+    min-height: 50.4px;
+    transition-property: height;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.1s;
 }
 
 .alertmessage.loginpage {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .erroricon {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 p.inlinerror {
-  display: inline;
-  margin-top: -5px;
+    display: inline;
+    margin-top: -5px;
 }
 
 .resemail {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .back-icon {
-  margin-left: -12px;
+    margin-left: -12px;
 }
 
 .mdc-card.profile-menu {
-  margin-top: 300px;
-  margin-right: -5px;
-  padding-top: 20px;
-  padding-bottom: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 305px;
-  z-index: 159;
-  position: absolute;
+    margin-top: 300px;
+    margin-right: -5px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 305px;
+    z-index: 159;
+    position: absolute;
 }
 
 .popup-signout {
-  margin-top: 8px;
-  float: right;
-  text-transform: unset !important;
-  letter-spacing: normal;
+    margin-top: 8px;
+    float: right;
+    text-transform: unset !important;
+    letter-spacing: normal;
 }
 
 .menu-buttons {
-  width: 100%;
+    width: 100%;
 }
 
 .menu-button-text {
-  text-align: left;
-  width: 100%;
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: normal;
+    text-align: left;
+    width: 100%;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: normal;
 }
 
 button.mdc-button.navbar-button {
-  text-transform: unset !important;
-  letter-spacing: normal;
-  font-size: 22.5px;
-  font-family: 'Roboto Flex', sans-serif;
-  color: white;
+    text-transform: unset !important;
+    letter-spacing: normal;
+    font-size: 22.5px;
+    font-family: 'Roboto Flex', sans-serif;
+    color: white;
 }
 
 .class-card {
-  width: 100%;
-  padding: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-  height: 275px;
+    width: 100%;
+    padding: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 275px;
 }
 
 .card-left {
-  float: left;
+    float: left;
 }
 
 .card-right {
-  float: right;
+    float: right;
 }
 
 .class-header {
-  margin-left: 5px;
-  margin-top: 8px;
+    margin-left: 5px;
+    margin-top: 8px;
 }
 
 .mdc-typography--headline6.class-header {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 .email_link {
-  margin-left: 20px;
-  width: 100px;
+    margin-left: 20px;
+    width: 100px;
 }
 
 .material-icons-two-tone.night_icon {
-  font-size: 50px;
-  filter: invert(18%) sepia(85%) saturate(1936%) hue-rotate(203deg) brightness(100%) contrast(99%);
+    font-size: 50px;
+    filter: invert(18%) sepia(85%) saturate(1936%) hue-rotate(203deg)
+        brightness(100%) contrast(99%);
 }
 
 .material-icons-two-tone.day_icon {
-  font-size: 50px;
-  filter: invert(84%) sepia(56%) saturate(1438%) hue-rotate(352deg) brightness(111%) contrast(86%);
+    font-size: 50px;
+    filter: invert(84%) sepia(56%) saturate(1438%) hue-rotate(352deg)
+        brightness(111%) contrast(86%);
 }
 
 .current_class {
-  padding-top: 50px;
+    padding-top: 50px;
 }
 
 .material-icons.add_icon {
-  margin-top: 20vh;
-  display: block;
-  font-size: 3rem;
-  margin-bottom: 15px;
-  -webkit-text-stroke: 1.5px white;
+    margin-top: 20vh;
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    -webkit-text-stroke: 1.5px white;
 }
 
 .noscroll {
-  overflow-y: hidden;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
+    overflow-y: hidden;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
 }
 
 .rec_icon {
-  font-size: 28px !important;
-  filter: invert(36%) sepia(19%) saturate(3343%) hue-rotate(326deg) brightness(105%) contrast(80%);
+    font-size: 28px !important;
+    filter: invert(36%) sepia(19%) saturate(3343%) hue-rotate(326deg)
+        brightness(105%) contrast(80%);
 }
 
 .bottom-icons {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin-right: 8px;
-  margin-bottom: 4px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 8px;
+    margin-bottom: 4px;
 }
 
 .join_class {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
 }
 
 .demo-width-class {
-  width: 100%;
-  margin-left: 5px;
-  margin-right: 5px;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .outlined_select {
-  width: 100%;
+    width: 100%;
 }
 
 .error_message_hide {
-  display: none;
+    display: none;
 }
 
 .save_button {
-  width: 70px;
-  float: right;
+    width: 70px;
+    float: right;
 }
 
 .tfa-button {
-  width: auto;
-  float: right;
+    width: auto;
+    float: right;
 }
 
 .del-button {
-  width: 100px;
-  float: right;
+    width: 100px;
+    float: right;
 }
 
 .material-icons-two-tone.check-icon {
-  font-size: 35px;
+    font-size: 35px;
 }
 
 .material-icons-two-tone.check-icon-sm {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 .material-icons-two-tone.x_icon {
-  font-size: 35px;
+    font-size: 35px;
 }
 
 .content-div {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .mdc-text-field-helper-line.error_div {
-  height: 6px;
+    height: 6px;
 }
 
 .logo-image {
-  margin-top: 60px;
-  width: 250px;
-  height: 60px;
-  background-repeat: no-repeat;
+    margin-top: 60px;
+    width: 250px;
+    height: 60px;
+    background-repeat: no-repeat;
 }
 
 .text-sm.font-mono {
-  font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  color: black;
+    font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+        monospace;
+    color: black;
 }
 
 .no-theme {
-  border: 0px solid transparent;
+    border: 0px solid transparent;
 }
 
 .theme-border {
-  border-width: 2px;
-  border-radius: 10px;
+    border-width: 2px;
+    border-radius: 10px;
 }
 
 .no-theme {
-  transition: border-width 0.1s ease-in, border-color 0.4s ease;
-  border-width: 2px;
-  border-radius: 10px;
+    transition: border-width 0.1s ease-in, border-color 0.4s ease;
+    border-width: 2px;
+    border-radius: 10px;
 }
 
 .welcome-div {
-  justify-content: center;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 70px;
-  width: 100%
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 70px;
+    width: 100%;
 }
 
 .welcome_button {
-  height: 50px;
+    height: 50px;
 }
 
 .rounded-full.object-cover {
-  border: 0px;
+    border: 0px;
 }
 
 .welcome_container {
-  width: 100vw;
-  position: relative;
-  overflow: hidden;
-  height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
 }
 
 div.assignment-card-top {
-  height: 83px;
-  padding-top: 18px;
-  display: block;
+    height: 83px;
+    padding-top: 18px;
+    display: block;
 }
 
 .assignment_all_text {
-  vertical-align: -1.5px;
+    vertical-align: -1.5px;
 }
 
 p.assignment_name {
-  font-size: 15px;
-  margin-top: -1px;
+    font-size: 15px;
+    margin-top: -1px;
 }
 
 div.assignment_card_content_div {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 18px;
+    padding-bottom: 18px;
 }
 
 div.assignment_card {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 div.assignment_add_leftrow {
-  float: left;
-  width: 210px;
+    float: left;
+    width: 210px;
 }
 
 .view_button {
-  margin-top: -6px;
-  margin-bottom: 10px;
+    margin-top: -6px;
+    margin-bottom: 10px;
 }
 
 .text-green.assignment_all_text,
 .text-error.assignment_all_text {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .assignment-page-det {
-  margin-left: 54px;
-  margin-right: 40px;
+    margin-left: 54px;
+    margin-right: 40px;
 }
 
 .assignment-link-image {
-  height: 88px;
-  width: 90px;
-  border-radius: 10px;
+    height: 88px;
+    width: 90px;
+    border-radius: 10px;
 }
 
 .link-primary-text {
-  position: absolute;
-  right: 0;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  height: 90px;
-  margin-right: 2px
+    position: absolute;
+    right: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 90px;
+    margin-right: 2px;
 }
 
 .assignment-link-title {
-  font-size: 17px;
-  height: 32px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+    font-size: 17px;
+    height: 32px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .assignment-link-url {
-  line-height: initial;
-  font-size: 12px;
-  height: 28.8px;
-  overflow: hidden;
-  text-overflow: clip;
+    line-height: initial;
+    font-size: 12px;
+    height: 28.8px;
+    overflow: hidden;
+    text-overflow: clip;
 }
 
 div.mdc-card__primary-action.link__p-a {
-  border-radius: 10px;
+    border-radius: 10px;
 }
 
 #link-icon-theme {
-  background-size: 50px 50px;
+    background-size: 50px 50px;
 }
 
 .assignment-border {
-  margin-top: 30px;
-  margin-bottom: -20px;
-  margin-right: -25px;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    margin-right: -25px;
 }
 
 .assignment-edit-div {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 40;
-  height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .edit-toprow {
-  height: 65px;
-  padding-top: 3px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-bottom: 20px;
+    height: 65px;
+    padding-top: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 20px;
 }
 
 .assignment_save_button {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .edit-title {
-  vertical-align: -18px;
+    vertical-align: -18px;
 }
 
 .edit-more-menu {
-  margin-top: 56px;
+    margin-top: 56px;
 }
 
 div.livewire-helper.mdc-text-field-helper-line {
-  height: 5px;
-  margin-bottom: -6px;
+    height: 5px;
+    margin-bottom: -6px;
 }
 
 .profile-button-icon {
-  margin-top: -4px;
+    margin-top: -4px;
 }
 
 .app-footer {
-  position: absolute;
-  width: 100%;
-  padding-bottom: 30px;
+    position: absolute;
+    width: 100%;
+    padding-bottom: 30px;
 }
 
 .checkbox-row {
-  margin-top: -5.65rem;
+    margin-top: -5.65rem;
 }
 
 .agenda-item {
-  width: calc(100% - 3.5rem);
-  transition: background-color 0.5s ease, height 0.3s ease, top 0.3s ease;
+    width: calc(100% - 3.5rem);
+    transition: background-color 0.5s ease, height 0.3s ease, top 0.3s ease;
 }
 
 .inner-agenda-container {
-  height: 1440px;
+    height: 1440px;
 }
 
 .agenda-timeslot {
-  border-top-width: 0.25px;
-  border-left-width: 0.25px;
-  height: 60px;
-  width: calc(100% - 50px);
+    border-top-width: 0.25px;
+    border-left-width: 0.25px;
+    height: 60px;
+    width: calc(100% - 50px);
 }
 
 .agenda-clockslot {
-  height: 60px;
-  width: 50px;
-  padding-left: 5px;
+    height: 60px;
+    width: 50px;
+    padding-left: 5px;
 }
 
 .agenda-item-details {
-  width: 100vw;
-  max-width: 480px;
-  height: 230px;
-  position: absolute;
-  z-index: 5;
+    width: 100vw;
+    max-width: 480px;
+    height: 230px;
+    position: absolute;
+    z-index: 5;
 }
 
 .agenda-color-picker {
-  height: 230px;
-  width: 100vw;
-  max-width: 400px;
+    height: 230px;
+    width: 100vw;
+    max-width: 400px;
 }
 
 .agenda-item-details.mdc-elevation--z14,
 .agenda-color-picker {
-  box-shadow: 0px 7px 9px -4px rgb(0 0 0 / 20%), 0px 14px 21px 2px rgb(0 0 0 / 14%), 0px 5px 26px 4px rgb(0 0 0 / 12%)
+    box-shadow: 0px 7px 9px -4px rgb(0 0 0 / 20%),
+        0px 14px 21px 2px rgb(0 0 0 / 14%), 0px 5px 26px 4px rgb(0 0 0 / 12%);
 }
 
 .agenda-detail-row-text {
-  vertical-align: 6.5px;
+    vertical-align: 6.5px;
 }
 
 .agenda-sidebar {
-  height: calc(100vh - 154px);
+    height: calc(100vh - 154px);
 }
 
 .agenda-filter-label {
-  vertical-align: 12px;
-  font-size: 15px;
+    vertical-align: 12px;
+    font-size: 15px;
 }
 
 .agenda-header {
-  height: 88px;
+    height: 88px;
 }
 
 /* Modal component styles */
 
 div.modal-skim {
-  z-index: 40;
-  position: fixed;
-  height: 100%;
-  display: block;
+    z-index: 40;
+    position: fixed;
+    height: 100%;
+    display: block;
 }
 
 .modal-container {
-  z-index: 41;
-  position: absolute;
-  right: 0;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
+    z-index: 41;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .modal-card {
-  padding-top: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 42;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 42;
 }
 
 .day-selector-text {
-  position: absolute;
-  top: 5px;
-  left: 0;
-  right: 0;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
 }
 
 .material-icons.add-link-icon {
-  text-align: center;
-  left: 0;
-  right: 0;
-  display: block;
-  line-height: 1.4;
+    text-align: center;
+    left: 0;
+    right: 0;
+    display: block;
+    line-height: 1.4;
 }
 
 .event-share-info-div {
-  max-width: 400px;
-  width: 90%;
+    max-width: 400px;
+    width: 90%;
 }
 
 .assignment-filter-hl {
-  font-weight: 500;
-  font-size: 26px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+    font-weight: 500;
+    font-size: 26px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .material-icons.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
 }
 
 .mdc-button.mobile-dropdown-button {
-  text-transform: none;
-  letter-spacing: normal;
-  color: white;
-  width: 100%;
-  height: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 20px;
-  margin-bottom: 14px;
+    text-transform: none;
+    letter-spacing: normal;
+    color: white;
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 20px;
+    margin-bottom: 14px;
 }
 
 .mdc-button.mobile-dropdown-button .material-icons.mdc-button__icon {
-  font-size: 20px;
-  margin-right: 24px;
-  margin-top: 6px;
-  margin-left: 16px;
+    font-size: 20px;
+    margin-right: 24px;
+    margin-top: 6px;
+    margin-left: 16px;
 }
 
 .mdc-button.mobile-dropdown-button.mobile-dropdown-selected {
-  background-color: #3636365C;
+    background-color: #3636365c;
 }
 
 .mobile-menu {
-  height: 100%;
-  min-height: -webkit-fill-available;
+    height: 100%;
+    min-height: -webkit-fill-available;
 }
 
 .mobile-menu-top {
-  height: 10vh;
+    height: 10vh;
 }
 
 .dual-dashboard-cards {
-  min-height: 20rem;
+    min-height: 20rem;
 }
 
 div.assignment-card-dashboard {
-  min-height: 83px;
-  padding-top: 18px;
-  display: block;
+    min-height: 83px;
+    padding-top: 18px;
+    display: block;
 }
 
 .new-reminder-textfield {
-  width: 104px;
+    width: 104px;
 }
 
 .mdc-deprecated-list--two-line .security-list.mdc-deprecated-list-item {
-  height: 80px;
-  padding-left: 18px;
-  padding-right: 18px;
+    height: 80px;
+    padding-left: 18px;
+    padding-right: 18px;
 }
 
 .security-list-text.mdc-deprecated-list-item__text {
-  padding-top: 16px;
-  padding-bottom: 16px;
-  color: var(--text-color);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color: var(--text-color);
 }
 
-.mdc-deprecated-list--two-line.mdc-deprecated-list--icon-list.security-list .mdc-deprecated-list-item__graphic {
-  margin-top: auto;
-  margin-bottom: auto;
+.mdc-deprecated-list--two-line.mdc-deprecated-list--icon-list.security-list
+    .mdc-deprecated-list-item__graphic {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .material-icons {
-  user-select: none;
+    user-select: none;
 }
 
 .profile-menu {
-  @include menu.width(350px);
+    @include menu.width(350px);
 }
 
 .addclass_card {
-  @include card.shape-radius(10px);
+    @include card.shape-radius(10px);
 }
 
 .mdc-button {
-  @include button.shape-radius(15%);
+    @include button.shape-radius(15%);
 }
 
 .mdc-menu-surface {
-  @include menu-surface.shape-radius(12px);
+    @include menu-surface.shape-radius(12px);
 }
 
 .mdc-card {
-  @include card.shape-radius(12px);
+    @include card.shape-radius(12px);
 }
 
 .mdc-dialog {
-  @include dialog.shape-radius(12px);
+    @include dialog.shape-radius(12px);
 }
 
 .class-card {
-  transition: background-color 0.6s ease, color 0.7s ease, border-color 0.6s ease;
+    transition: background-color 0.6s ease, color 0.7s ease,
+        border-color 0.6s ease;
 }
 
 .time-picker {
-  .clock-label-text {
-    transition: opacity 225ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    opacity: 0;
+    .clock-label-text {
+        transition: opacity 225ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0;
 
-    &.fade {
-      opacity: 1;
-      transition: opacity 300ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        &.fade {
+            opacity: 1;
+            transition: opacity 300ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        }
     }
-  }
 
-  .hour-min-slot,
-  .clock-face {
-    background-color: var(--textfield-fill-color);
+    .hour-min-slot,
+    .clock-face {
+        background-color: var(--textfield-fill-color);
 
-    &.active {
-      color: var(--mdc-theme-on-primary);
-      background-color: var(--mdc-theme-primary);
+        &.active {
+            color: var(--mdc-theme-on-primary);
+            background-color: var(--mdc-theme-primary);
+        }
     }
-  }
 }
 
 .check_label {
-  color: var(--text-color);
+    color: var(--text-color);
 }

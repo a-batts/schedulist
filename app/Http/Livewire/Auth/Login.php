@@ -10,35 +10,46 @@ use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 
 use Livewire\Component;
 
-class Login extends Component {
-  /** @var string */
-  public $email = '';
+class Login extends Component
+{
+    /** @var string */
+    public $email = '';
 
-  /** @var string */
-  public $password = '';
+    /** @var string */
+    public $password = '';
 
-  /** @var bool */
-  public $remember = false;
+    /** @var bool */
+    public $remember = false;
 
-  public $errorMessages = [];
+    public $errorMessages = [];
 
-  protected $rules = [
-    'email' => ['required', 'email'],
-    'password' => ['required'],
-  ];
+    protected $rules = [
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ];
 
-  public function authenticate() {
-    $this->validate();
+    public function authenticate()
+    {
+        $this->validate();
 
-    if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember))
-      throw ValidationException::withMessages([
-        'email' => trans('auth.failed')
-      ]);
-    return redirect()->intended(route('dashboard'));
-  }
+        if (
+            !Auth::attempt(
+                ['email' => $this->email, 'password' => $this->password],
+                $this->remember
+            )
+        ) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
+        return redirect()->intended(route('dashboard'));
+    }
 
-  public function render() {
-    $this->errorMessages = $this->getErrorBag()->toArray();
-    return view('livewire.auth.login')->layout('layouts.guest', ['title' => 'Login']);
-  }
+    public function render()
+    {
+        $this->errorMessages = $this->getErrorBag()->toArray();
+        return view('livewire.auth.login')->layout('layouts.guest', [
+            'title' => 'Login',
+        ]);
+    }
 }

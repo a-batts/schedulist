@@ -11,7 +11,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         foreach (User::all() as $user) {
             $user->grade_level = match ($user->grade_level) {
                 'other' => 0,
@@ -19,7 +20,7 @@ return new class extends Migration {
                 'ms' => 2,
                 'hs' => 3,
                 'university' => 4,
-                null => null
+                null => null,
             };
             $user->save();
         }
@@ -33,7 +34,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         //
     }
 };

@@ -12,8 +12,9 @@ class AppLayout extends Component
 {
     public $title;
 
-    public function __construct($title){
-      $this->title = $title;
+    public function __construct($title)
+    {
+        $this->title = $title;
     }
 
     /**
@@ -21,8 +22,8 @@ class AppLayout extends Component
      *
      * @return \Illuminate\View\View
      */
-    public function render(){
-
-      return view('layouts.app');
+    public function render()
+    {
+        return view('layouts.app');
     }
 }

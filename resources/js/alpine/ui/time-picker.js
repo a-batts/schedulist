@@ -56,21 +56,18 @@ export default (timeObj) => ({
 
         //Correct AM/PM for initially parsed time and then watch in case the time is updated from outside of the component
 
-        if (this.selectedTime.h > 11)
-            this.isMorning = false;
+        if (this.selectedTime.h > 11) this.isMorning = false;
 
         this.$watch('selectedTime', (val) => {
             if (val.h > 11) {
                 this.isMorning = false;
-            }
-            else {
+            } else {
                 this.isMorning = true;
             }
         });
     },
 
     clock: {
-
         ['@click'](e) {
             const clickQuadrant = this.getCurrentQuadrant(e);
 
@@ -93,8 +90,7 @@ export default (timeObj) => ({
 
         ['@mouseup']() {
             this.dragging = false;
-        }
-
+        },
     },
 
     getCurrentQuadrant: function (e) {
@@ -104,19 +100,27 @@ export default (timeObj) => ({
         const clickPos = {
             x: e.offsetX,
             y: e.offsetY,
-        }
+        };
 
-        var angleRadians = Math.atan2(clickPos.y - circleRadius, clickPos.x - circleRadius);
+        var angleRadians = Math.atan2(
+            clickPos.y - circleRadius,
+            clickPos.x - circleRadius
+        );
         if (angleRadians < 0) {
             angleRadians += 2.0 * Math.PI;
-        };
+        }
 
         const angleDeg = Math.trunc((angleRadians * 180) / Math.PI);
 
-        var clickQuadrant = (Math.trunc((angleDeg + 180 / this.numQuadrants) / (360 / this.numQuadrants)) + this.numQuadrants / 3 - (this.numQuadrants / 12)) % this.numQuadrants;
+        var clickQuadrant =
+            (Math.trunc(
+                (angleDeg + 180 / this.numQuadrants) / (360 / this.numQuadrants)
+            ) +
+                this.numQuadrants / 3 -
+                this.numQuadrants / 12) %
+            this.numQuadrants;
 
-        if (clickQuadrant == this.numQuadrants)
-            clickQuadrant = 0;
+        if (clickQuadrant == this.numQuadrants) clickQuadrant = 0;
 
         return clickQuadrant;
     },
@@ -124,29 +128,27 @@ export default (timeObj) => ({
     updateTime: function (value) {
         if (this.timePickerState == 1) {
             if (this.isMorning) {
-
                 this.selectedTime.h = value;
-            }
-            else {
+            } else {
                 value = value + 12;
 
                 this.selectedTime.h = value;
-
             }
 
             this.fading = true;
 
             //Switch to showing the minutes view
             setTimeout(() => {
-                this.timePickerState = 2
+                this.timePickerState = 2;
                 this.fading = false;
             }, 150);
-        }
-        else {
+        } else {
             this.timePickerState = 0;
 
             if (value >= 0 && value < 60)
-                setTimeout(() => { this.selectedTime.m = parseInt(value); }, 150)
+                setTimeout(() => {
+                    this.selectedTime.m = parseInt(value);
+                }, 150);
         }
     },
 
@@ -157,10 +159,9 @@ export default (timeObj) => ({
             hour = hour % 12;
         }
 
-        if (hour == 0)
-            hour = 12;
+        if (hour == 0) hour = 12;
 
-        return hour
+        return hour;
     },
 
     setState: function (s) {
@@ -173,10 +174,8 @@ export default (timeObj) => ({
     },
 
     toggleIsMorning: function (val) {
-        if (val == true && this.selectedTime.h >= 12)
-            this.selectedTime.h -= 12;
-        else
-            this.selectedTime.h += 12;
+        if (val == true && this.selectedTime.h >= 12) this.selectedTime.h -= 12;
+        else this.selectedTime.h += 12;
 
         this.isMorning = val;
     },
@@ -186,20 +185,26 @@ export default (timeObj) => ({
     },
 
     get labelsContent() {
-        return this.timePickerState == 1 ? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : ['00', '05', 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+        return this.timePickerState == 1
+            ? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            : ['00', '05', 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
     },
 
     get formattedTime() {
-        return this.parseHour() + ':' + String(this.selectedTime.m).padStart(2, '0') + (this.isMorning ? ' AM' : ' PM');
+        return (
+            this.parseHour() +
+            ':' +
+            String(this.selectedTime.m).padStart(2, '0') +
+            (this.isMorning ? ' AM' : ' PM')
+        );
     },
 
     //Functions used with templating
     set selectedTime($newVal) {
-        this[timeObj] = $newVal
+        this[timeObj] = $newVal;
     },
 
     get selectedTime() {
-        return this[timeObj]
+        return this[timeObj];
     },
-
 });

@@ -11,51 +11,57 @@ use Illuminate\Support\Facades\Hash;
 
 use Livewire\Component;
 
-class PasswordPicker extends Component {
-  public $userData;
+class PasswordPicker extends Component
+{
+    public $userData;
 
-  public $password;
+    public $password;
 
-  public $passwordConfirmation;
+    public $passwordConfirmation;
 
-  public $errorMessages;
+    public $errorMessages;
 
-  protected $messages = [
-    'password.regex' => 'Double check that your password is 10+ characters and contains an uppercase letter, number, and special character',
-  ];
-
-  protected function rules() {
-    return [
-      'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
-      'passwordConfirmation' => 'required|string|same:password',
+    protected $messages = [
+        'password.regex' =>
+            'Double check that your password is 10+ characters and contains an uppercase letter, number, and special character',
     ];
-  }
 
-  public function save() {
-    $this->validate();
+    protected function rules()
+    {
+        return [
+            'password' =>
+                'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
+            'passwordConfirmation' => 'required|string|same:password',
+        ];
+    }
 
-    $userData = $this->userData;
+    public function save()
+    {
+        $this->validate();
 
-    $user = new User;
-    $user->firstname = $userData['given_name'];
-    $user->lastname = $userData['family_name'];
-    $user->email = $userData['email'];
-    $user->google_email = $userData['email'];
-    $user->google_id = $userData['sub'];
+        $userData = $this->userData;
 
-    $this->user = $user;
-    $user->password = Hash::make($this->password);
-    $user->save();
+        $user = new User();
+        $user->firstname = $userData['given_name'];
+        $user->lastname = $userData['family_name'];
+        $user->email = $userData['email'];
+        $user->google_email = $userData['email'];
+        $user->google_id = $userData['sub'];
 
-    event(new Registered($user));
+        $this->user = $user;
+        $user->password = Hash::make($this->password);
+        $user->save();
 
-    Auth::login($user, true);
+        event(new Registered($user));
 
-    return redirect()->intended(route('dashboard'));
-  }
+        Auth::login($user, true);
 
-  public function render() {
-    $this->errorMessages = $this->getErrorBag()->toArray();
-    return view('livewire.auth.password-picker');
-  }
+        return redirect()->intended(route('dashboard'));
+    }
+
+    public function render()
+    {
+        $this->errorMessages = $this->getErrorBag()->toArray();
+        return view('livewire.auth.password-picker');
+    }
 }

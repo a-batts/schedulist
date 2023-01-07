@@ -4,13 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserArchivesTable extends Migration {
+class CreateUserArchivesTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('user_archives', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
@@ -25,7 +27,8 @@ class CreateUserArchivesTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('user_archives');
     }
 }

@@ -16,8 +16,8 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 use Livewire\Component;
 
-class DeleteAccount extends Component {
-
+class DeleteAccount extends Component
+{
     /**
      * The user's current password.
      *
@@ -31,14 +31,17 @@ class DeleteAccount extends Component {
      * @param User $user
      * @return void
      */
-    private function deleteUserData(User $user): void {
+    private function deleteUserData(User $user): void
+    {
         //Delete assignments
-        foreach ($user->assignments as $assignment)
+        foreach ($user->assignments as $assignment) {
             $assignment->delete();
+        }
 
         //Delete classes
-        foreach ($user->classes as $class)
+        foreach ($user->classes as $class) {
             $class->delete();
+        }
 
         //Delete class schedules
         $user->schedules()->delete();
@@ -48,13 +51,19 @@ class DeleteAccount extends Component {
         EventUser::where('user_id', $user->id)->delete();
 
         //Delete user backup if exists
-        $archive = DB::table('user_archives')->where('user_id', $user->id)->first();
+        $archive = DB::table('user_archives')
+            ->where('user_id', $user->id)
+            ->first();
         if ($archive != null) {
             try {
-                unlink(storage_path('app/exported-archives/' . $archive->filename));
+                unlink(
+                    storage_path('app/exported-archives/' . $archive->filename)
+                );
             } catch (ErrorException) {
             }
-            DB::table('user_archives')->where('user_id', $user->id)->delete();
+            DB::table('user_archives')
+                ->where('user_id', $user->id)
+                ->delete();
         }
     }
 
@@ -66,12 +75,18 @@ class DeleteAccount extends Component {
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth) {
+    public function deleteUser(
+        Request $request,
+        DeletesUsers $deleter,
+        StatefulGuard $auth
+    ) {
         $this->resetErrorBag();
 
         if (!Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => ['The password entered does not match your current password.'],
+                'password' => [
+                    'The password entered does not match your current password.',
+                ],
             ]);
         }
 
@@ -91,8 +106,11 @@ class DeleteAccount extends Component {
      *
      * @return int
      */
-    public function getNumberAssignmentsProperty() {
-        return Auth::user()->assignments()->count();
+    public function getNumberAssignmentsProperty()
+    {
+        return Auth::user()
+            ->assignments()
+            ->count();
     }
 
     /**
@@ -100,8 +118,11 @@ class DeleteAccount extends Component {
      *
      * @return int
      */
-    public function getNumberClassesProperty() {
-        return Auth::user()->classes()->count();
+    public function getNumberClassesProperty()
+    {
+        return Auth::user()
+            ->classes()
+            ->count();
     }
 
     /**
@@ -109,11 +130,15 @@ class DeleteAccount extends Component {
      *
      * @return int
      */
-    public function getNumberEventsProperty() {
-        return Auth::user()->events()->count();
+    public function getNumberEventsProperty()
+    {
+        return Auth::user()
+            ->events()
+            ->count();
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.profile.delete-account')
             ->layout('layouts.app')
             ->layoutData(['title' => 'Delete Account']);

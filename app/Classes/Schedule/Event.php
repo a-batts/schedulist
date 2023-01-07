@@ -4,8 +4,8 @@ namespace App\Classes\Schedule;
 
 use Carbon\Carbon;
 
-class Event {
-
+class Event
+{
     private Carbon $date;
     public int $id;
 
@@ -66,7 +66,8 @@ class Event {
      *
      * @return Carbon event date
      */
-    public function getDate(): Carbon {
+    public function getDate(): Carbon
+    {
         return $this->date;
     }
 
@@ -75,15 +76,13 @@ class Event {
      *
      * @return array data
      */
-    public function toArray(): array {
-        return array_merge(
-            get_object_vars($this),
-            [
-                'startString' => $this->getStartString(),
-                'endString' => $this->getEndString(),
-                'timeString' => $this->getTimeString(),
-            ]
-        );
+    public function toArray(): array
+    {
+        return array_merge(get_object_vars($this), [
+            'startString' => $this->getStartString(),
+            'endString' => $this->getEndString(),
+            'timeString' => $this->getTimeString(),
+        ]);
     }
 
     /**
@@ -91,9 +90,11 @@ class Event {
      *
      * @return string
      */
-    public function getStartString(): string {
-        if ($this->type == 'assignment')
+    public function getStartString(): string
+    {
+        if ($this->type == 'assignment') {
             return 'Due at ' . $this->start->format('g:i A');
+        }
         return $this->start->format('g:i A');
     }
 
@@ -102,7 +103,8 @@ class Event {
      *
      * @return string|null
      */
-    public function getEndString(): ?string {
+    public function getEndString(): ?string
+    {
         return isset($this->end) ? $this->end->format('g:i A') : null;
     }
 
@@ -111,9 +113,13 @@ class Event {
      *
      * @return string
      */
-    public function getTimeString(): string {
-        if ($this->type == 'assignment')
+    public function getTimeString(): string
+    {
+        if ($this->type == 'assignment') {
             return 'Due ' . $this->start->format('g:i A');
-        return $this->start->format('g:i') . ' - ' . $this->end->format('g:i A');
+        }
+        return $this->start->format('g:i') .
+            ' - ' .
+            $this->end->format('g:i A');
     }
 }

@@ -1,45 +1,45 @@
 {
-  "short_name": "Schedulist",
-  "name": "Schedulist",
-  "description": "Online class scheduler",
-  "icons": [
-    {
-      "src": "/images/logo/android-chrome-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any"
-    },
-    {
-      "src": "images/logo/maskable_icon.png",
-      "sizes": "196x196",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/logo/android-chrome-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "/app",
-  "background_color": "#121212",
-  "theme_color": "#0180FF",
-  "display": "standalone",
-  "scope": "/",
-  "theme_color": "#3367D6",
-  "shortcuts": [
-   {
-      "name": "Dashboard",
-      "description": "Open Dashboard",
-      "url": "/app",
-      "icons": [
-         {
-            "src": "/icons/play-later.png",
-            "sizes": "96x96",
+    "short_name": "Schedulist",
+    "name": "Schedulist",
+    "description": "Online class scheduler",
+    "icons": [
+        {
+            "src": "/images/logo/android-chrome-192x192.png",
             "type": "image/png",
+            "sizes": "192x192",
             "purpose": "any"
-         }
-      ]
-   }
-]
+        },
+        {
+            "src": "images/logo/maskable_icon.png",
+            "sizes": "196x196",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/images/logo/android-chrome-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/app",
+    "background_color": "#121212",
+    "theme_color": "#0180FF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#3367D6",
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "description": "Open Dashboard",
+            "url": "/app",
+            "icons": [
+                {
+                    "src": "/icons/play-later.png",
+                    "sizes": "96x96",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        }
+    ]
 }

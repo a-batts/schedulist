@@ -11,7 +11,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         foreach (Assignment::all() as $assignment) {
             $assignment->status = match ($assignment->status) {
                 'inc' => 0,
@@ -21,7 +22,10 @@ return new class extends Migration {
         }
 
         Schema::table('assignments', function (Blueprint $table) {
-            $table->smallInteger('status')->default(0)->change();
+            $table
+                ->smallInteger('status')
+                ->default(0)
+                ->change();
         });
     }
 
@@ -30,7 +34,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         //
     }
 };

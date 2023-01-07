@@ -4,13 +4,15 @@ namespace App\View\Components\Agenda;
 
 use Illuminate\View\Component;
 
-class AgendaPopup extends Component {
+class AgendaPopup extends Component
+{
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         //
     }
 
@@ -19,7 +21,8 @@ class AgendaPopup extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.agenda.agenda-popup');
     }
 }

@@ -14,7 +14,10 @@ class AddNullToSubscriptionsTable extends Migration
     public function up()
     {
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->string('events')->nullable()->change();
+            $table
+                ->string('events')
+                ->nullable()
+                ->change();
         });
     }
 
@@ -25,7 +28,6 @@ class AddNullToSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('subscriptions', function (Blueprint $table) {
-        });
+        Schema::table('subscriptions', function (Blueprint $table) {});
     }
 }

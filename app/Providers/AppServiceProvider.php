@@ -5,15 +5,19 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cookie;
 
-class AppServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         if ($this->app->isLocal()) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(
+                \Laravel\Telescope\TelescopeServiceProvider::class
+            );
             $this->app->register(TelescopeServiceProvider::class);
         }
     }
@@ -23,7 +27,8 @@ class AppServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         view()->composer('*', function ($view) {
             $theme = Cookie::get('theme');
             if ($theme != 'dark' && $theme != 'light') {
@@ -32,7 +37,6 @@ class AppServiceProvider extends ServiceProvider {
 
             $view->with('theme', $theme);
         });
-
 
         date_default_timezone_set('America/New_York');
     }

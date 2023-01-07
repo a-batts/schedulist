@@ -53,7 +53,9 @@ window.undoFixBody = undoFixBody;
 
 function showLoginPassword(e) {
     var passwordfield = document.getElementById(e);
-    passwordfield.type === "password" ? passwordfield.type = "text" : passwordfield.type = "password";
+    passwordfield.type === 'password'
+        ? (passwordfield.type = 'text')
+        : (passwordfield.type = 'password');
 }
 
 function countdownClock(e) {
@@ -86,13 +88,20 @@ function preventDefaultForScrollKeys(e) {
 }
 var supportsPassive = false;
 try {
-    window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-        get: function () { supportsPassive = true; }
-    }));
-} catch (e) { }
+    window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassive = true;
+            },
+        })
+    );
+} catch (e) {}
 
 var wheelOpt = supportsPassive ? { passive: false } : false;
-var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+var wheelEvent =
+    'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
 function disableScroll() {
     window.addEventListener('DOMMouseScroll', preventDefault, false);

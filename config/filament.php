@@ -14,7 +14,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Filament Path
@@ -104,9 +103,7 @@ return [
     'pages' => [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
-        'register' => [
-            Pages\Dashboard::class,
-        ],
+        'register' => [Pages\Dashboard::class],
     ],
 
     /*
@@ -199,14 +196,12 @@ return [
     */
 
     'broadcasting' => [
-
         // 'echo' => [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
         //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
         //     'forceTLS' => true,
         // ],
-
     ],
 
     /*
@@ -274,7 +269,8 @@ return [
     |
     */
 
-    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
+    'default_avatar_provider' =>
+        \Filament\AvatarProviders\UiAvatarsProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -301,7 +297,8 @@ return [
     |
     */
 
-    'google_fonts' => 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+    'google_fonts' =>
+        'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
 
     /*
     |--------------------------------------------------------------------------
@@ -314,9 +311,7 @@ return [
     */
 
     'middleware' => [
-        'auth' => [
-            Authenticate::class,
-        ],
+        'auth' => [Authenticate::class],
         'base' => [
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
@@ -329,5 +324,4 @@ return [
             MirrorConfigToSubpackages::class,
         ],
     ],
-
 ];

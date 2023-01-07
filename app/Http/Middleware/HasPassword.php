@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class HasPassword {
-
+class HasPassword
+{
     /**
      * Handle an incoming request.
      *
@@ -14,8 +14,11 @@ class HasPassword {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $negate = false) {
-        $hasPassword = isset($request->user()->password) && strlen($request->user()->password) > 0;
-        return ($hasPassword && !$negate) ? $next($request) : abort(403);
+    public function handle(Request $request, Closure $next, $negate = false)
+    {
+        $hasPassword =
+            isset($request->user()->password) &&
+            strlen($request->user()->password) > 0;
+        return $hasPassword && !$negate ? $next($request) : abort(403);
     }
 }

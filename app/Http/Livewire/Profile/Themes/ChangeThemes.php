@@ -13,13 +13,15 @@ class ChangeThemes extends Component
      * @param  string $theme
      * @return void
      */
-    public function switchThemes($theme){
+    public function switchThemes($theme)
+    {
         $this->theme = $theme;
         $this->emit('refreshThemePage');
         $this->emit('themeSwitch', $theme);
     }
 
-    public function render(){
+    public function render()
+    {
         return view('livewire.profile.themes.change-themes');
     }
 }

@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
-class EditSchedules extends Component {
-
+class EditSchedules extends Component
+{
     /**
      * Collection of a user's schedules
      *
@@ -49,11 +49,15 @@ class EditSchedules extends Component {
 
     /**
      * Mount the component
-     * 
+     *
      * @return void
      */
-    public function mount(): void {
-        $this->schedules = Auth::user()->schedules()->get()->keyBy('id');
+    public function mount(): void
+    {
+        $this->schedules = Auth::user()
+            ->schedules()
+            ->get()
+            ->keyBy('id');
         $this->start = Carbon::now();
         $this->end = Carbon::now()->addDay();
     }
@@ -63,21 +67,26 @@ class EditSchedules extends Component {
      *
      * @return void
      */
-    public function create(): void {
+    public function create(): void
+    {
         $this->validate();
 
-        $newSchedule = new ClassSchedule;
+        $newSchedule = new ClassSchedule();
 
         $newSchedule->name = $this->name;
         $newSchedule->start_date = $this->start->toDateString();
         $newSchedule->end_date = $this->end->toDateString();
 
-        if ($this->checkForOverlap())
+        if ($this->checkForOverlap()) {
             throw ValidationException::withMessages([
-                'start_date' => 'Your new schedule cannot overlap with your other schedules.'
+                'start_date' =>
+                    'Your new schedule cannot overlap with your other schedules.',
             ]);
+        }
 
-        Auth::user()->schedules()->save($newSchedule);
+        Auth::user()
+            ->schedules()
+            ->save($newSchedule);
         $this->schedules->add($newSchedule);
 
         $this->start = Carbon::now();
@@ -89,25 +98,31 @@ class EditSchedules extends Component {
      *
      * @return void
      */
-    public function edit(int $id) {
+    public function edit(int $id)
+    {
         $this->validate();
 
         try {
-            $editSchedule = Auth::user()->schedules()->findOrFail($id);
+            $editSchedule = Auth::user()
+                ->schedules()
+                ->findOrFail($id);
             $editSchedule->name = $this->name;
             $editSchedule->start_date = $this->start->toDateString();
             $editSchedule->end_date = $this->end->toDateString();
 
-            if ($this->checkForOverlap($id))
+            if ($this->checkForOverlap($id)) {
                 throw ValidationException::withMessages([
-                    'start_date' => 'The new dates for this schedule cannot overlap with your other schedules.'
+                    'start_date' =>
+                        'The new dates for this schedule cannot overlap with your other schedules.',
                 ]);
+            }
 
             $editSchedule->save();
 
             foreach ($this->schedules as $schedule) {
-                if ($schedule->id == $id)
+                if ($schedule->id == $id) {
                     $schedule = $editSchedule;
+                }
             }
 
             $this->start = Carbon::now();
@@ -122,9 +137,13 @@ class EditSchedules extends Component {
      * @param integer $id
      * @return void
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         try {
-            Auth::user()->schedules()->findOrFail($id)->delete();
+            Auth::user()
+                ->schedules()
+                ->findOrFail($id)
+                ->delete();
             $this->schedules = $this->schedules->except($id);
         } catch (ModelNotFoundException $e) {
         }
@@ -135,7 +154,8 @@ class EditSchedules extends Component {
      *
      * @return array
      */
-    public function getSchedulesArray(): array {
+    public function getSchedulesArray(): array
+    {
         return $this->schedules->toArray();
     }
 
@@ -145,15 +165,20 @@ class EditSchedules extends Component {
      * @param string $date
      * @return void
      */
-    public function setStartDate(string $date): void {
+    public function setStartDate(string $date): void
+    {
         try {
             $date = Carbon::parse($date);
-            if ($date < $this->end)
+            if ($date < $this->end) {
                 $this->start = $date;
-            else
-                $this->addError('start_date', 'The start date needs to be before the end date');
+            } else {
+                $this->addError(
+                    'start_date',
+                    'The start date needs to be before the end date'
+                );
+            }
         } catch (InvalidFormatException $e) {
-        };
+        }
     }
 
     /**
@@ -162,15 +187,20 @@ class EditSchedules extends Component {
      * @param string $date
      * @return void
      */
-    public function setEndDate(string $date): void {
+    public function setEndDate(string $date): void
+    {
         try {
             $date = Carbon::parse($date);
-            if ($date > $this->start)
+            if ($date > $this->start) {
                 $this->end = $date;
-            else
-                $this->addError('end_date', 'The end date needs to be before the start date');
+            } else {
+                $this->addError(
+                    'end_date',
+                    'The end date needs to be before the start date'
+                );
+            }
         } catch (InvalidFormatException $e) {
-        };
+        }
     }
 
     /**
@@ -179,7 +209,8 @@ class EditSchedules extends Component {
      * @param integer|null $id
      * @return boolean
      */
-    public function checkForOverlap(?int $id = null): bool {
+    public function checkForOverlap(?int $id = null): bool
+    {
         $start = $this->start->copy()->startOfDay();
         $end = $this->end->copy()->endOfDay();
 
@@ -192,16 +223,19 @@ class EditSchedules extends Component {
                 ($start <= $eachStart && $end >= $eachEnd)
             ) {
                 if ($id != null) {
-                    if ($id != $each->id)
+                    if ($id != $each->id) {
                         return true;
-                } else
+                    }
+                } else {
                     return true;
+                }
             }
         }
         return false;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.profile.schedule.edit-schedules')
             ->layout('layouts.app')
             ->layoutData(['title' => '  Manage Your Schedules']);

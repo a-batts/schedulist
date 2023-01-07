@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 use App\Mail\EventInvitation;
 use Illuminate\Support\Facades\Mail;
 
-class SendEventInvitation implements ShouldQueue {
+class SendEventInvitation implements ShouldQueue
+{
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -25,7 +26,8 @@ class SendEventInvitation implements ShouldQueue {
      *
      * @return void
      */
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->data = $data;
     }
 
@@ -34,10 +36,14 @@ class SendEventInvitation implements ShouldQueue {
      *
      * @return void
      */
-    public function handle(): void {
+    public function handle(): void
+    {
         $settings = $this->data['user']->settings;
 
-        if ($settings->eventEmailsEnabled())
-            Mail::to($this->data['user'])->send(new EventInvitation($this->data));
+        if ($settings->eventEmailsEnabled()) {
+            Mail::to($this->data['user'])->send(
+                new EventInvitation($this->data)
+            );
+        }
     }
 }

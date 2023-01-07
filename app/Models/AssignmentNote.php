@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
-class AssignmentNote extends Model {
+class AssignmentNote extends Model
+{
     use HasFactory;
 
     protected $fillable = ['content'];
@@ -16,7 +17,8 @@ class AssignmentNote extends Model {
         'content' => 'encrypted',
     ];
 
-    public function assignment() {
+    public function assignment()
+    {
         return $this->belongsTo(Assignment::class);
     }
 
@@ -25,10 +27,16 @@ class AssignmentNote extends Model {
      *
      * @return string
      */
-    public function getParsedContentsAttribute(): string {
-        $reg_pattern = "/(((http|https|ftp|ftps)\:\/\/)|(www\.))[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\:[0-9]+)?(\/\S*)?/";
+    public function getParsedContentsAttribute(): string
+    {
+        $reg_pattern =
+            '/(((http|https|ftp|ftps)\:\/\/)|(www\.))[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\:[0-9]+)?(\/\S*)?/';
 
-        return preg_replace($reg_pattern, '<a class="link" href="$0" target="_blank" rel="noopener noreferrer">$0</a>', $this->content);
+        return preg_replace(
+            $reg_pattern,
+            '<a class="link" href="$0" target="_blank" rel="noopener noreferrer">$0</a>',
+            $this->content
+        );
     }
 
     /**
@@ -36,7 +44,8 @@ class AssignmentNote extends Model {
      *
      * @return string
      */
-    public function getCreatedDatetimeAttribute(): string {
+    public function getCreatedDatetimeAttribute(): string
+    {
         return Carbon::parse($this->created_at)->format('M j, Y • g:i A');
     }
 }

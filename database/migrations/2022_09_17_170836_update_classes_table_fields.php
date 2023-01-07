@@ -4,13 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateClassesTableFields extends Migration {
+class UpdateClassesTableFields extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::table('classes', function (Blueprint $table) {
             $table->mediumText('location')->change();
             $table->mediumText('name')->change();
@@ -25,7 +27,8 @@ class UpdateClassesTableFields extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         //
     }
 }

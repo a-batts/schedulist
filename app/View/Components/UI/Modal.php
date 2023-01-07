@@ -4,8 +4,8 @@ namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class Modal extends Component {
-
+class Modal extends Component
+{
     /**
      * The modal title
      *
@@ -25,7 +25,8 @@ class Modal extends Component {
      *
      * @return void
      */
-    public function __construct(string $title, string $bind) {
+    public function __construct(string $title, string $bind)
+    {
         $this->title = $title;
         $this->bind = $bind;
     }
@@ -35,7 +36,8 @@ class Modal extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.ui.modal');
     }
 }

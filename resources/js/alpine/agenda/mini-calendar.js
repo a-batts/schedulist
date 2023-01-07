@@ -32,12 +32,21 @@ export default () => ({
 
     isToday: function (day) {
         const today = new Date();
-        return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth() && today.getDate() == day && !this.isActiveDate(day);
+        return (
+            this.currentDate.getFullYear() == today.getFullYear() &&
+            this.currentDate.getMonth() == today.getMonth() &&
+            today.getDate() == day &&
+            !this.isActiveDate(day)
+        );
     },
 
     isActiveDate: function (day) {
         const activeDate = this.$parent.date;
-        return this.currentDate.getFullYear() == activeDate.getFullYear() && this.currentDate.getMonth() == activeDate.getMonth() && activeDate.getDate() == day;
+        return (
+            this.currentDate.getFullYear() == activeDate.getFullYear() &&
+            this.currentDate.getMonth() == activeDate.getMonth() &&
+            activeDate.getDate() == day
+        );
     },
 
     changeDate: function (day) {
@@ -58,7 +67,11 @@ export default () => ({
     },
 
     get startingBlankDays() {
-        const firstDayOfMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1).getUTCDay();
+        const firstDayOfMonth = new Date(
+            this.currentDate.getFullYear(),
+            this.currentDate.getMonth(),
+            1
+        ).getUTCDay();
         var numberOfStartingBlanks = 0;
 
         for (var i = 0; i < firstDayOfMonth; i++) {
@@ -68,7 +81,11 @@ export default () => ({
         const prevMonth = new Date(this.currentDate.valueOf());
         prevMonth.setMonth(this.currentDate.getMonth() - 1);
         prevMonth.setDate(1);
-        const prevMonthNumberOfDays = new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 0).getDate();
+        const prevMonthNumberOfDays = new Date(
+            prevMonth.getFullYear(),
+            prevMonth.getMonth() + 1,
+            0
+        ).getDate();
 
         var blankDays = [];
 
@@ -80,7 +97,8 @@ export default () => ({
     },
 
     get endingBlankDays() {
-        const unfilledSlots = 7 - ((this.monthDays + this.startingBlankDays.length) % 7);
+        const unfilledSlots =
+            7 - ((this.monthDays + this.startingBlankDays.length) % 7);
         var blankDays = [];
 
         if (unfilledSlots != 0) {
@@ -92,6 +110,10 @@ export default () => ({
     },
 
     get monthYear() {
-        return this.currentDate.toLocaleString('default', { month: 'long' }) + ' ' + this.currentDate.getFullYear();
-    }
-})
+        return (
+            this.currentDate.toLocaleString('default', { month: 'long' }) +
+            ' ' +
+            this.currentDate.getFullYear()
+        );
+    },
+});
