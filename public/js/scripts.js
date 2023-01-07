@@ -4,53 +4,6 @@ function sleep(ms) {
     });
 }
 
-/*
-Livewire.on('navigate', function (url) {
-  Turbo.visit(url);
-});
-
-*/
-function startLoading() {
-    //Turbo.controller.adapter.progressBar.setValue(0);
-    //Turbo.controller.adapter.progressBar.show();
-}
-
-/*
-Livewire.on('startloading', function (start) {
-  startLoading();
-});
-*/
-
-function stopLoading() {
-    //Turbo.controller.adapter.progressBar.setValue(100);
-    //Turbo.controller.adapter.progressBar.hide();
-}
-
-/*
-Livewire.on('stoploading', function (stop) {
-  setTimeout(function () {
-    stopLoading();
-  }, 150);
-});
-*/
-
-function fixBody() {
-    pos = window.scrollY;
-    window.pos = pos;
-    document.body.style.position = 'fixed';
-    document.getElementById('main').style.top = `-${pos}px`;
-}
-
-window.fixBody = fixBody;
-
-function undoFixBody() {
-    document.body.style.position = '';
-    document.getElementById('main').style.top = '';
-    window.scrollTo(0, window.pos);
-}
-
-window.undoFixBody = undoFixBody;
-
 function showLoginPassword(e) {
     var passwordfield = document.getElementById(e);
     passwordfield.type === 'password'
@@ -118,3 +71,39 @@ function enableScroll() {
 }
 
 window.enableScroll = enableScroll;
+
+function setCookie(name, value) {
+    var d = new Date();
+    d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+    var expires = 'expires=' + d.toUTCString();
+    document.cookie = name + '=' + value + ';' + expires + ';path=/';
+}
+
+function getCookieValue(name) {
+    var cookieArr = document.cookie.split(';');
+    for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split('=');
+        if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+document.addEventListener('turbolinks:load', function () {
+    var currentTheme = getCookieValue('theme');
+    var themer = document.getElementById('themer');
+    if (currentTheme == 'auto') {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+            themer.classList.add('theme-dark');
+        else themer.classList.remove('theme-dark');
+
+        window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', (event) => {
+                if (event.matches) themer.classList.add('theme-dark');
+                else themer.classList.remove('theme-dark');
+            });
+    }
+});
+
