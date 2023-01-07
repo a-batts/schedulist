@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run pretty-quick --staged
-git update-index --again
+npm run pretty-quick --staged && git update-index --again
+npx mix --production && git add --all ./public
