@@ -1,30 +1,6 @@
-function sleep(ms) {
-    return new Promise(function (resolve) {
-        return setTimeout(resolve, ms);
-    });
-}
-
 function showLoginPassword(e) {
     var passwordfield = document.getElementById(e);
-    passwordfield.type === 'password'
-        ? (passwordfield.type = 'text')
-        : (passwordfield.type = 'password');
-}
-
-function countdownClock(e) {
-    var countdownText = document.getElementById('countdown-time');
-    countdownText.innerHTML = ' (' + e + ')';
-
-    if (e > 0) {
-        sleep(1000).then(function () {
-            countdownClock(e - 1);
-        });
-    }
-
-    if (e == 0) {
-        countdownText.innerHTML = '';
-        document.getElementById('countdown-button').disabled = false;
-    }
+    passwordfield.type = passwordfield.type === 'password' ? 'text' : 'password';
 }
 
 //Disable scroll
