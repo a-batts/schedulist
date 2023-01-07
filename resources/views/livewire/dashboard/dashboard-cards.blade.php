@@ -5,8 +5,8 @@
             <x-ui.dashboard-card title="Current Class" :background_color="'background-' . strtolower($currentClass->color)">
                 <x-slot name="actionButton">
                     @isset($currentClass->video_link)
-                        <a class="mdc-icon-button material-icons -mt-1" href="{{ $currentClass->video_link }}"
-                            aria-describedby="video-label" target="_blank">
+                        <a class="-mt-1 mdc-icon-button material-icons" href="{{ $currentClass->video_link }}"
+                            aria-describedby="video-label" target="_blank" rel="noopener">
                             <div class="mdc-icon-button__ripple"></div>
                             videocam
                         </a>
@@ -20,7 +20,7 @@
                             href="mailto:{{ $currentClass->teacher_email }}">
                             <span class="mdc-button__ripple"></span>
                             <span
-                                class="mdc-button__label text-lg font-normal tracking-normal capitalize">{{ $currentClass->teacher_name }}</span>
+                                class="text-lg font-normal tracking-normal capitalize mdc-button__label">{{ $currentClass->teacher_name }}</span>
                             <i class="material-icons mdc-button__icon" aria-hidden="true">email</i>
                         </a>
                     </div>
@@ -35,7 +35,7 @@
         @else
             <x-ui.dashboard-card title="Current Class" background-color="">
                 <x-slot name="actionButton">
-                    <button class="mdc-icon-button material-icons -mt-1" type="button" aria-describedby="edit-label"
+                    <button class="-mt-1 mdc-icon-button material-icons" type="button" aria-describedby="edit-label"
                         wire:click="updateCurrentClass()" wire:ignore>
                         <div class="mdc-icon-button__ripple"></div>
                         refresh
@@ -50,19 +50,19 @@
                 @endisset
             </x-ui.dashboard-card>
         @endif
-        <div class="dual-dashboard-cards flex flex-wrap">
+        <div class="flex flex-wrap dual-dashboard-cards">
             <div class="flex-1 float-left w-full px-0 lg:w-1/2 lg:pr-3">
                 <x-ui.dashboard-card class="min-h-full mt-6" title="Upcoming Assignments" background-color="">
                     <x-slot name="actionButton">
-                        <a class="mdc-button mdc-button-ripple mt-1" href="{{ route('assignments') }}">
+                        <a class="mt-1 mdc-button mdc-button-ripple" href="{{ route('assignments') }}">
                             <span class="mdc-button__ripple"></span>
-                            <span class="mdc-button__label hidden md:block">All Assignments</span>
+                            <span class="hidden mdc-button__label md:block">All Assignments</span>
                             <span class="mdc-button__label md:hidden">View All</span>
                         </a>
                     </x-slot>
                     <div class="block w-full text-center">
                         @if ($assignments->isEmpty())
-                            <p class="material-icons assignment-card-icon mx-0 mt-10 text-center select-none text-9xl">
+                            <p class="mx-0 mt-10 text-center select-none material-icons assignment-card-icon text-9xl">
                                 assignment_turned_in</p>
                             <p class="mt-1 text-lg font-medium text-center text-gray-600">You're all caught up on your
                                 work</p>
@@ -70,15 +70,15 @@
                             <div class="mt-2">
                                 @foreach ($assignments as $index => $assignment)
                                     <a href="{{ '/assignments/assignment/' . $assignment->url_string }}">
-                                        <div class="mdc-card mdc-card--outlined mt-3">
-                                            <div class="mdc-card__primary-action assignment-card-dashboard px-5 text-left truncate"
+                                        <div class="mt-3 mdc-card mdc-card--outlined">
+                                            <div class="px-5 text-left truncate mdc-card__primary-action assignment-card-dashboard"
                                                 tabindex="0">
-                                                <div class="assignment-card-left float-left">
+                                                <div class="float-left assignment-card-left">
                                                     <p class="-mt-0.5 text-xl font-medium">{{ $assignment->name }}</p>
                                                     <p class="text-sm text-gray-600">{{ $assignment->class_name }}</p>
                                                 </div>
-                                                <div class="assignment-card-right mt-12 mb-4 md:float-right md:my-0">
-                                                    <p class="text-green mt-3 text-sm">Due {{ $assignment->humanDue }}
+                                                <div class="mt-12 mb-4 assignment-card-right md:float-right md:my-0">
+                                                    <p class="mt-3 text-sm text-green">Due {{ $assignment->humanDue }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -90,17 +90,17 @@
                     </div>
                 </x-ui.dashboard-card>
             </div>
-            <div class="flex-2 float-right w-full px-0 mt-5 lg:mt-0 lg:w-1/2 lg:pl-3">
+            <div class="float-right w-full px-0 mt-5 flex-2 lg:mt-0 lg:w-1/2 lg:pl-3">
                 <x-ui.dashboard-card class="h-full mt-6" title="Events" background-color="">
                     <x-slot name="actionButton">
-                        <a class="mdc-button mdc-button-ripple mt-1" href="{{ route('schedule') }}">
+                        <a class="mt-1 mdc-button mdc-button-ripple" href="{{ route('schedule') }}">
                             <span class="mdc-button__ripple"></span>
                             <span class="mdc-button__label">View Calendar</span>
                         </a>
                     </x-slot>
                     <div class="block w-full text-center">
                         @if ($events->isEmpty())
-                            <p class="material-icons assignment-card-icon mx-0 mt-10 text-center select-none text-9xl">
+                            <p class="mx-0 mt-10 text-center select-none material-icons assignment-card-icon text-9xl">
                                 event_busy</p>
                             <p class="mt-1 text-lg font-medium text-center text-gray-400">{{ $this->getEventPhrase() }}
                             </p>
@@ -109,9 +109,9 @@
                                 @foreach ($events as $index => $event)
                                     <div
                                         class="mdc-card mdc-card--outlined background-{{ $event['color'] ?? 'blue' }} mt-3">
-                                        <div class="mdc-card__primary-action assignment-card-dashboard px-5 text-left truncate"
+                                        <div class="px-5 text-left truncate mdc-card__primary-action assignment-card-dashboard"
                                             tabindex="0">
-                                            <div class="assignment-card-left float-left">
+                                            <div class="float-left assignment-card-left">
                                                 <p class="-mt-0.5 text-xl font-medium">{{ $event['name'] }}</p>
                                                 <p class="text-sm">{{ $event['timestring'] }}</p>
                                             </div>
