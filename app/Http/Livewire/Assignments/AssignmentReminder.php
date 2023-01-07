@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
-class AssignmentReminder extends Component {
-
+class AssignmentReminder extends Component
+{
     /**
      * The assignment
      *
@@ -34,11 +34,16 @@ class AssignmentReminder extends Component {
      * @param Assignment $assignment
      * @return void
      */
-    public function mount(Assignment $assignment): void {
+    public function mount(Assignment $assignment): void
+    {
         //Load the assignment from the view component
         $this->assignment = $assignment;
 
-        $this->reminders = $assignment->reminders()->with('assignment')->get()->toArray();
+        $this->reminders = $assignment
+            ->reminders()
+            ->with('assignment')
+            ->get()
+            ->toArray();
     }
 
     /**
@@ -47,14 +52,16 @@ class AssignmentReminder extends Component {
      * @param int $hoursBefore
      * @return array|null
      */
-    public function addReminder(int $hoursBefore): ?array {
+    public function addReminder(int $hoursBefore): ?array
+    {
         $hoursBefore = round($hoursBefore);
 
-        if ($hoursBefore < 1 || $hoursBefore > 48)
+        if ($hoursBefore < 1 || $hoursBefore > 48) {
             throw ValidationException::withMessages([
-                'hoursBefore' => 'You can set a reminder for no more than 48 hours prior to the assignment due date'
+                'hoursBefore' =>
+                    'You can set a reminder for no more than 48 hours prior to the assignment due date',
             ]);
-
+        }
 
         Validator::make(
             ['hoursBefore' => $hoursBefore],
@@ -68,18 +75,20 @@ class AssignmentReminder extends Component {
 
         $due = Carbon::parse($this->assignment->due);
 
-        if ($due->copy()->subHours($hoursBefore) < Carbon::now())
+        if ($due->copy()->subHours($hoursBefore) < Carbon::now()) {
             throw ValidationException::withMessages([
-                'hoursBefore' => 'You can\'t set a reminder for a past time'
+                'hoursBefore' => 'You can\'t set a reminder for a past time',
             ]);
-
-        foreach ($this->reminders as $reminder) {
-            if ($reminder['hours_before'] == $hoursBefore)
-                throw ValidationException::withMessages([
-                    'hoursBefore' => 'You already have a reminder set for this time'
-                ]);
         }
 
+        foreach ($this->reminders as $reminder) {
+            if ($reminder['hours_before'] == $hoursBefore) {
+                throw ValidationException::withMessages([
+                    'hoursBefore' =>
+                        'You already have a reminder set for this time',
+                ]);
+            }
+        }
 
         $reminder = new ModelsAssignmentReminder();
         $reminder->reminder_time = $due->subHours($hoursBefore);
@@ -96,10 +105,15 @@ class AssignmentReminder extends Component {
      * @param int $id of reminder to be removed
      * @return void
      */
-    public function removeReminder($id): void {
-        if ($this->assignment->owner = Auth::id())
+    public function removeReminder($id): void
+    {
+        if ($this->assignment->owner = Auth::id()) {
             ModelsAssignmentReminder::destroy($id);
-        $this->reminders = $this->assignment->reminders()->get()->toArray();
+        }
+        $this->reminders = $this->assignment
+            ->reminders()
+            ->get()
+            ->toArray();
     }
 
     /**
@@ -107,8 +121,9 @@ class AssignmentReminder extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function render() {
-        $this->errorMessages = $this->getErrorBag()->toArray();;
+    public function render()
+    {
+        $this->errorMessages = $this->getErrorBag()->toArray();
         return view('livewire.assignments.assignment-reminder');
     }
 }

@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 
-class Kernel extends ConsoleKernel {
+class Kernel extends ConsoleKernel
+{
     /**
      * The Artisan commands provided by your application.
      *
@@ -31,13 +32,32 @@ class Kernel extends ConsoleKernel {
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule) {
-        $schedule->call(function () {
-            $pending = AssignmentReminder::where('reminder_time', '>', Carbon::now()->subMinutes(1)->toDateTimeString())->where('reminder_time', '<=', Carbon::now()->addMinutes(1)->toDateTimeString())->with(['assignment', 'assignment.user'])->get();
-            foreach ($pending as $reminder) {
-                SendAssignmentReminder::dispatch($reminder);
-            }
-        })->everyMinute()->sendOutputTo(storage_path('logerror.txt'));
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule
+            ->call(function () {
+                $pending = AssignmentReminder::where(
+                    'reminder_time',
+                    '>',
+                    Carbon::now()
+                        ->subMinutes(1)
+                        ->toDateTimeString()
+                )
+                    ->where(
+                        'reminder_time',
+                        '<=',
+                        Carbon::now()
+                            ->addMinutes(1)
+                            ->toDateTimeString()
+                    )
+                    ->with(['assignment', 'assignment.user'])
+                    ->get();
+                foreach ($pending as $reminder) {
+                    SendAssignmentReminder::dispatch($reminder);
+                }
+            })
+            ->everyMinute()
+            ->sendOutputTo(storage_path('logerror.txt'));
     }
 
     /**
@@ -45,7 +65,8 @@ class Kernel extends ConsoleKernel {
      *
      * @return void
      */
-    protected function commands() {
+    protected function commands()
+    {
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');

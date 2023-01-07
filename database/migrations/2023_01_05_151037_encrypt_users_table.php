@@ -10,7 +10,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::table('users', function (Blueprint $table) {
             $table->mediumText('email')->change();
             $table->mediumText('phone')->change();
@@ -26,7 +27,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         //
     }
 };

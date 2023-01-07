@@ -4,13 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSentToAssignmentRemindersTable extends Migration {
+class AddSentToAssignmentRemindersTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::table('assignment_reminders', function (Blueprint $table) {
             $table->boolean('sent')->default(false);
         });
@@ -21,7 +23,8 @@ class AddSentToAssignmentRemindersTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::table('assignment_reminders', function (Blueprint $table) {
             //
         });

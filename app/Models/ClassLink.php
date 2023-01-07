@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassLink extends Model {
+class ClassLink extends Model
+{
     use HasFactory;
 
     protected $table = 'class_links';

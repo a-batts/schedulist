@@ -13,8 +13,8 @@ use ipinfo\ipinfo\IPinfo;
 use Jenssegers\Agent\Agent;
 use Livewire\Component;
 
-class LogoutOtherSessions extends Component {
-
+class LogoutOtherSessions extends Component
+{
     public $password;
 
     /**
@@ -22,7 +22,8 @@ class LogoutOtherSessions extends Component {
      *
      * @return void
      */
-    public function confirmLogout() {
+    public function confirmLogout()
+    {
         $this->dispatchBrowserEvent('confirm-logout');
     }
 
@@ -32,7 +33,8 @@ class LogoutOtherSessions extends Component {
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
-    public function logoutOtherBrowserSessions(StatefulGuard $guard) {
+    public function logoutOtherBrowserSessions(StatefulGuard $guard)
+    {
         $this->resetErrorBag();
         if (!Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
@@ -54,14 +56,22 @@ class LogoutOtherSessions extends Component {
      *
      * @return void
      */
-    protected function deleteOtherSessionRecords() {
+    protected function deleteOtherSessionRecords()
+    {
         if (config('session.driver') !== 'database') {
             return;
         }
 
-        DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+        DB::connection(config('session.connection'))
+            ->table(config('session.table', 'sessions'))
             ->where('user_id', Auth::user()->getAuthIdentifier())
-            ->where('id', '!=', request()->session()->getId())
+            ->where(
+                'id',
+                '!=',
+                request()
+                    ->session()
+                    ->getId()
+            )
             ->delete();
     }
 
@@ -70,13 +80,15 @@ class LogoutOtherSessions extends Component {
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getSessionsProperty() {
+    public function getSessionsProperty()
+    {
         if (config('session.driver') !== 'database') {
             return collect();
         }
 
         return collect(
-            DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+            DB::connection(config('session.connection'))
+                ->table(config('session.table', 'sessions'))
                 ->where('user_id', Auth::user()->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
@@ -84,8 +96,14 @@ class LogoutOtherSessions extends Component {
             return (object) [
                 'agent' => $this->createAgent($session),
                 'ip_address' => $session->ip_address,
-                'is_current_device' => $session->id === request()->session()->getId(),
-                'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
+                'is_current_device' =>
+                    $session->id ===
+                    request()
+                        ->session()
+                        ->getId(),
+                'last_active' => Carbon::createFromTimestamp(
+                    $session->last_activity
+                )->diffForHumans(),
                 'details' => $this->getIPData($session->ip_address),
             ];
         });
@@ -97,13 +115,15 @@ class LogoutOtherSessions extends Component {
      * @param  mixed  $session
      * @return \Jenssegers\Agent\Agent
      */
-    protected function createAgent($session) {
-        return tap(new Agent, function ($agent) use ($session) {
+    protected function createAgent($session)
+    {
+        return tap(new Agent(), function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });
     }
 
-    private function getIPData($ip) {
+    private function getIPData($ip)
+    {
         if ($ip != '::1') {
             try {
                 $client = new IPinfo();
@@ -118,9 +138,10 @@ class LogoutOtherSessions extends Component {
      *
      * @return \Illuminate\View\View
      */
-    public function render() {
+    public function render()
+    {
         return view('livewire.profile.logout-other-sessions')
             ->layout('layouts.app')
-            ->layoutData(['title' => 'Manage Other Sessions']);;
+            ->layoutData(['title' => 'Manage Other Sessions']);
     }
 }

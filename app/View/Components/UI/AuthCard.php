@@ -4,7 +4,8 @@ namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class AuthCard extends Component {
+class AuthCard extends Component
+{
     public $description;
     public $title;
 
@@ -13,7 +14,8 @@ class AuthCard extends Component {
      *
      * @return void
      */
-    public function __construct($title, $description = null) {
+    public function __construct($title, $description = null)
+    {
         $this->title = $title;
         $this->description = $description ?? '';
     }
@@ -23,7 +25,8 @@ class AuthCard extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.ui.auth-card');
     }
 }

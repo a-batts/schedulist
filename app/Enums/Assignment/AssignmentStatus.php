@@ -2,7 +2,8 @@
 
 namespace App\Enums\Assignment;
 
-enum AssignmentStatus: int {
+enum AssignmentStatus: int
+{
     case Incomplete = 0;
     case Completed = 1;
 
@@ -11,7 +12,10 @@ enum AssignmentStatus: int {
      *
      * @return AssignmentStatus
      */
-    public function inverse(): AssignmentStatus {
-        return $this->value == 0 ? AssignmentStatus::Completed : AssignmentStatus::Incomplete;
+    public function inverse(): AssignmentStatus
+    {
+        return $this->value == 0
+            ? AssignmentStatus::Completed
+            : AssignmentStatus::Incomplete;
     }
 }

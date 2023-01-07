@@ -19,7 +19,8 @@ trait HasProfilePhoto
         tap($this->profile_photo_path, function ($previous) use ($photo) {
             $this->forceFill([
                 'profile_photo_path' => $photo->storePublicly(
-                    'profile-photos', ['disk' => $this->profilePhotoDisk()]
+                    'profile-photos',
+                    ['disk' => $this->profilePhotoDisk()]
                 ),
             ])->save();
 
@@ -36,11 +37,13 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto()
     {
-        if (! Features::managesProfilePhotos()) {
+        if (!Features::managesProfilePhotos()) {
             return;
         }
 
-        Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
+        Storage::disk($this->profilePhotoDisk())->delete(
+            $this->profile_photo_path
+        );
 
         $this->forceFill([
             'profile_photo_path' => null,
@@ -55,8 +58,10 @@ trait HasProfilePhoto
     public function getProfilePhotoUrlAttribute()
     {
         return $this->profile_photo_path
-                    ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-                    : $this->defaultProfilePhotoUrl();
+            ? Storage::disk($this->profilePhotoDisk())->url(
+                $this->profile_photo_path
+            )
+            : $this->defaultProfilePhotoUrl();
     }
 
     /**
@@ -66,7 +71,11 @@ trait HasProfilePhoto
      */
     protected function defaultProfilePhotoUrl()
     {
-        return 'https://ui-avatars.com/api/?format=svg&name='.($this->firstname)." ".($this->lastname).'&color=FFFFFF&background=04B97F&bold=true';
+        return 'https://ui-avatars.com/api/?format=svg&name=' .
+            $this->firstname .
+            ' ' .
+            $this->lastname .
+            '&color=FFFFFF&background=04B97F&bold=true';
     }
 
     /**

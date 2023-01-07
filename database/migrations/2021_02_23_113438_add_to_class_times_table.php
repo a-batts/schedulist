@@ -15,9 +15,9 @@ class AddToClassTimesTable extends Migration
     {
         Schema::table('class_times', function (Blueprint $table) {
             $table->string('schedule_type')->default('normal');
-            $table->integer('number_of_blocks')->nullable();;
-            $table->integer('starting_block')->nullable();;
-            $table->date('starting_date')->nullable();;
+            $table->integer('number_of_blocks')->nullable();
+            $table->integer('starting_block')->nullable();
+            $table->date('starting_date')->nullable();
             $table->string('block1')->nullable();
             $table->string('block2')->nullable();
             $table->string('block3')->nullable();

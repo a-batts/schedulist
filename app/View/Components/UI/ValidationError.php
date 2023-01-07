@@ -4,7 +4,8 @@ namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class ValidationError extends Component {
+class ValidationError extends Component
+{
     public $for;
 
     /**
@@ -12,7 +13,8 @@ class ValidationError extends Component {
      *
      * @return void
      */
-    public function __construct($for) {
+    public function __construct($for)
+    {
         $this->for = $for;
     }
 
@@ -21,7 +23,8 @@ class ValidationError extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.ui.validation-error');
     }
 }

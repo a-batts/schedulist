@@ -5,7 +5,8 @@ namespace App\Rules;
 use App\Services\Twilio\PhoneNumberLookupService;
 use Illuminate\Contracts\Validation\Rule;
 
-class PhoneNumber implements Rule {
+class PhoneNumber implements Rule
+{
     private $service;
 
     /**
@@ -19,7 +20,6 @@ class PhoneNumber implements Rule {
         $this->service = $phoneNumberLookupService;
     }
 
-
     /**
      * Determine if the validation rule passes.
      *
@@ -27,7 +27,8 @@ class PhoneNumber implements Rule {
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value): bool {
+    public function passes($attribute, $value): bool
+    {
         return $this->service->validate($value);
     }
 
@@ -36,7 +37,8 @@ class PhoneNumber implements Rule {
      *
      * @return string
      */
-    public function message() {
+    public function message()
+    {
         return 'The phone number has to be in either national or international format.';
     }
 }

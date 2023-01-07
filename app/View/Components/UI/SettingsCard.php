@@ -4,8 +4,8 @@ namespace App\View\Components\Ui;
 
 use Illuminate\View\Component;
 
-class SettingsCard extends Component {
-
+class SettingsCard extends Component
+{
     public $description;
 
     public $title;
@@ -15,7 +15,8 @@ class SettingsCard extends Component {
      *
      * @return void
      */
-    public function __construct($title, $description) {
+    public function __construct($title, $description)
+    {
         $this->title = $title;
         $this->description = $description;
     }
@@ -25,7 +26,8 @@ class SettingsCard extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.ui.settings-card');
     }
 }

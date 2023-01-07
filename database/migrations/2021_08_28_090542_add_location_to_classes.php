@@ -15,7 +15,10 @@ class AddLocationToClasses extends Migration
     {
         Schema::table('classes', function (Blueprint $table) {
             $table->string('class_location')->nullable();
-            $table->integer('period')->nullable()->change();
+            $table
+                ->integer('period')
+                ->nullable()
+                ->change();
         });
     }
 

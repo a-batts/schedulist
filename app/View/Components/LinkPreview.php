@@ -13,7 +13,8 @@ class LinkPreview extends Component
      *
      * @return void
      */
-    public function __construct($preview){
+    public function __construct($preview)
+    {
         $this->preview = $preview;
     }
 
@@ -22,7 +23,8 @@ class LinkPreview extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render(){
+    public function render()
+    {
         return view('components.link-preview');
     }
 }

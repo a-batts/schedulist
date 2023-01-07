@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Dashboard;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class ClassDetails extends Component {
+class ClassDetails extends Component
+{
     /**
      * Array of the user's class data
      *
@@ -27,9 +28,19 @@ class ClassDetails extends Component {
      *
      * @return void
      */
-    public function mount(): void {
-        $this->classData = Auth::user()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
-        $this->schedules = Auth::user()->schedules()->get()->keyBy('id')->toArray();
+    public function mount(): void
+    {
+        $this->classData = Auth::user()
+            ->classes()
+            ->with(['assignments', 'links', 'times'])
+            ->get()
+            ->keyBy('id')
+            ->toArray();
+        $this->schedules = Auth::user()
+            ->schedules()
+            ->get()
+            ->keyBy('id')
+            ->toArray();
     }
 
     /**
@@ -37,17 +48,26 @@ class ClassDetails extends Component {
      *
      * @return void
      */
-    public function updateClassData(): void {
-        $this->classData = Auth::user()->classes()->with(['assignments', 'links', 'times'])->get()->keyBy('id')->toArray();
+    public function updateClassData(): void
+    {
+        $this->classData = Auth::user()
+            ->classes()
+            ->with(['assignments', 'links', 'times'])
+            ->get()
+            ->keyBy('id')
+            ->toArray();
     }
 
-    public function getScheduleNames(): array {
-        foreach ($this->schedules as $schedule)
+    public function getScheduleNames(): array
+    {
+        foreach ($this->schedules as $schedule) {
             $names[] = $schedule['name'];
+        }
         return $names;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.dashboard.class-details');
     }
 }

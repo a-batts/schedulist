@@ -1,21 +1,21 @@
 require('./bootstrap');
 
-import Alpine from 'alpinejs'
-import Clipboard from '@ryangjchandler/alpine-clipboard'
-import focus from '@alpinejs/focus'
-import Parent from "@ryangjchandler/alpine-parent";
+import Alpine from 'alpinejs';
+import Clipboard from '@ryangjchandler/alpine-clipboard';
+import focus from '@alpinejs/focus';
+import Parent from '@ryangjchandler/alpine-parent';
 
-import datePicker from './alpine/ui/date-picker'
+import datePicker from './alpine/ui/date-picker';
 import timePicker from './alpine/ui/time-picker';
-import miniCalendar from './alpine/agenda/mini-calendar'
+import miniCalendar from './alpine/agenda/mini-calendar';
 
 import autosize from 'autosize';
 
-import * as FilePond from "filepond";
-import FilePondPluginImageCrop from "filepond-plugin-image-crop";
+import * as FilePond from 'filepond';
+import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImageTransform from "filepond-plugin-image-transform";
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import FilePondPluginImageOverlay from 'filepond-plugin-image-overlay';
 window.FilePond = FilePond;
 window.FilePondPluginImageCrop = FilePondPluginImageCrop;
@@ -78,178 +78,189 @@ Alpine.start();
 autosize(document.querySelectorAll('textarea.autosize'));
 
 [].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
-  return new MDCSwitch(el);
+    return new MDCSwitch(el);
 });
 
 //Register regular button ripples
 [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
-  return new MDCRipple(el);
+    return new MDCRipple(el);
 });
 
 [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
-  return new MDCRipple(el);
+    return new MDCRipple(el);
 });
 //Select menus
 [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
-  return new MDCSelect(el);
+    return new MDCSelect(el);
 });
 //Register MDCTextFields
-[].map.call(document.querySelectorAll('.mdc-text-field:not(.dummy-field)'), function (el) {
-  return new MDCTextField(el);
-});
+[].map.call(
+    document.querySelectorAll('.mdc-text-field:not(.dummy-field)'),
+    function (el) {
+        return new MDCTextField(el);
+    }
+);
 
 var tooltips = [];
 
 function initTextField(e) {
-  if (document.getElementById(e) !== null)
-    tooltips[e] = new MDCTextField(document.getElementById(e));
+    if (document.getElementById(e) !== null)
+        tooltips[e] = new MDCTextField(document.getElementById(e));
 }
 window.initTextField = initTextField;
 //Register icon buttons and ripples
 [].map.call(document.querySelectorAll('.icontoggle'), function (el) {
-  return new MDCIconButtonToggle(el);
+    return new MDCIconButtonToggle(el);
 });
 [].map.call(document.querySelectorAll('.mdc-ripple-surface'), function (el) {
-  return new MDCRipple(el);
+    return new MDCRipple(el);
 });
 [].map.call(document.querySelectorAll('.mdc-radio'), function (el) {
-  return new MDCRadio(el);
+    return new MDCRadio(el);
 });
 //Dialog boxes to add/remove classes
-if (document.getElementById("confirm-dialog") !== null) {
-  var confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
-  function delDialog() {
-    confDialog.open();
-  }
-  window.delDialog = delDialog;
-  window.confDialog = confDialog;
-};
-if (document.getElementById("unsub-dialog") !== null) {
-  var unsubscribeDialog = new MDCDialog(document.querySelector('.unsub-dialog'));
-  function unsubDialog() {
-    unsubscribeDialog.open();
-  }
-  window.unsubDialog = unsubDialog;
+if (document.getElementById('confirm-dialog') !== null) {
+    var confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
+    function delDialog() {
+        confDialog.open();
+    }
+    window.delDialog = delDialog;
+    window.confDialog = confDialog;
+}
+if (document.getElementById('unsub-dialog') !== null) {
+    var unsubscribeDialog = new MDCDialog(
+        document.querySelector('.unsub-dialog')
+    );
+    function unsubDialog() {
+        unsubscribeDialog.open();
+    }
+    window.unsubDialog = unsubDialog;
 }
 
 //Icon Buttons Init
 [].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
-  let btn = new MDCRipple(el);
-  btn.unbounded = true;
-  return btn;
+    let btn = new MDCRipple(el);
+    btn.unbounded = true;
+    return btn;
 });
 //Checkbox Init
 [].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
-  return new MDCCheckbox(el);
+    return new MDCCheckbox(el);
 });
 
 [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
-  var list = new MDCList(el);
-  list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
-  return list;
+    var list = new MDCList(el);
+    list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
+    return list;
 });
 
 document.querySelectorAll('.mdc-linear-progress').forEach((el) => {
-  return new MDCLinearProgress(el);
+    return new MDCLinearProgress(el);
 });
 
-
 function initTooltip(e) {
-  if (document.getElementById(e) !== null)
-    tooltips[e] = new MDCTooltip(document.getElementById(e));
+    if (document.getElementById(e) !== null)
+        tooltips[e] = new MDCTooltip(document.getElementById(e));
 }
 window.initTooltip = initTooltip;
 
 //Regenerate MDC selects on page - useful if being used inside an Alpine x-if
 function regenSelects() {
-  setTimeout(() => {
-    document.querySelectorAll('.mdc-select').forEach((el) => {
-      return new MDCSelect(el);
-    })
-  }, 75);
+    setTimeout(() => {
+        document.querySelectorAll('.mdc-select').forEach((el) => {
+            return new MDCSelect(el);
+        });
+    }, 75);
 }
 window.regenSelects = regenSelects;
 
 if (document.querySelector('.mdc-banner') !== null) {
-  var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
-  window.offlineBanner = offlineBanner;
+    var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
+    window.offlineBanner = offlineBanner;
 }
 
 [].map.call(document.querySelectorAll('.mdc-data-table'), function (el) {
-  return new MDCDataTable(el);
+    return new MDCDataTable(el);
 });
 
 //Snackbar Inits
-if (document.getElementById("snackbar") !== null) {
-  var snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
-  function snack(msg) {
-    snackbar.labelText = msg;
-    snackbar.open();
-  }
-  window.snack = snack;
-  window.snackbar = snackbar;
-};
-
-if (document.getElementById("refreshpwa") !== null) {
-  var pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
-  function showRefresh() {
-    pwaSnackbar.open();
-  }
-  window.showRefresh = showRefresh;
-  window.pwaSnackbar = pwaSnackbar;
-};
-
-if (document.querySelector(".edit-more-menu") !== null) {
-  var moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
-  window.moreMenu = moreMenu;
-};
-
-if (document.querySelector('.delete-item-confirmation') !== null) {
-  var deleteAssignmentDialog = new MDCDialog(document.querySelector('.delete-item-confirmation'));
-  function openAssignmentDialog() {
-    deleteAssignmentDialog.open();
-  }
-  window.deleteAssignmentDialog = deleteAssignmentDialog;
-  window.openAssignmentDialog = openAssignmentDialog;
+if (document.getElementById('snackbar') !== null) {
+    var snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
+    function snack(msg) {
+        snackbar.labelText = msg;
+        snackbar.open();
+    }
+    window.snack = snack;
+    window.snackbar = snackbar;
 }
 
-const scheduleDeleteConfirmation = document.querySelector('.delete-schedule-confirmation');
+if (document.getElementById('refreshpwa') !== null) {
+    var pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
+    function showRefresh() {
+        pwaSnackbar.open();
+    }
+    window.showRefresh = showRefresh;
+    window.pwaSnackbar = pwaSnackbar;
+}
+
+if (document.querySelector('.edit-more-menu') !== null) {
+    var moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
+    window.moreMenu = moreMenu;
+}
+
+if (document.querySelector('.delete-item-confirmation') !== null) {
+    var deleteAssignmentDialog = new MDCDialog(
+        document.querySelector('.delete-item-confirmation')
+    );
+    function openAssignmentDialog() {
+        deleteAssignmentDialog.open();
+    }
+    window.deleteAssignmentDialog = deleteAssignmentDialog;
+    window.openAssignmentDialog = openAssignmentDialog;
+}
+
+const scheduleDeleteConfirmation = document.querySelector(
+    '.delete-schedule-confirmation'
+);
 
 if (scheduleDeleteConfirmation !== null) {
-  var deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+    var deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
 
-  window['scheduleDeleteDialog'] = async function () {
-    deleteDialog.open();
-    const cancelButton = scheduleDeleteConfirmation.querySelector('.cancel');
-    const confirmButton = scheduleDeleteConfirmation.querySelector('.confirm');
+    window['scheduleDeleteDialog'] = async function () {
+        deleteDialog.open();
+        const cancelButton =
+            scheduleDeleteConfirmation.querySelector('.cancel');
+        const confirmButton =
+            scheduleDeleteConfirmation.querySelector('.confirm');
 
-    return new Promise((resolve, reject) => {
-      cancelButton.onclick = reject
-      confirmButton.onclick = resolve;
-    })
-  }
+        return new Promise((resolve, reject) => {
+            cancelButton.onclick = reject;
+            confirmButton.onclick = resolve;
+        });
+    };
 }
 
 if (document.querySelector('.suggestions-menu') !== null) {
-  var suggestionsMenu = new MDCMenu(document.querySelector('.suggestions-menu'));
-  window.suggestionsMenu = suggestionsMenu;
+    var suggestionsMenu = new MDCMenu(
+        document.querySelector('.suggestions-menu')
+    );
+    window.suggestionsMenu = suggestionsMenu;
 }
 
 if (document.querySelector('.manage-reminders-dialog') !== null) {
-  var reminderDiag = new MDCDialog(document.querySelector('.manage-reminders-dialog'));
-  reminderDiag.scrimClickAction = '';
-  let button = document.getElementById('reminder-button');
-  button.addEventListener('click', () => {
-    reminderDiag.open()
-  });
+    var reminderDiag = new MDCDialog(
+        document.querySelector('.manage-reminders-dialog')
+    );
+    reminderDiag.scrimClickAction = '';
+    let button = document.getElementById('reminder-button');
+    button.addEventListener('click', () => {
+        reminderDiag.open();
+    });
 }
 
 //Tooltips Init
 [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
-  try {
-    return new MDCTooltip(el);
-  }
-  catch (e) {
-
-  }
+    try {
+        return new MDCTooltip(el);
+    } catch (e) {}
 });

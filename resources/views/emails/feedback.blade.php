@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet" type="text/css">
+    <link type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <style>
-    .intmess{
-      color: #000000;
-      background-color: #f8f0c5;
-      padding-left: 15px;
-      padding-top: 12px;
-      padding-bottom: 8px;
-      font-size: 14px;
-    }
-    .message-span{
-      margin-left: 6px;
-      vertical-align: 3px;
-    }
+        .intmess {
+            color: #000000;
+            background-color: #f8f0c5;
+            padding-left: 15px;
+            padding-top: 12px;
+            padding-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .message-span {
+            margin-left: 6px;
+            vertical-align: 3px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="intmess" style="font-family: 'Noto Sans', Roboto, Helvetica, Arial, sans-serif;">
-      <img src="{{ asset('images/icon/security.png') }}" height="18px" width="18px" alt="Security icon">
-      <span class="message-span">This email has been internally sent from feedback@schedulist.xyz</span>
+        <img src="{{ asset('images/icon/security.png') }}" alt="Security icon" height="18px" width="18px">
+        <span class="message-span">This email has been internally sent from feedback@schedulist.xyz</span>
     </div>
     <br>
-    <p>From: {{$data['name']}}</p>
-    <p>Message: {{$data['message']}}</p>
+    <p>From: {{ $data['name'] }}</p>
+    <p>Message: {{ $data['message'] }}</p>
 
-  </body>
+</body>
+
 </html>

@@ -2,7 +2,8 @@
 
 namespace App\Enums\User;
 
-enum GradeLevel: int {
+enum GradeLevel: int
+{
     case ElementarySchool = 1;
     case MiddleSchool = 2;
     case HighSchool = 3;
@@ -14,7 +15,8 @@ enum GradeLevel: int {
      *
      * @return string
      */
-    public function formattedName(): string {
+    public function formattedName(): string
+    {
         return implode(' ', preg_split('/(?=[A-Z])/', $this->name));
     }
 }

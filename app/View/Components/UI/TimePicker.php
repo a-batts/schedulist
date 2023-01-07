@@ -4,8 +4,8 @@ namespace App\View\Components\ui;
 
 use Illuminate\View\Component;
 
-class TimePicker extends Component {
-
+class TimePicker extends Component
+{
     public string $title;
 
     public string $bind;
@@ -15,7 +15,8 @@ class TimePicker extends Component {
      *
      * @return void
      */
-    public function __construct(string $title, string $bind) {
+    public function __construct(string $title, string $bind)
+    {
         $this->title = $title;
         $this->bind = $bind;
     }
@@ -25,7 +26,8 @@ class TimePicker extends Component {
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render() {
+    public function render()
+    {
         return view('components.ui.time-picker');
     }
 }

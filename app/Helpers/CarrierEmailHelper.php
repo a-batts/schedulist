@@ -2,7 +2,8 @@
 
 namespace App\Helpers;
 
-class CarrierEmailHelper {
+class CarrierEmailHelper
+{
     private static array $carrierEmails = [
         'Verizon Wireless' => '@vtext.com',
         'T-Mobile' => '@tmomail.net',
@@ -18,9 +19,11 @@ class CarrierEmailHelper {
      * @param string $carrierName
      * @return string|null email for provided carrier or null if the carrier does not have an associated email
      */
-    public static function getCarrierEmail($carrierName) {
-        if (isset(static::$carrierEmails[$carrierName]))
+    public static function getCarrierEmail($carrierName)
+    {
+        if (isset(static::$carrierEmails[$carrierName])) {
             return self::$carrierEmails[$carrierName];
+        }
         return null;
     }
 }

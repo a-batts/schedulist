@@ -6,146 +6,174 @@ use Livewire\Component;
 use App\Models\Classes;
 use Illuminate\Support\Facades\Auth;
 
-class ClassCreate extends Component {
-  /**
-   * The new class
-   *
-   * @var Classes
-   */
-  public Classes $class;
+class ClassCreate extends Component
+{
+    /**
+     * The new class
+     *
+     * @var Classes
+     */
+    public Classes $class;
 
-  /**
-   * Array of the class's links
-   *
-   * @var array
-   */
-  public array $links = [];
+    /**
+     * Array of the class's links
+     *
+     * @var array
+     */
+    public array $links = [];
 
-  /**
-   * Valid color options for the class
-   *
-   * @var array
-   */
-  private array $colorOptions = ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige'];
-
-  public array $errorMessages = [];
-
-  /**
-   * Validation messages
-   *
-   * @return array
-   */
-  public function messages(): array {
-    return [
-      'links.*.name.required' => 'Link name is required',
-      'links.*.link.required' => 'Link is required',
-      'links.*.link.url' => 'Link must be valid URL',
-      'links.*.link.distinct' => 'You\'ve already added this link',
+    /**
+     * Valid color options for the class
+     *
+     * @var array
+     */
+    private array $colorOptions = [
+        'pink',
+        'orange',
+        'lemon',
+        'mint',
+        'blue',
+        'teal',
+        'purple',
+        'lav',
+        'beige',
     ];
-  }
 
-  /**
-   * Validation rules
-   *
-   * @return array
-   */
-  public function rules(): array {
-    return [
-      'class.name' => 'required',
-      'class.teacher' => 'required',
-      'class.teacher_email' => 'nullable',
-      'class.video_link' => 'nullable|url',
-      'class.location' => 'nullable',
-      'class.color' => 'required',
-      'links.*' => 'array',
-      'links.*.name' => 'required',
-      'links.*.link' => 'required|url|distinct',
-    ];
-  }
+    public array $errorMessages = [];
 
-  /**
-   * Mount the component
-   *
-   * @return void
-   */
-  public function mount(): void {
-    $this->class = new Classes(['color' => 'pink']);
-  }
+    /**
+     * Validation messages
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'links.*.name.required' => 'Link name is required',
+            'links.*.link.required' => 'Link is required',
+            'links.*.link.url' => 'Link must be valid URL',
+            'links.*.link.distinct' => 'You\'ve already added this link',
+        ];
+    }
 
-  /**
-   * Create a new class
-   *
-   * @return void
-   */
-  public function create(): void {
-    $this->validate();
+    /**
+     * Validation rules
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'class.name' => 'required',
+            'class.teacher' => 'required',
+            'class.teacher_email' => 'nullable',
+            'class.video_link' => 'nullable|url',
+            'class.location' => 'nullable',
+            'class.color' => 'required',
+            'links.*' => 'array',
+            'links.*.name' => 'required',
+            'links.*.link' => 'required|url|distinct',
+        ];
+    }
 
-    $class = $this->class;
+    /**
+     * Mount the component
+     *
+     * @return void
+     */
+    public function mount(): void
+    {
+        $this->class = new Classes(['color' => 'pink']);
+    }
 
-    if (!isset($class->teacher_email) || $class->teacher_email == '') $class->teacher_email = null;
-    if (!isset($class->location) || $class->location == '') $class->location = null;
-    if ($class->video_link == '') $class->video_link = null;
+    /**
+     * Create a new class
+     *
+     * @return void
+     */
+    public function create(): void
+    {
+        $this->validate();
 
-    $newClass = Auth::user()->classes()->save($class);
+        $class = $this->class;
 
-    foreach ($this->links as $link)
-      $newClass->links()->create([
-        'name' => $link['name'],
-        'link' => $link['link']
-      ]);
+        if (!isset($class->teacher_email) || $class->teacher_email == '') {
+            $class->teacher_email = null;
+        }
+        if (!isset($class->location) || $class->location == '') {
+            $class->location = null;
+        }
+        if ($class->video_link == '') {
+            $class->video_link = null;
+        }
 
-    $this->emit('refreshClasses');
-    $this->dispatchBrowserEvent('close-add-diag');
-    $this->emit('toastMessage', 'Class successfully saved');
-    $this->emit('updateClassData', $class->id);
+        $newClass = Auth::user()
+            ->classes()
+            ->save($class);
 
-    $this->class = new Classes(['color' => 'pink']);
-  }
+        foreach ($this->links as $link) {
+            $newClass->links()->create([
+                'name' => $link['name'],
+                'link' => $link['link'],
+            ]);
+        }
 
-  /**
-   * Set the color of the class
-   *
-   * @param string $color
-   * @return void
-   */
-  public function setColor(string $color): void {
-    $this->class->color = $color;
-  }
+        $this->emit('refreshClasses');
+        $this->dispatchBrowserEvent('close-add-diag');
+        $this->emit('toastMessage', 'Class successfully saved');
+        $this->emit('updateClassData', $class->id);
 
-  /**
-   * Validate updated properties
-   * 
-   * @param string $propertyName
-   * @return void
-   */
-  public function updated(string $propertyName): void {
-    $this->validateOnly($propertyName);
-  }
+        $this->class = new Classes(['color' => 'pink']);
+    }
 
-  /**
-   * Validate when links are updated
-   *
-   * @return void
-   */
-  public function updatedLinks(): void {
-    $this->validate(
-      [
-        'links.*' => 'array',
-        'links.*.name' => 'required',
-        'links.*.link' => 'required|url|distinct',
-      ]
-    );
-  }
+    /**
+     * Set the color of the class
+     *
+     * @param string $color
+     * @return void
+     */
+    public function setColor(string $color): void
+    {
+        $this->class->color = $color;
+    }
 
-  /**
-   * Render the component
-   *
-   * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-   */
-  public function render() {
-    $this->errorMessages = $this->getErrorBag()->toArray();
+    /**
+     * Validate updated properties
+     *
+     * @param string $propertyName
+     * @return void
+     */
+    public function updated(string $propertyName): void
+    {
+        $this->validateOnly($propertyName);
+    }
 
-    return view('livewire.dashboard.class-create')
-      ->with('colorOptions', $this->colorOptions);
-  }
+    /**
+     * Validate when links are updated
+     *
+     * @return void
+     */
+    public function updatedLinks(): void
+    {
+        $this->validate([
+            'links.*' => 'array',
+            'links.*.name' => 'required',
+            'links.*.link' => 'required|url|distinct',
+        ]);
+    }
+
+    /**
+     * Render the component
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function render()
+    {
+        $this->errorMessages = $this->getErrorBag()->toArray();
+
+        return view('livewire.dashboard.class-create')->with(
+            'colorOptions',
+            $this->colorOptions
+        );
+    }
 }

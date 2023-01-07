@@ -10,10 +10,15 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
-                'year_start_date', 'year_end_date', 'filament_admin', 'filament_roles', 'avatar'
+                'year_start_date',
+                'year_end_date',
+                'filament_admin',
+                'filament_roles',
+                'avatar',
             ]);
         });
     }
@@ -23,7 +28,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         //
     }
 };

@@ -9,7 +9,8 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class FeedbackForm extends Mailable {
+class FeedbackForm extends Mailable
+{
     use Queueable, SerializesModels;
 
     /**
@@ -24,7 +25,8 @@ class FeedbackForm extends Mailable {
      *
      * @return void
      */
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->data = $data;
     }
 
@@ -33,11 +35,15 @@ class FeedbackForm extends Mailable {
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope(): Envelope {
+    public function envelope(): Envelope
+    {
         return new Envelope(
             from: new Address('feedback@schedulist.xyz', 'Feedback Email'),
-            replyTo: new Address('alex.batts05@gmail.com', 'alex.batts05@gmail.com'),
-            subject: ('New contact form message - ' . $this->data['reason'])
+            replyTo: new Address(
+                'alex.batts05@gmail.com',
+                'alex.batts05@gmail.com'
+            ),
+            subject: 'New contact form message - ' . $this->data['reason']
         );
     }
 
@@ -46,9 +52,8 @@ class FeedbackForm extends Mailable {
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content(): Content {
-        return new Content(
-            view: 'emails.feedback',
-        );
+    public function content(): Content
+    {
+        return new Content(view: 'emails.feedback');
     }
 }

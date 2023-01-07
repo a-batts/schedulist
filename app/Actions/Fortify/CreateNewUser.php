@@ -22,12 +22,20 @@ class CreateNewUser implements CreatesNewUsers
         $validator = Validator::make($input, [
             'firstname' => ['required', 'string', 'max:50'],
             'lastname' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users',
+            ],
             'password' => $this->passwordRules(),
         ])->validate();
 
-        if ($validator->fails()){
-          return redirect('register')->withErrors($validator)->withInput();;
+        if ($validator->fails()) {
+            return redirect('register')
+                ->withErrors($validator)
+                ->withInput();
         }
 
         return User::create([

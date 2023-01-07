@@ -7,8 +7,8 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 
-class Schedule {
-
+class Schedule
+{
     /**
      * Scale factor of individual schedule item, used to properly render on the front end
      */
@@ -20,13 +20,21 @@ class Schedule {
      * @param Carbon $date
      * @return Day
      */
-    public static function getSingleDay(Carbon $date): Day {
-        $scheduleHelper = new ClassScheduleHelper;
+    public static function getSingleDay(Carbon $date): Day
+    {
+        $scheduleHelper = new ClassScheduleHelper();
 
         $queriedData = [
-            'assignments' => Auth::user()->assignments()->where('due', $date)->get(),
-            'classes' => Auth::user()->classes()->get(),
-            'events' => Auth::user()->events()->get(),
+            'assignments' => Auth::user()
+                ->assignments()
+                ->where('due', $date)
+                ->get(),
+            'classes' => Auth::user()
+                ->classes()
+                ->get(),
+            'events' => Auth::user()
+                ->events()
+                ->get(),
             'schedule' => $scheduleHelper,
         ];
 
@@ -39,7 +47,8 @@ class Schedule {
      * @param CarbonPeriod $dateRange
      * @return Month
      */
-    public static function getSingleMonth(CarbonPeriod $dateRange): Month {
+    public static function getSingleMonth(CarbonPeriod $dateRange): Month
+    {
         return new Month($dateRange);
     }
 }
