@@ -1,9 +1,6 @@
 {
-    "/js/bundle.js": "/js/bundle.js?id=279705f147367afd4af61b058f9ce9d8",
-    "/js/turbo.js": "/js/turbo.js?id=d41d8cd98f00b204e9800998ecf8427e",
+    "/js/bundle.js": "/js/bundle.js?id=e5aeaf6ab50af71c3eb5e12e92aac713",
     "/css/bundle.css": "/css/bundle.css?id=4e6819e4a221e8906b47e29c56e4ed14",
-    "/css/filament.css": "/css/filament.css?id=3d7a578da3d8bb1c1994e6f1c49ea254",
-    "/css/app.css": "/css/app.css?id=487067632ddd7b6e25a3034a497042cd",
-    "/js/scripts.js": "/js/scripts.js?id=84826201495839cd71514db1df93d91f",
-    "/js/theme-engine.js": "/js/theme-engine.js?id=7fe4f4929dc8582409d0ce3343e4cbdf"
+    "/css/app.css": "/css/app.css?id=a11053b845887cf50dd487c6b78f1f1d",
+    "/js/scripts.js": "/js/scripts.js?id=acff4a02fff3a350719e70db174c3a79"
 }

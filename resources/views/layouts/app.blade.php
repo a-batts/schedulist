@@ -14,8 +14,6 @@
 
     @stack('meta')
 
-    <script src="{{ mix('js/theme-engine.js') }}"></script>
-
     <title>{{ $title }}</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

@@ -13,16 +13,11 @@ require('laravel-mix-workbox');
  |
  */
 
-mix.postCss('resources/css/app.css', 'public/css', [
-    require('tailwindcss'),
-]).postCss(
-    'resources/css/filament/custom-theme.css',
-    'public/css/filament.css'
-);
-mix.version(['public/js/scripts.js']).version(['public/js/theme-engine.js']);
+mix.postCss('resources/css/app.css', 'public/css', [require('tailwindcss')]);
+
+mix.version(['public/js/scripts.js']);
 
 mix.js('resources/js/app.js', 'public/js/bundle.js')
-    .js('resources/js/turbo.js', 'public/js/turbo.js')
     .sass('resources/css/app.scss', 'public/css/bundle.css', {
         implementation: require('sass'),
         sassOptions: {
@@ -33,11 +28,6 @@ mix.js('resources/js/app.js', 'public/js/bundle.js')
         swSrc: './resources/js/sw.js',
         additionalManifestEntries: [
             { url: 'site.webmanifest', revision: '100' },
-
-            {
-                url: 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
-                revision: 'null',
-            },
         ],
     });
 

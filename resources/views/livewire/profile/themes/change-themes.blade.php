@@ -92,15 +92,12 @@
                             themer.classList.remove('theme-dark');
                         }
                         setCookie('theme', 'auto');
-                        Turbo.clearCache();
                     } else if (this.theme == 'dark') {
                         themer.classList.add('theme-dark');
                         setCookie('theme', 'dark');
-                        Turbo.clearCache();
                     } else {
                         themer.classList.remove('theme-dark');
                         setCookie('theme', 'light');
-                        Turbo.clearCache();
                     }
                 },
             };

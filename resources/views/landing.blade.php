@@ -12,8 +12,6 @@
     <link href="{{ asset('/site.webmanifest') }}" rel="manifest">
     <meta name="theme-color" content="#0180FF">
 
-    <script src="{{ mix('js/theme-engine.js') }}"></script>
-
     @stack('meta')
 
     <title>Schedulist</title>
@@ -49,17 +47,17 @@
             </div>
         @endif
 
-        <nav class="fixed z-10 w-screen py-4 nav-border base-bg" x-bind:class="{ 'border-b': aboveContent }">
+        <nav class="nav-border base-bg fixed z-10 w-screen py-4" x-bind:class="{ 'border-b': aboveContent }">
             <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="relative flex items-center justify-between" style="height: 4.2rem">
                     <div
-                        class="absolute flex items-center justify-center flex-1 schedulist-logo-nav sm:items-stretch sm:justify-start md:relative">
+                        class="schedulist-logo-nav absolute flex items-center justify-center flex-1 sm:items-stretch sm:justify-start md:relative">
                         <div class="flex-shrink-0">
-                            <div class="mt-6 mb-3 -ml-10 border-none logo-image sm:ml-0" style="width: 160px"></div>
+                            <div class="logo-image mt-6 mb-3 -ml-10 border-none sm:ml-0" style="width: 160px"></div>
                         </div>
                     </div>
                     <div class="absolute w-full">
-                        <a class="float-right ml-4 mdc-icon-button material-icons" href="{{ route('themes') }}"
+                        <a class="mdc-icon-button material-icons float-right ml-4" href="{{ route('themes') }}"
                             @click="profileMenu = false">
                             <div class="mdc-icon-button__ripple"></div>
                             <span class="mdc-icon-button__focus-ring"></span>
@@ -72,11 +70,11 @@
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
                             </a>
                         @else
-                            <a class="float-right text-lg w-22 mdc-button mdc-button--raised h-11"
+                            <a class="w-22 mdc-button mdc-button--raised float-right text-lg h-11"
                                 href="{{ route('login') }}" wire:ignore>
                                 <span class="mdc-button__ripple"></span>
                                 <span class="mdc-button__focus-ring"></span>
-                                <span class="font-medium tracking-normal normal-case mdc-button__label">Sign In</span>
+                                <span class="mdc-button__label font-medium tracking-normal normal-case">Sign In</span>
                             </a>
                         @endif
                     </div>
@@ -96,11 +94,11 @@
                     keeping track of everything more stressful then it needs to be.</p>
                 <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: The easiest way to organize all of your classes,
                     assignments, events, and more.</p>
-                <a class="mt-10 text-xl mdc-button mdc-button--raised mdc-button--icon-trailing h-14 w-72"
+                <a class="mdc-button mdc-button--raised mdc-button--icon-trailing mt-10 text-xl h-14 w-72"
                     href="{{ Auth::check() ? route('dashboard') : route('register') }}" wire:ignore>
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__focus-ring"></span>
-                    <span class="font-medium tracking-normal normal-case mdc-button__label">
+                    <span class="mdc-button__label font-medium tracking-normal normal-case">
                         {{ Auth::check() ? 'Go to Dashboard' : 'Create an Account' }}
                     </span>
                     <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_forward</i>
