@@ -88,7 +88,7 @@ class ContactForm extends Component
     {
         Mail::to('mail@schedulist.xyz')->send(new FeedbackForm($data));
 
-        $this->message = null;
+        $this->reset('message');
         $this->emit(
             'toastMessage',
             'Message sent! We\'ll get back to you soon.'
