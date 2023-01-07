@@ -5,10 +5,10 @@
             "files": ["*.blade.php"],
             "options": {
                 "tabWidth": 4,
-                "parser": "blade",
-                "sortTailwindcssClasses": true,
-                "sortHtmlAttributes": "code-guide"
+                "parser": "blade"
             }
         }
-    ]
+    ],
+    "sortTailwindcssClasses": true,
+    "sortHtmlAttributes": "code-guide"
 }
