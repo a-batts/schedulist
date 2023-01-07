@@ -88,11 +88,11 @@
                                 @click="setSelectedItem(index)"
                                 :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
                                 :style="`top: ${item.top}px;
-                                                                              left: ${item.left}px;
-                                                                              height: calc(${item.bottom}px - ${item.top}px);
-                                                                              width: calc(100% - ${item.left + 55}px);
-                                                                              z-index: ${item.height};
-                                                                              min-height: 80px;`"
+                                                                                                              left: ${item.left}px;
+                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
+                                                                                                              width: calc(100% - ${item.left + 55}px);
+                                                                                                              z-index: ${item.height};
+                                                                                                              min-height: 80px;`"
                                 x-show="! filter.includes(`${item.type}`)" x-transition>
                                 <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                     <p class="agenda-text-primary text-xl font-medium truncate transition-all"
