@@ -96,7 +96,7 @@ html {
 /*
   Light theme
 */
-body {
+html {
     --text-color: #000000;
     --secondary-text-color: #666666;
     --disabled-text-color: #00000061;
@@ -300,7 +300,7 @@ body {
   Dark theme
 */
 
-body.theme-dark {
+html.theme-dark {
     --text-color: #ffffffde;
     --secondary-text-color: #ffffff99;
     --disabled-text-color: #eaeaea61;

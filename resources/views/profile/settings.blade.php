@@ -12,13 +12,6 @@
                     options not displayed on this page</span>
                 <div class="flex flex-wrap pt-4 gap-x-3 gap-y-3">
                     <div>
-                        <a class="mdc-button mdc-button--outlined mdc-button--icon-leading" href="{{ route('themes') }}">
-                            <span class="mdc-button__ripple"></span>
-                            <i class="material-icons mdc-button__icon" aria-hidden="true">format_paint</i>
-                            <span class="mdc-button__label">Change site theme</span>
-                        </a>
-                    </div>
-                    <div>
                         <a class="mdc-button mdc-button--outlined mdc-button--icon-leading"
                             href="{{ route('schedule-settings') }}">
                             <span class="mdc-button__ripple"></span>

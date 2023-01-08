@@ -49,13 +49,11 @@ function setCookie(name, value) {
 }
 window.setCookie = setCookie;
 
-function getCookieValue(name) {
-    const cookies = document.cookie.split(';');
-    cookies.forEach((cookie) => {
-        const pairs = cookie.split('=');
-        if (name == pairs[0].trim()) return decodeURIComponent(cookie);
-    });
-    return null;
+function getCookieValue(cookie_name) {
+    return ('; ' + document.cookie)
+        .split(`; ${cookie_name}=`)
+        .pop()
+        .split(';')[0];
 }
 window.getCookieValue = getCookieValue;
 

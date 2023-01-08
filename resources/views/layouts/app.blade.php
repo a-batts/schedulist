@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html>
+<html class="theme-div @if ($theme == 'dark') theme-dark @endif" id="theme-container"
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -30,11 +31,17 @@
 
     <!-- Scripts -->
     <script src="{{ asset('build/registerSW.js') }}"></script>
+    <script>
+        //Match site theme to system settings if set to auto
+        const theme = ('; ' + document.cookie).split(`; theme=`).pop().split(';')[0];
+        const themeContainer = document.getElementById('theme-container');
+        if (theme == 'auto')
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? themeContainer.classList.add(
+                'theme-dark') : themeContainer.classList.remove('theme-dark');
+    </script>
 </head>
 
-<body
-    class="theme-div mdc-typography @if ($theme == 'dark') theme-dark @endif @if (Request::is('agenda*')) overflow-y-hidden @endif overflow-x-clip antialiased"
-    id="themer">
+<body class="mdc-typography @if (Request::is('agenda*')) overflow-y-hidden @endif overflow-x-clip antialiased">
     <div class="content-div min-h-screen" id="makefixed" wire:ignore.self>
         @livewire('navigation-menu')
 

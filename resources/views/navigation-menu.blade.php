@@ -1,19 +1,7 @@
 @auth
     <nav class="fixed top-0 z-10 w-screen" data-turbolinks-permanent style="background-color: #242323" x-data="{
         profileMenu: false,
-        mobileMenu: false,
-        get theme() {
-            if (getCookieValue('theme') != undefined)
-                return getCookieValue('theme');
-            return 'auto';
-        },
-        get themeIcon() {
-            if (this.theme == 'dark')
-                return 'dark_mode';
-            else if (this.theme == 'light')
-                return 'light_mode';
-            return 'brightness_auto';
-        }
+        mobileMenu: false
     }"
         :class="{ 'rounded-b-lg': mobileMenu }">
         <div class="w-full px-2 mx-auto sm:px-6 lg:px-8">
@@ -63,7 +51,10 @@
                 </div>
                 <!-- Profile menu -->
                 <div class="profile-button-icon z-20 hidden pt-4 pb-3 border-gray-700 md:block">
-                    <div class="flex items-center px-5">
+                    <div class="flex items-center px-5 gap-x-4">
+                        <div class="text-white">
+                            <x-change-theme />
+                        </div>
                         <div class="flex-shrink-0">
                             <button
                                 class="profilebutton flex items-center max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -88,7 +79,7 @@
                             <div class="section-border border-100"></div>
                             <div class="flex flex-col items-center">
                                 <div>
-                                    <a class="mdc-button mdc-button--outlined mt-6 capitalize tracking-normal"
+                                    <a class="mdc-button mdc-button--outlined mt-6 tracking-normal capitalize"
                                         href="{{ route('profile') }}" @click="profileMenu = false">
                                         <span class="mdc-button__ripple"></span>
                                         <span class="mdc-button__focus-ring"></span>
@@ -96,28 +87,18 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="pb-2 pt-7">
-                                <div class="float-left">
-                                    <a class="mdc-icon-button material-icons" href="{{ route('themes') }}"
-                                        @click="profileMenu = false">
-                                        <div class="mdc-icon-button__ripple"></div>
-                                        <span class="mdc-icon-button__focus-ring"></span>
-                                        <span x-text="themeIcon"></span>
-                                    </a>
-                                </div>
-                                <div class="float-right">
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button
-                                            class="mdc-button mdc-button--icon-leading text-primary mt-2 capitalize tracking-normal">
-                                            <span class="mdc-button__ripple"></span>
-                                            <span class="mdc-button__focus-ring"></span>
-                                            <i class="material-icons mdc-button__icon text-inherit"
-                                                aria-hidden="true">logout</i>
-                                            <span class="mdc-button__label text-inherit">Sign out</span>
-                                        </button>
-                                    </form>
-                                </div>
+                            <div class="flex justify-end pb-2 pt-7">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button
+                                        class="mdc-button mdc-button--icon-leading text-primary mt-2 tracking-normal capitalize">
+                                        <span class="mdc-button__ripple"></span>
+                                        <span class="mdc-button__focus-ring"></span>
+                                        <i class="material-icons mdc-button__icon text-inherit"
+                                            aria-hidden="true">logout</i>
+                                        <span class="mdc-button__label text-inherit">Sign out</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -128,18 +109,25 @@
                 x-transition x-show="mobileMenu" x-trap.noscroll="mobileMenu" x-cloak>
                 <div class="px-2 text-white">
                     <div class="pt-3">
-                        <div class="mobile-menu-top block">
-                            <button class="mdc-icon-button material-icons float-left" @click="mobileMenu = false">
-                                <div class="mdc-icon-button__ripple"></div>close
-                            </button>
-                            <a class="mdc-icon-button material-icons float-right" href="{{ route('profile') }}">
-                                <div class="mdc-icon-button__ripple"></div>account_circle
-                            </a>
+                        <div class="mobile-menu-top flex">
+                            <div class="flex-grow">
+                                <button class="mdc-icon-button material-icons" @click="mobileMenu = false">
+                                    <div class="mdc-icon-button__ripple"></div>close
+                                </button>
+                            </div>
+                            <div class="flex gap-x-4">
+                                <x-change-theme />
+                                <a class="mdc-icon-button material-icons" href="{{ route('profile') }}">
+                                    <div class="mdc-icon-button__ripple"></div>account_circle
+                                </a>
+                            </div>
                         </div>
-                        <div class="block px-6 mt-4">
-                            <img class="float-left object-cover w-16 h-16 rounded-full"
-                                src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
-                            <div class="inline-block mt-2 ml-6">
+                        <div class="flex px-6 mt-4">
+                            <div>
+                                <img class="object-cover w-16 h-16 rounded-full"
+                                    src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
+                            </div>
+                            <div class="mt-2 ml-6">
                                 <h6 class="nav-menu-name text-lg font-medium text-white">
                                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</h6>
                                 <h1 class="nav-menu-email text-sm">{{ Auth::user()->email }}</h1>
@@ -170,14 +158,6 @@
                             <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2"
                                     aria-hidden="true">calendar_today</i>
                                 <span>Schedule</span>
-                            </span>
-                        </a>
-                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Request::is('user/theme')) mobile-dropdown-selected @endif"
-                            href="{{ route('themes') }}">
-                            <span class="mdc-button__ripple"></span>
-                            <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2"
-                                    aria-hidden="true" x-text="themeIcon"></i>
-                                <span>Theme</span>
                             </span>
                         </a>
                         <div class="absolute bottom-0 w-screen pt-8 pr-12">

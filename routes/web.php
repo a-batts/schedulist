@@ -83,10 +83,6 @@ Route::get('register', Register::class)->name('register');
 
 Route::get('contact', ContactForm::class)->name('contact');
 
-Route::get('settings/theme', function () {
-    return view('livewire.themes');
-})->name('themes');
-
 //Routes requiring the user to be logged in and verified
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
