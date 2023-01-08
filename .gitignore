@@ -14,3 +14,4 @@ _ide_helper.php
 .phpstorm.meta.php
 /public/storage
 /bootstrap/cache
+/public/hot
