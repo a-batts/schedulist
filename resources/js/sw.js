@@ -163,7 +163,6 @@ setCatchHandler(({ event }) => {
       return caches.match(FALLBACK_FONT_URL);
     break;
     */
-
         default:
             // If we don't have a fallback, just return an error response.
             return Response.error();

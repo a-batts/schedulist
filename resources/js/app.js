@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 import Alpine from 'alpinejs';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
@@ -40,25 +40,7 @@ import { MDCBanner } from '@material/banner';
 import { MDCList } from '@material/list';
 import { MDCLinearProgress } from '@material/linear-progress';
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-/*
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: process.env.MIX_PUSHER_APP_KEY,
-  cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-  forceTLS: true
-});
-
-*/
+import { registerSW } from 'virtual:pwa-register';
 
 /**
  * Import alpine.js and initalize
@@ -71,8 +53,6 @@ Alpine.plugin(Parent);
 Alpine.data('miniCalendar', miniCalendar);
 Alpine.data('datePicker', datePicker);
 Alpine.data('timePicker', timePicker);
-
-Alpine.start();
 
 //Automatically autosize all <textarea>s with the autosize class on it
 autosize(document.querySelectorAll('textarea.autosize'));
@@ -264,3 +244,89 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
         return new MDCTooltip(el);
     } catch (e) {}
 });
+
+function showLoginPassword(e) {
+    var passwordfield = document.getElementById(e);
+    passwordfield.type =
+        passwordfield.type === 'password' ? 'text' : 'password';
+}
+
+window.showLoginPassword = showLoginPassword;
+
+//Disable scroll
+
+function preventDefault(e) {
+    e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+var supportsPassive = false;
+try {
+    window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassive = true;
+            },
+        })
+    );
+} catch (e) {}
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent =
+    'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+function disableScroll() {
+    window.addEventListener('DOMMouseScroll', preventDefault, false);
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.addEventListener('touchmove', preventDefault, wheelOpt);
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+function enableScroll() {
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+window.disableScroll = disableScroll;
+window.enableScroll = enableScroll;
+
+function setCookie(name, value) {
+    var d = new Date();
+    d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+    var expires = 'expires=' + d.toUTCString();
+    document.cookie = name + '=' + value + ';' + expires + ';path=/';
+}
+
+window.setCookie = setCookie;
+
+function getCookieValue(name) {
+    var cookieArr = document.cookie.split(';');
+    for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split('=');
+        if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+window.getCookieValue = getCookieValue;
+
+const updateSW = registerSW({
+    onNeedRefresh() {
+        showRefresh();
+    },
+    onOfflineReady() {},
+});
+
+//Start Alpine after all functions are imported
+Alpine.start();
