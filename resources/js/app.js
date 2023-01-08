@@ -41,60 +41,6 @@ Alpine.data('timePicker', timePicker);
 //Automatically autosize all <textarea>s with the autosize class on it
 autosize(document.querySelectorAll('textarea.autosize'));
 
-function showLoginPassword(e) {
-    const passwordfield = document.getElementById(e);
-    passwordfield.type =
-        passwordfield.type === 'password' ? 'text' : 'password';
-}
-
-window.showLoginPassword = showLoginPassword;
-
-//Disable scroll
-
-function preventDefault(e) {
-    e.preventDefault();
-}
-
-function preventDefaultForScrollKeys(e) {
-    if (keys[e.keyCode]) {
-        preventDefault(e);
-        return false;
-    }
-}
-let supportsPassive = false;
-try {
-    window.addEventListener(
-        'test',
-        null,
-        Object.defineProperty({}, 'passive', {
-            get: function () {
-                supportsPassive = true;
-            },
-        })
-    );
-} catch (e) {}
-
-const wheelOpt = supportsPassive ? { passive: false } : false;
-const wheelEvent =
-    'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-function disableScroll() {
-    window.addEventListener('DOMMouseScroll', preventDefault, false);
-    window.addEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.addEventListener('touchmove', preventDefault, wheelOpt);
-    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
-function enableScroll() {
-    window.removeEventListener('DOMMouseScroll', preventDefault, false);
-    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.removeEventListener('touchmove', preventDefault, wheelOpt);
-    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
-window.disableScroll = disableScroll;
-window.enableScroll = enableScroll;
-
 function setCookie(name, value) {
     const d = new Date();
     d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
@@ -115,11 +61,19 @@ window.getCookieValue = getCookieValue;
 
 const updateSW = registerSW({
     onNeedRefresh() {
+        //Show a prompt to update the service worker when a new one is ready
         showRefresh();
         window.updateSW = updateSW;
     },
     onOfflineReady() {},
 });
+
+function showLoginPassword(e) {
+    const passwordfield = document.getElementById(e);
+    passwordfield.type =
+        passwordfield.type === 'password' ? 'text' : 'password';
+}
+window.showLoginPassword = showLoginPassword;
 
 //Start Alpine after all functions are imported to prevent function issues
 Alpine.start();
