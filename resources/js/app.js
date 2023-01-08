@@ -81,7 +81,7 @@ autosize(document.querySelectorAll('textarea.autosize'));
     }
 );
 
-var tooltips = [];
+let tooltips = [];
 
 function initTextField(e) {
     if (document.getElementById(e) !== null)
@@ -100,7 +100,7 @@ window.initTextField = initTextField;
 });
 //Dialog boxes to add/remove classes
 if (document.getElementById('confirm-dialog') !== null) {
-    var confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
+    const confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
     function delDialog() {
         confDialog.open();
     }
@@ -108,7 +108,7 @@ if (document.getElementById('confirm-dialog') !== null) {
     window.confDialog = confDialog;
 }
 if (document.getElementById('unsub-dialog') !== null) {
-    var unsubscribeDialog = new MDCDialog(
+    const unsubscribeDialog = new MDCDialog(
         document.querySelector('.unsub-dialog')
     );
     function unsubDialog() {
@@ -129,7 +129,7 @@ if (document.getElementById('unsub-dialog') !== null) {
 });
 
 [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
-    var list = new MDCList(el);
+    let list = new MDCList(el);
     list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
     return list;
 });
@@ -155,7 +155,7 @@ function regenSelects() {
 window.regenSelects = regenSelects;
 
 if (document.querySelector('.mdc-banner') !== null) {
-    var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
+    const offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
     window.offlineBanner = offlineBanner;
 }
 
@@ -165,7 +165,7 @@ if (document.querySelector('.mdc-banner') !== null) {
 
 //Snackbar Inits
 if (document.getElementById('snackbar') !== null) {
-    var snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
+    const snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
     function snack(msg) {
         snackbar.labelText = msg;
         snackbar.open();
@@ -175,7 +175,7 @@ if (document.getElementById('snackbar') !== null) {
 }
 
 if (document.getElementById('refreshpwa') !== null) {
-    var pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
+    const pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
     function showRefresh() {
         pwaSnackbar.open();
     }
@@ -184,12 +184,12 @@ if (document.getElementById('refreshpwa') !== null) {
 }
 
 if (document.querySelector('.edit-more-menu') !== null) {
-    var moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
+    const moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
     window.moreMenu = moreMenu;
 }
 
 if (document.querySelector('.delete-item-confirmation') !== null) {
-    var deleteAssignmentDialog = new MDCDialog(
+    const deleteAssignmentDialog = new MDCDialog(
         document.querySelector('.delete-item-confirmation')
     );
     function openAssignmentDialog() {
@@ -204,7 +204,7 @@ const scheduleDeleteConfirmation = document.querySelector(
 );
 
 if (scheduleDeleteConfirmation !== null) {
-    var deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+    const deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
 
     window['scheduleDeleteDialog'] = async function () {
         deleteDialog.open();
@@ -221,14 +221,14 @@ if (scheduleDeleteConfirmation !== null) {
 }
 
 if (document.querySelector('.suggestions-menu') !== null) {
-    var suggestionsMenu = new MDCMenu(
+    const suggestionsMenu = new MDCMenu(
         document.querySelector('.suggestions-menu')
     );
     window.suggestionsMenu = suggestionsMenu;
 }
 
 if (document.querySelector('.manage-reminders-dialog') !== null) {
-    var reminderDiag = new MDCDialog(
+    const reminderDiag = new MDCDialog(
         document.querySelector('.manage-reminders-dialog')
     );
     reminderDiag.scrimClickAction = '';
@@ -246,7 +246,7 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
 });
 
 function showLoginPassword(e) {
-    var passwordfield = document.getElementById(e);
+    const passwordfield = document.getElementById(e);
     passwordfield.type =
         passwordfield.type === 'password' ? 'text' : 'password';
 }
@@ -265,7 +265,7 @@ function preventDefaultForScrollKeys(e) {
         return false;
     }
 }
-var supportsPassive = false;
+let supportsPassive = false;
 try {
     window.addEventListener(
         'test',
@@ -278,8 +278,8 @@ try {
     );
 } catch (e) {}
 
-var wheelOpt = supportsPassive ? { passive: false } : false;
-var wheelEvent =
+const wheelOpt = supportsPassive ? { passive: false } : false;
+const wheelEvent =
     'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
 function disableScroll() {
@@ -300,21 +300,20 @@ window.disableScroll = disableScroll;
 window.enableScroll = enableScroll;
 
 function setCookie(name, value) {
-    var d = new Date();
+    let d = new Date();
     d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-    var expires = 'expires=' + d.toUTCString();
+    const expires = 'expires=' + d.toUTCString();
     document.cookie = name + '=' + value + ';' + expires + ';path=/';
 }
 
 window.setCookie = setCookie;
 
 function getCookieValue(name) {
-    var cookieArr = document.cookie.split(';');
-    for (var i = 0; i < cookieArr.length; i++) {
-        var cookiePair = cookieArr[i].split('=');
-        if (name == cookiePair[0].trim()) {
+    const cookieArr = document.cookie.split(';');
+    for (let i = 0; i < cookieArr.length; i++) {
+        const cookiePair = cookieArr[i].split('=');
+        if (name == cookiePair[0].trim())
             return decodeURIComponent(cookiePair[1]);
-        }
     }
     return null;
 }

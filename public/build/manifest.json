@@ -10,7 +10,7 @@
     "isDynamicEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-3ae27880.js",
+    "file": "assets/app-bf59d508.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
