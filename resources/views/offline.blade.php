@@ -13,7 +13,7 @@
     <link href="{{ asset('images/logo/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="180x180">
     <link type="image/png" href="{{ asset('images/logo/favicon-32x32.png') }}" rel="icon" sizes="32x32">
     <link type="image/png" href="{{ asset('images/logo/favicon-16x16.png') }}" rel="icon" sizes="16x16">
-    <link href="{{ asset('build/manifest.webmanifest') }}" rel="manifest">
+    <link href="{{ asset('manifest.webmanifest') }}" rel="manifest">
 
     <!-- Styles -->
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
@@ -46,9 +46,9 @@
         <main>
             <div class="center">
                 <span class="material-icons wifi_icon mdc-typography">signal_wifi_off</span>
-                <p class="mdc-typography mdc-typography--headline2 center_text mt-5 font-bold text-center">You're
+                <p class="mdc-typography mdc-typography--headline2 center_text mt-5 text-center font-bold">You're
                     offline</p>
-                <p class="mdc-typography mt-5 text-lg font-medium text-center text-gray-600">We'll try to reconnect you
+                <p class="mdc-typography mt-5 text-center text-lg font-medium text-gray-600">We'll try to reconnect you
                     when you get back online</p>
             </div>
         </main>

@@ -1,28 +1,7 @@
-import crypto from 'crypto';
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { VitePWA } from 'vite-plugin-pwa';
-
-let routesHash: string | undefined;
-const getOrBuildHash = () => {
-    if (!routesHash) {
-        const useRandom = `${Math.random()}-${new Date().toISOString()}`;
-        const cHash = crypto.createHash('MD5');
-        cHash.update(useRandom, 'utf-8');
-        routesHash = cHash.digest('hex');
-    }
-    return routesHash;
-};
-
-const cachePages = ['dashboard', 'agenda', 'assignments'];
-const additionalManifestEntries: any[] = [];
-
-cachePages.forEach((path: string) => {
-    additionalManifestEntries.push({
-        url: path.startsWith('/') ? path.substring(1) : path,
-        revision: `${getOrBuildHash()}`,
-    });
-});
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
     plugins: [
@@ -67,6 +46,14 @@ export default defineConfig({
                 ],
                 orientation: 'portrait-primary',
             },
+        }),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'public/build/manifest.webmanifest',
+                    dest: '../',
+                },
+            ],
         }),
     ],
     resolve: {
