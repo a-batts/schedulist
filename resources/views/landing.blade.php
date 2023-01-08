@@ -25,8 +25,7 @@
     @stack('fonts')
 
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @livewireStyles
 
     <!-- Scripts -->
@@ -116,9 +115,6 @@
     <x-footer />
 
     @livewireScripts
-
-    <script src="{{ mix('js/scripts.js') }}" defer></script>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
     @stack('scripts')
 
     <script>

@@ -27,12 +27,11 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @livewireStyles
 
     <!-- Scripts -->
-
-    <script src="{{ mix('js/scripts.js') }}" async></script>
+    <script src="{{ asset('build/registerSW.js') }}"></script>
 </head>
 
 <body class="theme-div @if ($theme == 'dark') theme-dark @endif mdc-typography overflow-x-hidden"
@@ -107,41 +106,6 @@
     <x-footer />
 
     @livewireScripts
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
-    <script type="module">
-        import {Workbox, messageSW} from 'https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-window.prod.mjs';
-
-        if ('serviceWorker' in navigator) {
-          const wb = new Workbox('/service-worker.js');
-          let registration;
-
-          window.addEventListener('updatePWA', function (e) {
-            wb.addEventListener('controlling', (event) => {
-              window.location.reload();
-            });
-
-            if (registration && registration.waiting) {
-              messageSW(registration.waiting, {type: 'SKIP_WAITING'});
-            }
-          });
-
-          const showSkipWaitingPrompt = (event) => {
-            showRefresh();
-          };
-
-          // Add an event listener to detect when the registered
-          // service worker has installed but is waiting to activate.
-          wb.addEventListener('waiting', showSkipWaitingPrompt);
-          wb.addEventListener('externalwaiting', showSkipWaitingPrompt);
-          wb.register().then((r) => registration = r);
-        }
-
-        function refreshPWA(){
-          window.dispatchEvent(new Event('updatePWA'));
-        }
-
-        window.refreshPWA = refreshPWA;
-      </script>
 </body>
 
 </html>

@@ -16,8 +16,7 @@
     <link href="{{ asset('/site.webmanifest') }}" rel="manifest">
 
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
     <style>
         .wifi_icon {
@@ -40,7 +39,7 @@
 
 </head>
 
-<body class="theme-div @if (Cookie::get('theme') == 'dark') theme-dark @endif antialiased overflow-x-hidden"
+<body class="theme-div @if (Cookie::get('theme') == 'dark') theme-dark @endif overflow-x-hidden antialiased"
     id="themer">
     <div class="min-h-screen">
         @livewire('navigation-menu')
@@ -54,7 +53,6 @@
             </div>
         </main>
     </div>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
     <script>
         window.addEventListener('online', function(event) {
             location.reload();

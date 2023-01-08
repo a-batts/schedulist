@@ -24,18 +24,16 @@
     <link type="text/css" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@75,724&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
 
-    @stack('fonts')
-
     <!-- Styles -->
-    <link href="{{ mix('css/bundle.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @livewireStyles
 
     <!-- Scripts -->
+    <script src="{{ asset('build/registerSW.js') }}"></script>
 </head>
 
 <body
-    class="theme-div mdc-typography @if ($theme == 'dark') theme-dark @endif @if (Request::is('agenda*')) overflow-y-hidden @endif antialiased overflow-x-clip"
+    class="theme-div mdc-typography @if ($theme == 'dark') theme-dark @endif @if (Request::is('agenda*')) overflow-y-hidden @endif overflow-x-clip antialiased"
     id="themer">
     <div class="content-div min-h-screen" id="makefixed" wire:ignore.self>
         @livewire('navigation-menu')
@@ -57,8 +55,7 @@
 
     @livewireScripts
 
-    <script src="{{ mix('js/scripts.js') }}" defer></script>
-    <script src="{{ mix('js/bundle.js') }}" defer></script>
+    <script src="{{ asset('js/scripts.js') }}" defer></script>
 
     <script>
         Livewire.on('toastMessage', message => {
@@ -73,37 +70,6 @@
             FilePond.registerPlugin(FilePondPluginImageTransform);
             FilePond.registerPlugin(FilePondPluginImageOverlay);
         });
-    </script>
-    <script type="module">
-      import {Workbox, messageSW} from 'https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-window.prod.mjs';
-
-      if ('serviceWorker' in navigator) {
-        const wb = new Workbox('/service-worker.js');
-        let registration;
-
-        window.addEventListener('updatePWA', function (e) {
-          wb.addEventListener('controlling', (event) => {
-            window.location.reload();
-          });
-          if (registration && registration.waiting) {
-            messageSW(registration.waiting, {type: 'SKIP_WAITING'});
-          }
-        });
-        const showSkipWaitingPrompt = (event) => {
-          showRefresh();
-        };
-
-        // Add an event listener to detect when the registered
-        // service worker has installed but is waiting to activate.
-        wb.addEventListener('waiting', showSkipWaitingPrompt);
-        wb.addEventListener('externalwaiting', showSkipWaitingPrompt);
-        wb.register().then((r) => registration = r);
-      }
-
-      function refreshPWA(){
-        window.dispatchEvent(new Event('updatePWA'));
-      }
-      window.refreshPWA = refreshPWA;
     </script>
 </body>
 
