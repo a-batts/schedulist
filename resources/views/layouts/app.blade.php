@@ -25,7 +25,7 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <!-- Styles -->
-    @vite(manifest.web['resources/css/app.scss', 'resources/js/app.js', 'resources/js/vendor.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js', 'resources/js/vendor.js'])
     @livewireStyles
 
     <!-- Scripts -->
