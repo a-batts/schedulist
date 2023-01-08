@@ -13,7 +13,7 @@
     <link href="{{ asset('images/logo/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="180x180">
     <link type="image/png" href="{{ asset('images/logo/favicon-32x32.png') }}" rel="icon" sizes="32x32">
     <link type="image/png" href="{{ asset('images/logo/favicon-16x16.png') }}" rel="icon" sizes="16x16">
-    <link href="{{ asset('/build/manifest.webmanifest') }}" rel="manifest">
+    <link href="{{ asset('build/manifest.webmanifest') }}" rel="manifest">
 
     <!-- Styles -->
     @vite(['resources/css/app.scss', 'resources/js/app.js'])

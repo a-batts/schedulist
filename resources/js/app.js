@@ -324,7 +324,9 @@ window.getCookieValue = getCookieValue;
 const updateSW = registerSW({
     onNeedRefresh() {
         showRefresh();
+        window.updateSW = updateSW;
     },
+    onOfflineReady() {},
 });
 
 //Start Alpine after all functions are imported to prevent function issues

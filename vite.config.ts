@@ -46,6 +46,26 @@ export default defineConfig({
                 theme_color: '#3367D6',
                 background_color: '#121212',
                 scope: '/',
+                /*icons: [
+                    {
+                        src: 'images/logo/android-chrome-192x192.png',
+                        type: 'image/png',
+                        sizes: '192x192',
+                        purpose: 'any',
+                    },
+                    {
+                        src: 'images/logo/maskable_icon.png',
+                        sizes: '196x196',
+                        type: 'image/png',
+                        purpose: 'maskable',
+                    },
+                    {
+                        src: 'images/logo/android-chrome-512x512.png',
+                        type: 'image/png',
+                        sizes: '512x512',
+                    },
+                ],*/
+                orientation: 'portrait-primary',
             },
         }),
     ],
