@@ -23,8 +23,6 @@
         "file-loader": "^6.2.0",
         "husky": "^8.0.0",
         "laravel-echo": "^1.10.0",
-        "laravel-mix": "^6.0.19",
-        "laravel-mix-workbox": "^0.1.4",
         "laravel-vite-plugin": "^0.7.3",
         "lodash": "^4.17.21",
         "postcss-import": "^14.0.0",
