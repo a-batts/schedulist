@@ -25,7 +25,7 @@
     @stack('fonts')
 
     <!-- Styles -->
-    @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @vite(manifest.web['resources/css/app.scss', 'resources/js/app.js', 'resources/js/vendor.js'])
     @livewireStyles
 
     <!-- Scripts -->

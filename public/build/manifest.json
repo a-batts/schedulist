@@ -9,8 +9,13 @@
     "src": "node_modules/workbox-window/build/workbox-window.prod.es5.mjs",
     "isDynamicEntry": true
   },
+  "resources/js/vendor.js": {
+    "file": "assets/vendor-b0b7ed2d.js",
+    "src": "resources/js/vendor.js",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app-a5d3c5df.js",
+    "file": "assets/app-d82fc6e4.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [

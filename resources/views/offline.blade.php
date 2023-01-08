@@ -16,7 +16,7 @@
     <link href="{{ asset('manifest.webmanifest') }}" rel="manifest">
 
     <!-- Styles -->
-    @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @vite(manifest.web['resources/css/app.scss', 'resources/js/app.js', 'resources/js/vendor.js'])
 
     <style>
         .wifi_icon {
