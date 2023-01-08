@@ -5,19 +5,40 @@ namespace App\Http\Livewire\Profile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
-use Illuminate\Support\Facades\Route;
 use App\Actions\Core\NotifyUser;
+use Illuminate\Validation\ValidationException;
 
 class UpdatePassword extends Component
 {
-    public $password;
-    public $passwordConfirmation;
+    /**
+     * New password
+     *
+     * @var string
+     */
+    public string $password;
 
+    /**
+     * New password confirmation
+     *
+     * @var string
+     */
+    public string $passwordConfirmation;
+
+    /**
+     * Whether the user is setting a new password or updating their existing one
+     *
+     * @var boolean
+     */
     public bool $settingNewPassword = false;
 
     public array $errorMessages;
 
-    protected function rules()
+    /**
+     * Validation rules
+     *
+     * @return array
+     */
+    protected function rules(): array
     {
         return [
             'password' =>
@@ -26,7 +47,12 @@ class UpdatePassword extends Component
         ];
     }
 
-    protected $messages = [
+    /**
+     * Validation messages
+     *
+     * @var array
+     */
+    protected array $messages = [
         'password.required' => 'A new password is required',
         'password.regex' =>
             'Must be at least 10 characters and contain one uppercase letter, a number and a symbol',
@@ -35,84 +61,81 @@ class UpdatePassword extends Component
     ];
 
     /**
-     * Mount Component
+     * Mount the component
      * @return void
      */
-    public function mount()
+    public function mount(): void
     {
-        if (!isset(Auth::user()->password) || Auth::user()->password == '') {
-            $this->settingNewPassword = true;
-        }
+        $this->settingNewPassword =
+            !isset(Auth::user()->password) || Auth::user()->password == '';
     }
 
-    public function updatedPassword($value)
+    public function updatedPassword($value): void
     {
         $this->clearValidation('password');
-
         if (strlen($value) < 10) {
-            $this->addError(
-                'password',
-                'Password is too short, needs to be at least 10 characters'
-            );
-        } elseif (!preg_match('/[a-z]+/', $value)) {
-            $this->addError(
-                'password',
-                'Your password needs at least one lowercase letter'
-            );
-        } elseif (!preg_match('/[A-Z]+/', $value)) {
-            $this->addError(
-                'password',
-                'Your password needs at least one uppercase letter'
-            );
-        } elseif (!preg_match('/[0-9]+/', $value)) {
-            $this->addError(
-                'password',
-                'Your password needs at least one number'
-            );
-        } elseif (!preg_match('/[@$!%*?&]+/', $value)) {
-            $this->addError(
-                'password',
-                'Your password needs at least special character'
-            );
+            throw ValidationException::withMessages([
+                'password' =>
+                    'Password is too short, needs to be at least 10 characters',
+            ]);
+        }
+        if (!preg_match('/[a-z]+/', $value)) {
+            throw ValidationException::withMessages([
+                'password' =>
+                    'Your password needs at least one lowercase letter',
+            ]);
+        }
+        if (!preg_match('/[A-Z]+/', $value)) {
+            throw ValidationException::withMessages([
+                'password' =>
+                    'Your password needs at least one uppercase letter',
+            ]);
+        }
+        if (!preg_match('/[0-9]+/', $value)) {
+            throw ValidationException::withMessages([
+                'password' => 'Your password needs at least one number',
+            ]);
+        }
+        if (!preg_match('/[@$!%*?&]+/', $value)) {
+            throw ValidationException::withMessages([
+                'password' => 'Your password needs at least special character',
+            ]);
         }
     }
 
-    public function updatedPasswordConfirmation($value)
+    public function updatedPasswordConfirmation(): void
     {
-        $this->clearValidation('password');
-
-        if ($value != $this->password) {
-            $this->addError(
-                'passwordConfirmation',
-                'Password confirmation does not match'
-            );
-        }
+        $this->validateOnly('passwordConfirmation');
     }
 
     public function save()
     {
         $this->validate();
-
         if (Hash::check($this->password, Auth::user()->password)) {
-            $this->addError(
-                'password',
-                'Your new password should be different than your old password'
-            );
-        } elseif ($this->password == $this->passwordConfirmation) {
-            $user = Auth::user();
-            if (!$this->settingNewPassword) {
-                $userSettings = Auth::user()->settings;
+            throw ValidationException::withMessages([
+                'password' =>
+                    'Your new password should be different than your old password',
+            ]);
+        }
 
-                if ($userSettings->account_alert_texts === 1) {
-                    $message =
-                        'The password for your Schedulist account was just updated. If that wasn\'t you, you should recover your password as soon as possible.';
-                    NotifyUser::createNotification($message, Auth::user())
-                        ->sendText()
-                        ->addText(route('password.request'));
-                }
+        $user = Auth::user();
 
-                if ($userSettings->account_alert_emails === 1) {
-                    $message = [
+        if (!$this->settingNewPassword) {
+            $userSettings = Auth::user()->settings;
+
+            if ($userSettings->account_alert_texts === 1) {
+                NotifyUser::createNotification(
+                    'The password for your Schedulist account was just updated. If that wasn\'t you, 
+                you should recover your password as soon as possible.',
+                    Auth::user()
+                )
+                    ->sendText()
+                    ->addText(route('password.request'));
+            }
+
+            if ($userSettings->account_alert_emails === 1) {
+                NotifyUser::createNotification(
+                    [
                         'heading' => 'Password was changed',
                         'body' =>
                             'Your Schedulist password was just changed. If this was you, you can safely ignore this message. If you did not just update your password, someone else has access to your account, and you should reset your password as soon as possible.',
@@ -123,43 +146,32 @@ class UpdatePassword extends Component
                         'footer' =>
                             'You received this email because you turned on email alerts for account updates.',
                         'icon' => 'lock',
-                    ];
-                    NotifyUser::createNotification(
-                        $message,
-                        Auth::user()
-                    )->sendEmail();
-                }
+                    ],
+                    Auth::user()
+                )->sendEmail();
             }
-
-            $user
-                ->forceFill([
-                    'password' => Hash::make($this->password),
-                ])
-                ->save();
-            $this->emit('toastMessage', 'Password successfully updated');
-            $this->reset(['password', 'passwordConfirmation']);
-            if ($this->settingNewPassword) {
-                return redirect()->route('profile');
-            }
-        } else {
-            $this->addError(
-                'passwordConfirmation',
-                'Password confirmation does not match'
-            );
         }
+
+        $user
+            ->forceFill([
+                'password' => Hash::make($this->password),
+            ])
+            ->save();
+
+        $this->emit('toastMessage', 'Password successfully updated');
+        return redirect()->route('profile');
     }
 
     public function render()
     {
-        if (!$this->settingNewPassword) {
-            $title = 'Update Account Password';
-        } else {
-            $title = 'Set Account Password';
-        }
         $this->errorMessages = $this->getErrorBag()->toArray();
 
         return view('livewire.profile.update-password')
             ->layout('layouts.app')
-            ->layoutData(['title' => $title]);
+            ->layoutData([
+                'title' => $this->settingNewPassword
+                    ? 'Set Account Password'
+                    : 'Update Account Password',
+            ]);
     }
 }
