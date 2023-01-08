@@ -81,11 +81,9 @@ autosize(document.querySelectorAll('textarea.autosize'));
     }
 );
 
-let tooltips = [];
-
 function initTextField(e) {
     if (document.getElementById(e) !== null)
-        tooltips[e] = new MDCTextField(document.getElementById(e));
+        return new MDCTextField(document.getElementById(e));
 }
 window.initTextField = initTextField;
 //Register icon buttons and ripples
@@ -140,7 +138,7 @@ document.querySelectorAll('.mdc-linear-progress').forEach((el) => {
 
 function initTooltip(e) {
     if (document.getElementById(e) !== null)
-        tooltips[e] = new MDCTooltip(document.getElementById(e));
+        return new MDCTooltip(document.getElementById(e));
 }
 window.initTooltip = initTooltip;
 
