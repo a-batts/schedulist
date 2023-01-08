@@ -1,18 +1,10 @@
 {
     "private": true,
     "scripts": {
-        "build": "webpack",
-        "start": "webpack serve",
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production",
+        "dev": "vite",
+        "build": "vite build",
         "pretty-quick": "pretty-quick",
-        "prepare": "husky install",
-        "v-dev": "vite",
-        "v-build": "vite build"
+        "prepare": "husky install"
     },
     "devDependencies": {
         "@babel/core": "^7.13.1",

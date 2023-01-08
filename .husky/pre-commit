@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npm run pretty-quick --staged && git update-index --again
-npx mix --production && git add --all ./public
+npm run build && git add --all ./public/build
