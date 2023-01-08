@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 import Alpine from 'alpinejs';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
@@ -40,25 +40,7 @@ import { MDCBanner } from '@material/banner';
 import { MDCList } from '@material/list';
 import { MDCLinearProgress } from '@material/linear-progress';
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-/*
-import Echo from 'laravel-echo';
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: process.env.MIX_PUSHER_APP_KEY,
-  cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-  forceTLS: true
-});
-
-*/
+import { registerSW } from 'virtual:pwa-register';
 
 /**
  * Import alpine.js and initalize
@@ -71,8 +53,6 @@ Alpine.plugin(Parent);
 Alpine.data('miniCalendar', miniCalendar);
 Alpine.data('datePicker', datePicker);
 Alpine.data('timePicker', timePicker);
-
-Alpine.start();
 
 //Automatically autosize all <textarea>s with the autosize class on it
 autosize(document.querySelectorAll('textarea.autosize'));
@@ -101,11 +81,9 @@ autosize(document.querySelectorAll('textarea.autosize'));
     }
 );
 
-var tooltips = [];
-
 function initTextField(e) {
     if (document.getElementById(e) !== null)
-        tooltips[e] = new MDCTextField(document.getElementById(e));
+        return new MDCTextField(document.getElementById(e));
 }
 window.initTextField = initTextField;
 //Register icon buttons and ripples
@@ -120,7 +98,7 @@ window.initTextField = initTextField;
 });
 //Dialog boxes to add/remove classes
 if (document.getElementById('confirm-dialog') !== null) {
-    var confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
+    const confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
     function delDialog() {
         confDialog.open();
     }
@@ -128,7 +106,7 @@ if (document.getElementById('confirm-dialog') !== null) {
     window.confDialog = confDialog;
 }
 if (document.getElementById('unsub-dialog') !== null) {
-    var unsubscribeDialog = new MDCDialog(
+    const unsubscribeDialog = new MDCDialog(
         document.querySelector('.unsub-dialog')
     );
     function unsubDialog() {
@@ -149,7 +127,7 @@ if (document.getElementById('unsub-dialog') !== null) {
 });
 
 [].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
-    var list = new MDCList(el);
+    let list = new MDCList(el);
     list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
     return list;
 });
@@ -160,7 +138,7 @@ document.querySelectorAll('.mdc-linear-progress').forEach((el) => {
 
 function initTooltip(e) {
     if (document.getElementById(e) !== null)
-        tooltips[e] = new MDCTooltip(document.getElementById(e));
+        return new MDCTooltip(document.getElementById(e));
 }
 window.initTooltip = initTooltip;
 
@@ -175,7 +153,7 @@ function regenSelects() {
 window.regenSelects = regenSelects;
 
 if (document.querySelector('.mdc-banner') !== null) {
-    var offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
+    const offlineBanner = new MDCBanner(document.querySelector('.mdc-banner'));
     window.offlineBanner = offlineBanner;
 }
 
@@ -185,7 +163,7 @@ if (document.querySelector('.mdc-banner') !== null) {
 
 //Snackbar Inits
 if (document.getElementById('snackbar') !== null) {
-    var snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
+    const snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
     function snack(msg) {
         snackbar.labelText = msg;
         snackbar.open();
@@ -195,7 +173,7 @@ if (document.getElementById('snackbar') !== null) {
 }
 
 if (document.getElementById('refreshpwa') !== null) {
-    var pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
+    const pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
     function showRefresh() {
         pwaSnackbar.open();
     }
@@ -204,12 +182,12 @@ if (document.getElementById('refreshpwa') !== null) {
 }
 
 if (document.querySelector('.edit-more-menu') !== null) {
-    var moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
+    const moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
     window.moreMenu = moreMenu;
 }
 
 if (document.querySelector('.delete-item-confirmation') !== null) {
-    var deleteAssignmentDialog = new MDCDialog(
+    const deleteAssignmentDialog = new MDCDialog(
         document.querySelector('.delete-item-confirmation')
     );
     function openAssignmentDialog() {
@@ -224,7 +202,7 @@ const scheduleDeleteConfirmation = document.querySelector(
 );
 
 if (scheduleDeleteConfirmation !== null) {
-    var deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+    const deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
 
     window['scheduleDeleteDialog'] = async function () {
         deleteDialog.open();
@@ -241,14 +219,14 @@ if (scheduleDeleteConfirmation !== null) {
 }
 
 if (document.querySelector('.suggestions-menu') !== null) {
-    var suggestionsMenu = new MDCMenu(
+    const suggestionsMenu = new MDCMenu(
         document.querySelector('.suggestions-menu')
     );
     window.suggestionsMenu = suggestionsMenu;
 }
 
 if (document.querySelector('.manage-reminders-dialog') !== null) {
-    var reminderDiag = new MDCDialog(
+    const reminderDiag = new MDCDialog(
         document.querySelector('.manage-reminders-dialog')
     );
     reminderDiag.scrimClickAction = '';
@@ -264,3 +242,89 @@ if (document.querySelector('.manage-reminders-dialog') !== null) {
         return new MDCTooltip(el);
     } catch (e) {}
 });
+
+function showLoginPassword(e) {
+    const passwordfield = document.getElementById(e);
+    passwordfield.type =
+        passwordfield.type === 'password' ? 'text' : 'password';
+}
+
+window.showLoginPassword = showLoginPassword;
+
+//Disable scroll
+
+function preventDefault(e) {
+    e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+let supportsPassive = false;
+try {
+    window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassive = true;
+            },
+        })
+    );
+} catch (e) {}
+
+const wheelOpt = supportsPassive ? { passive: false } : false;
+const wheelEvent =
+    'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+function disableScroll() {
+    window.addEventListener('DOMMouseScroll', preventDefault, false);
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.addEventListener('touchmove', preventDefault, wheelOpt);
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+function enableScroll() {
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+window.disableScroll = disableScroll;
+window.enableScroll = enableScroll;
+
+function setCookie(name, value) {
+    let d = new Date();
+    d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = name + '=' + value + ';' + expires + ';path=/';
+}
+
+window.setCookie = setCookie;
+
+function getCookieValue(name) {
+    const cookieArr = document.cookie.split(';');
+    for (let i = 0; i < cookieArr.length; i++) {
+        const cookiePair = cookieArr[i].split('=');
+        if (name == cookiePair[0].trim())
+            return decodeURIComponent(cookiePair[1]);
+    }
+    return null;
+}
+
+window.getCookieValue = getCookieValue;
+
+const updateSW = registerSW({
+    onNeedRefresh() {
+        showRefresh();
+        window.updateSW = updateSW;
+    },
+    onOfflineReady() {},
+});
+
+//Start Alpine after all functions are imported to prevent function issues
+Alpine.start();

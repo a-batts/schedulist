@@ -2151,3 +2151,9 @@ div.assignment-card-dashboard {
 .check_label {
     color: var(--text-color);
 }
+
+//Import Tailwind at the end so it takes precidence over Material Design css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
