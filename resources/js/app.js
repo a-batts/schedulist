@@ -325,8 +325,7 @@ const updateSW = registerSW({
     onNeedRefresh() {
         showRefresh();
     },
-    onOfflineReady() {},
 });
 
-//Start Alpine after all functions are imported
+//Start Alpine after all functions are imported to prevent function issues
 Alpine.start();

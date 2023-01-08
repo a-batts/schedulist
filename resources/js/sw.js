@@ -24,7 +24,7 @@ self.addEventListener('install', (event) => {
         '/contact',
         '/privacy-policy',
         '/assignments',
-        '/app',
+        '/dashboard',
         '/agenda',
         '/settings/account',
         '/settings/theme',
@@ -65,14 +65,10 @@ registerRoute(
     new NetworkOnly()
 );
 
-// Cache page navigations (html) with a Network First strategy
+// Cache page navigations with a Network First strategy
 registerRoute(
     // Check to see if the request is a navigation to a new page
-    ({ request }) =>
-        request.mode === 'navigate' ||
-        (request.destination === '' &&
-            request.mode === 'cors' &&
-            request.headers.get('Turbolinks-Referrer') !== null),
+    ({ request }) => request.mode === 'navigate',
     // Use a Network First caching strategy
     new NetworkFirst({
         // Put all cached files in a cache named 'pages'
@@ -137,34 +133,10 @@ registerRoute(
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
 setCatchHandler(({ event }) => {
-    // The FALLBACK_URL entries must be added to the cache ahead of time, either
-    // via runtime or precaching. If they are precached, then call
-    // `matchPrecache(FALLBACK_URL)` (from the `workbox-precaching` package)
-    // to get the response from the correct cache.
-    //
-    // Use event, request, and url to figure out how to respond.
-    // One approach would be to use request.destination, see
-    // https://medium.com/dev-channel/service-worker-caching-strategies-based-on-request-types-57411dd7652c
     switch (event.request.destination) {
         case 'document':
-            // If using precached URLs:
-            // return matchPrecache(FALLBACK_HTML_URL);
             return caches.match('/offline');
-
-        /* case 'image':
-      // If using precached URLs:
-      // return matchPrecache(FALLBACK_IMAGE_URL);
-      return caches.match(FALLBACK_IMAGE_URL);
-    break;
-
-    case 'font':
-      // If using precached URLs:
-      // return matchPrecache(FALLBACK_FONT_URL);
-      return caches.match(FALLBACK_FONT_URL);
-    break;
-    */
         default:
-            // If we don't have a fallback, just return an error response.
             return Response.error();
     }
 });
