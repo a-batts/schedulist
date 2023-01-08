@@ -27,7 +27,6 @@ self.addEventListener('install', (event) => {
         '/dashboard',
         '/agenda',
         '/settings/account',
-        '/settings/theme',
         '/offline',
     ];
     const cacheName = 'pages';

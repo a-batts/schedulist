@@ -122,12 +122,12 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="flex px-6 mt-4">
+                        <div class="flex flex-wrap justify-center px-6 mt-4 gap-x-6 sm:justify-start">
                             <div>
                                 <img class="object-cover w-16 h-16 rounded-full"
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
                             </div>
-                            <div class="mt-2 ml-6">
+                            <div class="mt-2 text-center">
                                 <h6 class="nav-menu-name text-lg font-medium text-white">
                                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</h6>
                                 <h1 class="nav-menu-email text-sm">{{ Auth::user()->email }}</h1>
