@@ -18,15 +18,6 @@
 
     <!-- Styles -->
     @vite(['resources/css/app.scss', 'resources/js/app.js', 'resources/js/vendor.js'])
-    <script>
-        //Match site theme to system settings if set to auto
-        const theme = ('; ' + document.cookie).split(`; theme=`).pop().split(';')[0];
-        const themeContainer = document.getElementById('theme-container');
-        if (theme == 'auto')
-            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? themeContainer.classList.add(
-                'theme-dark') : themeContainer.classList.remove('theme-dark');
-    </script>
-
     <style>
         .wifi_icon {
             font-size: 80px;
@@ -46,6 +37,22 @@
         }
     </style>
 
+    <script>
+        //Match site theme to system settings if set to auto
+        const theme = ('; ' + document.cookie).split(`; theme=`).pop().split(';')[0];
+        const themeContainer = document.getElementById('theme-container');
+        if (theme == 'auto')
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? themeContainer.classList.add(
+                'theme-dark') : themeContainer.classList.remove('theme-dark');
+
+        window.matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', ({
+                matches
+            }) => {
+                matches ? themeContainer.classList.add(
+                    'theme-dark') : themeContainer.classList.remove('theme-dark');
+            })
+    </script>
 </head>
 
 <body class="overflow-x-hidden antialiased">

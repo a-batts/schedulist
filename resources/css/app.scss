@@ -74,6 +74,7 @@ html {
     overflow: auto;
     overflow: initial;
     --mdc-typography-font-family: 'Noto Sans';
+    transition: background-color 0.5s, color 0.5s;
 }
 
 .material-icons {

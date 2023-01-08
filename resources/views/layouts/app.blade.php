@@ -38,6 +38,14 @@
         if (theme == 'auto')
             window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? themeContainer.classList.add(
                 'theme-dark') : themeContainer.classList.remove('theme-dark');
+
+        window.matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', ({
+                matches
+            }) => {
+                matches ? themeContainer.classList.add(
+                    'theme-dark') : themeContainer.classList.remove('theme-dark');
+            })
     </script>
 </head>
 
