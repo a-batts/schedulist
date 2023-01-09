@@ -15,7 +15,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-5f8b12c8.js",
+    "file": "assets/app-349bed20.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
