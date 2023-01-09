@@ -16,8 +16,10 @@
                 <div
                     class="schedulist-logo-nav absolute flex items-center justify-center flex-1 sm:items-stretch sm:justify-start md:relative">
                     <div class="flex-shrink-0">
-                        <img class="mb-1 border-none" src="{{ asset('images/logo/logo_light.svg') }}" alt="Schedulist Logo"
-                            width="140px"></img>
+                        <a href="{{ route('dashboard') }}">
+                            <img class="mb-1 border-none" src="{{ asset('images/logo/logo_light.svg') }}"
+                                alt="Schedulist Logo" width="140px">
+                        </a>
                     </div>
                 </div>
                 <div class="absolute w-full">
@@ -26,7 +28,7 @@
                         <div>
                             <a class="mx-2" href="{{ route('dashboard') }}">
                                 <button class="mdc-button mdc-button-ripple navbar-button"
-                                    @if (Request::is('app')) disabled @endif>
+                                    @if (Route::is('dashboard')) disabled @endif>
                                     <span class="mdc-button__ripple"></span>Dashboard
                                 </button>
                             </a>
@@ -34,7 +36,7 @@
                         <div>
                             <a class="mx-2" href="{{ route('assignments') }}">
                                 <button class="mdc-button mdc-button-ripple navbar-button"
-                                    @if (Request::is('assignments')) disabled @endif>
+                                    @if (Route::is('assignments')) disabled @endif>
                                     <span class="mdc-button__ripple"></span>Assignments
                                 </button>
                             </a>
@@ -42,7 +44,7 @@
                         <div>
                             <a class="mx-2" href="{{ route('schedule') }}">
                                 <button class="mdc-button mdc-button-ripple navbar-button"
-                                    @if (Request::is('agenda')) disabled @endif>
+                                    @if (Route::is('schedule')) disabled @endif>
                                     <span class="mdc-button__ripple"></span>Schedule
                                 </button>
                             </a>
@@ -127,7 +129,7 @@
                                 <img class="object-cover w-16 h-16 rounded-full"
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
                             </div>
-                            <div class="mt-2 text-center">
+                            <div class="mt-2 text-center sm:text-left">
                                 <h6 class="nav-menu-name text-lg font-medium text-white">
                                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</h6>
                                 <h1 class="nav-menu-email text-sm">{{ Auth::user()->email }}</h1>
@@ -136,7 +138,7 @@
                     </div>
                     <div class="mt-12 border-t border-gray-100"></div>
                     <div class="pt-8 pl-4 pr-12">
-                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Request::is('app')) mobile-dropdown-selected @endif"
+                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Route::is('dashboard')) mobile-dropdown-selected @endif"
                             href="{{ route('dashboard') }}">
                             <span class="mdc-button__ripple"></span>
                             <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2"
@@ -144,7 +146,7 @@
                                 <span>Dashboard</span>
                             </span>
                         </a>
-                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Request::is('assignments')) mobile-dropdown-selected @endif"
+                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Route::is('assignments')) mobile-dropdown-selected @endif"
                             href="{{ route('assignments') }}">
                             <span class="mdc-button__ripple"></span>
                             <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2"
@@ -152,7 +154,7 @@
                                 <span>Assignments</span>
                             </span>
                         </a>
-                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Request::is('agenda')) mobile-dropdown-selected @endif"
+                        <a class="mdc-button mdc-button--icon-leading mobile-dropdown-button @if (Route::is('schedule')) mobile-dropdown-selected @endif"
                             href="{{ route('schedule') }}">
                             <span class="mdc-button__ripple"></span>
                             <span class="mdc-button__label"><i class="material-icons mdc-button__icon inline-block ml-2"

@@ -51,7 +51,15 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
-<body class="mdc-typography overflow-x-hidden font-sans antialiased" x-data="landing()"
+<body class="mdc-typography overflow-x-hidden font-sans antialiased" x-data="{
+    aboveContent: false,
+    scrolled: function() {
+        if (window.scrollY > 36)
+            this.aboveContent = true
+        else
+            this.aboveContent = false
+    },
+}"
     @scroll.window="scrolled()">
     <div class="swup-transition-fade" id="swup">
         <header>
@@ -139,25 +147,11 @@
         <x-footer />
 
         @livewireScripts
-        @stack('scripts')
 
         <script>
             Livewire.on('toastMessage', message => {
                 snack(message);
             });
-        </script>
-        <script data-swup-reload-script>
-            function landing() {
-                return {
-                    aboveContent: false,
-                    scrolled: function() {
-                        if (window.scrollY > 57)
-                            this.aboveContent = true
-                        else
-                            this.aboveContent = false
-                    }
-                }
-            }
         </script>
     </div>
 </body>
