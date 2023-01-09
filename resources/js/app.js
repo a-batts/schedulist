@@ -129,7 +129,7 @@ window.showLoginPassword = showLoginPassword;
 
 const swup = new Swup({
     animationSelector: '[class*="swup-transition-"]',
-    cache: false,
+    cache: true,
     plugins: [
         new SwupLivewirePlugin(),
         new SwupProgressPlugin({
