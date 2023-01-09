@@ -132,7 +132,9 @@ const swup = new Swup({
     cache: false,
     plugins: [
         new SwupLivewirePlugin(),
-        new SwupProgressPlugin(),
+        new SwupProgressPlugin({
+            delay: 400,
+        }),
         new SwupScriptsPlugin({
             optin: true,
         }),
