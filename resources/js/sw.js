@@ -67,7 +67,12 @@ registerRoute(
 // Cache page navigations with a Network First strategy
 registerRoute(
     // Check to see if the request is a navigation to a new page
-    ({ request }) => request.mode === 'navigate',
+    ({ request }) =>
+        request.mode === 'navigate' ||
+        ((request.destination === '' &&
+            request.mode === 'cors' &&
+            request.headers.get('X-Requested-With')) == 'swup' &&
+            request.headers.get('Accept').includes('text/html')),
     // Use a Network First caching strategy
     new NetworkFirst({
         // Put all cached files in a cache named 'pages'
