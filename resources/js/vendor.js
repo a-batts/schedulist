@@ -26,9 +26,12 @@ function initMDC() {
         return new MDCRipple(el);
     });
     //Select menus
-    [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
-        return new MDCSelect(el);
-    });
+    [].map.call(
+        document.querySelectorAll('.mdc-select:not(.alpine-select)'),
+        function (el) {
+            return new MDCSelect(el);
+        }
+    );
     //Register MDCTextFields
     [].map.call(
         document.querySelectorAll('.mdc-text-field:not(.dummy-field)'),
@@ -195,11 +198,17 @@ document.addEventListener('swup:contentReplaced', () => {
 });
 
 //Regenerate MDC selects on page - useful if being used inside an Alpine x-if
-function regenSelects() {
+function regenSelects(elem = undefined) {
     setTimeout(() => {
-        document.querySelectorAll('.mdc-select').forEach((el) => {
-            return new MDCSelect(el);
-        });
+        if (elem != undefined) {
+            document.querySelectorAll(`.mdc-select.${elem}`).forEach((el) => {
+                return new MDCSelect(el);
+            });
+        } else {
+            document.querySelectorAll('.mdc-select').forEach((el) => {
+                return new MDCSelect(el);
+            });
+        }
     }, 75);
 }
 window.regenSelects = regenSelects;

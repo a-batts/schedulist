@@ -100,9 +100,9 @@
 </div>
 
 @push('scripts')
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('schedules', () => ({
+    <script data-swup-reload-script>
+        function schedules() {
+            return {
                 startDate: new Date(),
                 endDate: new Date(new Date().getTime() + (24 * 60 * 60 * 1000)),
                 name: @entangle('name').defer,
@@ -226,7 +226,7 @@
                         return this.name == ''
                     }
                 }
-            }))
-        })
+            }
+        }
     </script>
 @endpush

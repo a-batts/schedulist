@@ -73,7 +73,7 @@
                 </div>
             @endif
 
-            <nav class="nav-border base-bg fixed z-10 w-screen py-4" x-bind:class="{ 'border-b': aboveContent }">
+            <nav class="nav-border base-bg fixed z-10 w-screen py-4" :class="{ 'border-b': aboveContent }">
                 <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div class="flex items-center w-full" style="height: 4.2rem">
                         <div class="flex-grow">
@@ -147,6 +147,7 @@
         <x-footer />
 
         @livewireScripts
+        @stack('scripts')
 
         <script>
             Livewire.on('toastMessage', message => {

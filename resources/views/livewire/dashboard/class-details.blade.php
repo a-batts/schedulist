@@ -5,12 +5,12 @@
     <div class="px-4 mt-16 md:px-24">
         <p class="text-3xl font-semibold">All of your classes</p>
         <div class="mt-5 mb-10 border-t border-gray-200"></div>
-        <div class="mdc-select mdc-select--filled w-full mb-6 md:max-w-sm" wire:ignore>
+        <div class="mdc-select mdc-select--filled alpine-select w-full mb-6 md:max-w-sm" wire:ignore>
             <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false">
                 <span class="mdc-select__ripple"></span>
                 <span class="mdc-floating-label mdc-floating-label--float-above">Sort by schedule</span>
                 <span class="mdc-select__selected-text-container">
-                    <span class="mdc-select__selected-text"></span>
+                    <span class="mdc-select__selected-text">All</span>
                 </span>
                 <span class="mdc-select__dropdown-icon">
                     <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
@@ -403,6 +403,10 @@
                     this.selectedClass = keys[0] ?? -1;
 
                     this.newTimeDay = this.days[0];
+
+                    this.$nextTick(() => {
+                        regenSelects('alpine-select');
+                    });
                 },
 
                 changeSchedule: function() {
