@@ -1,6 +1,6 @@
 {
   "resources/css/app.scss": {
-    "file": "assets/app-82d97ce5.css",
+    "file": "assets/app-578bb811.css",
     "src": "resources/css/app.scss",
     "isEntry": true
   },
@@ -10,12 +10,12 @@
     "isDynamicEntry": true
   },
   "resources/js/vendor.js": {
-    "file": "assets/vendor-b0b7ed2d.js",
+    "file": "assets/vendor-413ae913.js",
     "src": "resources/js/vendor.js",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-218905a8.js",
+    "file": "assets/app-5f8b12c8.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
