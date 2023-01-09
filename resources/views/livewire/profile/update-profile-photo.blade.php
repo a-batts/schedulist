@@ -56,7 +56,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function updateProfilePhoto() {
             return {
                 pond: null,

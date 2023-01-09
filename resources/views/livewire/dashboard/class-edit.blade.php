@@ -80,7 +80,7 @@
          <div class="ml-1 text-lg font-medium text-gray-700">Color</div>
          <div class="px-auto py-3 mx-auto mb-2">
              @foreach ($colorOptions as $color)
-                 <div class="background-{{ $color }} mdc-icon-button rounded-full h-11 w-11 mx-1"
+                 <div class="background-{{ $color }} mdc-icon-button mx-1 h-11 w-11 rounded-full"
                      :class="{ 'border-white border-solid border-3': color == '{{ $color }}' }"
                      @click="color = '{{ $color }}'">
                      <div class="mdc-icon-button__ripple"></div>
@@ -154,7 +154,7 @@
  </div>
 
  @push('scripts')
-     <script>
+     <script data-swup-reload-script>
          function classEdit() {
              return {
                  dialog: false,

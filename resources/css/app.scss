@@ -46,14 +46,12 @@
 @use '@material/dialog';
 @use '@material/typography/mdc-typography';
 @use '@material/tooltip/styles';
-@use '@material/circular-progress/mdc-circular-progress';
 @use '@material/select';
 @use '@material/select/styles' as select-style;
 @use '@material/radio/styles' as radio-style;
 @use '@material/radio';
 @use '@material/data-table/data-table';
 @use '@material/data-table/styles' as tooltip-style;
-@use '@material/linear-progress';
 
 @import 'filepond/dist/filepond.min.css';
 @import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -68,13 +66,31 @@
 @include form-field.core-styles;
 @include dialog.core-styles;
 @include fab.core-styles;
-@include linear-progress.core-styles;
 
 html {
     overflow: auto;
     overflow: initial;
     --mdc-typography-font-family: 'Noto Sans';
     transition: background-color 0.5s, color 0.5s;
+}
+
+.swup-transition-fade {
+    transition: 0.1s;
+    opacity: 1;
+}
+
+html.is-animating .swup-transition-fade {
+    opacity: 0.999;
+}
+
+.swup-progress-bar {
+    height: 4px;
+    background-color: #0d6ed1 !important;
+}
+
+html.theme-dark .swup-progress-bar {
+    height: 4px;
+    background-color: #95cffe !important;
 }
 
 .material-icons {

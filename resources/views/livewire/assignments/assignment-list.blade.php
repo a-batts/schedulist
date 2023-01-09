@@ -2,7 +2,7 @@
     <div class="pt-4 pb-10">
         <h2 class="text-4xl font-bold sm:text-5xl">Assignments</h2>
     </div>
-    <div class="flex flex-wrap md:space-x-3 md:flex-nowrap">
+    <div class="flex flex-wrap md:flex-nowrap md:space-x-3">
         <div class="mb-4 basis-full md:basis-1/2">
             <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon w-full">
                 <span class="mdc-text-field__ripple"></span>
@@ -13,7 +13,7 @@
                 <span class="mdc-line-ripple"></span>
             </label>
         </div>
-        <div class="mb-4 sm:pr-3 basis-full sm:basis-1/2 md:basis-1/4 md:pr-0">
+        <div class="mb-4 basis-full sm:basis-1/2 sm:pr-3 md:basis-1/4 md:pr-0">
             <div class="mdc-select mdc-select--filled w-full">
                 <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false">
                     <span class="mdc-select__ripple"></span>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-4 sm:pl-3 basis-full sm:basis-1/2 md:basis-1/4 md:pl-0">
+        <div class="mb-4 basis-full sm:basis-1/2 sm:pl-3 md:basis-1/4 md:pl-0">
             <x-ui.select class="w-full" title="Status" style="filled" :data="json_encode($filters)" bind="due" />
         </div>
     </div>
@@ -127,7 +127,7 @@
     </div>
 </div>
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function assignmentList() {
             return {
                 assignments: @this.assignments,

@@ -88,11 +88,11 @@
                                 @click="setSelectedItem(index)"
                                 :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
                                 :style="`top: ${item.top}px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              left: ${item.left}px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              width: calc(100% - ${item.left + 55}px);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              z-index: ${item.height};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              min-height: 80px;`"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              left: ${item.left}px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              width: calc(100% - ${item.left + 55}px);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              z-index: ${item.height};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              min-height: 80px;`"
                                 x-show="! filter.includes(`${item.type}`)" x-transition>
                                 <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                     <p class="agenda-text-primary text-xl font-medium truncate transition-all"
@@ -120,54 +120,7 @@
 </div>
 
 @push('scripts')
-    <script>
-        function preventDefault(e) {
-            e.preventDefault();
-        }
-
-        function preventDefaultForScrollKeys(e) {
-            if (keys[e.keyCode]) {
-                preventDefault(e);
-                return false;
-            }
-        }
-        let supportsPassive = false;
-        try {
-            window.addEventListener(
-                'test',
-                null,
-                Object.defineProperty({}, 'passive', {
-                    get: function() {
-                        supportsPassive = true;
-                    },
-                })
-            );
-        } catch (e) {}
-
-        const wheelOpt = supportsPassive ? {
-            passive: false
-        } : false;
-        const wheelEvent =
-            'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-        function disableScroll() {
-            window.addEventListener('DOMMouseScroll', preventDefault, false);
-            window.addEventListener(wheelEvent, preventDefault, wheelOpt);
-            window.addEventListener('touchmove', preventDefault, wheelOpt);
-            window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-        }
-
-        function enableScroll() {
-            window.removeEventListener('DOMMouseScroll', preventDefault, false);
-            window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-            window.removeEventListener('touchmove', preventDefault, wheelOpt);
-            window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-        }
-
-        window.disableScroll = disableScroll;
-        window.enableScroll = enableScroll;
-    </script>
-    <script>
+    <script data-swup-reload-script>
         function schedule() {
             return {
                 agenda: @this.agenda,

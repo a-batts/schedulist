@@ -8,7 +8,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function themer() {
             return {
                 theme: '',

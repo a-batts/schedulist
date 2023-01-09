@@ -5,12 +5,12 @@
     <div class="px-4 mt-16 md:px-24">
         <p class="text-3xl font-semibold">All of your classes</p>
         <div class="mt-5 mb-10 border-t border-gray-200"></div>
-        <div class="mdc-select mdc-select--filled w-full mb-6 md:max-w-sm" wire:ignore>
+        <div class="mdc-select mdc-select--filled alpine-select w-full mb-6 md:max-w-sm" wire:ignore>
             <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false">
                 <span class="mdc-select__ripple"></span>
                 <span class="mdc-floating-label mdc-floating-label--float-above">Sort by schedule</span>
                 <span class="mdc-select__selected-text-container">
-                    <span class="mdc-select__selected-text"></span>
+                    <span class="mdc-select__selected-text">All</span>
                 </span>
                 <span class="mdc-select__dropdown-icon">
                     <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
@@ -78,7 +78,7 @@
         <div class="modal-container fixed top-0 flex items-baseline justify-center w-screen h-screen overflow-y-auto"
             style="display: none" x-show.important="showingClassDetails" x-trap.noscroll="showingClassDetails"
             @keydown.escape="showingClassDetails = false" x-transition x-cloak>
-            <div class="mdc-card mdc-card--outlined w-full max-w-full mr-0 md:mt-10 sm:w-4/5 border-hidden">
+            <div class="mdc-card mdc-card--outlined w-full max-w-full mr-0 border-hidden sm:w-4/5 md:mt-10">
                 <div class="mdc-card p-5 mr-0 rounded-b-none border-hidden"
                     :class="'background-' + classData?.[selectedClass]?.['color'].toLowerCase()">
                     <div class="flex h-full">
@@ -360,7 +360,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function classList() {
             return {
                 classData: @entangle('classData'),
@@ -403,6 +403,10 @@
                     this.selectedClass = keys[0] ?? -1;
 
                     this.newTimeDay = this.days[0];
+
+                    this.$nextTick(() => {
+                        regenSelects('alpine-select');
+                    });
                 },
 
                 changeSchedule: function() {

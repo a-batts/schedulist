@@ -215,7 +215,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function phoneVerification() {
             return {
                 confirmingNumber: false,

@@ -201,7 +201,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function dataManager() {
             return {
                 creatingArchive: false,

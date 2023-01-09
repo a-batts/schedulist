@@ -1,6 +1,10 @@
 <div x-data="{
     data: {{ $data }},
 
+    init: function() {
+        this.$nextTick(() => { regenSelects('alpine-select') })
+    },
+
     get value() {
         return this['{{ $bind }}'];
     },
@@ -10,7 +14,7 @@
     }
 }">
     <div
-        class="mdc-select {{ $style == 'outlined' ? 'mdc-select--outlined' : 'mdc-select--filled' }} {{ $attributes->has('required') ? 'mdc-select--required' : '' }} {{ $attributes->get('class') }} w-full">
+        class="mdc-select {{ $style == 'outlined' ? 'mdc-select--outlined' : 'mdc-select--filled' }} {{ $attributes->has('required') ? 'mdc-select--required' : '' }} {{ $attributes->get('class') }} alpine-select w-full">
         <div class="mdc-select__anchor" role="button" aria-haspopup="listbox" aria-expanded="false"
             aria-labelledby="{{ strtolower(str_replace(' ', '-', $title)) }}-label {{ strtolower(str_replace(' ', '-', $title)) }}-selected-text"
             wire:ignore>

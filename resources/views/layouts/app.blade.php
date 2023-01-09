@@ -50,39 +50,41 @@
 </head>
 
 <body class="mdc-typography @if (Request::is('agenda*')) overflow-y-hidden @endif overflow-x-clip antialiased">
-    <div class="content-div min-h-screen" id="makefixed" wire:ignore.self>
-        @livewire('navigation-menu')
+    <div class="swup-transition-fade" id="swup">
+        <div class="content-div min-h-screen">
+            @livewire('navigation-menu')
 
-        <x-ui.snackbar />
-        <x-pwa-snackbar />
+            <x-ui.snackbar />
+            <x-pwa-snackbar />
 
-        <main class="min-h-screen pt-20">
-            <div class="relative" id="main">
-                {{ $slot }}
-            </div>
-        </main>
+            <main class="min-h-screen pt-20">
+                <div class="relative" id="main">
+                    {{ $slot }}
+                </div>
+            </main>
+        </div>
+        @if (!Request::is('agenda*'))
+            <x-footer />
+        @endif
+
+        @stack('scripts')
+
+        @livewireScripts
+        <script>
+            Livewire.on('toastMessage', message => {
+                snack(message);
+            });
+        </script>
+        <script>
+            document.addEventListener('FilePond:loaded', e => {
+                FilePond.registerPlugin(FilePondPluginImagePreview);
+                FilePond.registerPlugin(FilePondPluginImageCrop);
+                FilePond.registerPlugin(FilePondPluginFileValidateType);
+                FilePond.registerPlugin(FilePondPluginImageTransform);
+                FilePond.registerPlugin(FilePondPluginImageOverlay);
+            });
+        </script>
     </div>
-    @if (!Request::is('agenda*'))
-        <x-footer />
-    @endif
-
-    @stack('scripts')
-
-    @livewireScripts
-    <script>
-        Livewire.on('toastMessage', message => {
-            snack(message);
-        });
-    </script>
-    <script>
-        document.addEventListener('FilePond:loaded', e => {
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-            FilePond.registerPlugin(FilePondPluginImageCrop);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
-            FilePond.registerPlugin(FilePondPluginImageTransform);
-            FilePond.registerPlugin(FilePondPluginImageOverlay);
-        });
-    </script>
 </body>
 
 </html>
