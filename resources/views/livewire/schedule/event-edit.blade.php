@@ -85,7 +85,7 @@
   </div>
 
   @push('scripts')
-      <script>
+      <script data-swup-reload-script>
           function eventEdit() {
               return {
                   modal: false,

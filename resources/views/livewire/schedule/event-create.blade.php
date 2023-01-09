@@ -91,7 +91,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function eventCreate() {
             return {
                 modal: false,

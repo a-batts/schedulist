@@ -131,7 +131,7 @@
     </div>
 </div>
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function editMenu() {
             return {
                 modal: false,

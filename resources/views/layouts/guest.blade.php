@@ -52,64 +52,68 @@
 </head>
 
 <body class="mdc-typography overflow-x-hidden">
-    <header x-data="{
-        aboveContent: false,
-        scrolled: function() {
-            if (window.scrollY > 36)
-                this.aboveContent = true
-            else
-                this.aboveContent = false
-        },
-    }" @scroll.window="scrolled()">
-        <nav class="nav-border base-bg fixed top-0 z-10 w-screen py-4" x-bind:class="{ 'border-b': aboveContent }">
-            <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="flex items-center w-full" style="height: 4.2rem">
-                    <div class="flex-grow">
-                        <a class="z-20 overflow-y-auto" href="{{ route('landing') }}">
-                            <div class="flex-shrink-0">
-                                <div class="logo-image w-32 h-10 ml-2 border-none sm:ml-0 sm:h-12 sm:w-40">
+    <div class="swup-transition-fade" id="swup">
+        <header x-data="{
+            aboveContent: false,
+            scrolled: function() {
+                if (window.scrollY > 36)
+                    this.aboveContent = true
+                else
+                    this.aboveContent = false
+            },
+        }" @scroll.window="scrolled()">
+            <nav class="nav-border base-bg fixed top-0 z-10 w-screen py-4" x-bind:class="{ 'border-b': aboveContent }">
+                <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="flex items-center w-full" style="height: 4.2rem">
+                        <div class="flex-grow">
+                            <a class="z-20 overflow-y-auto" href="{{ route('landing') }}">
+                                <div class="flex-shrink-0">
+                                    <div class="logo-image w-32 h-10 ml-2 border-none sm:ml-0 sm:h-12 sm:w-40">
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="flex items-center gap-x-4">
-                        <div>
-                            <x-change-theme />
+                            </a>
                         </div>
-                        <div>
-                            @auth
-                                <a href="{{ route('dashboard') }}"class="max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                    aria-label="User menu" aria-haspopup="true">
-                                    <img class="object-cover w-8 h-8 rounded-full"
-                                        src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->firstname }}" />
-                                </a>
-                            @else
-                                <a class="w-22 mdc-button mdc-button--raised text-lg h-11" href="{{ route('login') }}"
-                                    wire:ignore>
-                                    <span class="mdc-button__ripple"></span>
-                                    <span class="mdc-button__focus-ring"></span>
-                                    <span class="mdc-button__label font-medium tracking-normal normal-case">Sign In</span>
-                                </a>
-                            @endauth
+                        <div class="flex items-center gap-x-4">
+                            <div>
+                                <x-change-theme />
+                            </div>
+                            <div>
+                                @auth
+                                    <a href="{{ route('dashboard') }}"class="max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                        aria-label="User menu" aria-haspopup="true">
+                                        <img class="object-cover w-8 h-8 rounded-full"
+                                            src="{{ Auth::user()->profile_photo_url }}"
+                                            alt="{{ Auth::user()->firstname }}" />
+                                    </a>
+                                @else
+                                    <a class="w-22 mdc-button mdc-button--raised text-lg h-11" href="{{ route('login') }}"
+                                        wire:ignore>
+                                        <span class="mdc-button__ripple"></span>
+                                        <span class="mdc-button__focus-ring"></span>
+                                        <span class="mdc-button__label font-medium tracking-normal normal-case">Sign
+                                            In</span>
+                                    </a>
+                                @endauth
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
-    <x-ui.snackbar />
-    <x-pwa-snackbar />
+        <x-ui.snackbar />
+        <x-pwa-snackbar />
 
-    <div class="content-div mdc-typography min-h-screen pt-20 antialiased">
-        {{ $slot }}
+        <div class="content-div mdc-typography min-h-screen pt-20 antialiased">
+            {{ $slot }}
+        </div>
+
+        <x-footer />
+
+        @stack('scripts')
+
+        @livewireScripts
     </div>
-
-    <x-footer />
-
-    @stack('scripts')
-
-    @livewireScripts
 </body>
 
 </html>

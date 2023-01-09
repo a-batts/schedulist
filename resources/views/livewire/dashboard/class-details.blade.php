@@ -78,7 +78,7 @@
         <div class="modal-container fixed top-0 flex items-baseline justify-center w-screen h-screen overflow-y-auto"
             style="display: none" x-show.important="showingClassDetails" x-trap.noscroll="showingClassDetails"
             @keydown.escape="showingClassDetails = false" x-transition x-cloak>
-            <div class="mdc-card mdc-card--outlined w-full max-w-full mr-0 md:mt-10 sm:w-4/5 border-hidden">
+            <div class="mdc-card mdc-card--outlined w-full max-w-full mr-0 border-hidden sm:w-4/5 md:mt-10">
                 <div class="mdc-card p-5 mr-0 rounded-b-none border-hidden"
                     :class="'background-' + classData?.[selectedClass]?.['color'].toLowerCase()">
                     <div class="flex h-full">
@@ -360,7 +360,7 @@
 </div>
 
 @push('scripts')
-    <script>
+    <script data-swup-reload-script>
         function classList() {
             return {
                 classData: @entangle('classData'),

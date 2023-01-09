@@ -26,6 +26,12 @@ import autosize from 'autosize';
 
 import { registerSW } from 'virtual:pwa-register';
 
+import Swup from 'swup';
+import SwupLivewirePlugin from '@swup/livewire-plugin';
+import SwupProgressPlugin from '@swup/progress-plugin';
+import SwupScriptsPlugin from '@swup/scripts-plugin';
+import SwupBodyClassPlugin from '@swup/body-class-plugin';
+
 /**
  * Import alpine.js and initalize
  */
@@ -72,6 +78,19 @@ function showLoginPassword(e) {
         passwordfield.type === 'password' ? 'text' : 'password';
 }
 window.showLoginPassword = showLoginPassword;
+
+const swup = new Swup({
+    animationSelector: '[class*="swup-transition-"]',
+    cache: false,
+    plugins: [
+        new SwupLivewirePlugin(),
+        new SwupProgressPlugin(),
+        new SwupScriptsPlugin({
+            optin: true,
+        }),
+        new SwupBodyClassPlugin(),
+    ],
+});
 
 //Start Alpine after all functions are imported to prevent function issues
 Alpine.start();

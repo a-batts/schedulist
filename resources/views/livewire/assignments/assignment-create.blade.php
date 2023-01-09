@@ -1,4 +1,4 @@
-<div class="mdc-typography" x-data="assignmentCreate" @close-assignment-modal.window="modal = false">
+<div class="mdc-typography" x-data="assignmentCreate()" @close-assignment-modal.window="modal = false">
     <div class="fab-button">
         <button class="mdc-fab mdc-fab--extended mdc-button-ripple" aria-label="Add Assignment" @click="dialog = true">
             <div class="mdc-fab__ripple"></div>
@@ -99,9 +99,9 @@
 </div>
 
 @push('scripts')
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('assignmentCreate', () => ({
+    <script data-swup-reload-script>
+        function assignmentCreate() {
+            return {
                 dialog: false,
 
                 errorMessages: @entangle('errorMessages'),
@@ -130,7 +130,7 @@
                 validDate: function(date) {
                     return date >= new Date();
                 },
-            }))
-        })
+            }
+        }
     </script>
 @endpush

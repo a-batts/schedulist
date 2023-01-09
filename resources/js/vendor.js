@@ -12,165 +12,186 @@ import { MDCRadio } from '@material/radio';
 import { MDCDataTable } from '@material/data-table';
 import { MDCList } from '@material/list';
 
-[].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
-    return new MDCSwitch(el);
-});
+function initMDC() {
+    [].map.call(document.querySelectorAll('.mdc-switch'), function (el) {
+        return new MDCSwitch(el);
+    });
 
-//Register regular button ripples
-[].map.call(document.querySelectorAll('.mdc-button'), function (el) {
-    return new MDCRipple(el);
-});
+    //Register regular button ripples
+    [].map.call(document.querySelectorAll('.mdc-button'), function (el) {
+        return new MDCRipple(el);
+    });
 
-[].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
-    return new MDCRipple(el);
-});
-//Select menus
-[].map.call(document.querySelectorAll('.mdc-select'), function (el) {
-    return new MDCSelect(el);
-});
-//Register MDCTextFields
-[].map.call(
-    document.querySelectorAll('.mdc-text-field:not(.dummy-field)'),
-    function (el) {
-        return new MDCTextField(el);
-    }
-);
-
-function initTextField(e) {
-    if (document.getElementById(e) !== null)
-        return new MDCTextField(document.getElementById(e));
-}
-window.initTextField = initTextField;
-//Register icon buttons and ripples
-[].map.call(document.querySelectorAll('.icontoggle'), function (el) {
-    return new MDCIconButtonToggle(el);
-});
-[].map.call(document.querySelectorAll('.mdc-ripple-surface'), function (el) {
-    return new MDCRipple(el);
-});
-[].map.call(document.querySelectorAll('.mdc-radio'), function (el) {
-    return new MDCRadio(el);
-});
-//Dialog boxes to add/remove classes
-if (document.getElementById('confirm-dialog') !== null) {
-    const confDialog = new MDCDialog(document.querySelector('.confirm-dialog'));
-    function delDialog() {
-        confDialog.open();
-    }
-    window.delDialog = delDialog;
-    window.confDialog = confDialog;
-}
-if (document.getElementById('unsub-dialog') !== null) {
-    const unsubscribeDialog = new MDCDialog(
-        document.querySelector('.unsub-dialog')
+    [].map.call(document.querySelectorAll('.mdc-button-ripple'), function (el) {
+        return new MDCRipple(el);
+    });
+    //Select menus
+    [].map.call(document.querySelectorAll('.mdc-select'), function (el) {
+        return new MDCSelect(el);
+    });
+    //Register MDCTextFields
+    [].map.call(
+        document.querySelectorAll('.mdc-text-field:not(.dummy-field)'),
+        function (el) {
+            return new MDCTextField(el);
+        }
     );
-    function unsubDialog() {
-        unsubscribeDialog.open();
+
+    function initTextField(e) {
+        if (document.getElementById(e) !== null)
+            return new MDCTextField(document.getElementById(e));
     }
-    window.unsubDialog = unsubDialog;
-}
-
-//Icon Buttons Init
-[].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
-    let btn = new MDCRipple(el);
-    btn.unbounded = true;
-    return btn;
-});
-//Checkbox Init
-[].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
-    return new MDCCheckbox(el);
-});
-
-[].map.call(document.querySelectorAll('.mdc-deprecated-list'), function (el) {
-    let list = new MDCList(el);
-    list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
-    return list;
-});
-
-[].map.call(document.querySelectorAll('.mdc-data-table'), function (el) {
-    return new MDCDataTable(el);
-});
-
-//Snackbar Inits
-if (document.getElementById('snackbar') !== null) {
-    const snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
-    function snack(msg) {
-        snackbar.labelText = msg;
-        snackbar.open();
-    }
-    window.snack = snack;
-    window.snackbar = snackbar;
-}
-
-if (document.getElementById('refreshpwa') !== null) {
-    const pwaSnackbar = new MDCSnackbar(document.querySelector('.refreshpwa'));
-    function showRefresh() {
-        pwaSnackbar.open();
-    }
-    window.showRefresh = showRefresh;
-    window.pwaSnackbar = pwaSnackbar;
-}
-
-if (document.querySelector('.edit-more-menu') !== null) {
-    const moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
-    window.moreMenu = moreMenu;
-}
-
-if (document.querySelector('.delete-item-confirmation') !== null) {
-    const deleteAssignmentDialog = new MDCDialog(
-        document.querySelector('.delete-item-confirmation')
+    window.initTextField = initTextField;
+    //Register icon buttons and ripples
+    [].map.call(document.querySelectorAll('.icontoggle'), function (el) {
+        return new MDCIconButtonToggle(el);
+    });
+    [].map.call(
+        document.querySelectorAll('.mdc-ripple-surface'),
+        function (el) {
+            return new MDCRipple(el);
+        }
     );
-    function openAssignmentDialog() {
-        deleteAssignmentDialog.open();
+    [].map.call(document.querySelectorAll('.mdc-radio'), function (el) {
+        return new MDCRadio(el);
+    });
+    //Dialog boxes to add/remove classes
+    if (document.getElementById('confirm-dialog') !== null) {
+        const confDialog = new MDCDialog(
+            document.querySelector('.confirm-dialog')
+        );
+        function delDialog() {
+            confDialog.open();
+        }
+        window.delDialog = delDialog;
+        window.confDialog = confDialog;
     }
-    window.deleteAssignmentDialog = deleteAssignmentDialog;
-    window.openAssignmentDialog = openAssignmentDialog;
-}
+    if (document.getElementById('unsub-dialog') !== null) {
+        const unsubscribeDialog = new MDCDialog(
+            document.querySelector('.unsub-dialog')
+        );
+        function unsubDialog() {
+            unsubscribeDialog.open();
+        }
+        window.unsubDialog = unsubDialog;
+    }
 
-const scheduleDeleteConfirmation = document.querySelector(
-    '.delete-schedule-confirmation'
-);
+    //Icon Buttons Init
+    [].map.call(document.querySelectorAll('.mdc-icon-button'), function (el) {
+        let btn = new MDCRipple(el);
+        btn.unbounded = true;
+        return btn;
+    });
+    //Checkbox Init
+    [].map.call(document.querySelectorAll('.mdc-checkbox'), function (el) {
+        return new MDCCheckbox(el);
+    });
 
-if (scheduleDeleteConfirmation !== null) {
-    const deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+    [].map.call(
+        document.querySelectorAll('.mdc-deprecated-list'),
+        function (el) {
+            let list = new MDCList(el);
+            list.listElements.map((listItemEl) => new MDCRipple(listItemEl));
+            return list;
+        }
+    );
 
-    window['scheduleDeleteDialog'] = async function () {
-        deleteDialog.open();
-        const cancelButton =
-            scheduleDeleteConfirmation.querySelector('.cancel');
-        const confirmButton =
-            scheduleDeleteConfirmation.querySelector('.confirm');
+    [].map.call(document.querySelectorAll('.mdc-data-table'), function (el) {
+        return new MDCDataTable(el);
+    });
 
-        return new Promise((resolve, reject) => {
-            cancelButton.onclick = reject;
-            confirmButton.onclick = resolve;
+    //Snackbar Inits
+    if (document.getElementById('snackbar') !== null) {
+        const snackbar = new MDCSnackbar(document.querySelector('.snackbar'));
+        function snack(msg) {
+            snackbar.labelText = msg;
+            snackbar.open();
+        }
+        window.snack = snack;
+        window.snackbar = snackbar;
+    }
+
+    if (document.getElementById('refreshpwa') !== null) {
+        const pwaSnackbar = new MDCSnackbar(
+            document.querySelector('.refreshpwa')
+        );
+        function showRefresh() {
+            pwaSnackbar.open();
+        }
+        window.showRefresh = showRefresh;
+        window.pwaSnackbar = pwaSnackbar;
+    }
+
+    if (document.querySelector('.edit-more-menu') !== null) {
+        const moreMenu = new MDCMenu(document.querySelector('.edit-more-menu'));
+        window.moreMenu = moreMenu;
+    }
+
+    if (document.querySelector('.delete-item-confirmation') !== null) {
+        const deleteAssignmentDialog = new MDCDialog(
+            document.querySelector('.delete-item-confirmation')
+        );
+        function openAssignmentDialog() {
+            deleteAssignmentDialog.open();
+        }
+        window.deleteAssignmentDialog = deleteAssignmentDialog;
+        window.openAssignmentDialog = openAssignmentDialog;
+    }
+
+    const scheduleDeleteConfirmation = document.querySelector(
+        '.delete-schedule-confirmation'
+    );
+
+    if (scheduleDeleteConfirmation !== null) {
+        const deleteDialog = new MDCDialog(scheduleDeleteConfirmation);
+
+        window['scheduleDeleteDialog'] = async function () {
+            deleteDialog.open();
+            const cancelButton =
+                scheduleDeleteConfirmation.querySelector('.cancel');
+            const confirmButton =
+                scheduleDeleteConfirmation.querySelector('.confirm');
+
+            return new Promise((resolve, reject) => {
+                cancelButton.onclick = reject;
+                confirmButton.onclick = resolve;
+            });
+        };
+    }
+
+    if (document.querySelector('.suggestions-menu') !== null) {
+        const suggestionsMenu = new MDCMenu(
+            document.querySelector('.suggestions-menu')
+        );
+        window.suggestionsMenu = suggestionsMenu;
+    }
+
+    if (document.querySelector('.manage-reminders-dialog') !== null) {
+        const reminderDiag = new MDCDialog(
+            document.querySelector('.manage-reminders-dialog')
+        );
+        reminderDiag.scrimClickAction = '';
+        let button = document.getElementById('reminder-button');
+        button.addEventListener('click', () => {
+            reminderDiag.open();
         });
-    };
-}
+    }
 
-if (document.querySelector('.suggestions-menu') !== null) {
-    const suggestionsMenu = new MDCMenu(
-        document.querySelector('.suggestions-menu')
-    );
-    window.suggestionsMenu = suggestionsMenu;
-}
-
-if (document.querySelector('.manage-reminders-dialog') !== null) {
-    const reminderDiag = new MDCDialog(
-        document.querySelector('.manage-reminders-dialog')
-    );
-    reminderDiag.scrimClickAction = '';
-    let button = document.getElementById('reminder-button');
-    button.addEventListener('click', () => {
-        reminderDiag.open();
+    //Tooltips Init
+    [].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
+        try {
+            return new MDCTooltip(el);
+        } catch (e) {}
     });
 }
 
-//Tooltips Init
-[].map.call(document.querySelectorAll('.mdc-tooltip'), function (el) {
-    try {
-        return new MDCTooltip(el);
-    } catch (e) {}
+//Initialize MDC components when the document is loaded
+document.addEventListener('DOMContentLoaded', initMDC);
+//Reinitialize MDC components when swup replaces content between page loads
+document.addEventListener('swup:contentReplaced', () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    initMDC();
 });
 
 //Regenerate MDC selects on page - useful if being used inside an Alpine x-if

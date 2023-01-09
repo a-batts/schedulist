@@ -3,14 +3,14 @@
         <div class="mdc-dialog__container">
             <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title"
                 aria-describedby="my-dialog-content">
-                <h2 class="mdc-dialog__title text-primary text-2xl font-bold mt-4" id="my-dialog-title">Manage Reminders
+                <h2 class="mdc-dialog__title text-primary mt-4 text-2xl font-bold" id="my-dialog-title">Manage Reminders
                 </h2>
                 <div class="mdc-dialog__content" id="my-dialog-content">
-                    <div class="max-w-screen w-96 px-2 overflow-x-hidden" wire:ignore.self>
+                    <div class="max-w-screen px-2 overflow-x-hidden w-96" wire:ignore.self>
                         <template x-for="reminder, index in reminders">
-                            <div class="py-2 flex items-center">
+                            <div class="flex items-center py-2">
                                 <span class="material-icons inline-block">notifications_active</span>
-                                <p class="text-secondary ml-4 text-base tracking-normal flex-grow">
+                                <p class="text-secondary flex-grow ml-4 text-base tracking-normal">
                                     <span class="" x-text="reminder.hours_before"></span> hours before
                                 </p>
                                 <button class="mdc-icon-button material-icons"
@@ -23,18 +23,18 @@
                         <template x-if="reminders.length == 0">
                             <div class="flex flex-col items-center pb-4">
                                 <p
-                                    class="material-icons assignment-card-icon left-0 right-0 mx-0 mt-10 select-none text-center text-9xl">
+                                    class="material-icons assignment-card-icon left-0 right-0 mx-0 mt-10 text-center select-none text-9xl">
                                     notifications_off</p>
-                                <p class="mt-1 text-center text-lg font-medium tracking-normal text-gray-600">No
+                                <p class="mt-1 text-lg font-medium tracking-normal text-center text-gray-600">No
                                     reminders have been set</p>
                             </div>
                         </template>
-                        <div class="mt-2 pt-4 border-t border-gray-100" x-show="addingEvent" x-cloak>
+                        <div class="pt-4 mt-2 border-t border-gray-100" x-show="addingEvent" x-cloak>
                             <div class="flex">
-                                <div class="flex-grow flex items-center">
-                                    <span class="text-secondary mr-2 inline-block tracking-normal">Remind me</span>
+                                <div class="flex items-center flex-grow">
+                                    <span class="text-secondary inline-block mr-2 tracking-normal">Remind me</span>
                                     <label
-                                        class="new-reminder-textfield mdc-text-field mdc-text-field--outlined mdc-text-field--no-label mx-1 w-16">
+                                        class="new-reminder-textfield mdc-text-field mdc-text-field--outlined mdc-text-field--no-label w-16 mx-1">
                                         <span class="mdc-notched-outline">
                                             <span class="mdc-notched-outline__leading"></span>
                                             <span class="mdc-notched-outline__notch">
@@ -44,7 +44,7 @@
                                         <input class="mdc-text-field__input" type="number" min="1"
                                             x-model="newReminder">
                                     </label>
-                                    <span class="text-secondary ml-2 inline-block tracking-normal">hours before</span>
+                                    <span class="text-secondary inline-block ml-2 tracking-normal">hours before</span>
                                 </div>
                                 <div class="">
                                     <button class="mdc-icon-button material-icons" type="button"
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mdc-dialog__actions flex px-3 py-3 justify-start">
+                <div class="mdc-dialog__actions flex justify-start px-3 py-3">
                     <div class="flex-grow">
                         <button class="mdc-button mdc-button--icon-leading self-start" type="button"
                             @click.prevent="showNewReminder()" :disabled="reminders.length > 9 || addingEvent == true">
@@ -83,7 +83,7 @@
 </div>
 
 @push('scripts')
-    <script wire:ignore>
+    <script wire:ignore data-swup-reload-script>
         function reminders() {
             return {
                 addingEvent: false,
