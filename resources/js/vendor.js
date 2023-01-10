@@ -194,6 +194,12 @@ document.addEventListener('DOMContentLoaded', initMDC);
 document.addEventListener('swup:contentReplaced', () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
+    //Unfix the body if scrolling has been disabled
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.paddingRight = '';
+
+    //Initialize MDC components
     initMDC();
 });
 
