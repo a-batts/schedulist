@@ -26,6 +26,7 @@ class ViteScriptServiceProvider extends ServiceProvider
     {
         Vite::useScriptTagAttributes([
             'data-swup-ignore-script' => 'true',
+            'defer',
         ]);
     }
 }
