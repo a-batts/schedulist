@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Actions\Core\NotifyUser;
 use App\Enums\User\GradeLevel;
 use App\Helpers\HasProfilePhoto;
+use App\Notifications\PasswordReset as PasswordResetNotification;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Lang;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -132,5 +135,55 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->getProfilePhotoUrlAttribute();
+    }
+
+    /**
+     * Override the default password reset email
+     *
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $body =
+            'You received this email because you requested a password reset for your account. <br> ' .
+            Lang::get(
+                'This password reset link will expire in :count minutes.',
+                [
+                    'count' => config(
+                        'auth.passwords.' .
+                            config('auth.defaults.passwords') .
+                            '.expire'
+                    ),
+                ]
+            );
+
+        $link = url(
+            route(
+                'password.reset',
+                [
+                    'token' => $token,
+                    'email' => $this->email,
+                ],
+                false
+            )
+        );
+
+        NotifyUser::createNotification(
+            [
+                'subject' => 'Reset your password',
+                'heading' => 'Reset your password',
+                'body' => $body,
+                'link' => $link,
+                'link_title' => 'Reset Password',
+                'footer' =>
+                    'If you did not request a password reset, no further action is required. 
+                        If you\'re having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser: ' .
+                    $link,
+                'icon' => 'vpn_key',
+                'hide_default_footer' => false,
+            ],
+            $this
+        )->sendEmail();
     }
 }

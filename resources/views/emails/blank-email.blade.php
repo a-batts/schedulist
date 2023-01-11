@@ -129,7 +129,7 @@
                                     @endisset
                                     <td
                                         style="font-size: 16px; @empty($data['icon']) text-align: center @else margin-left: 10px; display: inline-block @endempty">
-                                        {{ $data['body'] }}
+                                        {!! $data['body'] !!}
                                     </td>
                                 </tr>
                             </table>
@@ -147,10 +147,14 @@
                     </tr>
                     <tr>
                         <td style="padding: 45px 60px; text-align: center;">
-                            <span style="font-size: 12px; line-height: 20px">{{ $data['footer'] }}<br> You can update
-                                notification settings for your account ({{ $data['user_email'] }}) by visiting <a
-                                    class="link" href="{{ route('profile') }}"
-                                    style="color: #1674d3">{{ route('profile') }}</a></span>
+                            <span style="font-size: 12px; line-height: 20px">{{ $data['footer'] }}<br>
+                                @if ($data['hide_default_footer'] != false)
+                                    You can update
+                                    notification settings for your account ({{ $data['user_email'] }}) by visiting <a
+                                        class="link" href="{{ route('profile') }}"
+                                        style="color: #1674d3">{{ route('profile') }}</a>
+                                @endif
+                            </span>
                         </td>
                     </tr>
                 </table>
