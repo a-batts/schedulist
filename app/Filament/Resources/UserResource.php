@@ -32,19 +32,12 @@ class UserResource extends Resource
                 ->email()
                 ->required()
                 ->maxLength(255),
-            Forms\Components\TextInput::make('phone')
-                ->tel()
-                ->maxLength(10),
-            Forms\Components\TextInput::make('carrier')->maxLength(50),
-            Forms\Components\TextInput::make('school')->maxLength(50),
-            Forms\Components\TextInput::make('grade_level')->maxLength(15),
-            Forms\Components\TextInput::make('password')
-                ->password()
-                ->maxLength(255),
+            Forms\Components\TextInput::make('two_factor_secret'),
+            Forms\Components\TextInput::make('two_factor_recovery_codes'),
             Forms\Components\Textarea::make('profile_photo_path')->maxLength(
                 65535
             ),
-            Forms\Components\TextInput::make('filament_user')->maxLength(255),
+            Forms\Components\Checkbox::make('filament_user'),
         ]);
     }
 
@@ -55,18 +48,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('firstname'),
                 Tables\Columns\TextColumn::make('lastname'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('carrier'),
-                Tables\Columns\TextColumn::make('school'),
-                Tables\Columns\TextColumn::make('grade_level'),
                 Tables\Columns\TextColumn::make(
                     'email_verified_at'
                 )->dateTime(),
                 Tables\Columns\TextColumn::make('two_factor_secret'),
                 Tables\Columns\TextColumn::make('two_factor_recovery_codes'),
                 Tables\Columns\TextColumn::make('profile_photo_path'),
-                Tables\Columns\TextColumn::make('google_id'),
-                Tables\Columns\TextColumn::make('google_email'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime(),
                 Tables\Columns\TextColumn::make('filament_user'),
