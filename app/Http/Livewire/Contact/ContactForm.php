@@ -4,23 +4,55 @@ namespace App\Http\Livewire\Contact;
 
 use Livewire\Component;
 use App\Mail\FeedbackForm;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class ContactForm extends Component
 {
+    use WithRateLimiting;
+
+    /**
+     * The user's name
+     *
+     * @var string
+     */
     public string $name = '';
+
+    /**
+     * The user's email
+     *
+     * @var string|null
+     */
     public ?string $email = null;
-    public string $reason = '';
+
+    /**
+     * The subject of the message
+     *
+     * @var string
+     */
+    public string $subject = '';
+
+    /**
+     * The message being sent
+     *
+     * @var string
+     */
     public string $message = '';
 
-    protected function rules()
+    /**
+     * Validation rules
+     *
+     * @return array
+     */
+    protected function rules(): array
     {
         return [
             'name' => 'required',
             'email' => 'nullable|email',
-            'reason' => 'required',
+            'subject' => 'required',
             'message' => 'required|max:250',
         ];
     }
@@ -53,30 +85,40 @@ class ContactForm extends Component
      */
     public function submit(): void
     {
-        $this->validate();
+        try {
+            $this->rateLimit(maxAttempts: 1, decaySeconds: 60 * 20);
+            $this->validate();
 
-        if (!$this->reason) {
+            if (!$this->subject) {
+                throw ValidationException::withMessages([
+                    'reason' => 'A message reason is required',
+                ]);
+            }
+
+            if (!$this->email) {
+                $this->email = 'feedback@schedulist.xyz';
+                $replyName = 'NO REPLY';
+            } else {
+                $replyName = $this->name;
+            }
+
+            $data = [
+                'name' => $this->name,
+                'reason' => $this->subject,
+                'message' => $this->message,
+                'sendFrom' => $this->email,
+                'replyName' => $replyName,
+            ];
+
+            $this->sendEmail($data);
+        } catch (TooManyRequestsException $exception) {
+            //Disable the send button so the user does not attempt to resend a message again
+            $this->dispatchBrowserEvent('disable-send-button');
+
             throw ValidationException::withMessages([
-                'reason' => 'A message reason is required',
+                'message' => "You need to wait another $exception->minutesUntilAvailable minutes before you can submit this form again.",
             ]);
         }
-
-        if (!$this->email) {
-            $this->email = 'feedback@schedulist.xyz';
-            $replyName = 'NO REPLY';
-        } else {
-            $replyName = $this->name;
-        }
-
-        $data = [
-            'name' => $this->name,
-            'reason' => $this->reason,
-            'message' => $this->message,
-            'sendFrom' => $this->email,
-            'replyName' => $replyName,
-        ];
-
-        $this->sendEmail($data);
     }
 
     /**
@@ -91,20 +133,25 @@ class ContactForm extends Component
         $this->reset('message');
         $this->emit(
             'toastMessage',
-            'Message sent! We\'ll get back to you soon.'
+            'Message sent! We\'ll get back to you as soon as possible.'
         );
-        $this->dispatchBrowserEvent('disable-send-button');
+        $this->dispatchBrowserEvent('reset-form');
     }
 
     /**
-     * Sets value of reason property from select component
+     * Sets value of subject property from select component
      * @param string $value
      */
-    public function setReason(string $value): void
+    public function setSubject(string $value): void
     {
-        $this->reason = $value;
+        $this->subject = $value;
     }
 
+    /**
+     * Render the component
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return view('livewire.contact.contact-form')->layout('layouts.guest', [
