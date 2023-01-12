@@ -1,5 +1,5 @@
 <div x-data="{
-    shareModal: true,
+    shareModal: false,
 
     loading: false,
 
