@@ -62,14 +62,14 @@
         </div>
     </div>
     <div class="agenda-padding sm:px-6 lg:px-8" wire:ignore>
-        <div class="mdc-typography outer-agenda-container relative pb-8 overflow-y-scroll"
-            style="height: calc(100vh - 154px);">
+        <div class="mdc-typography outer-agenda-container relative pb-8 overflow-x-hidden overflow-y-scroll"
+            style="height: calc(100vh - 154px);" x-ref="outerAgenda">
             <div class="inner-agenda-container">
                 @for ($i = 0; $i < 24; $i++)
                     <div class="agenda-clockslot float-left pr-2">
                         <p class="mb-2 -mt-2 text-xs text-right text-gray-400 align-middle">
                             @if ($i == 12)
-                                12PM
+                                12 PM
                             @elseif($i == 0)
                             @else
                                 {{ $i % 12 }}@if ($i < 12)
@@ -84,17 +84,19 @@
                 @endfor
 
                 <div class="relative mx-2.5">
+                    <div class="absolute left-[2.05rem] z-40 flex w-full items-center"
+                        :style="`top: ${todaySeconds}px`;">
+                        <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
+                        <div class="bg-primary-theme h-0.5 w-full"></div>
+                    </div>
+
                     <template x-if="currentDayData != null">
                         <template x-for="(item, index) in currentDayData" :key="index">
+                            <!-- prettier-ignore-attribute :style -->
                             <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
                                 @click="setSelectedItem(index)"
                                 :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                x-bind:style="`top: ${item.top}px;
-                                                                                                left: ${item.left}px;
-                                                                                                height: calc(${item.bottom}px - ${item.top}px);
-                                                                                                width: calc(100% - ${item.left + 55}px);
-                                                                                                z-index: ${item.height};
-                                                                                                min-height: 80px;`"
+                                :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
                                 x-show="! filter.includes(`${item.type}`)" x-transition>
                                 <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                     <p class="agenda-text-primary text-xl font-medium truncate transition-all"
@@ -149,6 +151,7 @@
                 eventColors: [],
 
                 init: function() {
+                    this.$refs.outerAgenda.scrollTop = 450;
                     this.selectedItemData.name = '';
                     this.selectedItemData.color = '';
                     this.selectedItemData.link = '';
@@ -289,6 +292,12 @@
 
                 get year() {
                     return this.date.getFullYear();
+                },
+
+                get todaySeconds() {
+                    const dt = new Date();
+                    return Math.round((dt.getSeconds() + (60 * (dt.getMinutes() + (60 * dt.getHours())))) /
+                        {{ $scaleFactor }});
                 },
 
                 get headerDate() {

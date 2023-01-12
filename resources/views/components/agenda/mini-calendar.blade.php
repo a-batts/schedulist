@@ -44,7 +44,7 @@
         <template x-for="day in monthDays">
             <div>
                 <div class="flex items-center justify-center">
-                    <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer"
+                    <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer sm:w-7 sm:h-7"
                         :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }"
                         @click="changeDate(day)">
                         <span class="inline-block align-middle select-none" x-text="day"></span>
@@ -59,8 +59,10 @@
         </template>
 
         <template x-for="day in endingBlankDays">
-            <div class="w-8 h-8 text-center rounded-lg cursor-default">
-                <span class="text-gray-400 align-middle select-none" x-text="day"></span>
+            <div class="flex items-center justify-center">
+                <div class="w-8 h-8 text-center rounded-lg cursor-default">
+                    <span class="text-gray-400 align-middle select-none" x-text="day"></span>
+                </div>
             </div>
         </template>
     </div>

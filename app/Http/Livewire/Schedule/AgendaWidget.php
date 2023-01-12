@@ -88,6 +88,9 @@ class AgendaWidget extends Component
 
     public function render()
     {
-        return view('livewire.schedule.agenda-widget');
+        return view('livewire.schedule.agenda-widget')->with(
+            'scaleFactor',
+            Schedule::SCALE_FACTOR
+        );
     }
 }
