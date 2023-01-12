@@ -19,14 +19,14 @@
                             <div class="mdc-icon-button__ripple"></div>
                             delete
                         </button>
-                        <a x-bind:href="selectedItemData.link">
+                        <a x-bind:href="selectedItemData.link" @click="enableScroll()">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details">
                                 <div class="mdc-icon-button__ripple"></div>
                                 edit
                             </button>
                         </a>
-                        <a x-bind:href="selectedItemData.data['url']">
-                            <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details"
+                        <a x-bind:href="selectedItemData.data['url']" @click="enableScroll()">
+                            <button class="mdc-icon-button material-icons float-right" aria-describedby="link-details"
                                 :disabled="selectedItemData.data['url'] == null">
                                 <div class="mdc-icon-button__ripple"></div>
                                 link
@@ -118,7 +118,7 @@
         <div class="grid grid-cols-5 mt-4">
             <template x-for="color in ['pink', 'orange', 'lemon', 'mint', 'blue', 'teal', 'purple', 'lav', 'beige']">
                 <div class="mx-auto mb-4">
-                    <div class="mdc-icon-button w-12 h-12 rounded-full lg:w-[3.5rem] lg:h-[3.5rem]"
+                    <div class="mdc-icon-button h-12 w-12 rounded-full lg:h-[3.5rem] lg:w-[3.5rem]"
                         :class="`background-${color} ${$color = selectedColor ? 'border-white border-solid border-2' : ''}`"
                         @click="updateEventColor(color)">
                         <div class="mdc-icon-button__ripple"></div>
