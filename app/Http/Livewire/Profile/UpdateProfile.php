@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Profile;
 
-use App\Enums\User\GradeLevel;
+use App\Enums\GradeLevel;
 use App\Helpers\CarrierEmailHelper;
 use App\Services\Twilio\PhoneNumberLookupService;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;

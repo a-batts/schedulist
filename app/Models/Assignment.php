@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Assignment\AssignmentStatus;
+use App\Enums\AssignmentStatus;
 use App\Models\Classes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;

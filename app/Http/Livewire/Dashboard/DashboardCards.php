@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Enums\Assignment\AssignmentStatus;
+use App\Enums\AssignmentStatus;
 use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
 use Carbon\Carbon;

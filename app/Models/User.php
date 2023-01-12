@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Actions\Core\NotifyUser;
-use App\Enums\User\GradeLevel;
+use App\Enums\GradeLevel;
 use App\Helpers\HasProfilePhoto;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;

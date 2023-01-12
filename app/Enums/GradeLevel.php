@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\User;
+namespace App\Enums;
 
 enum GradeLevel: int
 {

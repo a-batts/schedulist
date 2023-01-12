@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Assignment;
+namespace App\Enums;
 
 enum AssignmentStatus: int
 {

@@ -3,14 +3,12 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Enums\User\GradeLevel;
+use App\Enums\GradeLevel;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Register extends Component
