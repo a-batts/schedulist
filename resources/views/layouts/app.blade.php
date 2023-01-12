@@ -35,7 +35,7 @@
         //Match site theme to system settings if set to auto
         const theme = ('; ' + document.cookie).split(`; theme=`).pop().split(';')[0];
         const themeContainer = document.getElementById('theme-container');
-        if (theme == 'auto')
+        if (theme == 'auto' || theme == '')
             window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? themeContainer.classList.add(
                 'theme-dark') : themeContainer.classList.remove('theme-dark');
 
