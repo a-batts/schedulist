@@ -72,6 +72,7 @@ class EventShare extends Component
         $this->clearValidation();
 
         if ($this->query == Auth::user()->email) {
+            $this->dispatchBrowserEvent('finish-share-loading');
             throw ValidationException::withMessages([
                 'query' => 'You are already the owner of this event.',
             ]);
@@ -82,6 +83,7 @@ class EventShare extends Component
             !str_contains($this->query, '@') ||
             !str_contains($this->query, '.')
         ) {
+            $this->dispatchBrowserEvent('finish-share-loading');
             throw ValidationException::withMessages([
                 'query' => 'Invalid email inputted.',
             ]);
@@ -92,6 +94,7 @@ class EventShare extends Component
             ->first();
         $this->reset('query');
         if ($user == null) {
+            $this->dispatchBrowserEvent('finish-share-loading');
             throw ValidationException::withMessages([
                 'query' =>
                     'Doesn\'t look like there\'s a Schedulist account associated with the email you inputted.',
@@ -104,24 +107,29 @@ class EventShare extends Component
                 'event_id' => $this->event->id,
             ])->exists()
         ) {
+            $this->dispatchBrowserEvent('finish-share-loading');
             throw ValidationException::withMessages([
                 'query' => 'You have already shared this event with that user.',
             ]);
         }
 
-        EventUser::create([
-            'user_id' => $user->id,
-            'event_id' => $this->event->id,
-            'accepted' => false,
-        ])->save();
-        //Dispatch an email to the invited user with a generated link for the event
-        SendEventInvitation::dispatchSync([
-            'owner' => Auth::user(),
-            'event' => $this->event,
-            'route' => $this->generateRoute($this->event->id, $user->id),
-            'user' => $user,
-        ]);
-        $this->event = Event::find($this->event->id);
+        if (isset($this->event->id)) {
+            EventUser::create([
+                'user_id' => $user->id,
+                'event_id' => $this->event->id,
+                'accepted' => false,
+            ])->save();
+            //Dispatch an email to the invited user with a generated link for the event
+            SendEventInvitation::dispatchSync([
+                'owner' => Auth::user(),
+                'event' => $this->event,
+                'route' => $this->generateRoute($this->event->id, $user->id),
+                'user' => $user,
+            ]);
+            $this->emit('toast', 'Successfully shared');
+            $this->dispatchBrowserEvent('finish-share-loading');
+            $this->event = Event::find($this->event->id);
+        }
     }
 
     /**

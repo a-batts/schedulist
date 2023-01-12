@@ -1,24 +1,45 @@
 <div x-data="{
-    share: false,
+    shareModal: true,
+
+    loading: false,
+
     errorMessages: @entangle('errorMessages'),
-}" @open-share-modal.window="share = true">
-    <x-ui.modal class="mdc-typography top-14" title="Share Event" bind="share">
+
+    init: function() {
+        this.$watch('errorMessages', () => { this.loading = false });
+    },
+
+    share: function() {
+        this.loading = true;
+        this.$wire.share();
+    }
+}" @open-share-modal.window="shareModal = true; loading = false"
+    @finish-share-loading.window="loading = false">
+    <x-ui.modal class="mdc-typography top-14" title="" bind="shareModal">
         <x-slot name="actions">
-            <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" @click="share = false">
+            <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" @click="shareModal = false">
                 <span class="mdc-button__ripple"></span>Done
             </button>
         </x-slot>
+        <x-slot name="preloader">
+            <div class="h-1 pt-1">
+                <div class="linear-preload" x-show="loading">
+                    <div class="background"></div>
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </x-slot>
 
         <div class="px-3">
-            <p class="mb-2 -mt-2 text-gray-700">Share your event with other Schedulist users.</p>
-            <div class="flex items-center mb-6 text-sm text-gray-600">
+            <p class="mb-2 text-2xl font-semibold">Share your event with others</p>
+            <div class="flex items-center mb-6 text-sm text-gray-600 gap-x-3">
                 <p class="material-icons">
                     edit_off
                 </p>
-                <p class="ml-2">Invited users will recieve an invatation to add the event to their personal calendar
-                    but won't be able to make changes to it.</p>
+                <p>Invited users will see your event on their calendars, but won't be able to make changes to
+                    it.</p>
             </div>
-            <label class="mdc-text-field mdc-text-field--outlined w-full relative"
+            <label class="mdc-text-field mdc-text-field--outlined relative w-full"
                 :class="{ 'mdc-text-field--invalid': errorMessages['query'] != undefined }" wire:ignore>
                 <span class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
@@ -28,9 +49,11 @@
                     <span class="mdc-notched-outline__trailing"></span>
                 </span>
                 <input class="mdc-text-field__input" type="text" aria-labelledby="my-label-id" autocomplete="qekfk"
-                    wire:model.debounce.50ms="query" @keydown.enter.prevent="$wire.share()">
-                <div class="absolute right-0 h-full flex items-center pr-1">
-                    <button class="mdc-icon-button material-icons" type="button" @click="$wire.share()">
+                    wire:model.debounce.50ms="query">
+                <div class="absolute right-0 flex items-center h-full pr-1">
+                    <button class="mdc-icon-button material-icons" type="button"
+                        :class="{ 'color-error': errorMessages['query'] != undefined }" @click="share()"
+                        :disabled="loading">
                         <div class="mdc-icon-button__ripple"></div>
                         send
                     </button>
@@ -38,9 +61,9 @@
             </label>
             <x-ui.validation-error for="query" />
         </div>
-        <div class="mt-2">
+        <div class="mt-4">
             @if ($event->sharedWith->count() > 0)
-                <p class="mb-3 ml-3 text-xl font-medium">Shared with</p>
+                <p class="mb-3 ml-3 text-xl font-semibold">Shared with</p>
             @endif
             @foreach ($event->sharedWith as $user)
                 <div class="w-full px-3 py-2 mb-2 h-14">
@@ -73,8 +96,8 @@
                                 <span class="create-link-title block mt-1 mb-0 text-base font-medium">Create a public
                                     link</span>
                                 <br />
-                                <span class="block -mt-6 text-xs font-normal text-gray-600">Anyone with this link can
-                                    save this event</span>
+                                <span class="block -mt-6 text-xs font-normal text-gray-600">Anyone with the link will be
+                                    able to save this event</span>
                             </span>
                         </button>
                     </div>
