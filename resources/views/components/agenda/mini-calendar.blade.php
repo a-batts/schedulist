@@ -42,11 +42,18 @@
         </template>
 
         <template x-for="day in monthDays">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer"
-                    :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }"
-                    @click="changeDate(day)">
-                    <span class="inline-block align-middle select-none" x-text="day"></span>
+            <div>
+                <div class="flex items-center justify-center">
+                    <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer"
+                        :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }"
+                        @click="changeDate(day)">
+                        <span class="inline-block align-middle select-none" x-text="day"></span>
+                    </div>
+                </div>
+                <div class="flex justify-center h-1 pt-1">
+                    <template x-if="agenda?.[day]?.length > 0 && monthYear == $parent.month + ' ' + $parent.year">
+                        <div class="bg-primary-theme w-1 h-1 rounded-full"></div>
+                    </template>
                 </div>
             </div>
         </template>
