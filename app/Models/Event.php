@@ -27,13 +27,15 @@ class Event extends Model
         'beige',
     ];
 
-    protected $table = 'events';
-
-    protected $guarded = ['date'];
+    protected $appends = ['formatted_date', 'formatted_time'];
 
     protected $casts = [
         'name' => 'encrypted',
     ];
+
+    protected $guarded = ['date'];
+
+    protected $table = 'events';
 
     protected static function booted(): void
     {

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Actions\Core\NotifyUser;
 use App\Enums\User\GradeLevel;
 use App\Helpers\HasProfilePhoto;
-use App\Notifications\PasswordReset as PasswordResetNotification;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -115,6 +114,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function schedules(): HasMany
     {
         return $this->hasMany(ClassSchedule::class)->with('times');
+    }
+
+    public function invites(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class)->wherePivot('accepted', 0);
     }
 
     public function events(): BelongsToMany

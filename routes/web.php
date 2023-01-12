@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventInviteController;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Contact\ContactForm;
 use App\Http\Livewire\Profile\DeleteAccount;
@@ -11,6 +12,7 @@ use App\Http\Livewire\Profile\MyData;
 use App\Http\Livewire\Profile\Schedule\EditSchedules;
 use App\Http\Livewire\Profile\TwoFactorAuth;
 use App\Http\Livewire\Profile\UpdatePassword;
+use App\Http\Livewire\Schedule\EventInvite;
 use App\Models\Classes;
 use App\Models\Event;
 use Carbon\Carbon;
@@ -204,5 +206,15 @@ Route::middleware('auth')->group(function () {
     Route::post('class/removetime', [
         ClassController::class,
         'removeClassTime',
+    ]);
+
+    Route::post('event/invite/accept', [
+        EventInviteController::class,
+        'accept',
+    ]);
+
+    Route::post('event/invite/decline', [
+        EventInviteController::class,
+        'decline',
     ]);
 });

@@ -7,6 +7,7 @@ use Carbon\CarbonPeriod;
 
 use Livewire\Component;
 use App\Classes\Schedule\Schedule;
+use Illuminate\Support\Facades\Auth;
 
 class AgendaWidget extends Component
 {
@@ -58,12 +59,31 @@ class AgendaWidget extends Component
         return $range;
     }
 
+    /**
+     * Update the agenda with new data
+     *
+     * @return void
+     */
     public function updateAgendaData(): void
     {
         $this->setDate($this->initDate);
         $this->agenda = Schedule::getSingleMonth(
             $this->createMonthPeriod(Carbon::make($this->initDate))
         )->toArray();
+    }
+
+    /**
+     * Return the user's event invitations
+     *
+     * @return array
+     */
+    public function getInvitations(): array
+    {
+        return Auth::user()
+            ->invites()
+            ->with('creator')
+            ->get()
+            ->toArray();
     }
 
     public function render()

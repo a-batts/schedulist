@@ -8,19 +8,21 @@
                 <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="dayOfWeek"></p>
             </div>
         </div>
-        <div class="flex items-center self-center flex-none pr-3" wire:ignore>
-            <button class="mdc-icon-button material-icons -ml-1" aria-describedby="backward-day" @click="backwardDay()">
+        <div class="flex items-center self-center flex-none pr-3 space-x-1 sm:space-x-3" wire:ignore>
+            <x-agenda.event-invitations />
+
+            <button class="mdc-icon-button material-icons" aria-describedby="backward-day" @click="backwardDay()">
                 <div class="mdc-icon-button__ripple"></div>
                 chevron_left
             </button>
 
-            <button class="mdc-button mdc-button--outlined mx-4" aria-describedby="jump-today" @click="resetDate()"
+            <button class="mdc-button mdc-button--outlined" aria-describedby="jump-today" @click="resetDate()"
                 x-bind:disabled="isToday">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">Today</span>
             </button>
 
-            <button class="mdc-icon-button material-icons -ml-1" aria-describedby="forward-day" @click="forwardDay()">
+            <button class="mdc-icon-button material-icons" aria-describedby="forward-day" @click="forwardDay()">
                 <div class="mdc-icon-button__ripple"></div>
                 chevron_right
             </button>
@@ -87,12 +89,7 @@
                             <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
                                 @click="setSelectedItem(index)"
                                 :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                :style="`top: ${item.top}px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              left: ${item.left}px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              height: calc(${item.bottom}px - ${item.top}px);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              width: calc(100% - ${item.left + 55}px);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              z-index: ${item.height};
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              min-height: 80px;`"
+                                :style="`top: ${item.top}px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               min-height: 80px;`"
                                 x-show="! filter.includes(`${item.type}`)" x-transition>
                                 <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                     <p class="agenda-text-primary text-xl font-medium truncate transition-all"
@@ -117,6 +114,7 @@
     <x-ui.tooltip tooltip-id="jump-today" text="Jump to Today" />
     <x-ui.tooltip tooltip-id="backward-day" text="Previous Day" />
     <x-ui.tooltip tooltip-id="forward-day" text="Next Day" />
+    <x-ui.tooltip tooltip-id="inbox" text="View event invitations" />
 </div>
 
 @push('scripts')
@@ -124,15 +122,25 @@
         function schedule() {
             return {
                 agenda: @this.agenda,
+
                 date: new Date(),
+
                 selectedItem: -1,
+
                 showingDetails: false,
+
                 selectedItemData: [],
+
                 showingSideMenu: false,
+
                 popupHeight: -200,
+
                 filter: [],
+
                 colorPicker: false,
+
                 selectedColor: 'blue',
+
                 eventColors: [],
 
                 init: function() {
