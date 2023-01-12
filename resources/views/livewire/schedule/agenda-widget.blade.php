@@ -1,4 +1,4 @@
-<div class="mdc-typograpy w-full" id="agenda" x-data="schedule()"
+<div class="w-full" id="agenda" x-data="schedule()"
     @update-current-date.window="agenda = @this.agenda; currentDayData = agenda[day]">
     <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
         <div class="flex self-center flex-grow space-x-2 md:ml-16">
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="agenda-padding sm:px-6 lg:px-8" wire:ignore>
-        <div class="mdc-typography outer-agenda-container relative pb-8 overflow-x-hidden overflow-y-scroll"
+        <div class="outer-agenda-container relative pb-8 overflow-x-hidden overflow-y-scroll"
             style="height: calc(100vh - 154px);" x-ref="outerAgenda">
             <div class="inner-agenda-container">
                 @for ($i = 0; $i < 24; $i++)
@@ -84,11 +84,13 @@
                 @endfor
 
                 <div class="relative mx-2.5">
-                    <div class="absolute left-[2.05rem] z-40 flex w-full items-center"
-                        :style="`top: ${todaySeconds}px`;">
-                        <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
-                        <div class="bg-primary-theme h-0.5 w-full"></div>
-                    </div>
+                    <template x-if="isToday">
+                        <div class="absolute left-[2.05rem] z-[4] flex w-full items-center"
+                            :style="`top: ${todaySeconds -5}px`;">
+                            <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
+                            <div class="bg-primary-theme h-0.5 w-full"></div>
+                        </div>
+                    </template>
 
                     <template x-if="currentDayData != null">
                         <template x-for="(item, index) in currentDayData" :key="index">
