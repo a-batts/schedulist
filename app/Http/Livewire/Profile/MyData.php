@@ -58,7 +58,7 @@ class MyData extends Component
             '_' .
             Carbon::now()->toDateString() .
             '_' .
-            rand(1, 99) .
+            random_int(1, 99) .
             '_archive.zip';
 
         if (
@@ -222,7 +222,7 @@ class MyData extends Component
                 foreach ($this->user->events as $event) {
                     $eventData = [
                         'name' => $event->name,
-                        'category' => $event->category,
+                        'category' => $event->category->formattedName(),
                         'time' => [
                             'date' => $event->date,
                             'start' => $event->start_time,

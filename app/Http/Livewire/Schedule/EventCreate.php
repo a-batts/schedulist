@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Schedule;
 
+use App\Enums\EventCategory;
 use App\Models\Event;
 use App\Models\EventUser;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -17,7 +18,7 @@ class EventCreate extends Component
     const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     /**
-     * The new evemt
+     * The new event
      *
      * @var Event
      */
@@ -28,17 +29,7 @@ class EventCreate extends Component
      *
      * @var array
      */
-    public array $categories = [
-        'Club Meeting',
-        'Final',
-        'Game',
-        'Job Shift',
-        'Quiz',
-        'Practice/Rehersal',
-        'Test',
-        'Volunteer Work',
-        'Other',
-    ];
+    public array $categories = [];
 
     /**
      * Valid frequency options for event
@@ -55,7 +46,7 @@ class EventCreate extends Component
     public ?string $frequency = '';
 
     /**
-     * The days of the week for the event to reoccurr on
+     * The days of the week for the event to reoccur on
      *
      * @var array
      */
@@ -72,7 +63,7 @@ class EventCreate extends Component
     {
         return [
             'event.name' => 'required',
-            'event.category' => ['required', Rule::in($this->categories)],
+            'event.category' => ['required', new Enum(EventCategory::class)],
             'event.start_time' => 'required',
             'event.end_time' => 'required',
             'event.date' => 'required',
@@ -102,6 +93,8 @@ class EventCreate extends Component
         $this->event->end_time = '23:59';
 
         $this->event->reoccuring = false;
+
+        $this->categories = $this->getEventCategories();
     }
 
     /**
@@ -179,20 +172,21 @@ class EventCreate extends Component
     }
 
     /**
-     * Set the event category
+     * Get the array of all event category enums
      *
-     * @param string $category
-     * @return void
+     * @return array
      */
-    public function setCategory(string $category): void
+    public function getEventCategories(): array
     {
-        if (!in_array($category, $this->categories)) {
-            throw ValidationException::withMessages([
-                'event.category' => 'You\'ve selected an invalid category.',
-            ]);
+        $levels = [];
+        foreach (EventCategory::cases() as $case) {
+            $levels[] = [
+                'name' => $case->name,
+                'value' => $case->value,
+                'formatted_name' => $case->formattedName(),
+            ];
         }
-
-        $this->event->category = $category;
+        return $levels;
     }
 
     /**
@@ -200,6 +194,7 @@ class EventCreate extends Component
      *
      * @param array $time
      * @return void
+     * @throws ValidationException
      */
     public function setStartTime(array $time): void
     {
@@ -233,6 +228,7 @@ class EventCreate extends Component
      *
      * @param array $time
      * @return void
+     * @throws ValidationException
      */
     public function setEndTime(array $time): void
     {

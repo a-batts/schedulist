@@ -2,6 +2,7 @@
 
 namespace App\Classes\Schedule;
 
+use App\Enums\EventCategory;
 use App\Helpers\ClassScheduleHelper;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -217,7 +218,7 @@ class Day implements Countable
                         $end->format('G')
                     )->totalSeconds / Schedule::SCALE_FACTOR,
                     [
-                        'category' => $item->category,
+                        'category' => $item->category->formattedName(),
                         'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
                         'isOwner' => Auth::id() == $item->owner,
                     ]

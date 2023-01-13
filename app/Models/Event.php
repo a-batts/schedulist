@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EventCategory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +32,7 @@ class Event extends Model
 
     protected $casts = [
         'name' => 'encrypted',
+        'category' => EventCategory::class,
     ];
 
     protected $guarded = ['date'];
