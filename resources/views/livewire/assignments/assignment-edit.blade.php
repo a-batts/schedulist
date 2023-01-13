@@ -26,10 +26,11 @@
         <x-ui.modal class="top-4" title="Edit Assignment" bind="modal">
             <x-slot name="actions">
                 <button class="mdc-icon-button material-icons float-left mr-3 -mt-1" type="button"
-                    aria-describedby="delete-class" aria-label="close"
+                    aria-describedby="delete-class" aria-label="close" :disabled="offline"
                     @click="modal = false; openAssignmentDialog();">delete</button>
                 <x-ui.tooltip tooltip-id="delete-class" text="Delete Assignment" />
-                <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="edit">
+                <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" :disabled="offline"
+                    wire:click="edit">
                     <span class="mdc-button__ripple"></span>Save
                 </button>
             </x-slot>

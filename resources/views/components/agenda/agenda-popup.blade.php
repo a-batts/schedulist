@@ -1,10 +1,6 @@
 <div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 px-6 py-2 md:ml-72"
     @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity
-    x-bind:style="`top: calc(${popupHeight}px - 60px)`" x-ref="popupBox" x-cloak x-data="{
-        get online() {
-            return window.navigator.onLine;
-        }
-    }" wire:ignore.self>
+    :style="`top: calc(${popupHeight}px - 60px)`" x-ref="popupBox" x-cloak wire:ignore.self>
     <div x-show="! colorPicker" x-transition.in>
         <div class="item-details-top w-full h-12 mb-2">
             <button class="mdc-icon-button material-icons float-right" aria-describedby="close-details"
@@ -15,10 +11,6 @@
             <div wire:ignore>
                 <template x-if="selectedItemData && selectedItemData.type == 'assignment'">
                     <div>
-                        <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details">
-                            <div class="mdc-icon-button__ripple"></div>
-                            delete
-                        </button>
                         <a x-bind:href="selectedItemData.link" @click="enableScroll()">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details">
                                 <div class="mdc-icon-button__ripple"></div>
@@ -38,25 +30,25 @@
                     x-if="selectedItemData && selectedItemData.type == 'event' && selectedItemData.data['isOwner']">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details"
-                            :disabled="!online"
+                            :disabled="offline"
                             @click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); delDialog()">
                             <div class="mdc-icon-button__ripple"></div>
                             delete
                         </button>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details"
-                            :disabled="!online"
+                            :disabled="offline"
                             @click="$wire.emit('setEditEvent', `${selectedItemData.id}`); closeDetails()">
                             <div class="mdc-icon-button__ripple"></div>
                             edit
                         </button>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="share-details"
-                            :disabled="!online"
+                            :disabled="offline"
                             @click="$wire.emit('setShareEvent', `${selectedItemData.id}`); closeDetails()">
                             <div class="mdc-icon-button__ripple"></div>
                             share
                         </button>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="color-details"
-                            :disabled="!online" @click="colorPicker = true">
+                            :disabled="offline" @click="colorPicker = true">
                             <div class="mdc-icon-button__ripple"></div>
                             palette
                         </button>
@@ -66,7 +58,7 @@
                     x-if="selectedItemData && selectedItemData.type == 'event' && ! selectedItemData.data['isOwner']">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="unsub-details"
-                            :disabled="!online"
+                            :disabled="offline"
                             @click="$wire.emit('setDeleteEvent', `${selectedItemData.id}`); unsubDialog()">
                             <div class="mdc-icon-button__ripple"></div>
                             block

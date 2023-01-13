@@ -1,14 +1,14 @@
 <div>
-    <div class="mx-2 mt-3 mdc-card mdc-card--outlined md:mx-auto"
+    <div class="mdc-card mdc-card--outlined mx-2 mt-3 md:mx-auto"
         :class="{ 'md:-mx-3': selectedAssignment == assignment['id'] }">
-        <div class="px-6 mdc-card__primary-action assignment-card-top md:px-8" tabindex="0"
+        <div class="mdc-card__primary-action assignment-card-top px-6 md:px-8" tabindex="0"
             @click="selectedAssignment == assignment['id'] ? selectedAssignment = -1 : selectedAssignment = assignment['id']"
             :class="{ 'assignment-selected-card': selectedAssignment == assignment['id'] }">
             <div class="flex">
                 <div class="flex-grow">
                     <p class="w-full mr-5 text-base font-medium truncate sm:mt-0 sm:text-lg" x-text="assignment['name']">
                     </p>
-                    <p class="text-sm text-gray-600 truncate mdc-typography" x-text="assignment['class_name']"></p>
+                    <p class="mdc-typography text-sm text-gray-600 truncate" x-text="assignment['class_name']"></p>
                 </div>
                 <div class="flex">
                     <div class="self-center justify-center mr-2 text-sm align-middle">
@@ -22,16 +22,16 @@
                             }"
                             x-text="getStatus(assignment)"></span>
                     </div>
-                    <button class="z-20 text-gray-600 t mdc-icon-button material-icons" type="button"
+                    <button class="t mdc-icon-button material-icons z-20 text-gray-600" type="button"
                         @click.stop="$wire.toggleCompletion(assignment['id'])"
-                        :aria-describedby="`assignmentToggle${assignment['id']}`">
+                        :aria-describedby="`assignmentToggle${assignment['id']}`" :disabled="offline">
                         <div class="mdc-icon-button__ripple"></div>
                         <span x-text="assignment['status'] == 0 ? 'check_circle' : 'unpublished'"></span>
                     </button>
                     <template x-if="assignment['link'] != null && assignment['link'].match('.*[a-zA-Z].*')">
                         <div>
                             <a :href="assignment['link']" target="_blank" rel="noopener">
-                                <button class="z-20 mdc-icon-button material-icons" type="button" @click.stop
+                                <button class="mdc-icon-button material-icons z-20" type="button" @click.stop
                                     :aria-describedby="`assignmentLink${assignment['id']}`">
                                     <div class="mdc-icon-button__ripple"></div>
                                     launch

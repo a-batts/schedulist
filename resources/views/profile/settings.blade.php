@@ -1,4 +1,5 @@
 <x-app-layout title="Account Settings" style="mt-10">
+    <x-offline-banner />
     <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="mdc-card mdc-card--outlined options_card mdc-typography mb-12">
             <div>

@@ -57,7 +57,8 @@
             <x-ui.snackbar />
             <x-pwa-snackbar />
 
-            <main class="min-h-screen pt-20">
+            <main class="min-h-screen pt-20" x-data="{ offline: !window.navigator.onLine }" @online.window="offline = false"
+                @offline.window="offline = true">
                 <div class="relative" id="main">
                     {{ $slot }}
                 </div>

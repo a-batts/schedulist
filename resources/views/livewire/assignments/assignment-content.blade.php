@@ -1,4 +1,4 @@
-<div class="px-2 md:pt-10 md:px-24" x-data="{
+<div class="px-2 md:px-24 md:pt-10" x-data="{
     noteContent: @entangle('noteContent').defer,
 }">
     <div class="border-b border-gray-200 md:pb-4">
@@ -40,10 +40,10 @@
     </div>
 
     <div class="w-full px-4 pt-6 pb-16 border-b border-gray-200 sm:px-6 lg:px-8">
-        <div class="lg:flex gap-x-8">
+        <div class="gap-x-8 lg:flex">
             <div class="flex-grow mb-10">
                 <div class="flex my-4">
-                    <div class="background-{{ $classColor }} rounded-full w-8 h-8 flex leading-8">
+                    <div class="background-{{ $classColor }} flex h-8 w-8 rounded-full leading-8">
                         <span
                             class="material-icons self-center block mx-auto text-lg align-middle justify-self-center">class</span>
                     </div>
@@ -56,7 +56,7 @@
                 </p>
             </div>
 
-            <div class="mdc-card mdc-card--outlined self-start flex-shrink-0 px-6 py-7 md:min-w-[27.5rem] mr-0">
+            <div class="mdc-card mdc-card--outlined mr-0 flex-shrink-0 self-start px-6 py-7 md:min-w-[27.5rem]">
                 <h4 class="mr-6 text-2xl font-bold">Assignment Details</h4>
                 <div class="mt-6 text-sm">
                     <p class="font-medium">Created on</p>
@@ -91,8 +91,8 @@
                 <span class="mdc-line-ripple"></span>
             </label>
             <button class="mdc-icon-button material-icons text-primary-theme self-end ml-2 transition-all"
-                aria-describedby="add-note-label" wire:click="addNote" :disabled="noteContent.trim().length == 0"
-                disabled>
+                aria-describedby="add-note-label" wire:click="addNote"
+                :disabled="noteContent.trim().length == 0 || offline" disabled>
                 <div class="mdc-icon-button__ripple"></div>
                 maps_ugc
             </button>

@@ -18,7 +18,8 @@
                         </div>
                         <div class="block text-center mt-7">
                             <button class="mdc-button mdc-button--outlined mdc-button-ripple inline-block"
-                                type="button" @click="$dispatch('open-photo-dialog')" wire:ignore>
+                                type="button" @click="$dispatch('open-photo-dialog')" :disabled="offline"
+                                wire:ignore>
                                 <i class="material-icons mdc-button__icon" aria-hidden="true">edit</i>
                                 <span class="mdc-button__ripple"></span>Change photo
                                 <button>
@@ -155,7 +156,8 @@
                 </div>
             </div>
             <div class="mt-4">
-                <button class="mdc-button mdc-button--raised mdc-button-ripple float-right clear-left" wire:ignore>
+                <button class="mdc-button mdc-button--raised mdc-button-ripple float-right clear-left"
+                    :disabled="offline" wire:ignore>
                     <span class="mdc-button__ripple"></span>Save Changes
                     <button>
             </div>

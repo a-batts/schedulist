@@ -9,7 +9,8 @@
      </div>
      <x-ui.modal class="top-3 bottom-3" title="New Class" bind="dialog">
          <x-slot name="actions">
-             <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" wire:click="create">
+             <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" :disabled="offline"
+                 wire:click="create">
                  <span class="mdc-button__ripple"></span>Create
              </button>
          </x-slot>
