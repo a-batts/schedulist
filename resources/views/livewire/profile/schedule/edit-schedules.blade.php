@@ -166,6 +166,9 @@
                             );
                         }).catch(() => {});
                     },
+                    [':disabled']() {
+                        return this.offline
+                    }
                 },
 
                 editButton: {
@@ -187,6 +190,9 @@
                         this.endDate = new Date(endDate[0], endDate[1] - 1, endDate[2]);
                         this.name = selected.name;
                     },
+                    [':disabled']() {
+                        return this.offline
+                    }
                 },
 
                 saveButton: {
@@ -223,7 +229,7 @@
                         return this.editing == -1 ? 'Create' : 'Save'
                     },
                     [':disabled']() {
-                        return this.name == ''
+                        return this.name == '' || this.offline
                     }
                 }
             }

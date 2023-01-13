@@ -1,7 +1,7 @@
 <div class="mdc-typography" x-data="eventCreate()" @close-create-modal.window="modal = false">
     <x-ui.modal class="top-4" title="New Event" bind="modal">
         <x-slot name="actions">
-            <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button"
+            <button class="mdc-button mdc-button--raised mdc-button-ripple" type="button" :disabled="offline"
                 @click="$wire.set('event.reoccuring', reoccuring); $wire.set('frequency', frequency); $wire.set('days', days); $wire.create()">
                 <span class="mdc-button__ripple"></span>Create
             </button>

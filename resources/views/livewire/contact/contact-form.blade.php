@@ -124,7 +124,7 @@
                 <button class="mdc-button mdc-button-ripple mdc-button--raised mb-4" type="submit"
                     @disable-send-button.window="submissionDisabled = true"
                     @reset-form.window="submissionDisabled = true; resetCharacterCounter()"
-                    :disabled="submissionDisabled" wire:ignore>
+                    :disabled="submissionDisabled || offline" wire:ignore>
                     <span class="mdc-button__ripple"></span>
                     <i class="material-icons mdc-button__icon" aria-hidden="true">send</i>Send Email
                 </button>

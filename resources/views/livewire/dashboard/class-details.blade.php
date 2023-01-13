@@ -89,7 +89,7 @@
                             </button>
                         </div>
                         <div>
-                            <button class="mdc-icon-button material-icons"
+                            <button class="mdc-icon-button material-icons" :disabled="offline"
                                 @click="$dispatch('edit-class', { id: classData?.[selectedClass]?.['id']}); showingClassDetails = false">
                                 <div class="mdc-icon-button__ripple"></div>
                                 edit
@@ -211,7 +211,8 @@
                                                     x-text="schedules[classData?.[selectedClass]?.['schedule_id']]?.human_end"></span>)
                                             </p>
                                         </div>
-                                        <button class="mdc-icon-button material-icons ml-6" @click="changeSchedule()">
+                                        <button class="mdc-icon-button material-icons ml-6" @click="changeSchedule()"
+                                            :disabled="offline">
                                             <div class="mdc-icon-button__ripple"></div>
                                             edit
                                         </button>
@@ -230,7 +231,7 @@
                                                 </div>
                                                 <div class="">
                                                     <button class="mdc-icon-button material-icons"
-                                                        @click="deleteClassTime(time.id)">
+                                                        @click="deleteClassTime(time.id)" :disabled="offline">
                                                         <div class="mdc-icon-button__ripple"></div>
                                                         do_not_disturb_on
                                                     </button>
@@ -302,7 +303,7 @@
                                             aria-hidden="true" x-text="error"></div>
                                         <div>
                                             <button class="mdc-button mdc-button--raised mdc-button-ripple"
-                                                type="button" @click="addClassTime()">
+                                                type="button" @click="addClassTime()" :disabled="offline">
                                                 <span class="mdc-button__ripple"></span>
                                                 Save
                                             </button>
@@ -526,7 +527,7 @@
                             regenSelects();
                         }
                     })
-                }
+                },
             }
         }
     </script>

@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="">
                                     <button class="mdc-icon-button material-icons" type="button"
-                                        aria-describedby="checkmark" @click.prevent="addReminder()">
+                                        aria-describedby="checkmark" :disabled="offline" @click="addReminder()">
                                         <div class="mdc-icon-button__ripple"></div>
                                         check
                                     </button>
