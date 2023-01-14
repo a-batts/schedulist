@@ -157,75 +157,76 @@ class Day implements Countable
 
             //If an event's first date is before this day, break the loop to prevent it from being added
             if (
-                $this->date->toDateString() != $date->toDateString() &&
-                $this->date < $date
-            ) {
-                break;
-            }
-
-            switch ($item->frequency) {
-                case null:
-                    $occursToday = false;
-                    break;
-                case 31:
-                    $occursToday =
-                        $date > $this->date &&
-                        Carbon::now()
-                            ->setDay($date->format('j'))
-                            ->between(
-                                $this->date->copy()->startOfWeek(),
-                                $this->date->copy()->endOfWeek()
-                            ) &&
-                        in_array($iso, $days);
-                    break;
-                default:
-                    $occursToday =
-                        ($date->diffInDays($this->date) % $item->frequency ==
-                            0 ||
-                            ($date->diffInDays($this->date) % $item->frequency <
-                                7 &&
-                                $date->diffInDays($this->date) %
-                                    $item->frequency >
-                                    -7)) &&
-                        in_array($iso, $days);
-                    break;
-            }
-
-            if (
+                $item->reoccuring === 0 ||
                 $this->date->toDateString() == $date->toDateString() ||
-                ($item->reoccuring && $occursToday)
+                $this->date >= $date
             ) {
-                if (isset($item->frequency)) {
-                    $frequency =
-                        $item->frequency == 31
-                            ? 'Every Month'
-                            : sprintf('Every %s Days', $item->frequency);
+                switch ($item->frequency) {
+                    case null:
+                        $occursToday = false;
+                        break;
+                    case 31:
+                        $occursToday =
+                            $date > $this->date &&
+                            Carbon::now()
+                                ->setDay($date->format('j'))
+                                ->between(
+                                    $this->date->copy()->startOfWeek(),
+                                    $this->date->copy()->endOfWeek()
+                                ) &&
+                            in_array($iso, $days);
+                        break;
+                    default:
+                        $occursToday =
+                            ($date->diffInDays($this->date) %
+                                $item->frequency ==
+                                0 ||
+                                ($date->diffInDays($this->date) %
+                                    $item->frequency <
+                                    7 &&
+                                    $date->diffInDays($this->date) %
+                                        $item->frequency >
+                                        -7)) &&
+                            in_array($iso, $days);
+                        break;
                 }
 
-                $start = Carbon::parse($item->start_time);
-                $end = Carbon::parse($item->end_time);
+                if (
+                    $this->date->toDateString() == $date->toDateString() ||
+                    ($item->reoccuring && $occursToday)
+                ) {
+                    if (isset($item->frequency)) {
+                        $frequency =
+                            $item->frequency == 31
+                                ? 'Every Month'
+                                : sprintf('Every %s Days', $item->frequency);
+                    }
 
-                $events[] = new Event(
-                    $this->date,
-                    $item->id,
-                    'event',
-                    $item->name,
-                    null,
-                    (string) $item->color ?? 'blue',
-                    $start,
-                    $end,
-                    CarbonInterval::minutes($start->format('i'))->hours(
-                        $start->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
-                    CarbonInterval::minutes($end->format('i'))->hours(
-                        $end->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
-                    [
-                        'category' => $item->category->formattedName(),
-                        'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
-                        'isOwner' => Auth::id() == $item->owner,
-                    ]
-                );
+                    $start = Carbon::parse($item->start_time);
+                    $end = Carbon::parse($item->end_time);
+
+                    $events[] = new Event(
+                        $this->date,
+                        $item->id,
+                        'event',
+                        $item->name,
+                        null,
+                        (string) $item->color ?? 'blue',
+                        $start,
+                        $end,
+                        CarbonInterval::minutes($start->format('i'))->hours(
+                            $start->format('G')
+                        )->totalSeconds / Schedule::SCALE_FACTOR,
+                        CarbonInterval::minutes($end->format('i'))->hours(
+                            $end->format('G')
+                        )->totalSeconds / Schedule::SCALE_FACTOR,
+                        [
+                            'category' => $item->category->formattedName(),
+                            'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
+                            'isOwner' => Auth::id() == $item->owner,
+                        ]
+                    );
+                }
             }
         }
 

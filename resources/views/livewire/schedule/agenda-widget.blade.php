@@ -10,7 +10,7 @@
                     <div class="grid w-full grid-cols-7 -ml-1 select-none">
                         <template x-for="day in weekDays">
                             <div class="flex items-center justify-center w-full text-center" @click="jumpToDate(day)">
-                                <div class="flex items-center justify-center w-8 h-8 rounded-full"
+                                <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer"
                                     :class="{ 'bg-primary-theme': day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD') }">
                                     <p x-text="day.date()"></p>
                                 </div>
