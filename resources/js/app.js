@@ -32,8 +32,14 @@ import SwupProgressPlugin from '@swup/progress-plugin';
 import SwupScriptsPlugin from '@swup/scripts-plugin';
 import SwupBodyClassPlugin from '@swup/body-class-plugin';
 
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
+
+window.dayjs = dayjs;
+
 /**
- * Import alpine.js and initalize
+ * Import alpine.js and initialize
  */
 window.Alpine = Alpine;
 
@@ -121,9 +127,9 @@ const updateSW = registerSW({
 });
 
 function showLoginPassword(e) {
-    const passwordfield = document.getElementById(e);
-    passwordfield.type =
-        passwordfield.type === 'password' ? 'text' : 'password';
+    const passwordField = document.getElementById(e);
+    passwordField.type =
+        passwordField.type === 'password' ? 'text' : 'password';
 }
 window.showLoginPassword = showLoginPassword;
 

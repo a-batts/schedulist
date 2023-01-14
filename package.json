@@ -60,6 +60,7 @@
         "autosize": "^5.0.1",
         "babel-plugin-transform-object-assign": "^6.22.0",
         "babel-preset-es2015": "^6.24.1",
+        "dayjs": "^1.11.7",
         "filepond": "^4.25.2",
         "filepond-plugin-file-validate-type": "^1.2.5",
         "filepond-plugin-image-crop": "^2.0.4",
