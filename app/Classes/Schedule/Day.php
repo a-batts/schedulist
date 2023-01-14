@@ -2,7 +2,6 @@
 
 namespace App\Classes\Schedule;
 
-use App\Enums\EventCategory;
 use App\Helpers\ClassScheduleHelper;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -29,7 +28,7 @@ class Day implements Countable
     {
         $this->date = $date;
 
-        $this->events = array_merge(
+        $data = array_merge(
             $this->getAssignments(
                 $queriedData['assignments'],
                 $queriedData['classes']
@@ -38,19 +37,43 @@ class Day implements Countable
             $this->getOtherEvents($queriedData['events'])
         );
 
-        usort($this->events, function ($a, $b) {
+        usort($data, function ($a, $b) {
             return $a->top <=> $b->top;
         });
 
-        for ($i = 1; $i < count($this->events); $i++) {
+        $events = [];
+        $collisions = [];
+        foreach ($data as $index => $item) {
+            if ($index == 0) {
+                $collisions[] = $item;
+                continue;
+            }
+
             if (
-                $this->events[$i]->top > $this->events[$i - 1]->top &&
-                $this->events[$i]->top < $this->events[$i - 1]->bottom
+                $item->bottom > $collisions[0]->top &&
+                $item->top < $collisions[0]->bottom
             ) {
-                $this->events[$i]->left = $this->events[$i - 1]->left + 140;
-                $this->events[$i]->height = $this->events[$i - 1]->height + 1;
+                $collisions[] = $item;
+            } else {
+                foreach ($collisions as $index => $s) {
+                    $splits = floor(100 / count($collisions));
+
+                    $s->width = $splits;
+                    $s->left = $index * $splits;
+                    $events[] = $s;
+                }
+                $collisions = [$item];
             }
         }
+
+        foreach ($collisions as $index => $s) {
+            $splits = floor(100 / count($collisions));
+
+            $s->width = $splits;
+            $s->left = $index * $splits;
+            $events[] = $s;
+        }
+        $this->events = $events;
     }
 
     /**
@@ -103,7 +126,7 @@ class Day implements Countable
     }
 
     /**
-     * Get the occuring classes for date
+     * Get the occurring classes for date
      *
      * @param Collection $data
      * @param ClassScheduleHelper $schedule

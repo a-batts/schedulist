@@ -29,6 +29,8 @@ class Event
 
     public int $height;
 
+    public int $width = 100;
+
     public array $data = [];
 
     public function __construct(

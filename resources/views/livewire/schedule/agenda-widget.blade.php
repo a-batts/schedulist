@@ -4,13 +4,15 @@
             <div class="w-full">
                 <p class="text-sm font-bold sm:text-xl"
                     x-text="view == 'day' ? date.format('MMMM D, YYYY') : date.format('MMMM YYYY')"
-                    x-bind:class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }"></p>
+                    :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }"></p>
                 <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="view == 'day' ? date.format('dddd') : ''"></p>
                 <template x-if="view == 'week'">
                     <div class="grid w-full grid-cols-7 -ml-1 select-none">
                         <template x-for="day in weekDays">
-                            <div class="flex items-center justify-center w-full text-center" @click="jumpToDate(day)">
+                            <div class="flex items-center justify-center w-full space-x-2 text-center">
+                                <span x-text="day.format('ddd')"></span>
                                 <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer"
+                                    @click="jumpToDate(day)"
                                     :class="{ 'bg-primary-theme': day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD') }">
                                     <p x-text="day.date()"></p>
                                 </div>
@@ -36,7 +38,7 @@
             </button>
 
             <button class="mdc-button mdc-button--outlined" aria-describedby="jump-today" @click="setDate(new dayjs())"
-                x-bind:disabled="isToday">
+                :disabled="isToday">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">Today</span>
             </button>
@@ -64,7 +66,7 @@
                 <div class="-ml-3">
                     <div class="mdc-checkbox mdc-checkbox--touch" @click="filterToggle(category)">
                         <input class="mdc-checkbox__native-control" type="checkbox" :id="'checkbox-' + category"
-                            x-bind:checked="!filter.includes(category)">
+                            :checked="!filter.includes(category)">
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none"
@@ -102,9 +104,9 @@
                     <div class="agenda-timeslot float-right"></div>
                 @endfor
 
-                <div class="relative mx-2.5 h-full">
+                <div class="relative h-full ml-12">
                     <template x-if="view == 'day'">
-                        <div>
+                        <div class="flex">
                             <template x-if="isToday">
                                 <div class="absolute left-[2.05rem] z-[4] flex w-full items-center"
                                     :style="`top: ${todaySeconds -5}px`;">
@@ -117,10 +119,10 @@
                                 x-for="(item, index) in agenda?.[date.year()]?.[date.format('M')]?.[date.date()] ?? []"
                                 :key="index">
                                 <!-- prettier-ignore-attribute :style -->
-                                <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
+                                <div class="mdc-card mdc-card--outlined agenda-item absolute mr-2 transition-colors"
                                     @click="setSelectedItem(index, date)"
                                     :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                    :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
+                                    :style="`top: ${item.top}px; height: calc(${item.bottom}px - ${item.top}px); width: ${item.width}%; left: ${item.left}%; z-index: ${item.height}; min-height: 80px;`"
                                     x-show="! filter.includes(`${item.type}`)" x-transition>
                                     <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
                                         <p class="agenda-text-primary text-xl font-medium truncate transition-all"
@@ -137,9 +139,10 @@
                         </div>
                     </template>
                     <template x-if="view == 'week'">
-                        <div class="absolute grid h-full grid-cols-7 ml-10" style="width:calc(100% - 1.5rem)">
-                            <template x-for="day in weekDays">
-                                <div class="week-column relative h-full border-r border-solid">
+                        <div class="absolute grid h-full grid-cols-7" style="width:calc(100%)">
+                            <template x-for="(day, index) in weekDays">
+                                <div class="week-column relative w-full h-full border-solid"
+                                    :class="{ 'border-l': index != 0 }">
                                     <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
                                         <div class="absolute z-[4] flex w-full items-center"
                                             :style="`top: ${todaySeconds -5}px`;">
@@ -152,10 +155,10 @@
                                         x-for="(item, index) in agenda[day.year()][day.format('M')][day.date()] ?? []"
                                         :key="index">
                                         <!-- prettier-ignore-attribute :style -->
-                                        <div class="mdc-card mdc-card--outlined agenda-item absolute w-full mx-1 transition-colors"
+                                        <div class="mdc-card mdc-card--outlined agenda-item absolute w-full transition-colors"
                                             @click="setSelectedItem(index, day)"
                                             :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                            :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px; width:calc(100% - .5rem)`"
+                                            :style="`top: ${item.top}px; width: ${item.width}%; left: ${item.left}%; height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px`"
                                             x-show="! filter.includes(`${item.type}`)" x-transition>
                                             <div class="mdc-card__primary-action h-full px-3 pt-4 pb-2"
                                                 tabindex="0">
@@ -196,8 +199,6 @@
 
                 currentDayData: [],
 
-                date: new dayjs(),
-
                 selectedItem: -1,
 
                 showingDetails: false,
@@ -219,7 +220,7 @@
                 view: @json($view),
 
                 init: function() {
-                    this.$refs.outerAgenda.scrollTop = 450;
+                    this.$refs.outerAgenda.scrollTop = this.todaySeconds;
                     this.date = new dayjs({{ $initDate->timestamp * 1000 }});
                     this.filterCategories = ['assignment', 'class', 'event'];
                     this.filterPlurals = ['assignments', 'classes', 'your events'];
