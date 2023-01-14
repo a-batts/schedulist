@@ -1,92 +1,66 @@
+import dayjs from 'dayjs';
+
 export default () => ({
     daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
 
     init: function () {
-        this.currentDate = new Date(this.$parent.date.valueOf());
-        this.currentDate.setDate(1);
+        this.currentDate = new dayjs(this.$parent.date);
+        this.currentDate = this.currentDate.startOf('month');
     },
 
     prevYear: function () {
-        const newDate = new Date(this.currentDate.valueOf());
-        newDate.setFullYear(newDate.getFullYear() - 1);
-        this.currentDate = newDate;
+        this.currentDate = this.currentDate.subtract(1, 'year');
     },
 
     prevMonth: function () {
-        const newDate = new Date(this.currentDate.valueOf());
-        newDate.setMonth(newDate.getMonth() - 1);
-        this.currentDate = newDate;
+        this.currentDate = this.currentDate.subtract(1, 'month');
     },
 
     nextMonth: function () {
-        const newDate = new Date(this.currentDate.valueOf());
-        newDate.setMonth(newDate.getMonth() + 1);
-        this.currentDate = newDate;
+        this.currentDate = this.currentDate.add(1, 'month');
     },
 
     nextYear: function () {
-        const newDate = new Date(this.currentDate.valueOf());
-        newDate.setFullYear(newDate.getFullYear() + 1);
-        this.currentDate = newDate;
+        this.currentDate = this.currentDate.add(1, 'year');
     },
 
-    isToday: function (day) {
-        const today = new Date();
+    isToday: function (date) {
         return (
-            this.currentDate.getFullYear() == today.getFullYear() &&
-            this.currentDate.getMonth() == today.getMonth() &&
-            today.getDate() == day &&
-            !this.isActiveDate(day)
+            this.currentDate.format('YYYY-MM') ==
+                new dayjs().format('YYYY-MM') &&
+            date == new dayjs().date() &&
+            !this.isActiveDate(date)
         );
     },
 
-    isActiveDate: function (day) {
-        const activeDate = this.$parent.date;
+    isActiveDate: function (date) {
         return (
-            this.currentDate.getFullYear() == activeDate.getFullYear() &&
-            this.currentDate.getMonth() == activeDate.getMonth() &&
-            activeDate.getDate() == day
+            this.$parent.date.format('YYYY-MM') ==
+                this.currentDate.format('YYYY-MM') &&
+            this.$parent.date.date() == date
         );
     },
 
     changeDate: function (day) {
-        const newDate = new Date(this.date.getTime());
-        newDate.setDate(parseInt(day));
-        newDate.setFullYear(this.currentDate.getFullYear());
-        newDate.setMonth(this.currentDate.getMonth());
-
-        this.setDate(newDate);
+        this.setDate(new dayjs(this.currentDate).date(day));
     },
 
     //Getters
-
     get monthDays() {
-        const month = this.currentDate.getMonth();
-
-        return new Date(this.currentDate.getFullYear(), month + 1, 0).getDate();
+        return this.currentDate.endOf('month').date();
     },
 
     get startingBlankDays() {
-        const firstDayOfMonth = new Date(
-            this.currentDate.getFullYear(),
-            this.currentDate.getMonth(),
-            1
-        ).getUTCDay();
+        const firstDayOfMonth = this.currentDate.day();
         var numberOfStartingBlanks = 0;
-
         for (var i = 0; i < firstDayOfMonth; i++) {
             numberOfStartingBlanks += 1;
         }
 
-        const prevMonth = new Date(this.currentDate.valueOf());
-        prevMonth.setMonth(this.currentDate.getMonth() - 1);
-        prevMonth.setDate(1);
-        const prevMonthNumberOfDays = new Date(
-            prevMonth.getFullYear(),
-            prevMonth.getMonth() + 1,
-            0
-        ).getDate();
-
+        const prevMonthNumberOfDays = this.currentDate
+            .subtract(1, 'month')
+            .endOf('month')
+            .date();
         var blankDays = [];
 
         for (var i = 0; i < numberOfStartingBlanks; i++) {
@@ -110,10 +84,6 @@ export default () => ({
     },
 
     get monthYear() {
-        return (
-            this.currentDate.toLocaleString('default', { month: 'long' }) +
-            ' ' +
-            this.currentDate.getFullYear()
-        );
+        return this.currentDate.format('MMMM YYYY');
     },
 });

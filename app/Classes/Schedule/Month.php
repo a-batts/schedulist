@@ -3,6 +3,7 @@
 namespace App\Classes\Schedule;
 
 use App\Helpers\ClassScheduleHelper;
+use App\Models\User;
 use BaconQrCode\Exception\OutOfBoundsException;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -20,7 +21,7 @@ class Month
      */
     private array $days = [];
 
-    public function __construct(CarbonPeriod $dateRange)
+    public function __construct(User $user, CarbonPeriod $dateRange)
     {
         $this->dateRange = $dateRange;
         $this->length = $dateRange->count();
@@ -28,17 +29,11 @@ class Month
         $scheduleHelper = new ClassScheduleHelper();
 
         $queriedData = [
-            'assignments' => Auth::user()
-                ->assignments()
+            'assignments' => $user->assignments
                 ->where('due', '>=', $dateRange->getStartDate())
-                ->where('due', '<=', $dateRange->getEndDate())
-                ->get(),
-            'classes' => Auth::user()
-                ->classes()
-                ->get(),
-            'events' => Auth::user()
-                ->events()
-                ->get(),
+                ->where('due', '<=', $dateRange->getEndDate()),
+            'classes' => $user->classes,
+            'events' => $user->events,
             'schedule' => $scheduleHelper,
         ];
 

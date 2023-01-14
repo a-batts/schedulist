@@ -156,7 +156,10 @@ class Day implements Countable
             }
 
             //If an event's first date is before this day, break the loop to prevent it from being added
-            if ($this->date < $date) {
+            if (
+                $this->date->toDateString() != $date->toDateString() &&
+                $this->date < $date
+            ) {
                 break;
             }
 

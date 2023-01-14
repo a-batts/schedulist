@@ -12,63 +12,70 @@ use Illuminate\Support\Facades\Auth;
 class AgendaWidget extends Component
 {
     /**
+     * Array of the agenda data
+     *
      * @var array
      */
     public array $agenda;
 
+    /**
+     * The initial date to start out with
+     *
+     * @var Carbon
+     */
     public Carbon $initDate;
 
-    protected $listeners = ['updateAgendaData'];
+    protected $listeners = ['updateAgendaData' => 'notifyView'];
 
-    public function mount()
+    /**
+     * Mount the component
+     *
+     * @return void
+     */
+    public function mount(): void
     {
         if (!isset($this->initDate)) {
             $this->initDate = Carbon::now();
         }
-        $this->agenda = Schedule::getSingleMonth(
-            $this->createMonthPeriod(Carbon::make($this->initDate))
-        )->toArray();
+        $this->agenda = $this->getAgendaData($this->initDate);
     }
 
     /**
-     * Update current month with provided date and reload events
-     * @param  string $date
-     * @return void
-     */
-    public function setDate(string $date): void
-    {
-        $this->initDate = Carbon::parse($date)->startOfMonth();
-        $this->agenda = Schedule::getSingleMonth(
-            $this->createMonthPeriod(Carbon::make($this->initDate))
-        )->toArray();
-
-        $this->dispatchBrowserEvent('update-current-date');
-    }
-
-    /**
-     * Get month period for specified date
-     * @param  Carbon $date
-     * @return CarbonPeriod
-     */
-    public function createMonthPeriod(Carbon $date): CarbonPeriod
-    {
-        $start = $date->startOfMonth()->toDateString();
-        $end = $date->endOfMonth()->toDateString();
-        $range = CarbonPeriod::create($start, $end);
-
-        return $range;
-    }
-
-    /**
-     * Update the agenda with new data
+     * Fetch the agenda data
      *
-     * @return void
+     * @return array
      */
-    public function updateAgendaData(): void
+    public function getAgendaData(string $date): array
     {
-        $this->setDate($this->initDate);
-        $this->agenda = Schedule::getSingleMonth(
-            $this->createMonthPeriod(Carbon::make($this->initDate))
+        $date = Carbon::parse($date)->startOfMonth();
+        return Schedule::getMultipleMonths(
+            CarbonPeriod::create(
+                $date
+                    ->copy()
+                    ->startOfMonth()
+                    ->subMonth(1),
+                $date
+                    ->copy()
+                    ->startOfMonth()
+                    ->addMonth(1)
+            )
+        );
+    }
+
+    /**
+     * Get the data for a specified month
+     *
+     * @param string $date
+     * @return array
+     */
+    public function getMonthData(string $date): array
+    {
+        $date = Carbon::parse($date);
+        return Schedule::getSingleMonth(
+            CarbonPeriod::create(
+                $date->copy()->startOfMonth(),
+                $date->copy()->endOfMonth()
+            )
         )->toArray();
     }
 
@@ -86,11 +93,20 @@ class AgendaWidget extends Component
             ->toArray();
     }
 
+    public function getAgenda(): array
+    {
+        return $this->agenda;
+    }
+
+    public function notifyView(): void
+    {
+        $this->dispatchBrowserEvent('agenda-data-updated');
+    }
+
     public function render()
     {
-        return view('livewire.schedule.agenda-widget')->with(
-            'scaleFactor',
-            Schedule::SCALE_FACTOR
-        );
+        return view('livewire.schedule.agenda-widget')->with([
+            'scaleFactor' => Schedule::SCALE_FACTOR,
+        ]);
     }
 }

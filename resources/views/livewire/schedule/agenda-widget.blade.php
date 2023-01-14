@@ -1,5 +1,4 @@
-<div class="w-full" id="agenda" x-data="schedule()"
-    @update-current-date.window="agenda = @this.agenda; currentDayData = agenda[day]">
+<div class="w-full" id="agenda" x-data="schedule()" @agenda-data-updated.window="fetchNewData()">
     <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
         <div class="flex self-center flex-grow space-x-2 md:ml-16">
             <div>
@@ -92,26 +91,24 @@
                         </div>
                     </template>
 
-                    <template x-if="currentDayData != null">
-                        <template x-for="(item, index) in currentDayData" :key="index">
-                            <!-- prettier-ignore-attribute :style -->
-                            <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
-                                @click="setSelectedItem(index)"
-                                :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
-                                x-show="! filter.includes(`${item.type}`)" x-transition>
-                                <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
-                                    <p class="agenda-text-primary text-xl font-medium truncate transition-all"
-                                        x-text="item.name"></p>
-                                    <p class="agenda-text-secondary mdc-typography--body2 transition-all">
-                                        <span x-text="item.startString"></span>
-                                        <template x-if="item.endString != null">
-                                            <span x-text="' - ' + item.endString"></span>
-                                        </template>
-                                    </p>
-                                </div>
+                    <template x-for="(item, index) in currentDayData ?? []" :key="index">
+                        <!-- prettier-ignore-attribute :style -->
+                        <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
+                            @click="setSelectedItem(index)"
+                            :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+                            :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
+                            x-show="! filter.includes(`${item.type}`)" x-transition>
+                            <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
+                                <p class="agenda-text-primary text-xl font-medium truncate transition-all"
+                                    x-text="item.name"></p>
+                                <p class="agenda-text-secondary mdc-typography--body2 transition-all">
+                                    <span x-text="item.startString"></span>
+                                    <template x-if="item.endString != null">
+                                        <span x-text="' - ' + item.endString"></span>
+                                    </template>
+                                </p>
                             </div>
-                        </template>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -130,9 +127,11 @@
     <script data-swup-reload-script>
         function schedule() {
             return {
-                agenda: @this.agenda,
+                agenda: @entangle('agenda'),
 
-                date: new Date(),
+                currentDayData: [],
+
+                date: new dayjs(),
 
                 selectedItem: -1,
 
@@ -154,42 +153,51 @@
 
                 init: function() {
                     this.$refs.outerAgenda.scrollTop = 450;
-                    this.selectedItemData.name = '';
-                    this.selectedItemData.color = '';
-                    this.selectedItemData.link = '';
-                    this.date = new Date({{ $initDate->timestamp * 1000 }})
-                    this.currentDayData = this.agenda[this.day];
+                    this.date = new dayjs({{ $initDate->timestamp * 1000 }});
+                    this.currentDayData = this.agenda[this.year][this.date.format('M')][this.day];
                 },
 
                 setDate: function(d) {
-                    if (this.date.getMonth() != d.getMonth() || this.date.getYear() != d.getYear()) {
-                        this.currentDayData = null;
-                        @this.setDate(d);
-                    }
                     this.date = d;
                     this.updateURL();
-                    this.currentDayData = @this.agenda[this.day];
+                    this.$dispatch('update-current-date')
+
+                    if (this.agenda?.[d.year()]?.[d.format('M')] != undefined) {
+                        const nextMonth = d.startOf('month').add(1, 'month');
+                        const prevMonth = d.startOf('month').subtract(1, 'month');
+
+                        if (this.agenda?.[nextMonth.year()]?.[nextMonth.format('M')] == undefined)
+                            this.$wire.getMonthData(nextMonth).then((result) => {
+                                this.agenda[nextMonth.year()][nextMonth.format('M')] = result
+                            });
+
+                        if (this.agenda?.[prevMonth.year()]?.[prevMonth.format('M')] == undefined)
+                            this.$wire.getMonthData(prevMonth).then((result) => {
+                                this.agenda[prevMonth.year()][prevMonth.format('M')] = result
+                            });
+
+                        this.currentDayData = this.agenda[this.year][this.date.format('M')][this.day];
+                    } else {
+                        this.currentDayData = null;
+                        this.fetchNewData();
+                    }
                 },
 
                 resetDate: function() {
-                    this.setDate(new Date());
+                    this.setDate(new dayjs());
                 },
 
                 forwardDay: function() {
-                    let nextDay = new Date(this.date.getTime());
-                    nextDay.setDate(nextDay.getDate() + 1);
-                    this.setDate(nextDay);
+                    this.setDate(this.date.add(1, 'day'));
                 },
 
                 backwardDay: function() {
-                    let prevDay = new Date(this.date.getTime());
-                    prevDay.setDate(prevDay.getDate() - 1);
-                    this.setDate(prevDay);
+                    this.setDate(this.date.subtract(1, 'day'));
                 },
 
                 setSelectedItem: function(e) {
                     this.selectedItem = e;
-                    this.selectedItemData = this.agenda[this.day][e];
+                    this.selectedItemData = this.agenda[this.year][this.date.format('M')][this.day][e];
                     let obj = document.querySelector('.agenda-item-' + e).getBoundingClientRect();
                     this.popupHeight = obj.top + window.scrollY;
                     if (this.popupHeight + 240 > document.body.clientHeight)
@@ -252,48 +260,50 @@
                     return 'blue';
                 },
 
+                fetchNewData: function() {
+                    this.$wire.getAgendaData(this.date).then((result) => {
+                        console.log(result);
+                        this.agenda = result;
+                        this.currentDayData = this.agenda[this.year][this.date.format('M')][this
+                            .day
+                        ];
+                    })
+                },
+
                 updateURL: function() {
                     let url = window.location.href;
                     url = url.split('/');
                     url.splice(4);
-                    url[4] = this.date.getMonth() + 1;
+                    url[4] = this.date.format('M');
                     url[5] = this.day;
-                    url[6] = this.date.getFullYear();
+                    url[6] = this.year;
                     url = url.join('/');
                     window.history.replaceState({}, 'Agenda | ' + this.dateString, url);
                     document.title = 'Agenda | ' + this.dateString;
                 },
 
                 get isToday() {
-                    return this.date.toDateString() == new Date().toDateString();
+                    return this.date.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD');
                 },
 
                 get day() {
-                    return this.date.getDate();
+                    return this.date.format('D');
                 },
 
                 get dayOfWeek() {
-                    return this.date.toLocaleString('default', {
-                        weekday: 'long'
-                    });
+                    return this.date.format('dddd');
                 },
 
                 get dateString() {
-                    return this.date.toLocaleString('default', {
-                        weekday: 'short'
-                    }) + ", " + this.date.toLocaleString('default', {
-                        month: 'long'
-                    }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
+                    return this.date.format('ddd MMMM D, YYYY');
                 },
 
                 get month() {
-                    return this.date.toLocaleString('default', {
-                        month: 'long'
-                    });
+                    return this.date.format('MMMM');
                 },
 
                 get year() {
-                    return this.date.getFullYear();
+                    return this.date.format('YYYY');
                 },
 
                 get todaySeconds() {
@@ -303,9 +313,7 @@
                 },
 
                 get headerDate() {
-                    return this.date.toLocaleString('default', {
-                        month: 'long'
-                    }) + " " + this.date.getDate() + ", " + this.date.getFullYear();
+                    return this.date.format('MMMM D, YYYY');
                 },
 
                 get filterCategories() {
