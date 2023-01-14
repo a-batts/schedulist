@@ -12,7 +12,8 @@
                 chevron_left
             </button>
         </div>
-        <span class="self-center flex-grow font-bold text-center align-middle" x-text="monthYear"></span>
+        <span class="self-center flex-grow font-bold text-center align-middle"
+            x-text="currentDate.format('MMMM YYYY')"></span>
         <div class="flex justify-end flex-grow -mr-2 text-gray-600">
             <button class="mdc-icon-button material-icons date-picker-button" aria-describedby="prev-month"
                 @click="nextMonth()">
@@ -44,14 +45,15 @@
         <template x-for="day in monthDays">
             <div>
                 <div class="flex items-center justify-center">
-                    <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer sm:w-7 sm:h-7"
+                    <div class="flex items-center justify-center w-8 h-8 text-center transition-all rounded-lg cursor-pointer sm:h-7 sm:w-7"
                         :class="{ 'text-primary-theme font-bold': isToday(day), 'bg-primary-theme': isActiveDate(day) }"
-                        @click="changeDate(day)">
+                        @click="changeDate(day)" @dblclick="jumpDate(day)">
                         <span class="inline-block align-middle select-none" x-text="day"></span>
                     </div>
                 </div>
                 <div class="flex justify-center h-1 pt-1">
-                    <template x-if="agenda?.[day]?.length > 0 && monthYear == $parent.month + ' ' + $parent.year">
+                    <template
+                        x-if="agenda?.[currentDate.year()]?.[currentDate.format('M')]?.[day]?.length> 0 && currentDate.format('MMMM YYYY') == $parent.date.format('MMMM YYYY')">
                         <div class="bg-primary-theme w-1 h-1 rounded-full"></div>
                     </template>
                 </div>

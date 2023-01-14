@@ -1,21 +1,41 @@
 <div class="w-full" id="agenda" x-data="schedule()" @agenda-data-updated.window="fetchNewData()">
     <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
         <div class="flex self-center flex-grow space-x-2 md:ml-16">
-            <div>
-                <p class="text-sm font-bold sm:text-xl md:text-2xl" x-text="headerDate"
-                    x-bind:class="{ 'agenda-date-active': isToday }"></p>
-                <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="dayOfWeek"></p>
+            <div class="w-full">
+                <p class="text-sm font-bold sm:text-xl"
+                    x-text="view == 'day' ? date.format('MMMM D, YYYY') : date.format('MMMM YYYY')"
+                    x-bind:class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }"></p>
+                <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="view == 'day' ? date.format('dddd') : ''"></p>
+                <template x-if="view == 'week'">
+                    <div class="grid w-full grid-cols-7 -ml-1 select-none">
+                        <template x-for="day in weekDays">
+                            <div class="flex items-center justify-center w-full text-center" @click="jumpToDate(day)">
+                                <div class="flex items-center justify-center w-8 h-8 rounded-full"
+                                    :class="{ 'bg-primary-theme': day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD') }">
+                                    <p x-text="day.date()"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
             </div>
         </div>
-        <div class="flex items-center self-center flex-none pr-3 space-x-1 sm:space-x-3" wire:ignore>
+        <div class="flex flex-none items-center space-x-1 self-center pr-3 sm:w-[19.5rem] sm:space-x-3 sm:pl-6"
+            wire:ignore>
             <x-agenda.event-invitations />
+
+            <button class="mdc-icon-button material-icons hidden md:block" aria-describedby="toggle-view"
+                @click="toggleView()">
+                <div class="mdc-icon-button__ripple"></div>
+                <span x-text="view == 'week' ? 'calendar_view_day' : 'calendar_view_week' "></span>
+            </button>
 
             <button class="mdc-icon-button material-icons" aria-describedby="backward-day" @click="backwardDay()">
                 <div class="mdc-icon-button__ripple"></div>
                 chevron_left
             </button>
 
-            <button class="mdc-button mdc-button--outlined" aria-describedby="jump-today" @click="resetDate()"
+            <button class="mdc-button mdc-button--outlined" aria-describedby="jump-today" @click="setDate(new dayjs())"
                 x-bind:disabled="isToday">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">Today</span>
@@ -82,32 +102,76 @@
                     <div class="agenda-timeslot float-right"></div>
                 @endfor
 
-                <div class="relative mx-2.5">
-                    <template x-if="isToday">
-                        <div class="absolute left-[2.05rem] z-[4] flex w-full items-center"
-                            :style="`top: ${todaySeconds -5}px`;">
-                            <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
-                            <div class="bg-primary-theme h-0.5 w-full"></div>
+                <div class="relative mx-2.5 h-full">
+                    <template x-if="view == 'day'">
+                        <div>
+                            <template x-if="isToday">
+                                <div class="absolute left-[2.05rem] z-[4] flex w-full items-center"
+                                    :style="`top: ${todaySeconds -5}px`;">
+                                    <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
+                                    <div class="bg-primary-theme h-0.5 w-full"></div>
+                                </div>
+                            </template>
+
+                            <template
+                                x-for="(item, index) in agenda?.[date.year()]?.[date.format('M')]?.[date.date()] ?? []"
+                                :key="index">
+                                <!-- prettier-ignore-attribute :style -->
+                                <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
+                                    @click="setSelectedItem(index, date)"
+                                    :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+                                    :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
+                                    x-show="! filter.includes(`${item.type}`)" x-transition>
+                                    <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
+                                        <p class="agenda-text-primary text-xl font-medium truncate transition-all"
+                                            x-text="item.name"></p>
+                                        <p class="agenda-text-secondary mdc-typography--body2 transition-all">
+                                            <span x-text="item.startString"></span>
+                                            <template x-if="item.endString != null">
+                                                <span x-text="' - ' + item.endString"></span>
+                                            </template>
+                                        </p>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </template>
-
-                    <template x-for="(item, index) in currentDayData ?? []" :key="index">
-                        <!-- prettier-ignore-attribute :style -->
-                        <div class="mdc-card mdc-card--outlined agenda-item absolute ml-12 mr-2 transition-colors"
-                            @click="setSelectedItem(index)"
-                            :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                            :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); width: calc(100% - ${item.left + 55}px); z-index: ${item.height}; min-height: 80px;`"
-                            x-show="! filter.includes(`${item.type}`)" x-transition>
-                            <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
-                                <p class="agenda-text-primary text-xl font-medium truncate transition-all"
-                                    x-text="item.name"></p>
-                                <p class="agenda-text-secondary mdc-typography--body2 transition-all">
-                                    <span x-text="item.startString"></span>
-                                    <template x-if="item.endString != null">
-                                        <span x-text="' - ' + item.endString"></span>
+                    <template x-if="view == 'week'">
+                        <div class="absolute grid h-full grid-cols-7 ml-10" style="width:calc(100% - 1.5rem)">
+                            <template x-for="day in weekDays">
+                                <div class="week-column relative h-full border-r border-solid">
+                                    <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
+                                        <div class="absolute z-[4] flex w-full items-center"
+                                            :style="`top: ${todaySeconds -5}px`;">
+                                            <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
+                                            <div class="bg-primary-theme h-0.5 w-full"></div>
+                                        </div>
                                     </template>
-                                </p>
-                            </div>
+
+                                    <template
+                                        x-for="(item, index) in agenda[day.year()][day.format('M')][day.date()] ?? []"
+                                        :key="index">
+                                        <!-- prettier-ignore-attribute :style -->
+                                        <div class="mdc-card mdc-card--outlined agenda-item absolute w-full mx-1 transition-colors"
+                                            @click="setSelectedItem(index, day)"
+                                            :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+                                            :style="`top: ${item.top}px; left: ${item.left}px; height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px; width:calc(100% - .5rem)`"
+                                            x-show="! filter.includes(`${item.type}`)" x-transition>
+                                            <div class="mdc-card__primary-action h-full px-3 pt-4 pb-2"
+                                                tabindex="0">
+                                                <p class="agenda-text-primary mb-2 font-medium transition-all"
+                                                    x-text="item.name"></p>
+                                                <p class="agenda-text-secondary mdc-typography--body2 transition-all">
+                                                    <span x-text="item.startString"></span>
+                                                    <template x-if="item.endString != null">
+                                                        <span x-text="' - ' + item.endString"></span>
+                                                    </template>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
                     </template>
                 </div>
@@ -121,6 +185,7 @@
     <x-ui.tooltip tooltip-id="backward-day" text="Previous Day" />
     <x-ui.tooltip tooltip-id="forward-day" text="Next Day" />
     <x-ui.tooltip tooltip-id="inbox" text="View event invitations" />
+    <x-ui.tooltip tooltip-id="toggle-view" text="Toggle between day and week view" />
 </div>
 
 @push('scripts')
@@ -151,10 +216,13 @@
 
                 eventColors: [],
 
+                view: @json($view),
+
                 init: function() {
                     this.$refs.outerAgenda.scrollTop = 450;
                     this.date = new dayjs({{ $initDate->timestamp * 1000 }});
-                    this.currentDayData = this.agenda[this.year][this.date.format('M')][this.day];
+                    this.filterCategories = ['assignment', 'class', 'event'];
+                    this.filterPlurals = ['assignments', 'classes', 'your events'];
                 },
 
                 setDate: function(d) {
@@ -168,37 +236,34 @@
 
                         if (this.agenda?.[nextMonth.year()]?.[nextMonth.format('M')] == undefined)
                             this.$wire.getMonthData(nextMonth).then((result) => {
+                                if (this.agenda[nextMonth.year()] == undefined)
+                                    this.agenda[nextMonth.year()] = [];
                                 this.agenda[nextMonth.year()][nextMonth.format('M')] = result
                             });
 
                         if (this.agenda?.[prevMonth.year()]?.[prevMonth.format('M')] == undefined)
                             this.$wire.getMonthData(prevMonth).then((result) => {
+                                if (this.agenda[prevMonth.year()] == undefined)
+                                    this.agenda[prevMonth.year()] = [];
                                 this.agenda[prevMonth.year()][prevMonth.format('M')] = result
                             });
-
-                        this.currentDayData = this.agenda[this.year][this.date.format('M')][this.day];
                     } else {
-                        this.currentDayData = null;
                         this.fetchNewData();
                     }
                 },
 
-                resetDate: function() {
-                    this.setDate(new dayjs());
-                },
-
                 forwardDay: function() {
-                    this.setDate(this.date.add(1, 'day'));
+                    this.setDate(this.date.add(1, this.view));
                 },
 
                 backwardDay: function() {
-                    this.setDate(this.date.subtract(1, 'day'));
+                    this.setDate(this.date.subtract(1, this.view));
                 },
 
-                setSelectedItem: function(e) {
-                    this.selectedItem = e;
-                    this.selectedItemData = this.agenda[this.year][this.date.format('M')][this.day][e];
-                    let obj = document.querySelector('.agenda-item-' + e).getBoundingClientRect();
+                setSelectedItem: function(index, date) {
+                    this.selectedItem = index;
+                    this.selectedItemData = this.agenda[date.year()][date.format('M')][date.date()][index];
+                    let obj = document.querySelector('.agenda-item-' + index).getBoundingClientRect();
                     this.popupHeight = obj.top + window.scrollY;
                     if (this.popupHeight + 240 > document.body.clientHeight)
                         this.popupHeight = document.body.clientHeight - 260;
@@ -262,12 +327,18 @@
 
                 fetchNewData: function() {
                     this.$wire.getAgendaData(this.date).then((result) => {
-                        console.log(result);
                         this.agenda = result;
-                        this.currentDayData = this.agenda[this.year][this.date.format('M')][this
-                            .day
-                        ];
                     })
+                },
+
+                jumpToDate: function(date) {
+                    this.view = 'day';
+                    this.setDate(new dayjs(date.toISOString()));
+                },
+
+                toggleView: function() {
+                    this.view = this.view == 'week' ? 'day' : 'week';
+                    this.updateURL();
                 },
 
                 updateURL: function() {
@@ -275,8 +346,12 @@
                     url = url.split('/');
                     url.splice(4);
                     url[4] = this.date.format('M');
-                    url[5] = this.day;
-                    url[6] = this.year;
+                    url[5] = this.date.date();
+                    url[6] = this.date.year();
+
+                    //Append week to the URL if in week view
+                    if (this.view == 'week')
+                        url[7] = 'week';
                     url = url.join('/');
                     window.history.replaceState({}, 'Agenda | ' + this.dateString, url);
                     document.title = 'Agenda | ' + this.dateString;
@@ -286,24 +361,8 @@
                     return this.date.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD');
                 },
 
-                get day() {
-                    return this.date.format('D');
-                },
-
-                get dayOfWeek() {
-                    return this.date.format('dddd');
-                },
-
                 get dateString() {
                     return this.date.format('ddd MMMM D, YYYY');
-                },
-
-                get month() {
-                    return this.date.format('MMMM');
-                },
-
-                get year() {
-                    return this.date.format('YYYY');
                 },
 
                 get todaySeconds() {
@@ -312,16 +371,12 @@
                         {{ $scaleFactor }});
                 },
 
-                get headerDate() {
-                    return this.date.format('MMMM D, YYYY');
-                },
-
-                get filterCategories() {
-                    return ['assignment', 'class', 'event'];
-                },
-
-                get filterPlurals() {
-                    return ['assignments', 'classes', 'your events'];
+                get weekDays() {
+                    const start = this.date.startOf('week');
+                    const days = [];
+                    for (i = 0; i < 7; i++)
+                        days.push(start.add(i, 'days'));
+                    return days;
                 }
             }
         }

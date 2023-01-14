@@ -25,6 +25,13 @@ class AgendaWidget extends Component
      */
     public Carbon $initDate;
 
+    /**
+     * The default view to start out with
+     *
+     * @var string
+     */
+    public string $view = 'day';
+
     protected $listeners = ['updateAgendaData' => 'notifyView'];
 
     /**
@@ -93,11 +100,21 @@ class AgendaWidget extends Component
             ->toArray();
     }
 
+    /**
+     * Get the agenda
+     *
+     * @return array
+     */
     public function getAgenda(): array
     {
         return $this->agenda;
     }
 
+    /**
+     * Notify the view that agenda data was updated
+     *
+     * @return void
+     */
     public function notifyView(): void
     {
         $this->dispatchBrowserEvent('agenda-data-updated');

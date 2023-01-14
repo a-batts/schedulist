@@ -45,6 +45,11 @@ export default () => ({
         this.setDate(new dayjs(this.currentDate).date(day));
     },
 
+    jumpDate: function (day) {
+        if (this.view == 'week')
+            this.jumpToDate(new dayjs(this.currentDate).date(day));
+    },
+
     //Getters
     get monthDays() {
         return this.currentDate.endOf('month').date();
@@ -81,9 +86,5 @@ export default () => ({
             }
         }
         return blankDays;
-    },
-
-    get monthYear() {
-        return this.currentDate.format('MMMM YYYY');
     },
 });
