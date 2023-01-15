@@ -1,6 +1,6 @@
-<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 px-6 py-2 md:ml-72"
+<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 !left-0 px-6 py-2 sm:!left-6 md:!left-auto"
     @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity
-    :style="`top: calc(${popupHeight}px - 60px)`" x-ref="popupBox" x-cloak wire:ignore.self>
+    :style="`top: calc(${popupHeight}px - 60px); ${popupPos}px;`" x-ref="popupBox" x-cloak wire:ignore.self>
     <div x-show="! colorPicker" x-transition.in>
         <div class="item-details-top w-full h-12 mb-2">
             <button class="mdc-icon-button material-icons float-right" aria-describedby="close-details"
@@ -9,25 +9,24 @@
                 close
             </button>
             <div wire:ignore>
-                <template x-if="selectedItemData && selectedItemData.type == 'assignment'">
+                <template x-if="selectedItemData?.type == 'assignment'">
                     <div>
-                        <a x-bind:href="selectedItemData.link" @click="enableScroll()">
+                        <a x-bind:href="selectedItemData?.link" @click="enableScroll()">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details">
                                 <div class="mdc-icon-button__ripple"></div>
                                 edit
                             </button>
                         </a>
-                        <a x-bind:href="selectedItemData.data['url']" @click="enableScroll()">
+                        <a x-bind:href="selectedItemData?.data['url']" @click="enableScroll()">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="link-details"
-                                :disabled="selectedItemData.data['url'] == null">
+                                :disabled="selectedItemData?.data['url'] == null">
                                 <div class="mdc-icon-button__ripple"></div>
                                 link
                             </button>
                         </a>
                     </div>
                 </template>
-                <template
-                    x-if="selectedItemData && selectedItemData.type == 'event' && selectedItemData.data['isOwner']">
+                <template x-if="selectedItemData?.type == 'event' && selectedItemData?.data['isOwner']">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details"
                             :disabled="offline"
@@ -54,8 +53,7 @@
                         </button>
                     </div>
                 </template>
-                <template
-                    x-if="selectedItemData && selectedItemData.type == 'event' && ! selectedItemData.data['isOwner']">
+                <template x-if="selectedItemData?.type == 'event' && ! selectedItemData?.data['isOwner']">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="unsub-details"
                             :disabled="offline"
@@ -72,26 +70,26 @@
                 :class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
             <span class="ml-5 text-2xl font-bold uppercase" x-text="selectedItemData.name"></span>
             <p><span class="text-sm ml-9 md:text-base" x-text="dateString"></span> ⋅ <span class="text-sm md:text-base"
-                    x-text="selectedItemData.timeString"></span></p>
+                    x-text="selectedItemData?.timeString"></span></p>
             <div wire:ignore>
-                <template x-if="selectedItemData && selectedItemData.type != 'event'">
+                <template x-if="selectedItemData?.type != 'event'">
                     <p class="text-gray-700"><span class="material-icons mt-5 -ml-0.5">label</span> <span
                             class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5 capitalize"
-                            x-text="selectedItemData.type"></span></p>
+                            x-text="selectedItemData?.type"></span></p>
                 </template>
-                <template x-if="selectedItemData && selectedItemData.type == 'assignment'">
+                <template x-if="selectedItemData?.type == 'assignment'">
                     <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">school</span> <span
                             class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                            x-text="selectedItemData.data['className']"></span></p>
+                            x-text="selectedItemData?.data['className']"></span></p>
                 </template>
-                <template x-if="selectedItemData && selectedItemData['type'] == 'event'">
+                <template x-if="selectedItemData?.['type'] == 'event'">
                     <div>
                         <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">label</span> <span
                                 class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                                x-text="selectedItemData.data['category']"></span></p>
+                                x-text="selectedItemData?.data['category']"></span></p>
                         <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">restart_alt</span> <span
                                 class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                                x-text="selectedItemData.data['repeat']"></span></p>
+                                x-text="selectedItemData?.data['repeat']"></span></p>
                     </div>
                 </template>
             </div>

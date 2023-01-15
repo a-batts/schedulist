@@ -162,13 +162,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         })
         ->name('share-event');
 
-    Route::get('agenda/{month}/{day}/{year}', function ($month, $day, $year) {
-        $initDate = Carbon::now();
-        $initDate
+    Route::get('agenda/{month}/{day}/{year}/{view?}', function (
+        $month,
+        $day,
+        $year,
+        $view = null
+    ) {
+        $initDate = Carbon::now()
             ->setDay($day)
             ->setMonth($month)
             ->setYear($year);
-        return view('schedule')->with('initDate', $initDate);
+        return view('schedule')->with([
+            'initDate' => $initDate,
+            'view' => $view,
+        ]);
     });
 
     //Require password confirmation before accessing these routes

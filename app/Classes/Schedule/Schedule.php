@@ -49,6 +49,42 @@ class Schedule
      */
     public static function getSingleMonth(CarbonPeriod $dateRange): Month
     {
-        return new Month($dateRange);
+        return new Month(
+            Auth::user()->load(['assignments', 'classes', 'events']),
+            $dateRange
+        );
+    }
+
+    /**
+     * Get the schedule for a period of months ( in the form of a CarbonPeriod range )
+     *
+     * @param CarbonPeriod $dateRange
+     * @return array
+     */
+    public static function getMultipleMonths(CarbonPeriod $dateRange): array
+    {
+        $agenda = [];
+        $user = Auth::user()->load(['assignments', 'classes', 'events']);
+
+        $months = CarbonPeriod::create(
+            $dateRange->start,
+            '1 month',
+            $dateRange->end
+        );
+
+        foreach ($months as $month) {
+            $data = new Month(
+                $user,
+                CarbonPeriod::create(
+                    $month->copy()->startOfMonth(),
+                    $month->copy()->endOfMonth()
+                )
+            );
+            $agenda[$month->format('Y')][
+                $month->format('n')
+            ] = $data->toArray();
+        }
+
+        return $agenda;
     }
 }

@@ -482,7 +482,8 @@ html.theme-dark {
 
     //Agenda style
 
-    .agenda-timeslot {
+    .agenda-timeslot,
+    .week-column {
         border-color: var(--mdc-text-primary-on-background);
     }
 
@@ -920,7 +921,8 @@ button.mdc-button.navbar-button:disabled {
     color: inherit;
 }
 
-.agenda-timeslot {
+.agenda-timeslot,
+.week-column {
     border-color: #dadce0;
 }
 
