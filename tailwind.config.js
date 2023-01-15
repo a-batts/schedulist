@@ -7,6 +7,9 @@ module.exports = {
     variants: {
         extend: {
             opacity: ['disabled'],
+            transitionProperty: {
+                width: 'width',
+            },
         },
     },
 };

@@ -9,7 +9,7 @@
                 <template x-if="view == 'week'">
                     <div class="grid w-full grid-cols-7 -ml-1 select-none">
                         <template x-for="day in weekDays">
-                            <div class="flex items-center justify-center w-full space-x-2 text-center">
+                            <div class="flex items-center justify-center w-full space-x-2 font-medium text-center">
                                 <span x-text="day.format('ddd')"></span>
                                 <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer"
                                     @click="jumpToDate(day)"
@@ -105,78 +105,52 @@
                 @endfor
 
                 <div class="relative h-full ml-12">
-                    <template x-if="view == 'day'">
-                        <div class="flex">
-                            <template x-if="isToday">
-                                <div class="absolute left-[2.05rem] z-[4] flex w-full items-center"
-                                    :style="`top: ${todaySeconds -5}px`;">
-                                    <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
-                                    <div class="bg-primary-theme h-0.5 w-full"></div>
-                                </div>
-                            </template>
-
-                            <template
-                                x-for="(item, index) in agenda?.[date.year()]?.[date.format('M')]?.[date.date()] ?? []"
-                                :key="index">
-                                <!-- prettier-ignore-attribute :style -->
-                                <div class="mdc-card mdc-card--outlined agenda-item absolute mr-2 transition-colors"
-                                    @click="setSelectedItem(index, date)"
-                                    :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                    :style="`top: ${item.top}px; height: calc(${item.bottom}px - ${item.top}px); width: ${item.width}%; left: ${item.left}%; z-index: ${item.height}; min-height: 80px;`"
-                                    x-show="! filter.includes(`${item.type}`)" x-transition>
-                                    <div class="mdc-card__primary-action h-full px-6 pt-4 pb-2" tabindex="0">
-                                        <p class="agenda-text-primary text-xl font-medium truncate transition-all"
-                                            x-text="item.name"></p>
-                                        <p class="agenda-text-secondary mdc-typography--body2 transition-all">
-                                            <span x-text="item.startString"></span>
-                                            <template x-if="item.endString != null">
-                                                <span x-text="' - ' + item.endString"></span>
-                                            </template>
-                                        </p>
+                    <div class="absolute grid h-full" style="width:calc(100%)"
+                        :class="{ 'grid-cols-7': view == 'week' }">
+                        <template x-for="(day, index) in weekDays">
+                            <div class="week-column relative w-full h-full transition-all border-solid"
+                                :class="{
+                                    'border-l': index != 0 && view == 'week',
+                                    'hidden': view == 'day' && day.format('YYYY-MM-DD') != date
+                                        .format('YYYY-MM-DD')
+                                }">
+                                <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
+                                    <div class="absolute z-[4] flex w-full items-center"
+                                        :style="`top: ${todaySeconds -5}px`;">
+                                        <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
+                                        <div class="bg-primary-theme h-0.5 w-full"></div>
                                     </div>
-                                </div>
-                            </template>
-                        </div>
-                    </template>
-                    <template x-if="view == 'week'">
-                        <div class="absolute grid h-full grid-cols-7" style="width:calc(100%)">
-                            <template x-for="(day, index) in weekDays">
-                                <div class="week-column relative w-full h-full border-solid"
-                                    :class="{ 'border-l': index != 0 }">
-                                    <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
-                                        <div class="absolute z-[4] flex w-full items-center"
-                                            :style="`top: ${todaySeconds -5}px`;">
-                                            <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
-                                            <div class="bg-primary-theme h-0.5 w-full"></div>
-                                        </div>
-                                    </template>
+                                </template>
 
-                                    <template
-                                        x-for="(item, index) in agenda[day.year()][day.format('M')][day.date()] ?? []"
-                                        :key="index">
-                                        <!-- prettier-ignore-attribute :style -->
-                                        <div class="mdc-card mdc-card--outlined agenda-item absolute w-full transition-colors"
-                                            @click="setSelectedItem(index, day)"
-                                            :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                            :style="`top: ${item.top}px; width: ${item.width}%; left: ${item.left}%; height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px`"
-                                            x-show="! filter.includes(`${item.type}`)" x-transition>
-                                            <div class="mdc-card__primary-action h-full px-3 pt-4 pb-2"
-                                                tabindex="0">
-                                                <p class="agenda-text-primary mb-2 font-medium transition-all"
-                                                    x-text="item.name"></p>
-                                                <p class="agenda-text-secondary mdc-typography--body2 transition-all">
-                                                    <span x-text="item.startString"></span>
-                                                    <template x-if="item.endString != null">
-                                                        <span x-text="' - ' + item.endString"></span>
-                                                    </template>
-                                                </p>
-                                            </div>
+                                <template x-for="(item, index) in agenda[day.year()][day.format('M')][day.date()] ?? []"
+                                    :key="index">
+                                    <!-- prettier-ignore-attribute :style -->
+                                    <div class="transition-width mdc-card mdc-card--outlined agenda-item absolute w-full transition-colors"
+                                        @click="setSelectedItem(index, day)"
+                                        :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
+                                        :style="`top: ${item.top}px; width: calc(${item.width}% - .25rem ); left: calc(${item.left}% + .25rem); height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px`"
+                                        x-show="! filter.includes(`${item.type}`)" x-transition>
+                                        <div class="mdc-card__primary-action h-full pt-4 pb-2" tabindex="0"
+                                            :class="`${ view == 'day' ? 'px-5' : 'px-3'}`">
+                                            <p class="agenda-text-primary mb-2 font-medium"
+                                                :class="{
+                                                    'text-xl ': view == 'day',
+                                                    'overflow-x-hidden': view ==
+                                                        'week'
+                                                }"
+                                                x-text="item.name"></p>
+                                            <p class="agenda-text-secondary mdc-typography--body2 transition-all">
+                                                <span x-text="item.startString"></span>
+                                                <template x-if="item.endString != null">
+                                                    <span x-text="' - ' + item.endString"></span>
+                                                </template>
+                                            </p>
                                         </div>
-                                    </template>
-                                </div>
-                            </template>
-                        </div>
-                    </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
