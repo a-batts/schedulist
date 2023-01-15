@@ -126,7 +126,7 @@
                                     :key="index">
                                     <!-- prettier-ignore-attribute :style -->
                                     <div class="transition-width mdc-card mdc-card--outlined agenda-item absolute w-full transition-colors"
-                                        @click="setSelectedItem(index, day)"
+                                        @click="setSelectedItem(index, day, $event)"
                                         :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
                                         :style="`top: ${item.top}px; width: calc(${item.width}% - .25rem ); left: calc(${item.left}% + .25rem); height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px`"
                                         x-show="! filter.includes(`${item.type}`)" x-transition>
@@ -154,9 +154,9 @@
                 </div>
             </div>
         </div>
+        <x-agenda.agenda-popup />
     </div>
     <!-- Agenda context menu -->
-    <x-agenda.agenda-popup />
 
     <x-ui.tooltip tooltip-id="jump-today" text="Jump to Today" />
     <x-ui.tooltip tooltip-id="backward-day" text="Previous Day" />
@@ -182,6 +182,8 @@
                 showingSideMenu: false,
 
                 popupHeight: -200,
+
+                popupPos: 'left: 0',
 
                 filter: [],
 
@@ -235,15 +237,23 @@
                     this.setDate(this.date.subtract(1, this.view));
                 },
 
-                setSelectedItem: function(index, date) {
+                setSelectedItem: function(index, date, $event) {
                     this.selectedItem = index;
                     this.selectedItemData = this.agenda[date.year()][date.format('M')][date.date()][index];
-                    let obj = document.querySelector('.agenda-item-' + index).getBoundingClientRect();
+
+                    const obj = document.querySelector('.agenda-item-' + index).getBoundingClientRect();
                     this.popupHeight = obj.top + window.scrollY;
                     if (this.popupHeight + 240 > document.body.clientHeight)
                         this.popupHeight = document.body.clientHeight - 260;
                     if (this.popupHeight < 170)
                         this.popupHeight = 170;
+
+                    const width = document.body.clientWidth;
+                    if ($event.clientX < width / 2.5)
+                        this.popupPos = 'left:' + $event.clientX;
+                    else
+                        this.popupPos = 'right:' + (document.body.clientWidth - $event.clientX);
+
                     this.showingDetails = true;
                     this.colorPicker = false;
                     this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
