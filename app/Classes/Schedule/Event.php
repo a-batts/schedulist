@@ -6,61 +6,21 @@ use Carbon\Carbon;
 
 class Event
 {
-    private Carbon $date;
-    public int $id;
-
-    public string $type;
-
-    public string $name;
-
-    public ?string $link;
-
-    public string $color;
-
-    private Carbon $start;
-
-    private ?Carbon $end;
-
-    public int $top;
-
-    public int $bottom;
-
     public int $left;
 
-    public int $height;
-
-    public int $width = 100;
-
-    public array $data = [];
-
     public function __construct(
-        Carbon $date,
-        int $id,
-        string $type,
-        string $name,
-        ?string $link,
-        string $color,
-        Carbon $start,
-        ?Carbon $end,
-        int $top,
-        int $bottom,
-        ?array $data = [],
-        ?int $left = 0,
-        ?int $height = 1
+        public Carbon $date,
+        public int $id,
+        public string $type,
+        public string $name,
+        public ?string $link,
+        public string $color,
+        public Carbon $start,
+        public ?Carbon $end,
+        public int $top,
+        public int $bottom,
+        public ?array $data = []
     ) {
-        $this->date = $date;
-        $this->id = $id;
-        $this->type = strtolower($type);
-        $this->name = $name;
-        $this->link = $link;
-        $this->color = $color;
-        $this->start = $start;
-        $this->end = $end;
-        $this->top = $top;
-        $this->bottom = $bottom;
-        $this->data = $data;
-        $this->left = $left;
-        $this->height = $height;
     }
 
     /**

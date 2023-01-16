@@ -273,10 +273,6 @@ html {
         background-color: #ffffff;
     }
 
-    .turbolinks-progress-bar {
-        background: #0d6ed1;
-    }
-
     //Agenda style
 
     .agenda-sidebar {
@@ -468,10 +464,6 @@ html.theme-dark {
 
     .mdc-icon-button:disabled {
         color: var(--element-disabled);
-    }
-
-    .turbolinks-progress-bar {
-        background: #95cffe;
     }
 
     //FilePond style
@@ -1042,10 +1034,6 @@ a:focus,
     border: none;
     outline-style: none;
     -moz-outline-style: none;
-}
-
-.turbolinks-progress-bar {
-    height: 2px;
 }
 
 /*

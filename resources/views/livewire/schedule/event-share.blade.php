@@ -31,7 +31,7 @@
         </x-slot>
 
         <div class="px-3">
-            <p class="mb-2 text-2xl font-semibold">Share your event with others</p>
+            <p class="mb-2 -mt-4 text-2xl font-semibold">Share your event with others</p>
             <div class="flex items-center mb-6 text-sm text-gray-600 gap-x-3">
                 <p class="material-icons">
                     edit_off

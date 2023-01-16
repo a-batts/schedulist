@@ -2,10 +2,9 @@
 <div class="transition-width mdc-card mdc-card--outlined agenda-item absolute min-h-[3.75rem] w-full select-none transition-colors"
     @click="setSelectedItem(index, day, $event)"
     :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-    :style="`top: ${item.top}px; width: calc(${item.width}% - .25rem ); left: calc(${item.left}% + .25rem); height: calc(${item.bottom}px - ${item.top}px);`"
-    x-show="! filter.includes(`${item.type}`)" x-transition>
+    :style="`top: ${item.top}px; width: calc(${item.width}% - .25rem ); left: calc(${item.left}% + .25rem); height: calc(${item.bottom}px - ${item.top}px);`">
     <div class="mdc-card__primary-action h-full pb-2" tabindex="0"
-        :class="`${ view == 'day' ? 'px-5' : 'px-3'} ${item.bottom - item.top > 100 && view == 'day' ? 'py-5' : 'py-2'}`">
+        :class="`${ view == 'day' ? 'px-5' : 'px-3'} ${item.bottom - item.top > 100 && view == 'day' ? 'py-5' : 'py-1.5'}`">
         <p class="agenda-text-primary font-medium"
             :class="{
                 'text-lg ': view == 'day',

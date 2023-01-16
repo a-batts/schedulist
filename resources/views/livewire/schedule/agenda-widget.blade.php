@@ -67,29 +67,8 @@
     </div>
     <div class="agenda-sidebar float-right w-full origin-right overflow-y-scroll sm:!block sm:w-[20rem] md:overflow-hidden"
         x-show="showingSideMenu" x-transition>
-        <div class="p-6 border-b border-gray-200">
+        <div class="p-6">
             <x-agenda.mini-calendar />
-        </div>
-        <div class="px-6 py-4 overflow-y-scroll">
-            <h4 class="mb-4 text-xl font-semibold">Filter Events</h4>
-            <template x-for="(category, index) in filterCategories">
-                <div class="-ml-3">
-                    <div class="mdc-checkbox mdc-checkbox--touch" @click="filterToggle(category)">
-                        <input class="mdc-checkbox__native-control" type="checkbox" :id="'checkbox-' + category"
-                            :checked="!filter.includes(category)">
-                        <div class="mdc-checkbox__background">
-                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-                                <path class="mdc-checkbox__checkmark-path" fill="none"
-                                    d="M1.73,12.91 8.1,19.28 22.79,4.59" />
-                            </svg>
-                            <div class="mdc-checkbox__mixedmark"></div>
-                        </div>
-                        <div class="mdc-checkbox__ripple"></div>
-                    </div>
-                    <label class="agenda-filter-label w-full mr-2 -ml-2 capitalize" :for="'checkbox-' + category"
-                        x-text="filterPlurals[index]"></label>
-                </div>
-            </template>
         </div>
     </div>
     <div class="agenda-padding sm:px-6 lg:px-8" wire:ignore>
@@ -177,8 +156,6 @@
 
                 popupPos: 'left: 0px',
 
-                filter: [],
-
                 colorPicker: false,
 
                 selectedColor: 'blue',
@@ -190,8 +167,6 @@
                 init: function() {
                     this.$refs.outerAgenda.scrollTop = this.todaySeconds;
                     this.date = new dayjs({{ $initDate->timestamp * 1000 }});
-                    this.filterCategories = ['assignment', 'class', 'event'];
-                    this.filterPlurals = ['assignments', 'classes', 'your events'];
                 },
 
                 setDate: function(d) {
@@ -263,19 +238,6 @@
                     this.selectedItem = -1;
                     this.popupHeight = -200;
                     enableScroll();
-                },
-
-                filterToggle: function(e) {
-                    e = e.toLowerCase();
-
-                    if (this.filterCategories.includes(e)) {
-                        if (this.filter.includes(e)) {
-                            const search = (element) => element == e;
-                            var i = this.filter.findIndex(search);
-                            this.filter.splice(i, i + 1);
-                        } else
-                            this.filter.push(e);
-                    }
                 },
 
                 updateEventColor: function(color) {
