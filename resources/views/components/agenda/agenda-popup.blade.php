@@ -1,6 +1,6 @@
-<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 !left-0 px-6 py-2 sm:!left-6 md:!left-auto"
+<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 left-0 px-6 pt-2 pb-4 sm:left-6"
     @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity
-    :style="`top: calc(${popupHeight}px - 60px); ${popupPos}px;`" x-ref="popupBox" x-cloak wire:ignore.self>
+    :style="`top: calc(${popupHeight}px - 60px); ${popupPos};`" x-ref="popupBox" x-cloak wire:ignore.self>
     <div x-show="! colorPicker" x-transition.in>
         <div class="item-details-top w-full h-12 mb-2">
             <button class="mdc-icon-button material-icons float-right" aria-describedby="close-details"
@@ -66,30 +66,55 @@
             </div>
         </div>
         <div>
-            <div class="float-left mt-2.5 h-4 w-4 rounded-full"
-                :class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
-            <span class="ml-5 text-2xl font-bold uppercase" x-text="selectedItemData.name"></span>
-            <p><span class="text-sm ml-9 md:text-base" x-text="dateString"></span> ⋅ <span class="text-sm md:text-base"
-                    x-text="selectedItemData?.timeString"></span></p>
-            <div wire:ignore>
+            <div class="flex gap-x-4">
+                <div class="flex items-center justify-center w-6 shrink-0">
+                    <div class="w-4 h-4 rounded-full"
+                        :class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
+                </div>
+                <p class="max-h-[8rem] flex-grow overflow-y-hidden overflow-x-clip text-2xl font-bold"
+                    x-text="selectedItemData.name">
+                </p>
+            </div>
+
+            <div class="flex items-center mt-3 gap-x-4">
+                <i class="material-icons text-gray-700">event</i>
+                <p class="flex-grow">
+                    <span class="text-sm md:text-base" x-text="dateString"></span> ⋅
+                    <span class="text-sm md:text-base" x-text="selectedItemData?.timeString"></span>
+                </p>
+            </div>
+
+            <div class="pt-2" wire:ignore>
                 <template x-if="selectedItemData?.type != 'event'">
-                    <p class="text-gray-700"><span class="material-icons mt-5 -ml-0.5">label</span> <span
-                            class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5 capitalize"
-                            x-text="selectedItemData?.type"></span></p>
+                    <div class="flex items-center mt-3 text-gray-700 gap-x-4">
+                        <i class="material-icons">label</i>
+                        <p class="flex-grow">
+                            <span class="capitalize" x-text="selectedItemData?.type"></span>
+                        </p>
+                    </div>
                 </template>
                 <template x-if="selectedItemData?.type == 'assignment'">
-                    <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">school</span> <span
-                            class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                            x-text="selectedItemData?.data['className']"></span></p>
+                    <div class="flex items-center mt-3 text-gray-700 gap-x-4">
+                        <i class="material-icons">school</i>
+                        <p class="flex-grow">
+                            <span x-text="selectedItemData?.data['className']"></span>
+                        </p>
+                    </div>
                 </template>
-                <template x-if="selectedItemData?.['type'] == 'event'">
+                <template x-if="selectedItemData?.type == 'event'">
                     <div>
-                        <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">label</span> <span
-                                class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                                x-text="selectedItemData?.data['category']"></span></p>
-                        <p class="text-gray-700"><span class="material-icons mt-3 -ml-0.5">restart_alt</span> <span
-                                class="mdc-typography--subtitle1 agenda-detail-row-text ml-2.5"
-                                x-text="selectedItemData?.data['repeat']"></span></p>
+                        <div class="flex items-center mt-3 text-gray-700 gap-x-4">
+                            <i class="material-icons">label</i>
+                            <p class="flex-grow">
+                                <span x-text="selectedItemData?.data['category']"></span>
+                            </p>
+                        </div>
+                        <div class="flex items-center mt-3 text-gray-700 gap-x-4">
+                            <i class="material-icons">restart_alt</i>
+                            <p class="flex-grow">
+                                <span x-text="selectedItemData?.data['repeat']"></span>
+                            </p>
+                        </div>
                     </div>
                 </template>
             </div>

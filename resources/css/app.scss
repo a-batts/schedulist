@@ -484,7 +484,7 @@ html.theme-dark {
 
     .agenda-timeslot,
     .week-column {
-        border-color: var(--mdc-text-primary-on-background);
+        border-color: #5f5f5fde;
     }
 
     .agenda-text-primary,
@@ -1272,6 +1272,64 @@ input[type='number'] {
 All other CSS code below
       ********
                         */
+.linear-preload {
+    overflow: hidden;
+    position: relative;
+    height: 4px;
+
+    .background {
+        background-color: var(--mdc-theme-primary);
+        filter: brightness(150%) opacity(0.5);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    .indeterminate {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .indeterminate:before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: var(--mdc-theme-primary);
+        animation: indeterminate_first 1.5s infinite ease-out;
+    }
+
+    .indeterminate:after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        background-color: var(--mdc-theme-primary);
+        animation: indeterminate_second 1.5s infinite ease-in;
+    }
+
+    @keyframes indeterminate_first {
+        0% {
+            left: -100%;
+            width: 100%;
+        }
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+
+    @keyframes indeterminate_second {
+        0% {
+            left: -150%;
+            width: 100%;
+        }
+        100% {
+            left: 100%;
+            width: 10%;
+        }
+    }
+}
+
 .continue-with {
     display: grid;
     width: 100%;
@@ -1931,11 +1989,6 @@ div.livewire-helper.mdc-text-field-helper-line {
     margin-top: -5.65rem;
 }
 
-.agenda-item {
-    width: calc(100% - 3.5rem);
-    transition: background-color 0.5s ease, height 0.3s ease, top 0.3s ease;
-}
-
 .inner-agenda-container {
     height: 1440px;
 }
@@ -1956,7 +2009,8 @@ div.livewire-helper.mdc-text-field-helper-line {
 .agenda-item-details {
     width: 100vw;
     max-width: 480px;
-    height: 230px;
+    min-height: 230px;
+    max-height: 330px;
     position: absolute;
     z-index: 5;
 }
@@ -1971,10 +2025,6 @@ div.livewire-helper.mdc-text-field-helper-line {
 .agenda-color-picker {
     box-shadow: 0px 7px 9px -4px rgb(0 0 0 / 20%),
         0px 14px 21px 2px rgb(0 0 0 / 14%), 0px 5px 26px 4px rgb(0 0 0 / 12%);
-}
-
-.agenda-detail-row-text {
-    vertical-align: 6.5px;
 }
 
 .agenda-sidebar {
@@ -2174,62 +2224,8 @@ div.assignment-card-dashboard {
     color: var(--text-color);
 }
 
-.linear-preload {
-    overflow: hidden;
-    position: relative;
-    height: 4px;
-
-    .background {
-        background-color: var(--mdc-theme-primary);
-        filter: brightness(150%) opacity(0.5);
-        position: absolute;
-        height: 100%;
-        width: 100%;
-    }
-
-    .indeterminate {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    .indeterminate:before {
-        content: '';
-        position: absolute;
-        height: 100%;
-        background-color: var(--mdc-theme-primary);
-        animation: indeterminate_first 1.5s infinite ease-out;
-    }
-
-    .indeterminate:after {
-        content: '';
-        position: absolute;
-        height: 100%;
-        background-color: var(--mdc-theme-primary);
-        animation: indeterminate_second 1.5s infinite ease-in;
-    }
-
-    @keyframes indeterminate_first {
-        0% {
-            left: -100%;
-            width: 100%;
-        }
-        100% {
-            left: 100%;
-            width: 10%;
-        }
-    }
-
-    @keyframes indeterminate_second {
-        0% {
-            left: -150%;
-            width: 100%;
-        }
-        100% {
-            left: 100%;
-            width: 10%;
-        }
-    }
+.mdc-card.agenda-item {
+    border-radius: 8px;
 }
 
 //Import Tailwind at the end so it takes precidence over Material Design css

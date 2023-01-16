@@ -2,14 +2,24 @@
     <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
         <div class="flex self-center flex-grow space-x-2 md:ml-16">
             <div class="w-full">
-                <p class="text-sm font-bold sm:text-xl"
-                    x-text="view == 'day' ? date.format('MMMM D, YYYY') : date.format('MMMM YYYY')"
-                    :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }"></p>
-                <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="view == 'day' ? date.format('dddd') : ''"></p>
+                <p class="text-sm font-medium transition-all sm:text-lg"
+                    :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }">
+                    <span x-show="view == 'day'" x-text="date.format('MMMM D, YYYY')"></span>
+                    <span x-show="view == 'week'">
+                        <span x-text="weekDays[0].format('MMMM D')"></span><span
+                            x-text="weekDays[0].year() != weekDays[6].year() ? `, ${weekDays[0].year()}` : ''"></span>
+                        -
+                        <span
+                            x-text="weekDays[0].month() == weekDays[6].month() ? weekDays[6].format('D') : weekDays[6].format('MMMM D')"></span>,
+                        <span x-text="weekDays[6].year()"></span>
+                    </span>
+                </p>
+                <p class="mt-1 text-sm text-gray-500 md:text-base" x-text="view == 'day' ? date.format('dddd') : ''">
+                </p>
                 <template x-if="view == 'week'">
-                    <div class="grid w-full grid-cols-7 -ml-1 select-none">
+                    <div class="grid w-full grid-cols-7 pt-2 -ml-1 select-none">
                         <template x-for="day in weekDays">
-                            <div class="flex items-center justify-center w-full space-x-2 font-medium text-center">
+                            <div class="flex items-center justify-center w-full space-x-2 text-center text-gray-600">
                                 <span x-text="day.format('ddd')"></span>
                                 <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer"
                                     @click="jumpToDate(day)"
@@ -85,24 +95,27 @@
     <div class="agenda-padding sm:px-6 lg:px-8" wire:ignore>
         <div class="outer-agenda-container relative pb-8 overflow-x-hidden overflow-y-scroll"
             style="height: calc(100vh - 154px);" x-ref="outerAgenda">
-            <div class="inner-agenda-container">
-                @for ($i = 0; $i < 24; $i++)
-                    <div class="agenda-clockslot float-left pr-2">
-                        <p class="mb-2 -mt-2 text-xs text-right text-gray-400 align-middle">
-                            @if ($i == 12)
-                                12 PM
-                            @elseif($i == 0)
-                            @else
-                                {{ $i % 12 }}@if ($i < 12)
-                                    AM
-                                @else()
-                                    PM
+            <div class="inner-agenda-container relative">
+                <div class="absolute w-full">
+                    @for ($i = 0; $i < 24; $i++)
+                        <div class="flex">
+                            <div
+                                class="agenda-clockslot pr-2 mb-2 -mt-2 text-xs text-right text-gray-400 align-middle select-none">
+                                @if ($i == 12)
+                                    12 PM
+                                @elseif($i == 0)
+                                @else
+                                    {{ $i % 12 }}@if ($i < 12)
+                                        AM
+                                    @else()
+                                        PM
+                                    @endif
                                 @endif
-                            @endif
-                        </p>
-                    </div>
-                    <div class="agenda-timeslot float-right"></div>
-                @endfor
+                            </div>
+                            <div class="agenda-timeslot"></div>
+                        </div>
+                    @endfor
+                </div>
 
                 <div class="relative h-full ml-12">
                     <div class="absolute grid h-full" style="width:calc(100%)"
@@ -122,31 +135,10 @@
                                     </div>
                                 </template>
 
-                                <template x-for="(item, index) in agenda[day.year()][day.format('M')][day.date()] ?? []"
+                                <template
+                                    x-for="(item, index) in agenda?.[day.year()]?.[day.format('M')]?.[day.date()] ?? []"
                                     :key="index">
-                                    <!-- prettier-ignore-attribute :style -->
-                                    <div class="transition-width mdc-card mdc-card--outlined agenda-item absolute w-full transition-colors"
-                                        @click="setSelectedItem(index, day, $event)"
-                                        :class="`${'background-' + getItemColor(item.id, item.color)} ${'agenda-item-' + index  }`"
-                                        :style="`top: ${item.top}px; width: calc(${item.width}% - .25rem ); left: calc(${item.left}% + .25rem); height: calc(${item.bottom}px - ${item.top}px); z-index: ${item.height}; min-height: 80px`"
-                                        x-show="! filter.includes(`${item.type}`)" x-transition>
-                                        <div class="mdc-card__primary-action h-full pt-4 pb-2" tabindex="0"
-                                            :class="`${ view == 'day' ? 'px-5' : 'px-3'}`">
-                                            <p class="agenda-text-primary mb-2 font-medium"
-                                                :class="{
-                                                    'text-xl ': view == 'day',
-                                                    'overflow-x-hidden': view ==
-                                                        'week'
-                                                }"
-                                                x-text="item.name"></p>
-                                            <p class="agenda-text-secondary mdc-typography--body2 transition-all">
-                                                <span x-text="item.startString"></span>
-                                                <template x-if="item.endString != null">
-                                                    <span x-text="' - ' + item.endString"></span>
-                                                </template>
-                                            </p>
-                                        </div>
-                                    </div>
+                                    <x-agenda.item />
                                 </template>
                             </div>
                         </template>
@@ -183,7 +175,7 @@
 
                 popupHeight: -200,
 
-                popupPos: 'left: 0',
+                popupPos: 'left: 0px',
 
                 filter: [],
 
@@ -249,10 +241,16 @@
                         this.popupHeight = 170;
 
                     const width = document.body.clientWidth;
-                    if ($event.clientX < width / 2.5)
-                        this.popupPos = 'left:' + $event.clientX;
-                    else
-                        this.popupPos = 'right:' + (document.body.clientWidth - $event.clientX);
+                    if (width >= '768') {
+                        if (this.view == 'week') {
+                            if ($event.clientX < (width / 2))
+                                this.popupPos = `left: ${$event.clientX}px`;
+                            else
+                                this.popupPos = `right: ${(width - $event.clientX)}px; left: auto`;
+                        } else {
+                            this.popupPos = `left: ${width / 2}px`;
+                        }
+                    }
 
                     this.showingDetails = true;
                     this.colorPicker = false;
@@ -347,7 +345,7 @@
                 },
 
                 get dateString() {
-                    return this.date.format('ddd MMMM D, YYYY');
+                    return this.date.format('ddd, MMMM D, YYYY');
                 },
 
                 get todaySeconds() {
