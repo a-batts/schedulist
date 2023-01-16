@@ -100,21 +100,20 @@ class Day implements Countable
                 $link = $item->link;
 
                 $events[] = new Event(
-                    $this->date,
-                    $item->id,
-                    'assignment',
-                    $item->name,
-                    route('assignmentPage') . '/' . $item->url_string,
-                    'green',
-                    $date,
-                    null,
-                    CarbonInterval::minutes($eventTop->format('i'))->hours(
+                    date: $this->date,
+                    id: $item->id,
+                    type: 'assignment',
+                    name: $item->name,
+                    link: route('assignmentPage') . '/' . $item->url_string,
+                    color: 'green',
+                    start: $date,
+                    top: CarbonInterval::minutes($eventTop->format('i'))->hours(
                         $eventTop->format('G')
                     )->totalSeconds / Schedule::SCALE_FACTOR,
-                    CarbonInterval::minutes($date->format('i'))->hours(
+                    bottom: CarbonInterval::minutes($date->format('i'))->hours(
                         $date->format('G')
                     )->totalSeconds / Schedule::SCALE_FACTOR,
-                    [
+                    data: [
                         'className' => $className,
                         'url' => $link ?? null,
                     ]
@@ -141,20 +140,22 @@ class Day implements Countable
             $end = $item['end'];
 
             $events[] = new Event(
-                $this->date,
-                $item['class']->id,
-                'class',
-                $item['class']->name,
-                null,
-                $item['class']->color,
-                $start,
-                $end,
-                CarbonInterval::minutes($start->format('i'))->hours(
+                date: $this->date,
+                id: $item['class']->id,
+                type: 'class',
+                name: $item['class']->name,
+                color: $item['class']->color,
+                start: $start,
+                end: $end,
+                top: CarbonInterval::minutes($start->format('i'))->hours(
                     $start->format('G')
                 )->totalSeconds / Schedule::SCALE_FACTOR,
-                CarbonInterval::minutes($end->format('i'))->hours(
+                bottom: CarbonInterval::minutes($end->format('i'))->hours(
                     $end->format('G')
-                )->totalSeconds / Schedule::SCALE_FACTOR
+                )->totalSeconds / Schedule::SCALE_FACTOR,
+                data: [
+                    'location' => $item['class']->location,
+                ]
             );
         }
 
@@ -229,24 +230,26 @@ class Day implements Countable
                     $end = Carbon::parse($item->end_time);
 
                     $events[] = new Event(
-                        $this->date,
-                        $item->id,
-                        'event',
-                        $item->name,
-                        null,
-                        (string) $item->color ?? 'blue',
-                        $start,
-                        $end,
-                        CarbonInterval::minutes($start->format('i'))->hours(
-                            $start->format('G')
-                        )->totalSeconds / Schedule::SCALE_FACTOR,
-                        CarbonInterval::minutes($end->format('i'))->hours(
-                            $end->format('G')
-                        )->totalSeconds / Schedule::SCALE_FACTOR,
-                        [
+                        date: $this->date,
+                        id: $item->id,
+                        type: 'event',
+                        name: $item->name,
+                        color: (string) $item->color ?? 'blue',
+                        start: $start,
+                        end: $end,
+                        top: CarbonInterval::minutes(
+                            $start->format('i')
+                        )->hours($start->format('G'))->totalSeconds /
+                            Schedule::SCALE_FACTOR,
+                        bottom: CarbonInterval::minutes(
+                            $end->format('i')
+                        )->hours($end->format('G'))->totalSeconds /
+                            Schedule::SCALE_FACTOR,
+                        data: [
                             'category' => $item->category->formattedName(),
                             'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
                             'isOwner' => Auth::id() == $item->owner,
+                            'location' => $item->location,
                         ]
                     );
                 }
