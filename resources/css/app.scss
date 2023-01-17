@@ -686,6 +686,7 @@ a.link {
     @include textfield.outline-shape-radius(15%);
     @include textfield.outline-color(var(--textfield-outline-color));
     @include textfield.disabled-fill-color(var(--element-disabled));
+    @include textfield.bottom-line-color(transparent);
 }
 
 .mdc-text-field--filled,
@@ -749,6 +750,7 @@ a.link {
     @include select.outline-shape-radius(15%);
     @include select.outline-color(var(--textfield-outline-color));
     @include select.ink-color(var(--text-color));
+    @include select.bottom-line-color(transparent);
 }
 
 .mdc-select--filled:not(.mdc-select--invalid) {
