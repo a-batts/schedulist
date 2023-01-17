@@ -34,7 +34,11 @@ import SwupBodyClassPlugin from '@swup/body-class-plugin';
 
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 dayjs.extend(duration);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(advancedFormat);
 
 window.dayjs = dayjs;
 
