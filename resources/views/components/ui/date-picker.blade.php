@@ -1,13 +1,14 @@
 <div x-data="datePicker('{{ $bind }}', '{{ $validDate }}', {{ $attributes->has('show-prev-years') }})">
     <div class="w-full">
         <label class="mdc-text-field mdc-text-field--filled mdc-text-field--with-leading-icon dummy-field w-full"
-            x-on:click="datePickerOpen =! datePickerOpen">
+            @click="datePickerOpen = @isset($disabled) {{ $disabled }} ? datePickerOpen : @endisset !datePickerOpen "
+            @isset($disabled) :class="{ 'mdc-text-field--disabled': {{ $disabled ?? false }} }" @endisset>
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label mdc-floating-label--float-above"
                 id="my-label-id">{{ $title ?? 'Date' }}</span>
             <i class="material-icons mdc-text-field__icon mdc-text-field__icon--leading" role="button"
                 tabindex="0">event</i>
-            <p x-text="formattedDate"></p>
+            <p class="mdc-text-field__input" x-text="formattedDate"></p>
             <span class="mdc-line-ripple" :class="{ 'mdc-line-ripple--active': datePickerOpen }"></span>
         </label>
     </div>
