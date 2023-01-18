@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="agenda-sidebar float-right w-full origin-right overflow-y-scroll sm:!block sm:w-[20rem] md:overflow-hidden"
-            x-show="showingSideMenu" x-transition>
+            x-show="showingSideMenu" x-ref="sidebar" x-transition>
             <div class="p-6">
                 <x-agenda.mini-calendar />
             </div>
@@ -165,6 +165,8 @@
 
                 popupPos: 'left: 0px',
 
+                popupDate: new dayjs(),
+
                 colorPicker: false,
 
                 selectedColor: 'blue',
@@ -208,15 +210,15 @@
                 setSelectedItem: function(index, date, $event) {
                     this.selectedItem = index;
                     this.selectedItemData = this.agenda[date.year()][date.format('M')][date.date()][index];
+                    this.popupHeight = $event.srcElement.getBoundingClientRect().top;
+                    this.popupDate = date;
 
-                    const obj = document.querySelector('.agenda-item-' + index).getBoundingClientRect();
-                    this.popupHeight = obj.top + window.scrollY;
                     if (this.popupHeight + 240 > document.body.clientHeight)
                         this.popupHeight = document.body.clientHeight - 260;
                     if (this.popupHeight < 170)
                         this.popupHeight = 170;
 
-                    const width = document.body.clientWidth;
+                    const width = document.body.clientWidth - this.$refs.sidebar.offsetWidth + 100;
                     if (width >= '768') {
                         if (this.view == 'week') {
                             if ($event.clientX < (width / 2))
@@ -306,7 +308,7 @@
                 },
 
                 get dateString() {
-                    return this.date.format('ddd, MMMM D, YYYY');
+                    return this.popupDate.format('ddd, MMMM D, YYYY');
                 },
 
                 get todaySeconds() {
