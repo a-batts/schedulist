@@ -119,6 +119,7 @@ class Day implements Countable
                     data: [
                         'className' => $className,
                         'url' => $link ?? null,
+                        'location' => $item->location ?? '',
                     ]
                 );
             }
