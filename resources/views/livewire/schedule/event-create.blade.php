@@ -192,11 +192,13 @@
                         if (newDate.add(1, 'day').toDate() >= this.endDate)
                             this.endDate = newDate.add(1, 'day').toDate()
 
-                        this.$wire.setDate(newDate.toISOString());
+                        this.$wire.setDate(newDate.format('YYYY-MM-DD'));
 
-                        if (oldDate)
-                            this.daysToggle(oldDate.day());
-                        this.daysToggle(newDate.day());
+                        if (!this.modal) {
+                            if (oldDate)
+                                this.daysToggle(oldDate.day());
+                            this.daysToggle(newDate.day());
+                        }
                     });
 
                     this.$watch('startTime', (value) => {
@@ -210,8 +212,8 @@
                 },
 
                 submit: function() {
-                    this.$wire.setDate(this.date.toISOString());
-                    this.$wire.setEndDate(this.endDate.toISOString());
+                    this.$wire.setDate(dayjs(this.date).format('YYYY-MM-DD'));
+                    this.$wire.setEndDate(this.repeatsForever ? null : dayjs(this.endDate).format('YYYY-MM-DD'));
                     this.$wire.setStartTime(this.startTime);
                     this.$wire.setEndTime(this.endTime);
                     this.$wire.set('event.days', this.days);

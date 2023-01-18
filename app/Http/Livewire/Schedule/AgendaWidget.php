@@ -55,7 +55,7 @@ class AgendaWidget extends Component
     public function getAgendaData(string $date): array
     {
         $date = Carbon::parse($date)->startOfMonth();
-        return Schedule::getMultipleMonths(
+        $schedule = Schedule::getMultipleMonths(
             CarbonPeriod::create(
                 $date
                     ->copy()
@@ -67,6 +67,8 @@ class AgendaWidget extends Component
                     ->addMonth(1)
             )
         );
+
+        return $schedule;
     }
 
     /**
@@ -77,13 +79,24 @@ class AgendaWidget extends Component
      */
     public function getMonthData(string $date): array
     {
-        $date = Carbon::parse($date);
+        $date = Carbon::parse($date)->startOfDay();
         return Schedule::getSingleMonth(
             CarbonPeriod::create(
                 $date->copy()->startOfMonth(),
                 $date->copy()->endOfMonth()
             )
         )->toArray();
+    }
+
+    /**
+     * Update the agenda's data
+     *
+     * @param string $date
+     * @return void
+     */
+    public function fetchAgendaData(string $date): void
+    {
+        $this->agenda = $this->getAgendaData($date);
     }
 
     /**

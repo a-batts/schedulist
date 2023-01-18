@@ -109,9 +109,10 @@ class EventCreate extends Component
     {
         $this->validate();
         $event = $this->event;
+        $event->color = 'blue';
 
         if ($event->frequency != EventFrequency::Weekly) {
-            $event->days == null;
+            $event->days = null;
         }
 
         $this->dispatchBrowserEvent('close-create-modal');
@@ -142,7 +143,6 @@ class EventCreate extends Component
             'end_time' => '23:59',
             'frequency' => EventFrequency::Never,
             'interval' => 1,
-            'color' => 'blue',
         ]);
     }
 
@@ -231,13 +231,17 @@ class EventCreate extends Component
     /**
      * Set the event's end date
      *
-     * @param string $time
+     * @param string|null $time
      * @return void
      */
-    public function setEndDate(string $date): void
+    public function setEndDate(?string $date): void
     {
         try {
-            $this->event->end_date = Carbon::parse($date);
+            if (isset($date)) {
+                $this->event->end_date = Carbon::parse($date);
+            } else {
+                $this->event->end_date = null;
+            }
         } catch (InvalidFormatException) {
         }
     }

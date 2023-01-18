@@ -280,9 +280,7 @@
                 },
 
                 fetchNewData: function() {
-                    this.$wire.getAgendaData(this.date).then((result) => {
-                        this.agenda = result;
-                    })
+                    this.$wire.fetchAgendaData(this.date.format('YYYY-MM-DD'));
                 },
 
                 jumpToDate: function(date) {

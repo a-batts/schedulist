@@ -2,6 +2,7 @@
 
 namespace App\Classes\Schedule;
 
+use App\Enums\EventFrequency;
 use App\Helpers\ClassScheduleHelper;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -26,9 +27,9 @@ class Day implements Countable
 
     public function __construct(Carbon $date, array $queriedData)
     {
-        $this->date = $date;
+        $this->date = $date->startOfDay();
 
-        $data = array_merge(
+        $items = array_merge(
             $this->getAssignments(
                 $queriedData['assignments'],
                 $queriedData['classes']
@@ -37,13 +38,13 @@ class Day implements Countable
             $this->getOtherEvents($queriedData['events'])
         );
 
-        usort($data, function ($a, $b) {
+        usort($items, function ($a, $b) {
             return $a->top <=> $b->top;
         });
 
         $events = [];
         $collisions = [];
-        foreach ($data as $index => $item) {
+        foreach ($items as $index => $item) {
             if ($index == 0) {
                 $collisions[] = $item;
                 continue;
@@ -165,98 +166,93 @@ class Day implements Countable
     /**
      * Get the other events for date
      *
-     * @param Collection $data
+     * @param Collection $items
      * @return array<Event>
      */
-    private function getOtherEvents(Collection $data): array
+    private function getOtherEvents(Collection $items): array
     {
-        $iso = $this->date->dayOfWeekIso;
-
-        foreach ($data as $item) {
-            $date = Carbon::parse($item->date);
-
-            if ($item->reoccuring) {
-                $days = explode(',', (string) $item->days);
+        foreach ($items as $item) {
+            if (
+                $this->date < $item->date ||
+                ($item->end_date != null && $this->date > $item->end_date)
+            ) {
+                continue;
             }
 
-            //If an event's first date is before this day, break the loop to prevent it from being added
             if (
-                $item->reoccuring === 0 ||
-                $this->date->toDateString() == $date->toDateString() ||
-                $this->date >= $date
+                $this->eventOccursToday(
+                    date: $item->date,
+                    frequency: $item->frequency,
+                    interval: $item->interval,
+                    days: $item->days
+                )
             ) {
-                switch ($item->frequency) {
-                    case null:
-                        $occursToday = false;
-                        break;
-                    case 31:
-                        $occursToday =
-                            $date > $this->date &&
-                            Carbon::now()
-                                ->setDay($date->format('j'))
-                                ->between(
-                                    $this->date->copy()->startOfWeek(),
-                                    $this->date->copy()->endOfWeek()
-                                ) &&
-                            in_array($iso, $days);
-                        break;
-                    default:
-                        $occursToday =
-                            ($date->diffInDays($this->date) %
-                                $item->frequency ==
-                                0 ||
-                                ($date->diffInDays($this->date) %
-                                    $item->frequency <
-                                    7 &&
-                                    $date->diffInDays($this->date) %
-                                        $item->frequency >
-                                        -7)) &&
-                            in_array($iso, $days);
-                        break;
-                }
+                $start = Carbon::parse($item->start_time);
+                $end = Carbon::parse($item->end_time);
 
-                if (
-                    $this->date->toDateString() == $date->toDateString() ||
-                    ($item->reoccuring && $occursToday)
-                ) {
-                    if (isset($item->frequency)) {
-                        $frequency =
-                            $item->frequency == 31
-                                ? 'Every Month'
-                                : sprintf('Every %s Days', $item->frequency);
-                    }
-
-                    $start = Carbon::parse($item->start_time);
-                    $end = Carbon::parse($item->end_time);
-
-                    $events[] = new Event(
-                        date: $this->date,
-                        id: $item->id,
-                        type: 'event',
-                        name: $item->name,
-                        color: (string) $item->color ?? 'blue',
-                        start: $start,
-                        end: $end,
-                        top: CarbonInterval::minutes(
-                            $start->format('i')
-                        )->hours($start->format('G'))->totalSeconds /
-                            Schedule::SCALE_FACTOR,
-                        bottom: CarbonInterval::minutes(
-                            $end->format('i')
-                        )->hours($end->format('G'))->totalSeconds /
-                            Schedule::SCALE_FACTOR,
-                        data: [
-                            'category' => $item->category->formattedName(),
-                            'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
-                            'isOwner' => Auth::id() == $item->owner,
-                            'location' => $item->location,
-                        ]
-                    );
-                }
+                $events[] = new Event(
+                    date: $this->date,
+                    id: $item->id,
+                    type: 'event',
+                    name: $item->name,
+                    color: (string) $item->color ?? 'blue',
+                    start: $start,
+                    end: $end,
+                    top: CarbonInterval::minutes($start->format('i'))->hours(
+                        $start->format('G')
+                    )->totalSeconds / Schedule::SCALE_FACTOR,
+                    bottom: CarbonInterval::minutes($end->format('i'))->hours(
+                        $end->format('G')
+                    )->totalSeconds / Schedule::SCALE_FACTOR,
+                    data: [
+                        'category' => $item->category->formattedName(),
+                        'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
+                        'isOwner' => Auth::id() == $item->owner,
+                        'location' => $item->location,
+                    ]
+                );
             }
         }
-
         return $events ?? [];
+    }
+
+    /**
+     * Determine if an event occurs on a day or not
+     *
+     * @param Carbon $date
+     * @param EventFrequency $frequency
+     * @param integer $interval
+     * @param array $days
+     * @return boolean
+     */
+    public function eventOccursToday(
+        Carbon $date,
+        EventFrequency $frequency,
+        int $interval,
+        ?array $days
+    ): bool {
+        $diffInDays = $this->date->diffInDays($date);
+
+        switch ($frequency) {
+            case EventFrequency::Never:
+                return $diffInDays == 0;
+            case EventFrequency::Daily:
+                return $diffInDays % $interval == 0;
+            case EventFrequency::Weekly:
+                $diffInWeeks = $this->date
+                    ->copy()
+                    ->startOfWeek()
+                    ->diffInWeeks($date->copy()->startOfWeek());
+                return $diffInWeeks % $interval == 0 &&
+                    in_array($this->date->dayOfWeekIso, $days);
+            case EventFrequency::Monthly:
+                return $date->day == $this->date->day;
+            case EventFrequency::Yearly:
+                return $date->day == $this->date->day &&
+                    $date->month == $this->date->month;
+            default:
+                return false;
+        }
     }
 
     /**
