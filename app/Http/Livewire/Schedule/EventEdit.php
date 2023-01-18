@@ -3,21 +3,20 @@
 namespace App\Http\Livewire\Schedule;
 
 use App\Enums\EventCategory;
+use App\Enums\EventFrequency;
 use App\Models\Event;
-
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\{Rule, ValidationException};
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class EventEdit extends Component
 {
-    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
     /**
-     * The event to edit
+     * The new event
      *
      * @var Event
      */
@@ -35,14 +34,7 @@ class EventEdit extends Component
      *
      * @var array
      */
-    public array $frequencies = ['Day', 'Week', 'Two Weeks', 'Month'];
-
-    /**
-     * The set frequency for the event
-     *
-     * @var string
-     */
-    public string $frequency = '';
+    public array $frequencies = [];
 
     /**
      * The days of the week for the event to reoccur on
@@ -64,19 +56,20 @@ class EventEdit extends Component
     {
         return [
             'event.name' => 'required',
-            'event.category' => ['required', new Enum(EventCategory::class)],
+            'event.date' => 'required|date',
+            'event.end_date' => 'nullable|date',
             'event.start_time' => 'required',
             'event.end_time' => 'required',
-            'event.date' => 'required',
-            'event.reoccuring' => 'required',
-            'event.frequency' => Rule::requiredIf(
-                $this->event->reoccuring == true
-            ),
-            'event.days' => Rule::requiredIf(
-                $this->event->reoccuring == true &&
-                    ($this->event->frequency == 'Week' ||
-                        $this->event->frequency == 'Two Weeks')
-            ),
+            'event.frequency' => ['required', new Enum(EventFrequency::class)],
+            'event.interval' => 'required',
+            'event.days' => [
+                'array',
+                Rule::requiredIf(
+                    $this->event->frequency == EventFrequency::Weekly
+                ),
+            ],
+            'event.category' => ['required', new Enum(EventCategory::class)],
+            'event.location' => 'nullable|string',
         ];
     }
 
@@ -88,17 +81,24 @@ class EventEdit extends Component
     public function mount(): void
     {
         $this->event = new Event();
-        $this->categories = $this->getEventCategories();
-    }
 
-    /**
-     * Validate updated properties
-     * @param  string $propertyName
-     * @return void
-     */
-    public function updated(string $propertyName)
-    {
-        $this->validateOnly($propertyName);
+        $this->categories = array_map(
+            fn(EventCategory $item) => [
+                'name' => $item->name,
+                'value' => $item->value,
+                'formatted_name' => $item->formattedName(),
+            ],
+            EventCategory::cases()
+        );
+
+        $this->frequencies = array_map(
+            fn(EventFrequency $item) => [
+                'name' => $item->name,
+                'value' => $item->value,
+                'unit' => $item->getUnit(),
+            ],
+            EventFrequency::cases()
+        );
     }
 
     /**
@@ -108,50 +108,12 @@ class EventEdit extends Component
      */
     public function edit(): void
     {
-        $this->resetValidation();
-
         $event = $this->event;
-
         if ($event->owner == Auth::id()) {
-            if ($event->reoccuring) {
-                if ($this->frequency != null) {
-                    switch ($this->frequency) {
-                        case 'Day':
-                            $event->frequency = 1;
-                            break;
-                        case 'Week':
-                            $event->frequency = 7;
-                            break;
-                        case 'Two Weeks':
-                            $event->frequency = 14;
-                            break;
-                        case 'Month':
-                            $event->frequency = 31;
-                            break;
-                        default:
-                            $event->frequency = null;
-                            break;
-                    }
-                }
-                $eventDay = Carbon::parse($this->event->date)->format('D');
-                if (!in_array($eventDay, $this->days)) {
-                    $this->days[] = $eventDay;
-                }
-
-                $isoValues = [];
-
-                foreach ($this->days as $day) {
-                    $isoValues[] = array_search($day, self::DAYS) + 1;
-                }
-
-                sort($isoValues);
-                $event->days = implode(',', $isoValues);
-            } else {
-                $event->frequency = null;
+            $this->validate();
+            if ($event->frequency != EventFrequency::Weekly) {
                 $event->days = null;
             }
-
-            $this->validate();
 
             $event->save();
             $this->emit('updateAgendaData');
@@ -161,7 +123,7 @@ class EventEdit extends Component
     }
 
     /**
-     * Set the current event to edit and get the data
+     * Set the current event to edit and fetch data
      *
      * @param mixed $id
      * @return void
@@ -169,69 +131,11 @@ class EventEdit extends Component
     public function getEventToEdit($id): void
     {
         $this->clearValidation();
-
         $event = Event::find($id);
-
         if ($event->owner == Auth::id()) {
-            switch ($event->frequency) {
-                case 1:
-                    $this->frequency = 'Day';
-                    break;
-                case 7:
-                    $this->frequency = 'Week';
-                    break;
-                case 14:
-                    $this->frequency = 'Two Weeks';
-                    break;
-                case 31:
-                    $this->frequency = 'Month';
-                    break;
-            }
-
-            $occurrenceDays = $event->days;
-
-            if (isset($occurrenceDays) && $occurrenceDays != '') {
-                $vals = explode(',', $occurrenceDays);
-
-                foreach ($vals as $val) {
-                    $days[] = self::DAYS[$val - 1];
-                }
-
-                $this->days = $days;
-            }
-
             $this->event = $event;
             $this->dispatchBrowserEvent('update-content');
         }
-    }
-
-    /**
-     * Set the event category
-     *
-     * @param int $category
-     * @return void
-     */
-    public function setCategory(int $category): void
-    {
-        $this->event->category = EventCategory::from($category)->value;
-    }
-
-    /**
-     * Get the array of all event category enums
-     *
-     * @return array
-     */
-    public function getEventCategories(): array
-    {
-        $levels = [];
-        foreach (EventCategory::cases() as $case) {
-            $levels[] = [
-                'name' => $case->name,
-                'value' => $case->value,
-                'formatted_name' => $case->formattedName(),
-            ];
-        }
-        return $levels;
     }
 
     /**
@@ -316,13 +220,13 @@ class EventEdit extends Component
     }
 
     /**
-     * Get the event's date
+     * Get the event reoccurrence days
      *
-     * @return string
+     * @return array
      */
-    public function getDate(): string
+    public function getDays(): array
     {
-        return Carbon::parse($this->event->date)->toDateString();
+        return $this->event->days ?? [];
     }
 
     /**
@@ -334,41 +238,78 @@ class EventEdit extends Component
     public function setDate(string $date): void
     {
         try {
-            $date = Carbon::parse($date)->toDateString();
-            $this->event->date = $date;
-        } catch (InvalidFormatException $e) {
+            $this->event->date = Carbon::parse($date);
+        } catch (InvalidFormatException) {
         }
     }
 
     /**
-     * Get whether or not the event is reoccuring
+     * Get the event's date
      *
-     * @return boolean
+     * @return string
      */
-    public function getReoccuring(): bool
+    public function getDate(): string
     {
-        return (bool) $this->event->reoccuring;
+        return $this->event->date;
     }
 
     /**
-     * Get the event reoccurrence days
+     * Set the event's end date
      *
-     * @return array
-     */
-    public function getDays(): array
-    {
-        return $this->days;
-    }
-
-    /**
-     * Set the event reoccurrence days
-     *
-     * @param array $val
+     * @param string|null $time
      * @return void
      */
-    public function setDays($val): void
+    public function setEndDate(?string $date): void
     {
-        $this->days = $val;
+        try {
+            if (isset($date)) {
+                $this->event->end_date = Carbon::parse($date);
+            } else {
+                $this->event->end_date = null;
+            }
+        } catch (InvalidFormatException) {
+        }
+    }
+
+    /**
+     * Get the event's end date
+     *
+     * @return string
+     */
+    public function getEndDate(): string
+    {
+        return $this->event->end_date;
+    }
+
+    /**
+     * Set the event's category
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setCategory(string $value): void
+    {
+        $this->event->category = $value;
+    }
+
+    public function getFrequency(): int
+    {
+        return $this->event->frequency->value;
+    }
+
+    public function getInterval(): string
+    {
+        return $this->event->interval;
+    }
+
+    /**
+     * Validate updated properties
+     * @param  string $propertyName
+     * @return void
+     */
+    public function updated(string $propertyName): void
+    {
+        $this->validateOnly($propertyName);
     }
 
     /**
