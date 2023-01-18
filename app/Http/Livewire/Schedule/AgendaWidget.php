@@ -48,8 +48,9 @@ class AgendaWidget extends Component
     }
 
     /**
-     * Fetch the agenda data
+     * Fetch the agenda date
      *
+     * @param string $date
      * @return array
      */
     public function getAgendaData(string $date): array
@@ -67,7 +68,6 @@ class AgendaWidget extends Component
                     ->addMonth(1)
             )
         );
-
         return $schedule;
     }
 
@@ -97,6 +97,18 @@ class AgendaWidget extends Component
     public function fetchAgendaData(string $date): void
     {
         $this->agenda = $this->getAgendaData($date);
+    }
+
+    public function fetchMonthData(string $date): void
+    {
+        $date = Carbon::parse($date);
+
+        if (!isset($this->agenda[$date->format('Y')])) {
+            $this->agenda[$date->format('Y')] = [];
+        }
+        $this->agenda[$date->format('Y')][
+            $date->format('n')
+        ] = $this->getMonthData($date);
     }
 
     /**

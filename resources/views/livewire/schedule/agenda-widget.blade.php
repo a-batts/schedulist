@@ -188,18 +188,10 @@
                         const prevMonth = d.startOf('month').subtract(1, 'month');
 
                         if (this.agenda?.[nextMonth.year()]?.[nextMonth.format('M')] == undefined)
-                            this.$wire.getMonthData(nextMonth).then((result) => {
-                                if (this.agenda[nextMonth.year()] == undefined)
-                                    this.agenda[nextMonth.year()] = [];
-                                this.agenda[nextMonth.year()][nextMonth.format('M')] = result
-                            });
+                            this.$wire.getMonthData(nextMonth);
 
                         if (this.agenda?.[prevMonth.year()]?.[prevMonth.format('M')] == undefined)
-                            this.$wire.getMonthData(prevMonth).then((result) => {
-                                if (this.agenda[prevMonth.year()] == undefined)
-                                    this.agenda[prevMonth.year()] = [];
-                                this.agenda[prevMonth.year()][prevMonth.format('M')] = result
-                            });
+                            this.$wire.getMonthData(prevMonth);
                     } else {
                         this.fetchNewData();
                     }

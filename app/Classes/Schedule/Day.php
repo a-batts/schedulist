@@ -25,6 +25,8 @@ class Day implements Countable
      */
     public array $events = [];
 
+    private const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
     public function __construct(Carbon $date, array $queriedData)
     {
         $this->date = $date->startOfDay();
@@ -178,7 +180,6 @@ class Day implements Countable
             ) {
                 continue;
             }
-
             if (
                 $this->eventOccursToday(
                     date: $item->date,
@@ -189,6 +190,35 @@ class Day implements Countable
             ) {
                 $start = Carbon::parse($item->start_time);
                 $end = Carbon::parse($item->end_time);
+
+                $frequency = match ($item->frequency) {
+                    EventFrequency::Never => null,
+                    EventFrequency::Daily => $item->interval == 1
+                        ? 'day'
+                        : $item->interval . ' days',
+                    EventFrequency::Weekly => ($item->interval == 1
+                        ? 'week '
+                        : $item->interval . ' weeks ') .
+                        'on ' .
+                        implode(
+                            ', ',
+                            array_map(
+                                fn($day) => static::DAYS[$day],
+                                $item->days
+                            )
+                        ),
+                    EventFrequency::Monthly => ($item->interval == 1
+                        ? 'month '
+                        : $item->interval . 'months ') .
+                        'on the ' .
+                        $item->date->format('jS') .
+                        ' day',
+                    EventFrequency::Yearly => ($item->interval == 1
+                        ? 'year '
+                        : $item->interval . 'years ') .
+                        'on ' .
+                        $item->date->format('F jS'),
+                };
 
                 $events[] = new Event(
                     date: $this->date,
@@ -206,7 +236,8 @@ class Day implements Countable
                     )->totalSeconds / Schedule::SCALE_FACTOR,
                     data: [
                         'category' => $item->category->formattedName(),
-                        'repeat' => 'Repeats ' . ($frequency ?? 'Never'),
+                        'repeat' =>
+                            'Repeats ' . ("every $frequency" ?? 'never'),
                         'isOwner' => Auth::id() == $item->owner,
                         'location' => $item->location,
                     ]
