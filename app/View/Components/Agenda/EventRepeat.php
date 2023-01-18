@@ -4,7 +4,7 @@ namespace App\View\Components\Agenda;
 
 use Illuminate\View\Component;
 
-class MiniCalendar extends Component
+class EventRepeat extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class MiniCalendar extends Component
      */
     public function render()
     {
-        return view('components.agenda.mini-calendar');
+        return view('components.agenda.event-repeat');
     }
 }

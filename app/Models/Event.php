@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EventCategory;
+use App\Enums\EventFrequency;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +33,12 @@ class Event extends Model
 
     protected $casts = [
         'name' => 'encrypted',
+        'location' => 'encrypted',
         'category' => EventCategory::class,
+        'frequency' => EventFrequency::class,
+        'days' => 'array',
+        'date' => 'date',
+        'end_date' => 'date',
     ];
 
     protected $guarded = ['date'];

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Schedule;
 
 use App\Enums\EventCategory;
+use App\Enums\EventFrequency;
 use App\Models\Event;
 use App\Models\EventUser;
 use Carbon\Carbon;
@@ -15,8 +16,6 @@ use Livewire\Component;
 
 class EventCreate extends Component
 {
-    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
     /**
      * The new event
      *
@@ -36,14 +35,7 @@ class EventCreate extends Component
      *
      * @var array
      */
-    public array $frequencies = ['Day', 'Week', 'Two Weeks', 'Month'];
-
-    /**
-     * The set frequency for the event
-     *
-     * @var string|null
-     */
-    public ?string $frequency = '';
+    public array $frequencies = [];
 
     /**
      * The days of the week for the event to reoccur on
@@ -63,19 +55,20 @@ class EventCreate extends Component
     {
         return [
             'event.name' => 'required',
-            'event.category' => ['required', new Enum(EventCategory::class)],
+            'event.date' => 'required|date',
+            'event.end_date' => 'nullable|date',
             'event.start_time' => 'required',
             'event.end_time' => 'required',
-            'event.date' => 'required',
-            'event.reoccuring' => 'required',
-            'event.frequency' => Rule::requiredIf(
-                $this->event->reoccuring == true
-            ),
-            'event.days' => Rule::requiredIf(
-                $this->event->reoccuring == true &&
-                    ($this->event->frequency == 'Week' ||
-                        $this->event->frequency == 'Two Weeks')
-            ),
+            'event.frequency' => ['required', new Enum(EventFrequency::class)],
+            'event.interval' => 'required',
+            'event.days' => [
+                'array',
+                Rule::requiredIf(
+                    $this->event->frequency == EventFrequency::Weekly
+                ),
+            ],
+            'event.category' => ['required', new Enum(EventCategory::class)],
+            'event.location' => 'nullable|string',
         ];
     }
 
@@ -86,25 +79,25 @@ class EventCreate extends Component
      */
     public function mount(): void
     {
-        $this->event = new Event();
+        $this->initEvent();
 
-        $this->event->date = Carbon::now()->toDateString();
-        $this->event->start_time = Carbon::now()->format('H:i');
-        $this->event->end_time = '23:59';
+        $this->categories = array_map(
+            fn(EventCategory $item) => [
+                'name' => $item->name,
+                'value' => $item->value,
+                'formatted_name' => $item->formattedName(),
+            ],
+            EventCategory::cases()
+        );
 
-        $this->event->reoccuring = false;
-
-        $this->categories = $this->getEventCategories();
-    }
-
-    /**
-     * Validate updated property
-     * @param  mixed $propertyName
-     * @return void
-     */
-    public function updated(string $propertyName): void
-    {
-        $this->validateOnly($propertyName);
+        $this->frequencies = array_map(
+            fn(EventFrequency $item) => [
+                'name' => $item->name,
+                'value' => $item->value,
+                'unit' => $item->getUnit(),
+            ],
+            EventFrequency::cases()
+        );
     }
 
     /**
@@ -114,79 +107,43 @@ class EventCreate extends Component
      */
     public function create(): void
     {
-        $this->resetValidation();
-
+        $this->validate();
         $event = $this->event;
+        $event->color = 'blue';
 
-        if ($this->event->reoccuring) {
-            if ($this->frequency != null) {
-                switch ($this->frequency) {
-                    case 'Day':
-                        $event->frequency = 1;
-                        break;
-                    case 'Week':
-                        $event->frequency = 7;
-                        break;
-                    case 'Two Weeks':
-                        $event->frequency = 14;
-                        break;
-                    case 'Month':
-                        $event->frequency = 31;
-                        break;
-                    default:
-                        $event->frequency = null;
-                        break;
-                }
-            }
-            $eventDay = Carbon::parse($this->event->date)->format('D');
-            if (!in_array($eventDay, $this->days)) {
-                $this->days[] = $eventDay;
-            }
-
-            $isoVals = [];
-
-            foreach ($this->days as $day) {
-                $isoVals[] = array_search($day, self::DAYS) + 1;
-            }
-
-            sort($isoVals);
-            $this->event->days = implode(',', $isoVals);
+        if ($event->frequency != EventFrequency::Weekly) {
+            $event->days = null;
         }
 
-        $this->validate();
         $this->dispatchBrowserEvent('close-create-modal');
 
         $event->owner = Auth::id();
-        $event->color = 'blue';
-
         $event->save();
-
-        $this->emit('updateAgendaData');
-        $this->emit('toastMessage', 'Event was successfully created');
-
         EventUser::create([
             'user_id' => Auth::id(),
             'event_id' => $event->id,
             'accepted' => true,
         ])->save();
+
+        $this->emit('updateAgendaData');
+        $this->emit('toastMessage', 'Event was successfully created');
+        $this->initEvent();
     }
 
     /**
-     * Get the array of all event category enums
+     * Initiate the new event
      *
-     * @return array
+     * @return void
      */
-    public function getEventCategories(): array
+    public function initEvent(): void
     {
-        $levels = [];
-        foreach (EventCategory::cases() as $case) {
-            $levels[] = [
-                'name' => $case->name,
-                'value' => $case->value,
-                'formatted_name' => $case->formattedName(),
-            ];
-        }
-        return $levels;
+        $this->event = new Event([
+            'date' => Carbon::now()->toDateString(),
+            'start_time' => Carbon::now()->format('H:i'),
+            'end_time' => '23:59',
+            'frequency' => EventFrequency::Never,
+            'interval' => 1,
+        ]);
     }
 
     /**
@@ -266,10 +223,48 @@ class EventCreate extends Component
     public function setDate(string $date): void
     {
         try {
-            $date = Carbon::parse($date)->toDateString();
-            $this->event->date = $date;
-        } catch (InvalidFormatException $e) {
+            $this->event->date = Carbon::parse($date);
+        } catch (InvalidFormatException) {
         }
+    }
+
+    /**
+     * Set the event's end date
+     *
+     * @param string|null $time
+     * @return void
+     */
+    public function setEndDate(?string $date): void
+    {
+        try {
+            if (isset($date)) {
+                $this->event->end_date = Carbon::parse($date);
+            } else {
+                $this->event->end_date = null;
+            }
+        } catch (InvalidFormatException) {
+        }
+    }
+
+    /**
+     * Set the event's category
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setCategory(string $value): void
+    {
+        $this->event->category = $value;
+    }
+
+    /**
+     * Validate updated property
+     * @param  mixed $propertyName
+     * @return void
+     */
+    public function updated(string $propertyName): void
+    {
+        $this->validateOnly($propertyName);
     }
 
     /**
@@ -280,7 +275,6 @@ class EventCreate extends Component
     public function render()
     {
         $this->errorMessages = $this->getErrorBag()->toArray();
-
         return view('livewire.schedule.event-create');
     }
 }

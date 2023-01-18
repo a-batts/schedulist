@@ -13,12 +13,12 @@ class Event
         public int $id,
         public string $type,
         public string $name,
-        public ?string $link,
         public string $color,
         public Carbon $start,
-        public ?Carbon $end,
         public int $top,
         public int $bottom,
+        public ?string $link = null,
+        public ?Carbon $end = null,
         public ?array $data = []
     ) {
     }

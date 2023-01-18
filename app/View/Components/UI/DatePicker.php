@@ -6,27 +6,17 @@ use Illuminate\View\Component;
 
 class DatePicker extends Component
 {
-    public string $title;
-
-    public string $bind;
-
-    public ?string $validDate;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
     public function __construct(
-        string $title,
-        string $bind,
-        ?string $validDate = null
+        public string $title,
+        public string $bind,
+        public ?string $validDate = null,
+        public ?string $disabled = null
     ) {
-        $this->title = $title;
-
-        $this->bind = $bind;
-
-        $this->validDate = $validDate;
     }
 
     /**
