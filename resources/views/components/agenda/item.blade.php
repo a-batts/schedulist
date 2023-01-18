@@ -12,6 +12,7 @@
                     'week'
             }"
             x-text="item.name"></p>
+        <p class="agenda-text-secondary text-sm" x-text="item?.data?.['location'] ?? ''"></p>
         <p class="agenda-text-secondary text-sm transition-all" :class="{ 'hidden': view == 'week' }">
             <span x-text="item.startString"></span>
             <template x-if="item.endString != null">
