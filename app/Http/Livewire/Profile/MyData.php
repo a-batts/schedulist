@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Profile;
 
+use App\Enums\EventFrequency;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -106,7 +107,7 @@ class MyData extends Component
     }
 
     /**
-     * Delete specifed category of data
+     * Delete specified category of data
      *
      * @param string $category
      * @return void
@@ -167,9 +168,12 @@ class MyData extends Component
                     $data[] = [
                         'name' => $assignment->name,
                         'class' => [
-                            $classes->find($assignment->class_id) != null
-                                ? $classes->find($assignment->class_id)['name']
-                                : '',
+                            'name' =>
+                                $classes->find($assignment->class_id) != null
+                                    ? $classes->find($assignment->class_id)[
+                                        'name'
+                                    ]
+                                    : '',
                         ],
                         'description' => $assignment->description,
                         'due' => $assignment->due,
@@ -205,10 +209,10 @@ class MyData extends Component
                         'period' => $class->period,
                         'location' => $class->class_location,
                         'teacher' => [
-                            'teacherName' => $class->teacher,
-                            'teacherEmail' => $class->teacher_email,
+                            'name' => $class->teacher,
+                            'email' => $class->teacher_email,
                         ],
-                        'videoLink' => $class->video_link,
+                        'video_link' => $class->video_link,
                         'color' => $class->color,
                         'schedule_id' => $class->schedule_id,
                         'links' => $links,
@@ -229,34 +233,22 @@ class MyData extends Component
                             'end' => $event->end_time,
                         ],
                         'sharing' => [
-                            'isOwner' =>
+                            'is_owner' =>
                                 (string) Auth::id() == $event->creator->id,
                             'owner' => $event->creator->name,
                         ],
                         'color' => $event->color,
+                        'frequency' => [
+                            'repeats' => strtolower($event->frequency->name),
+                            'interval' => $event->interval,
+                            'end_date' => $event->end_date ?? 'never',
+                        ],
                     ];
-                    if (boolval($event->reoccuring)) {
-                        $frequencies = [
-                            1 => 'every day',
-                            7 => 'every week',
-                            14 => 'every two weeks',
-                            31 => 'every month',
-                        ];
-                        if (strlen($event->days) > 1) {
-                            $days = explode(',', $event->days);
-                            for ($i = 0; $i < count($days); $i++) {
-                                $days[$i] = $this->isoDays[$days[$i]];
-                            }
-                        } else {
-                            $days[0] = $event->days;
-                        }
 
-                        $eventData['reoccuring'] = [
-                            'frequency' => $frequencies[$event->frequency],
-                            'days' => $days,
-                        ];
-                    } else {
-                        $eventData['reoccuring'] = 'false';
+                    if ($event->frequency == EventFrequency::Weekly) {
+                        $eventData['frequency']['days'] = json_encode(
+                            $event->days
+                        );
                     }
 
                     $data[] = $eventData;
@@ -278,8 +270,8 @@ class MyData extends Component
             case 'profile':
                 $user = $this->user;
                 $data = [
-                    'firstName' => $user->firstname,
-                    'lastName' => $user->lastname,
+                    'first_name' => $user->firstname,
+                    'last_name' => $user->lastname,
                     'email' => $user->email,
                     'phone' => [
                         'number' => $user->phone,
@@ -307,7 +299,7 @@ class MyData extends Component
     }
 
     /**
-     * Redownload the last user created archive
+     * Re-download the last user created archive
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
