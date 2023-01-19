@@ -44,39 +44,35 @@ class Day implements Countable
             return $a->top <=> $b->top;
         });
 
-        $events = [];
-        $collisions = [];
-        foreach ($items as $index => $item) {
-            if ($index == 0) {
-                $collisions[] = $item;
-                continue;
-            }
-
-            if (
-                $item->bottom > $collisions[0]->top &&
-                $item->top < $collisions[0]->bottom
-            ) {
-                $collisions[] = $item;
-            } else {
-                foreach ($collisions as $index => $s) {
-                    $splits = floor(100 / count($collisions));
-
-                    $s->width = $splits;
-                    $s->left = $index * $splits;
-                    $events[] = $s;
+        $columns = [];
+        foreach ($items as $item) {
+            $isInserted = false;
+            for ($i = 0; $i < count($columns); $i++) {
+                if (
+                    $item->top > $columns[$i][count($columns[$i]) - 1]->bottom
+                ) {
+                    $columns[$i][] = $item;
+                    $isInserted = true;
+                    break;
                 }
-                $collisions = [$item];
+            }
+
+            if (!$isInserted) {
+                $columns[] = [$item];
             }
         }
 
-        foreach ($collisions as $index => $s) {
-            $splits = floor(100 / count($collisions));
-
-            $s->width = $splits;
-            $s->left = $index * $splits;
-            $events[] = $s;
+        if (count($columns) > 0) {
+            $splits = floor(100 / count($columns));
         }
-        $this->events = $events;
+
+        foreach ($columns as $index => $column) {
+            foreach ($column as $item) {
+                $item->width = $splits;
+                $item->left = $splits * $index;
+                $this->events[] = $item;
+            }
+        }
     }
 
     /**
@@ -90,6 +86,8 @@ class Day implements Countable
         Collection $data,
         Collection $classes
     ): array {
+        $events = [];
+
         foreach ($data as $item) {
             $date = Carbon::parse($item->due);
             $eventTop = $date
@@ -98,10 +96,6 @@ class Day implements Countable
                 ->subMinute();
 
             if ($this->date->toDateString() == $date->toDateString()) {
-                $className =
-                    $classes->find($item->class_id)->name ?? 'Deleted Class';
-                $link = $item->link;
-
                 $events[] = new Event(
                     date: $this->date,
                     id: $item->id,
@@ -117,15 +111,17 @@ class Day implements Countable
                         $date->format('G')
                     )->totalSeconds / Schedule::SCALE_FACTOR,
                     data: [
-                        'className' => $className,
-                        'url' => $link ?? null,
+                        'className' =>
+                            $classes->find($item->class_id)->name ??
+                            'Deleted Class',
+                        'url' => $item->link ?? null,
                         'location' => $item->location ?? '',
                     ]
                 );
             }
         }
 
-        return $events ?? [];
+        return $events;
     }
 
     /**
@@ -137,6 +133,8 @@ class Day implements Countable
      */
     private function getClasses(ClassScheduleHelper $scheduleHelper): array
     {
+        $events = [];
+
         $data = $scheduleHelper->getDayClasses($this->date);
 
         foreach ($data as $item) {
@@ -163,7 +161,7 @@ class Day implements Countable
             );
         }
 
-        return $events ?? [];
+        return $events;
     }
 
     /**
@@ -174,6 +172,8 @@ class Day implements Countable
      */
     private function getOtherEvents(Collection $items): array
     {
+        $events = [];
+
         foreach ($items as $item) {
             if (
                 $this->date < $item->date ||
@@ -245,7 +245,7 @@ class Day implements Countable
                 );
             }
         }
-        return $events ?? [];
+        return $events;
     }
 
     /**
