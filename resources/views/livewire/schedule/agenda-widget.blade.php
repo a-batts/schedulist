@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="agenda-padding sm:px-6 lg:px-8">
-            <div class="outer-agenda-container relative pb-8 overflow-x-hidden overflow-y-scroll"
+            <div class="outer-agenda-container relative pb-32 overflow-x-hidden overflow-y-scroll sm:pb-8"
                 style="height: calc(100vh - 154px);" x-ref="outerAgenda">
                 <div class="inner-agenda-container relative">
                     <div class="absolute w-full">
@@ -213,22 +213,29 @@
                     this.popupHeight = $event.srcElement.getBoundingClientRect().top;
                     this.popupDate = date;
 
-                    if (this.popupHeight + 240 > document.body.clientHeight)
-                        this.popupHeight = document.body.clientHeight - 260;
+                    if (this.popupHeight + 240 > document.body.clientHeight) {
+                        const popupBox = this.$refs.popupBox;
+                        popupBox.style.visibility = 'hidden';
+                        popupBox.style.display = 'block';
+                        this.popupHeight = document.body.clientHeight - (popupBox.offsetHeight + 20);
+                        popupBox.style.display = 'none';
+                    }
                     if (this.popupHeight < 170)
                         this.popupHeight = 170;
 
-                    const width = document.body.clientWidth - this.$refs.sidebar.offsetWidth + 100;
+                    const width = this.$refs.outerAgenda.offsetWidth;
                     if (width >= '768') {
                         if (this.view == 'week') {
                             if ($event.clientX < (width / 2))
                                 this.popupPos = `left: ${$event.clientX}px`;
                             else
-                                this.popupPos = `right: ${(width - $event.clientX)}px; left: auto`;
+                                this.popupPos =
+                                `right: ${((width + this.$refs.sidebar.offsetWidth) - $event.clientX)}px; left: auto`;
                         } else {
                             this.popupPos = `left: ${width / 2}px`;
                         }
-                    }
+                    } else
+                        this.popupHeight -= 80;
 
                     this.showingDetails = true;
                     this.colorPicker = false;
@@ -309,10 +316,20 @@
                     container.onscroll = function() {
                         container.scrollTo(container.scrollLeft, scrollTop);
                     }
+                    window.addEventListener('touchmove', this.preventDefault, {
+                        passive: false
+                    });
                 },
 
                 enableScroll: function() {
                     this.$refs.outerAgenda.onscroll = function() {};
+                    window.removeEventListener('touchmove', this.preventDefault, {
+                        passive: false
+                    });
+                },
+
+                preventDefault: function(e) {
+                    e.preventDefault();
                 },
 
                 get isToday() {

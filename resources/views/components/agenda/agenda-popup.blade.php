@@ -1,4 +1,4 @@
-<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 left-0 px-6 pt-2 pb-4 sm:left-6"
+<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 left-0 z-50 px-6 pt-2 pb-4 sm:left-6"
     @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity
     :style="`top: calc(${popupHeight}px - 100px); ${popupPos};`" x-ref="popupBox" x-cloak wire:ignore.self>
     <div x-show="! colorPicker" x-transition.in>
@@ -101,7 +101,7 @@
                         </p>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.data?.location != null">
+                <template x-if="selectedItemData?.data?.location">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">place</i>
                         <p class="flex-grow">
