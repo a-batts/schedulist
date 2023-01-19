@@ -71,7 +71,7 @@
                     <div class="w-4 h-4 rounded-full"
                         :class="`${'background-' + getItemColor(selectedItemData.id, selectedItemData.color)}`"></div>
                 </div>
-                <p class="max-h-[8rem] flex-grow overflow-y-hidden overflow-x-clip text-2xl font-bold"
+                <p class="flex-grow overflow-y-hidden text-2xl font-bold overflow-x-clip overflow-ellipsis whitespace-nowrap"
                     x-text="selectedItemData.name">
                 </p>
             </div>
@@ -101,7 +101,7 @@
                         </p>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.data['location'] != null">
+                <template x-if="selectedItemData?.data?.location != null">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">place</i>
                         <p class="flex-grow">
