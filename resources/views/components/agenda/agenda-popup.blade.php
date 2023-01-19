@@ -78,7 +78,7 @@
 
             <div class="flex items-center mt-3 gap-x-4">
                 <i class="material-icons text-gray-700">event</i>
-                <p class="flex-grow">
+                <p class="flex items-center flex-grow">
                     <span class="text-sm md:text-base" x-text="dateString"></span> ⋅
                     <span class="text-sm md:text-base" x-text="selectedItemData?.timeString"></span>
                 </p>
@@ -88,24 +88,24 @@
                 <template x-if="selectedItemData?.type != 'event'">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">label</i>
-                        <p class="flex-grow">
-                            <span class="capitalize" x-text="selectedItemData?.type"></span>
+                        <p class="flex items-center flex-grow">
+                            <span class="text-sm capitalize md:text-base" x-text="selectedItemData?.type"></span>
                         </p>
                     </div>
                 </template>
                 <template x-if="selectedItemData?.type == 'assignment'">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">school</i>
-                        <p class="flex-grow">
-                            <span x-text="selectedItemData?.data['className']"></span>
+                        <p class="flex items-center flex-grow">
+                            <span class="text-sm md:text-base" x-text="selectedItemData?.data['className']"></span>
                         </p>
                     </div>
                 </template>
                 <template x-if="selectedItemData?.data?.location">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">place</i>
-                        <p class="flex-grow">
-                            <span x-text="selectedItemData?.data['location']"></span>
+                        <p class="flex items-center flex-grow">
+                            <span class="text-sm md:text-base" x-text="selectedItemData?.data['location']"></span>
                         </p>
                     </div>
                 </template>
@@ -113,14 +113,14 @@
                     <div>
                         <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                             <i class="material-icons">label</i>
-                            <p class="flex-grow">
-                                <span x-text="selectedItemData?.data['category']"></span>
+                            <p class="flex items-center flex-grow">
+                                <span class="text-sm md:text-base" x-text="selectedItemData?.data['category']"></span>
                             </p>
                         </div>
                         <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                             <i class="material-icons">restart_alt</i>
-                            <p class="flex-grow">
-                                <span x-text="selectedItemData?.data['repeat']"></span>
+                            <p class="flex items-center flex-grow">
+                                <span class="text-sm md:text-base" x-text="selectedItemData?.data['repeat']"></span>
                             </p>
                         </div>
                     </div>
