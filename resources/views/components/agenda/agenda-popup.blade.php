@@ -11,22 +11,22 @@
             <div wire:ignore>
                 <template x-if="selectedItemData?.type == 'assignment'">
                     <div>
-                        <a x-bind:href="selectedItemData?.link" @click="enableScroll()">
+                        <a x-bind:href="selectedItemData?.link">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details">
                                 <div class="mdc-icon-button__ripple"></div>
                                 edit
                             </button>
                         </a>
-                        <a x-bind:href="selectedItemData?.data['url']" @click="enableScroll()">
+                        <a x-bind:href="selectedItemData?.data?.url">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="link-details"
-                                :disabled="selectedItemData?.data['url'] == null">
+                                :disabled="selectedItemData?.data?.url == null">
                                 <div class="mdc-icon-button__ripple"></div>
                                 link
                             </button>
                         </a>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.type == 'event' && selectedItemData?.data['isOwner']">
+                <template x-if="selectedItemData?.type == 'event' && selectedItemData?.data.isOwner">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details"
                             :disabled="offline"
@@ -53,7 +53,7 @@
                         </button>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.type == 'event' && ! selectedItemData?.data['isOwner']">
+                <template x-if="selectedItemData?.type == 'event' && ! selectedItemData?.data.isOwner">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="unsub-details"
                             :disabled="offline"

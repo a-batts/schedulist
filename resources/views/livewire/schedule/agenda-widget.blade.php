@@ -233,14 +233,14 @@
                     this.showingDetails = true;
                     this.colorPicker = false;
                     this.selectedColor = this.getItemColor(this.selectedItemData.id, this.selectedItemData.color);
-                    disableScroll();
+                    this.disableScroll();
                 },
 
                 closeDetails: function() {
                     this.showingDetails = false;
                     this.selectedItem = -1;
                     this.popupHeight = -200;
-                    enableScroll();
+                    this.enableScroll();
                 },
 
                 updateEventColor: function(color) {
@@ -301,6 +301,18 @@
                     url = url.join('/');
                     window.history.replaceState({}, 'Agenda | ' + this.dateString, url);
                     document.title = 'Agenda | ' + this.dateString;
+                },
+
+                disableScroll: function() {
+                    const container = this.$refs.outerAgenda;
+                    const scrollTop = container.scrollTop;
+                    container.onscroll = function() {
+                        container.scrollTo(container.scrollLeft, scrollTop);
+                    }
+                },
+
+                enableScroll: function() {
+                    this.$refs.outerAgenda.onscroll = function() {};
                 },
 
                 get isToday() {
