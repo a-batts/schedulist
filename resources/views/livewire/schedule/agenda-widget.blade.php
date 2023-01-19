@@ -190,10 +190,10 @@
                         const prevMonth = d.startOf('month').subtract(1, 'month');
 
                         if (this.agenda?.[nextMonth.year()]?.[nextMonth.format('M')] == undefined)
-                            this.$wire.getMonthData(nextMonth);
+                            this.$wire.fetchMonthData(nextMonth);
 
                         if (this.agenda?.[prevMonth.year()]?.[prevMonth.format('M')] == undefined)
-                            this.$wire.getMonthData(prevMonth);
+                            this.$wire.fetchMonthData(prevMonth);
                     } else {
                         this.fetchNewData();
                     }
