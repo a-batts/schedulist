@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Classes\Schedule\Day;
 use App\Enums\AssignmentStatus;
 use App\Helpers\ClassScheduleHelper;
 use App\Models\Classes;
@@ -141,9 +142,6 @@ class DashboardCards extends Component
      */
     public function getEvents(): Collection
     {
-        $date = Carbon::now();
-        $dayIso = $date->dayOfWeekIso;
-
         $events = new Collection();
 
         foreach (
@@ -153,39 +151,14 @@ class DashboardCards extends Component
                 ->get()
             as $event
         ) {
-            $eventDate = Carbon::parse($event->date);
-
-            if ($event->reoccuring) {
-                $days = explode(',', (string) $event->days);
-            }
-
-            if ($event->frequency == null) {
-                $repeatsToday = false;
-            } else {
-                $repeatsToday =
-                    $event->frequency == 31
-                        ? $eventDate > $date &&
-                            Carbon::now()
-                                ->setDay($eventDate->format('j'))
-                                ->between(
-                                    $date->copy()->startOfWeek(),
-                                    $date->copy()->endOfWeek()
-                                ) &&
-                            in_array($dayIso, $days)
-                        : ($eventDate->diffInDays($date) % $event->frequency ==
-                                0 ||
-                                ($eventDate->diffInDays($date) %
-                                    $event->frequency <
-                                    7 &&
-                                    $eventDate->diffInDays($date) %
-                                        $event->frequency >
-                                        -7)) &&
-                            in_array($dayIso, $days);
-            }
-
             if (
-                $eventDate->toDateString() == $date->toDateString() ||
-                ($event->reoccuring && $repeatsToday)
+                Day::eventOccursToday(
+                    date: Carbon::now(),
+                    eventDate: $event->date,
+                    frequency: $event->frequency,
+                    interval: $event->interval,
+                    days: $event->days
+                )
             ) {
                 $event->timestring =
                     Carbon::parse($event->start_time)->format('g:i A') .

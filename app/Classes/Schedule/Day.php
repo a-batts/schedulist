@@ -183,7 +183,8 @@ class Day implements Countable
             }
             if (
                 $this->eventOccursToday(
-                    date: $item->date,
+                    date: $this->date,
+                    eventDate: $item->date,
                     frequency: $item->frequency,
                     interval: $item->interval,
                     days: $item->days
@@ -257,13 +258,14 @@ class Day implements Countable
      * @param array $days
      * @return boolean
      */
-    public function eventOccursToday(
+    public static function eventOccursToday(
         Carbon $date,
+        Carbon $eventDate,
         EventFrequency $frequency,
         int $interval,
         ?array $days
     ): bool {
-        $diffInDays = $this->date->diffInDays($date);
+        $diffInDays = $date->diffInDays($eventDate);
 
         switch ($frequency) {
             case EventFrequency::Never:
@@ -271,17 +273,17 @@ class Day implements Countable
             case EventFrequency::Daily:
                 return $diffInDays % $interval == 0;
             case EventFrequency::Weekly:
-                $diffInWeeks = $this->date
+                $diffInWeeks = $date
                     ->copy()
                     ->startOfWeek()
                     ->diffInWeeks($date->copy()->startOfWeek());
                 return $diffInWeeks % $interval == 0 &&
-                    in_array($this->date->dayOfWeekIso, $days);
+                    in_array($date->dayOfWeekIso, $days);
             case EventFrequency::Monthly:
-                return $date->day == $this->date->day;
+                return $eventDate->day == $date->day;
             case EventFrequency::Yearly:
-                return $date->day == $this->date->day &&
-                    $date->month == $this->date->month;
+                return $eventDate->day == $date->day &&
+                    $eventDate->month == $date->month;
             default:
                 return false;
         }
