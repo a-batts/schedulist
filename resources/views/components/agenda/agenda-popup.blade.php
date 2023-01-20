@@ -1,6 +1,6 @@
-<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 left-0 z-50 px-6 pt-2 pb-4 sm:left-6"
-    @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity
-    :style="`top: calc(${popupHeight}px - 100px); ${popupPos};`" x-ref="popupBox" x-cloak wire:ignore.self>
+<div class="agenda-item-details mdc-card mdc-card-outlined mdc-elevation--z14 left-0 z-50 px-6 pt-2 pb-4 -top-64 sm:left-6"
+    @click.outside="closeDetails()" x-show="showingDetails" x-transition.in.opacity.scale.out.opacity x-ref="popupBox"
+    x-cloak wire:ignore.self>
     <div x-show="! colorPicker" x-transition.in>
         <div class="item-details-top w-full h-12 mb-2">
             <button class="mdc-icon-button material-icons float-right" aria-describedby="close-details"

@@ -1,5 +1,5 @@
 @auth
-    <nav class="fixed top-0 z-10 w-screen" data-turbolinks-permanent style="background-color: #242323" x-data="{
+    <nav class="fixed top-0 z-10 w-screen" id="navbar" style="background-color: #242323" x-data="{
         profileMenu: false,
         mobileMenu: false
     }"
