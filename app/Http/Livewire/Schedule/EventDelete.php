@@ -8,29 +8,55 @@ use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 use App\Models\EventUser;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EventDelete extends Component
 {
-    public $eventId;
+    /**
+     * The event id to delete
+     *
+     * @var integer
+     */
+    public int $eventId;
 
     protected $listeners = ['setDeleteEvent' => 'setEvent'];
 
-    public function setEvent($id)
+    /**
+     * Select the event to delete
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function setEvent(int $id): void
     {
         $this->eventId = $id;
     }
 
-    public function deleteEvent()
+    /**
+     * Delete the selected event
+     *
+     * @return void
+     */
+    public function deleteEvent(): void
     {
-        $event = Event::where('id', $this->eventId)
-            ->where('owner', Auth::id())
-            ->firstOrFail();
-        $event->delete();
-        $this->emit('updateAgendaData');
-        $this->emit('toastMessage', 'Event was succesfully deleted');
+        try {
+            $event = Event::where('id', $this->eventId)
+                ->where('owner', Auth::id())
+                ->firstOrFail();
+            $event->delete();
+            $this->emit('updateAgendaData');
+            $this->emit('toastMessage', 'Event was successfully deleted');
+        } catch (ModelNotFoundException) {
+            $this->emit('toastMessage', 'Couldn\'t delete event');
+        }
     }
 
-    public function unsubEvent()
+    /**
+     * "Unsubscribe" from the selected event
+     *
+     * @return void
+     */
+    public function unsubEvent(): void
     {
         $subscription = EventUser::where([
             'user_id' => Auth::id(),
@@ -42,6 +68,11 @@ class EventDelete extends Component
         $this->emit('toastMessage', 'Successfully unsubscribed from event');
     }
 
+    /**
+     * Render the component
+     *
+     * @return void
+     */
     public function render()
     {
         return view('livewire.schedule.event-delete');
