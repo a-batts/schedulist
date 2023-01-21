@@ -3,10 +3,15 @@
 namespace App\Classes\Schedule;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
 class Event
 {
     public int $left;
+
+    public int $top;
+
+    public int $bottom;
 
     public function __construct(
         public Carbon $date,
@@ -15,12 +20,21 @@ class Event
         public string $name,
         public string $color,
         public Carbon $start,
-        public int $top,
-        public int $bottom,
         public ?string $link = null,
         public ?Carbon $end = null,
         public ?array $data = []
     ) {
+        if ($this->end != null) {
+            $this->top =
+                CarbonInterval::minutes($this->start->format('i'))->hours(
+                    $this->start->format('G')
+                )->totalSeconds / Schedule::SCALE_FACTOR;
+
+            $this->bottom =
+                CarbonInterval::minutes($this->end->format('i'))->hours(
+                    $this->end->format('G')
+                )->totalSeconds / Schedule::SCALE_FACTOR;
+        }
     }
 
     /**
@@ -31,20 +45,6 @@ class Event
     public function getDate(): Carbon
     {
         return $this->date;
-    }
-
-    /**
-     * Get the array representation of the event's data
-     *
-     * @return array data
-     */
-    public function toArray(): array
-    {
-        return array_merge(get_object_vars($this), [
-            'startString' => $this->getStartString(),
-            'endString' => $this->getEndString(),
-            'timeString' => $this->getTimeString(),
-        ]);
     }
 
     /**
@@ -83,5 +83,43 @@ class Event
         return $this->start->format('g:i') .
             ' - ' .
             $this->end->format('g:i A');
+    }
+
+    /**
+     * Set the top value
+     *
+     * @param integer $top
+     * @return static
+     */
+    public function setTop(int $top): static
+    {
+        $this->top = $top;
+        return $this;
+    }
+
+    /**
+     * Set the bottom value
+     *
+     * @param integer $bottom
+     * @return static
+     */
+    public function setBottom(int $bottom): static
+    {
+        $this->bottom = $bottom;
+        return $this;
+    }
+
+    /**
+     * Get the array representation of the event's data
+     *
+     * @return array data
+     */
+    public function toArray(): array
+    {
+        return array_merge(get_object_vars($this), [
+            'startString' => $this->getStartString(),
+            'endString' => $this->getEndString(),
+            'timeString' => $this->getTimeString(),
+        ]);
     }
 }

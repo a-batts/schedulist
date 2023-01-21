@@ -52,7 +52,8 @@
                     </div>
                 </div>
                 <div class="flex justify-center h-1 pt-1">
-                    <template x-if="agenda?.[currentDate.year()]?.[currentDate.format('M')]?.[day]?.length> 0">
+                    <template
+                        x-if="agenda?.[currentDate.year()]?.[currentDate.format('M')]?.[day]?.filter((item) => !filters.includes(item.type)).length> 0">
                         <div class="bg-primary-theme w-1 h-1 rounded-full"></div>
                     </template>
                 </div>

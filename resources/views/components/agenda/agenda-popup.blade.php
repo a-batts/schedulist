@@ -19,14 +19,14 @@
                         </a>
                         <a x-bind:href="selectedItemData?.data?.url">
                             <button class="mdc-icon-button material-icons float-right" aria-describedby="link-details"
-                                :disabled="selectedItemData?.data?.url == null">
+                                :daabled="selectedItemData?.data?.url == null">
                                 <div class="mdc-icon-button__ripple"></div>
                                 link
                             </button>
                         </a>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.type == 'event' && selectedItemData?.data.isOwner">
+                <template x-if="selectedItemData?.type == 'event'">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="delete-details"
                             :disabled="offline"
@@ -53,7 +53,7 @@
                         </button>
                     </div>
                 </template>
-                <template x-if="selectedItemData?.type == 'event' && ! selectedItemData?.data.isOwner">
+                <template x-if="selectedItemData?.type == 'shared-event'">
                     <div>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="unsub-details"
                             :disabled="offline"
@@ -85,7 +85,7 @@
             </div>
 
             <div class="pt-2" wire:ignore>
-                <template x-if="selectedItemData?.type != 'event'">
+                <template x-if="!selectedItemData?.type?.includes('event')">
                     <div class="flex items-center mt-3 text-gray-700 gap-x-4">
                         <i class="material-icons">label</i>
                         <p class="flex items-center flex-grow">

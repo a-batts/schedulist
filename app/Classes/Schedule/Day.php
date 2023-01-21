@@ -56,7 +56,6 @@ class Day implements Countable
                     break;
                 }
             }
-
             if (!$isInserted) {
                 $columns[] = [$item];
             }
@@ -96,7 +95,7 @@ class Day implements Countable
                 ->subMinute();
 
             if ($this->date->toDateString() == $date->toDateString()) {
-                $events[] = new Event(
+                $event = new Event(
                     date: $this->date,
                     id: $item->id,
                     type: 'assignment',
@@ -104,12 +103,6 @@ class Day implements Countable
                     link: route('assignmentPage') . '/' . $item->url_string,
                     color: 'green',
                     start: $date,
-                    top: CarbonInterval::minutes($eventTop->format('i'))->hours(
-                        $eventTop->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
-                    bottom: CarbonInterval::minutes($date->format('i'))->hours(
-                        $date->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
                     data: [
                         'className' =>
                             $classes->find($item->class_id)->name ??
@@ -118,6 +111,17 @@ class Day implements Countable
                         'location' => $item->location ?? '',
                     ]
                 );
+                $events[] = $event
+                    ->setTop(
+                        CarbonInterval::minutes($eventTop->format('i'))->hours(
+                            $eventTop->format('G')
+                        )->totalSeconds / Schedule::SCALE_FACTOR
+                    )
+                    ->setBottom(
+                        CarbonInterval::minutes($date->format('i'))->hours(
+                            $date->format('G')
+                        )->totalSeconds / Schedule::SCALE_FACTOR
+                    );
             }
         }
 
@@ -149,12 +153,6 @@ class Day implements Countable
                 color: $item['class']->color,
                 start: $start,
                 end: $end,
-                top: CarbonInterval::minutes($start->format('i'))->hours(
-                    $start->format('G')
-                )->totalSeconds / Schedule::SCALE_FACTOR,
-                bottom: CarbonInterval::minutes($end->format('i'))->hours(
-                    $end->format('G')
-                )->totalSeconds / Schedule::SCALE_FACTOR,
                 data: [
                     'location' => $item['class']->location,
                 ]
@@ -225,27 +223,23 @@ class Day implements Countable
                 $events[] = new Event(
                     date: $this->date,
                     id: $item->id,
-                    type: 'event',
+                    type: $item->isOwner(Auth::user())
+                        ? 'event'
+                        : 'shared-event',
                     name: $item->name,
                     color: (string) $item->color ?? 'blue',
                     start: $start,
                     end: $end,
-                    top: CarbonInterval::minutes($start->format('i'))->hours(
-                        $start->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
-                    bottom: CarbonInterval::minutes($end->format('i'))->hours(
-                        $end->format('G')
-                    )->totalSeconds / Schedule::SCALE_FACTOR,
                     data: [
                         'category' => $item->category->formattedName(),
                         'repeat' =>
                             'Repeats ' . ("every $frequency" ?? 'never'),
-                        'isOwner' => Auth::id() == $item->owner,
                         'location' => $item->location,
                     ]
                 );
             }
         }
+
         return $events;
     }
 
