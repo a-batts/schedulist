@@ -6,7 +6,7 @@
         <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
             <div class="flex self-center flex-grow space-x-2 md:ml-16">
                 <div class="w-full">
-                    <p class="text-sm font-medium transition-all sm:text-lg"
+                    <p class="font-medium sm:text-lg"
                         :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }">
                         <span x-show="view == 'day'" x-text="date.format('MMMM D, YYYY')"></span>
                         <span x-show="view == 'week'">
@@ -18,16 +18,16 @@
                             <span x-text="weekDays[6].year()"></span>
                         </span>
                     </p>
-                    <p class="mt-1 text-sm text-gray-500 md:text-base"
+                    <p class="mt-1 text-xs text-gray-500 md:text-base"
                         x-text="view == 'day' ? date.format('dddd') : ''">
                     </p>
                     <template x-if="view == 'week'">
-                        <div class="grid w-full grid-cols-7 pt-2 -ml-1 select-none">
+                        <div class="grid w-full grid-cols-7 pt-2 -ml-1 text-sm select-none lg:text-base">
                             <template x-for="day in weekDays">
                                 <div
-                                    class="flex items-center justify-center w-full space-x-2 text-center text-gray-600">
+                                    class="flex w-full items-center justify-center space-x-0.5 text-center text-gray-600 lg:space-x-2">
                                     <span x-text="day.format('ddd')"></span>
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full cursor-pointer"
+                                    <div class="flex items-center justify-center w-6 h-6 rounded-full cursor-pointer lg:h-8 lg:w-8"
                                         @click="jumpToDate(day)"
                                         :class="{
                                             'bg-primary-theme': day.format('YYYY-MM-DD') == new dayjs().format(
@@ -55,8 +55,8 @@
                     chevron_left
                 </button>
 
-                <button class="mdc-button mdc-button--outlined" aria-describedby="jump-today"
-                    @click="setDate(new dayjs())" :disabled="isToday">
+                <button class="mdc-button" aria-describedby="jump-today" @click="setDate(new dayjs())"
+                    :disabled="isToday">
                     <span class="mdc-button__ripple"></span>
                     <span class="mdc-button__label">Today</span>
                 </button>
@@ -73,10 +73,51 @@
                 </button>
             </div>
         </div>
-        <div class="agenda-sidebar float-right w-full origin-right overflow-y-scroll sm:!block sm:w-[20rem] md:overflow-hidden"
+        <div class="agenda-sidebar float-right w-full flex-1 origin-right overflow-y-scroll sm:!flex sm:w-[20rem] sm:flex-col sm:overflow-hidden"
             x-show="showingSideMenu" x-ref="sidebar" x-transition>
             <div class="p-6">
                 <x-agenda.mini-calendar />
+            </div>
+            <div class="flex-grow py-8 mt-4 overflow-y-auto border-t border-gray-200">
+                <div class="px-6">
+                    <p class="mb-2 text-xl font-bold">Your calendars</p>
+                    <template x-for="(item, index) in userCalendars">
+                        <div class="mdc-form-field w-full">
+                            <div class="mdc-checkbox" @click="toggleFilter(index)">
+                                <input class="mdc-checkbox__native-control" type="checkbox" :id="index"
+                                    :checked="!filters.includes(index)" />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path" fill="none"
+                                            d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                                <div class="mdc-checkbox__ripple"></div>
+                            </div>
+                            <label class="text-primary" :for="index" x-text="item"></label>
+                        </div>
+                    </template>
+
+                    <div class="pt-4">
+                        <p class="mb-2 text-xl font-bold">Other calendars</p>
+                        <div class="mdc-form-field w-full">
+                            <div class="mdc-checkbox" @click="toggleFilter('shared-event')">
+                                <input class="mdc-checkbox__native-control" id="shared-checkbox" type="checkbox"
+                                    :checked="!filters.includes('shared-event')" checked />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path" fill="none"
+                                            d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                                <div class="mdc-checkbox__ripple"></div>
+                            </div>
+                            <label class="text-primary" for="shared-checkbox">Shared events</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="agenda-padding sm:px-6 lg:px-8">
@@ -123,7 +164,7 @@
                                     </template>
 
                                     <template
-                                        x-for="(item, index) in agenda?.[day.year()]?.[day.format('M')]?.[day.date()] ?? []"
+                                        x-for="(item, index) in agenda?.[day.year()]?.[day.format('M')]?.[day.date()].filter((item) => !filters.includes(item.type)) ?? []"
                                         :key="index">
                                         <x-agenda.item />
                                     </template>
@@ -171,9 +212,16 @@
 
                 view: @json($view),
 
+                filters: [],
+
                 init: function() {
                     this.$refs.outerAgenda.scrollTop = this.todaySeconds;
                     this.date = new dayjs({{ $initDate->timestamp * 1000 }});
+                    this.userCalendars = {
+                        assignment: 'Assignments',
+                        class: 'Classes',
+                        event: 'Your events'
+                    }
                 },
 
                 setDate: function(d) {
@@ -230,7 +278,7 @@
                                 popupBox.style.right = 'auto';
                             } else {
                                 popupBox.style.left = 'auto';
-                                popupBox.style.right = clickedElement.left + 'px';
+                                popupBox.style.right = (clickedElement.left - this.$refs.sidebar.offsetWidth) + 'px';
                             }
                         }
                     }
@@ -289,6 +337,11 @@
                 toggleView: function() {
                     this.view = this.view == 'week' ? 'day' : 'week';
                     this.updateURL();
+                },
+
+                toggleFilter: function(name) {
+                    this.filters = this.filters.includes(name) ?
+                        this.filters.filter(el => el != name) : [...this.filters, name];
                 },
 
                 updateURL: function() {

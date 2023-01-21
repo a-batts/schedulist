@@ -86,4 +86,15 @@ class Event extends Model
     {
         return $this->hasMany(EventUser::class);
     }
+
+    /**
+     * Return whether or not a user owns this event
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isOwner(User $user): bool
+    {
+        return $user->id == $this->owner;
+    }
 }
