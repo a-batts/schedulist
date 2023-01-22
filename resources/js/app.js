@@ -104,5 +104,15 @@ const swup = new Swup({
     ],
 });
 
+function showProgressBar() {
+    swup.findPlugin('SwupProgressPlugin').startShowingProgress();
+}
+window.showProgressBar = showProgressBar;
+
+function hideProgressBar() {
+    swup.findPlugin('SwupProgressPlugin').stopShowingProgress();
+}
+window.hideProgressBar = hideProgressBar;
+
 //Start Alpine after all functions are imported to prevent function issues
 Alpine.start();

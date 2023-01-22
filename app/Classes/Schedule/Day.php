@@ -270,7 +270,7 @@ class Day implements Countable
                 $diffInWeeks = $date
                     ->copy()
                     ->startOfWeek()
-                    ->diffInWeeks($date->copy()->startOfWeek());
+                    ->diffInWeeks($eventDate->copy()->startOfWeek());
                 return $diffInWeeks % $interval == 0 &&
                     in_array($date->dayOfWeekIso, $days);
             case EventFrequency::Monthly:

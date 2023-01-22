@@ -36,7 +36,7 @@
                         </button>
                         <button class="mdc-icon-button material-icons float-right" aria-describedby="edit-details"
                             :disabled="offline"
-                            @click="$wire.emit('setEditEvent', `${selectedItemData.id}`); closeDetails()">
+                            @click="$dispatch('edit-event', {id: selectedItemData.id}); closeDetails()">
                             <div class="mdc-icon-button__ripple"></div>
                             edit
                         </button>

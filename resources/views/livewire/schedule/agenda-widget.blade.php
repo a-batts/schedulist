@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="agenda-padding sm:px-6 lg:px-8">
-            <div class="outer-agenda-container relative pb-20 overflow-x-hidden overflow-y-scroll sm:pb-8"
+            <div class="outer-agenda-container relative pb-20 overflow-x-hidden overflow-y-scroll sm:pb-12"
                 style="height: calc(100vh - 154px);" x-ref="outerAgenda">
                 <div class="inner-agenda-container relative">
                     <div class="absolute w-full">

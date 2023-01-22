@@ -126,6 +126,7 @@ class EventCreate extends Component
         ])->save();
 
         $this->emit('updateAgendaData');
+        $this->emit('eventAdded', $event->id);
         $this->emit('toastMessage', 'Event was successfully created');
         $this->initEvent();
     }
