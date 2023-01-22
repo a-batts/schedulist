@@ -43,6 +43,7 @@ class EventDelete extends Component
             $event = Event::where('id', $this->eventId)
                 ->where('owner', Auth::id())
                 ->firstOrFail();
+            $this->emit('eventDeleted', $event->id);
             $event->delete();
             $this->emit('updateAgendaData');
             $this->emit('toastMessage', 'Event was successfully deleted');

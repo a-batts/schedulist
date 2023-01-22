@@ -1,4 +1,4 @@
-  <div class="mdc-typography" x-data="eventEdit()" @update-content.window="updateContent()"
+  <div class="mdc-typography" x-data="eventEdit()" @edit-event.window="editEvent(event.detail.id)"
       @close-edit-modal.window="modal = false">
       <x-ui.modal class="top-4" title="Edit Event" bind="modal">
           <x-slot name="actions">
@@ -36,7 +36,7 @@
                   <div class="mdc-select mdc-select--filled mdc-select--with-leading-icon w-1/3" wire:ignore>
                       <div class="mdc-select__anchor">
                           <span class="mdc-select__ripple"></span>
-                          <span class="mdc-floating-label mdc-floating-label--float-above">Repeats</span>
+                          <span class="mdc-floating-label mdc-floating-label--float-above" wire:ignore>Repeats</span>
                           <span class="mdc-line-ripple"></span>
                           <i class="material-icons mdc-select__icon" role="button" tabindex="0">repeat</i>
 
@@ -125,7 +125,8 @@
                   <label class="mdc-text-field mdc-text-field--filled w-full"
                       :class="{ 'mdc-text-field--invalid': errorMessages['event.location'] != undefined }" wire:ignore>
                       <span class="mdc-text-field__ripple"></span>
-                      <span class="mdc-floating-label" id="event-location-label">Location</span>
+                      <span class="mdc-floating-label mdc-floating-label--float-above"
+                          id="event-location-label">Location</span>
                       <input class="mdc-text-field__input" type="text" aria-labelledby="event-location-label"
                           wire:model.lazy="event.location">
                       <span class="mdc-line-ripple"></span>
@@ -193,14 +194,10 @@
                           }
                       });
 
-                      this.$watch('startTime', (value) => {
-                          this.$wire.setStartTime(value);
+                      this.$watch('modal', (value) => {
+                          if (!value)
+                              this.$wire.resetEvent();
                       });
-
-                      this.$watch('endTime', (value) => {
-                          this.$wire.setEndTime(value);
-                      });
-
                   },
 
                   submit: function() {
@@ -215,37 +212,36 @@
                       this.$wire.edit();
                   },
 
-                  updateContent: function() {
-                      this.$wire.getDate()
-                          .then(result => {
-                              this.date = new Date(result);
-                          })
-                          .then(this.$wire.getFrequency()
-                              .then(result => {
-                                  this.frequency = result;
-                              })
-                              .then(this.$wire.getInterval().then(result => {
-                                  this.interval = result;
-                              })).then(
-                                  this.$wire.getStartTime().then(result => {
-                                      result = result.split(':');
-                                      this.startTime.h = parseInt(result[0]);
-                                      this.startTime.m = parseInt(result[1])
+                  editEvent: function(id) {
+                      showProgressBar();
+                      this.$wire.selectEditEvent(id).then(result => {
+                              if (result === false) {
+                                  throw new Error('Unable to load class data');
+                              }
 
-                                  }).then(
-                                      this.$wire.getEndTime().then(result => {
-                                          result = result.split(':');
-                                          this.endTime.h = parseInt(result[0]);
-                                          this.endTime.m = parseInt(result[1])
-                                      })
-                                  )
-                              ).finally(() => {
-                                  this.$wire.getDays().then(result => {
-                                      this.days = result;
-                                      this.modal = true;
-                                  });
-                              })
-                          )
+                              this.date = new Date(result.date);
+                              this.endDate = new Date(result.end_date);
+                              this.frequency = result.frequency;
+                              this.interval = result.interval;
+                              this.days = result.days;
+                              const start = result.start_time.split(':');
+                              this.startTime = {
+                                  h: parseInt(start[0]),
+                                  m: parseInt(start[1])
+                              };
+                              const end = result.end_time.split(':');
+                              this.endTime = {
+                                  h: parseInt(end[0]),
+                                  m: parseInt(end[1])
+                              };
+                          })
+                          .catch(() => {
+                              hideProgressBar();
+                          })
+                          .finally(() => {
+                              hideProgressBar();
+                              this.modal = true;
+                          });
                   },
 
                   validDate: function(date) {

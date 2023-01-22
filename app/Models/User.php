@@ -126,6 +126,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->belongsToMany(Event::class)->wherePivot('accepted', 1);
     }
 
+    public function ownedEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class)->where('owner', $this->id);
+    }
+
     public function settings(): HasOne
     {
         return $this->hasOne(UserSettings::class);

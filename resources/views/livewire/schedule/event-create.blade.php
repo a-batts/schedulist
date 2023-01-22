@@ -200,15 +200,6 @@
                             this.daysToggle(newDate.day());
                         }
                     });
-
-                    this.$watch('startTime', (value) => {
-                        this.$wire.setStartTime(value);
-                    });
-
-                    this.$watch('endTime', (value) => {
-                        this.$wire.setEndTime(value);
-                    });
-
                 },
 
                 submit: function() {
