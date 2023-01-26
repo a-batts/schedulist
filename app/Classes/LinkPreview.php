@@ -121,10 +121,9 @@ class LinkPreview
 
             $preview = $preview->toArray();
             $this->text = $preview['title'];
-            $this->previewImage =
-                @get_headers($preview['cover']) == false
-                    ? null
-                    : 'style=background-image:url(' . $preview['cover'] . ');';
+            $this->previewImage = !@get_headers($preview['cover'])
+                ? null
+                : 'style=background-image:url(' . $preview['cover'] . ');';
         } catch (ConnectionErrorException | ClientException) {
             $this->text = null;
         } catch (ValueError) {
