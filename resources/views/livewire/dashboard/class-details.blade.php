@@ -339,8 +339,8 @@
                                     </template>
                                     <template x-if="classData?.[selectedClass]?.['assignments'].length == 0">
                                         <div class="py-12 text-center text-gray-600">
-                                            <h3 class="text-xl font-medium">You are all caught up!</h3>
-                                            <p class="mt-2">Nothing due for this class in the next month</p>
+                                            <h3 class="text-xl font-medium">You're all caught up!</h3>
+                                            <p class="mt-2">Nothing due for this class in the next month.</p>
                                         </div>
                                     </template>
                                 </div>

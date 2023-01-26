@@ -110,7 +110,7 @@
                 <template x-if="filteredAssignments.length == 0">
                     <div class="py-24 text-center">
                         <h6 class="text-5xl font-bold">You're all caught up!</h6>
-                        <p class="mt-6 text-lg">No incomplete assignments here</p>
+                        <p class="mt-6 text-lg">No incomplete assignments at the moment.</p>
                     </div>
                 </template>
             </div>

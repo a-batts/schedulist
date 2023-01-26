@@ -51,9 +51,9 @@ class DashboardCards extends Component
      */
     private array $noEventPhrases = [
         'No events scheduled. Movie night?',
-        'No more events today! Time to hit the town.',
+        'No more events today!',
         'No events coming up today. Nap time!',
-        'Nothing scheduled tonight. Feel free to catch up on work.',
+        'Nothing scheduled tonight. Time to catch up on some work.',
     ];
 
     protected $listeners = [
