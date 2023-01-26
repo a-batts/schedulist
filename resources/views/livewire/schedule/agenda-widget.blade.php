@@ -158,8 +158,8 @@
                                     <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
                                         <div class="absolute z-[4] flex w-full items-center"
                                             :style="`top: ${todaySeconds -5}px`;">
-                                            <div class="bg-primary-theme w-4 h-4 -mr-1 rounded-full"></div>
-                                            <div class="bg-primary-theme h-0.5 w-full"></div>
+                                            <div class="bg-text w-4 h-4 -mr-1 rounded-full"></div>
+                                            <div class="bg-text h-0.5 w-full"></div>
                                         </div>
                                     </template>
 

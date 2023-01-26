@@ -598,6 +598,10 @@ html.theme-dark {
     background-color: var(--mdc-theme-secondary);
 }
 
+.bg-text {
+    background-color: var(--text-color);
+}
+
 .theme-color-text,
 .text-primary-theme {
     color: var(--mdc-theme-primary);
