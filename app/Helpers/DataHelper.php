@@ -22,7 +22,7 @@ class DataHelper
         'Saturday',
     ];
 
-    function __construct(private User $user)
+    public function __construct(private User $user)
     {
         $user->load([
             'assignments',
