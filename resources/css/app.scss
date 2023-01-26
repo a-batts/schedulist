@@ -253,10 +253,6 @@ html {
             brightness(97%) contrast(78%);
     }
 
-    #link-icon-theme {
-        background-image: url('https://schedulist.xyz/images/icon/link-black.svg');
-    }
-
     .logo-image {
         background-image: url('https://schedulist.xyz/images/logo/logo_dark.svg');
     }
@@ -445,10 +441,6 @@ html.theme-dark {
             brightness(87%) contrast(88%);
     }
 
-    #link-icon-theme {
-        background-image: url('https://schedulist.xyz/images/icon/link-white.svg');
-    }
-
     .logo-image {
         background-image: url('https://schedulist.xyz/images/logo/logo_light.svg');
     }
@@ -583,6 +575,11 @@ html.theme-dark {
             }
         }
     }
+
+    #link-icon-theme {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+    }
 }
 
 /*
@@ -618,6 +615,10 @@ a.link {
     &:hover {
         text-decoration: underline;
     }
+}
+
+#link-icon-theme {
+    background-image: url('https://schedulist.xyz/images/icon/link.svg');
 }
 
 .filepond--drop-label {
