@@ -5,13 +5,13 @@ namespace App\Http\Livewire\Assignments;
 use App\Classes\LinkPreview;
 
 use App\Models\Assignment;
+use App\Models\AssignmentReminder;
 use App\Models\Classes;
-
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidArgumentException;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use InvalidArgumentException;
 use Livewire\Component;
 
 class AssignmentEdit extends Component
@@ -45,7 +45,20 @@ class AssignmentEdit extends Component
     protected ?LinkPreview $preview = null;
 
     /**
-     * Custom error messages
+     * Validation rules
+     *
+     * @var array
+     */
+    protected array $rules = [
+        'assignment.class_id' => 'nullable',
+        'assignment.description' => 'nullable',
+        'assignment.due' => 'date|required',
+        'assignment.link' => 'url|nullable',
+        'assignment.name' => 'required',
+    ];
+
+    /**
+     * Error messages
      *
      * @var array
      */
@@ -53,20 +66,7 @@ class AssignmentEdit extends Component
         'url' => 'Make sure the link is a valid URL',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    protected array $rules = [
-        'assignment.name' => 'required',
-        'assignment.class_id' => 'nullable',
-        'assignment.due' => 'required',
-        'assignment.link' => 'url|nullable',
-        'assignment.description' => 'required',
-        'assignment.status' => 'required',
-        'assignment.user_id' => 'required',
-    ];
+    public array $errorMessages = [];
 
     protected $listeners = ['refreshEditModal' => '$refresh'];
 
@@ -78,10 +78,9 @@ class AssignmentEdit extends Component
     {
         $this->due = Carbon::parse($this->assignment->due);
 
-        $classes = Classes::where('user_id', Auth::id())->get();
-        foreach ($classes as $class) {
+        Auth::user()->classes->map(function (Classes $class) {
             $this->classes[] = ['id' => $class->id, 'name' => $class->name];
-        }
+        });
     }
 
     /**
@@ -90,9 +89,20 @@ class AssignmentEdit extends Component
      */
     public function edit()
     {
-        $this->validate();
         $assignment = $this->assignment;
+        if ($assignment->due !== $this->due) {
+            $this->assignment->reminders->map(function (
+                AssignmentReminder $reminder
+            ) {
+                $reminder->reminder_time = $this->due
+                    ->copy()
+                    ->subHours($reminder->hours_before);
+                $reminder->save();
+            });
+        }
 
+        $assignment->due = $this->due;
+        $this->validate();
         $this->dispatchBrowserEvent('hide-edit-menu');
 
         if ($assignment->link == null) {
@@ -106,12 +116,8 @@ class AssignmentEdit extends Component
             $assignment->link_description = $this->preview->getText();
         }
 
-        $assignment->due = $this->due;
-
         $assignment->save();
-
         $this->emit('toastMessage', 'Changes successfully saved');
-
         $this->emit('refreshAssignmentPage');
     }
 
@@ -172,7 +178,7 @@ class AssignmentEdit extends Component
         }
         try {
             $this->due->setTime($hours, $mins);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             throw ValidationException::withMessages([
                 'due_time' => 'Invalid time inputted',
             ]);
@@ -200,7 +206,7 @@ class AssignmentEdit extends Component
         try {
             $date = Carbon::parse($date);
             $this->due->setDate($date->year, $date->month, $date->day);
-        } catch (InvalidFormatException $e) {
+        } catch (InvalidFormatException) {
         }
     }
 

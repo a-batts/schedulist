@@ -4,13 +4,10 @@ namespace App\Http\Livewire\Assignments;
 
 use App\Models\Classes;
 use App\Models\Assignment;
-use App\Models\AssignmentReminder;
-
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidArgumentException;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -38,10 +35,21 @@ class AssignmentCreate extends Component
      */
     public Carbon $due;
 
-    public array $errorMessages = [];
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected array $rules = [
+        'assignment.class_id' => 'nullable',
+        'assignment.description' => 'nullable',
+        'assignment.due' => 'date|required',
+        'assignment.link' => 'url|nullable',
+        'assignment.name' => 'required',
+    ];
 
     /**
-     * Custom error messages
+     * Error messages
      *
      * @var array
      */
@@ -49,19 +57,7 @@ class AssignmentCreate extends Component
         'url' => 'Make sure the link is a valid URL',
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    protected array $rules = [
-        'assignment.name' => 'required',
-        'assignment.class_id' => 'nullable',
-        'due' => 'required',
-        'assignment.link' => 'url|nullable',
-        'assignment.description' => 'required',
-        'assignment.user_id' => 'required',
-    ];
+    public array $errorMessages = [];
 
     /**
      * Mount component
@@ -69,17 +65,11 @@ class AssignmentCreate extends Component
      */
     public function mount(): void
     {
-        $this->assignment = new Assignment();
+        $this->initAssignment();
 
-        $this->assignment->user_id = Auth::id();
-
-        $this->due = Carbon::now();
-        $this->due->setTime('23', '59', '59');
-
-        $classes = Classes::where('user_id', Auth::id())->get();
-        foreach ($classes as $class) {
+        Auth::user()->classes->map(function (Classes $class) {
             $this->classes[] = ['id' => $class->id, 'name' => $class->name];
-        }
+        });
     }
 
     /**
@@ -89,29 +79,28 @@ class AssignmentCreate extends Component
      */
     public function create(): void
     {
-        $this->validate();
         $assignment = $this->assignment;
+        $assignment->due = $this->due;
+        $this->validate();
 
         if ($assignment->class_id == -1) {
             $assignment->class_id = null;
         }
-
-        $assignment->due = $this->due;
         $assignment->url_string = Str::random(16);
 
-        $assignment->save();
+        Auth::user()
+            ->assignments()
+            ->save($assignment);
 
         $this->dispatchBrowserEvent('close-dialog');
-        $this->clear();
+        $this->initAssignment();
         $this->emit('refreshAssignments');
         $this->emit('toastMessage', 'Assignment was successfully created');
 
         //Create base assignment reminder
-        $due = $assignment->due->copy();
-        $reminder = new AssignmentReminder();
-        $reminder->assignment_id = $assignment->id;
-        $reminder->reminder_time = $due->subHours(1);
-        $reminder->save();
+        $assignment->reminders()->create([
+            'reminder_time' => $assignment->due->copy()->subHours(1),
+        ]);
     }
 
     /**
@@ -119,14 +108,10 @@ class AssignmentCreate extends Component
      *
      * @return void
      */
-    public function clear(): void
+    public function initAssignment(): void
     {
         $this->assignment = new Assignment();
-
-        $this->assignment->user_id = Auth::id();
-
-        $this->due = Carbon::now();
-        $this->due->setTime('23', '59', '59');
+        $this->due = Carbon::now()->setTime('23', '59', '59');
     }
 
     /**
@@ -183,7 +168,7 @@ class AssignmentCreate extends Component
         try {
             $date = Carbon::parse($date);
             $this->due->setDate($date->year, $date->month, $date->day);
-        } catch (InvalidFormatException $e) {
+        } catch (InvalidFormatException) {
         }
     }
 
@@ -205,7 +190,6 @@ class AssignmentCreate extends Component
     public function render()
     {
         $this->errorMessages = $this->getErrorBag()->toArray();
-
         return view('livewire.assignments.assignment-create');
     }
 }

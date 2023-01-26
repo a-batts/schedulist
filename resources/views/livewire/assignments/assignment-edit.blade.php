@@ -124,7 +124,7 @@
                 <span class="mdc-floating-label mdc-floating-label--float-above"
                     id="assignment-description-label">Description</span>
                 <textarea class="mdc-text-field__input autosize" id="descriptionBox" aria-labelledby="assignment-description-label"
-                    rows="6" wire:model.lazy="assignment.description" required></textarea>
+                    rows="6" wire:model.lazy="assignment.description"></textarea>
                 <span class="mdc-line-ripple"></span>
             </label>
             <x-ui.validation-error for="assignment.description" />

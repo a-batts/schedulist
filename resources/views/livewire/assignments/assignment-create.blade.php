@@ -91,7 +91,7 @@
             :class="{ 'mdc-text-field--invalid': errorMessages['assignment.description'] != undefined }" wire:ignore>
             <span class="mdc-floating-label" id="assignment-description-label">Description</span>
             <textarea class="mdc-text-field__input" aria-labelledby="assignment-description-label" rows="6"
-                wire:model.lazy="assignment.description" required></textarea>
+                wire:model.lazy="assignment.description"></textarea>
             <span class="mdc-line-ripple"></span>
         </label>
         <x-ui.validation-error for="assignment.description" />
