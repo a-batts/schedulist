@@ -55,7 +55,7 @@
                     <div class="mdc-checkbox mdc-checkbox--touch relative float-left ml-2 mr-4" wire:ignore>
                         <input class="mdc-checkbox__native-control" type="checkbox"
                             @click="toggleCategory('assignments')" :checked="selectedData.includes('assignments')"
-                            @if ($user->assignments->count() < 1) disabled @endif>
+                            @if (Auth::user()->assignments->count() < 1) disabled @endif>
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none"
@@ -68,7 +68,7 @@
                 </div>
                 <button class="mdc-button mdc-button-ripple mt-2 ml-12" wire:click="deleteData('assignments')"
                     x-ref="assignmentButton" @click="$refs.assignmentButton.disabled = true" wire:ignore
-                    @if ($user->assignments->count() < 1) disabled @endif>
+                    @if (Auth::user()->assignments->count() < 1) disabled @endif>
                     <span class="mdc-button__ripple"></span>Delete
                 </button>
             </div>
@@ -85,7 +85,7 @@
                     <div class="mdc-checkbox mdc-checkbox--touch relative float-left ml-2 mr-4" wire:ignore>
                         <input class="mdc-checkbox__native-control" type="checkbox" @click="toggleCategory('classes')"
                             :checked="selectedData.includes('classes')"
-                            @if ($user->classes->count() < 1) disabled @endif>
+                            @if (Auth::user()->classes->count() < 1) disabled @endif>
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none"
@@ -98,7 +98,7 @@
                 </div>
                 <button class="mdc-button mdc-button-ripple mt-2 ml-12" wire:click="deleteData('classes')"
                     x-ref="classButton" @click="$refs.classButton.disabled = true" wire:ignore
-                    @if ($user->classes->count() < 1) disabled @endif>
+                    @if (Auth::user()->classes->count() < 1) disabled @endif>
                     <span class="mdc-button__ripple"></span>Delete
                 </button>
             </div>
@@ -115,7 +115,7 @@
                     <div class="mdc-checkbox mdc-checkbox--touch relative float-left ml-2 mr-4" wire:ignore>
                         <input class="mdc-checkbox__native-control" type="checkbox" @click="toggleCategory('schedules')"
                             :checked="selectedData.includes('schedules')" wire:ignore
-                            @if ($user->schedules->count() < 1) disabled @endif>
+                            @if (Auth::user()->schedules->count() < 1) disabled @endif>
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none"
@@ -128,7 +128,7 @@
                 </div>
                 <button class="mdc-button mdc-button-ripple mt-2 ml-12" wire:click="deleteData('schedules')"
                     x-ref="scheduleButton" @click="$refs.scheduleButton.disabled = true" wire:ignore
-                    @if ($user->schedules->count() < 1) disabled @endif>
+                    @if (Auth::user()->schedules->count() < 1) disabled @endif>
                     <span class="mdc-button__ripple"></span>Delete
                 </button>
             </div>
@@ -145,7 +145,7 @@
                     <div class="mdc-checkbox mdc-checkbox--touch relative float-left ml-2 mr-4" wire:ignore>
                         <input class="mdc-checkbox__native-control" type="checkbox" @click="toggleCategory('events')"
                             :checked="selectedData.includes('events')"
-                            @if ($user->events->count() < 1) disabled @endif>
+                            @if (Auth::user()->events->count() < 1) disabled @endif>
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none"
@@ -158,7 +158,7 @@
                 </div>
                 <button class="mdc-button mdc-button-ripple mt-2 ml-12" wire:click="deleteData('events')"
                     x-ref="eventButton" @click="$refs.eventButton.disabled = true" wire:ignore
-                    @if ($user->events->count() < 1) disabled @endif>
+                    @if (Auth::user()->events->count() < 1) disabled @endif>
                     <span class="mdc-button__ripple"></span>Delete and Unshare
                 </button>
             </div>

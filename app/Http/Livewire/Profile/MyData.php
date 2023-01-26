@@ -2,25 +2,18 @@
 
 namespace App\Http\Livewire\Profile;
 
-use App\Enums\EventFrequency;
-use App\Models\User;
+use App\Enums\DataCategory;
+use App\Helpers\DataHelper;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Error;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
-use ZipArchive;
 use Illuminate\Support\Facades\DB;
-use App\Models\EventUser;
-use App\Models\Event;
-use Illuminate\Database\Eloquent\Collection;
+use Livewire\Component;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use ZipArchive;
 
 class MyData extends Component
 {
-    public User $user;
-
     /**
      * Holds information about user's existing backup
      *
@@ -36,55 +29,68 @@ class MyData extends Component
      */
     public array $selectedData = [];
 
-    private array $isoDays = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ];
+    /**
+     * The storage path for archive zips
+     */
+    private const STORAGE_PATH = 'app/exported-archives/';
 
     /**
      * Create zip archive and return download to user
      *
-     * @return void|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse|null
      */
     public function createArchive(): ?BinaryFileResponse
     {
+        $dataHelper = new DataHelper(Auth::user());
         $zip = new ZipArchive();
         $fileName =
             Auth::user()->firstname .
             '_' .
-            Carbon::now()->toDateString() .
-            '_' .
-            random_int(1, 99) .
+            Carbon::now()->format('Y-m-dHis') .
             '_archive.zip';
 
         if (
             $zip->open(
-                storage_path('app/exported-archives/' . $fileName),
+                storage_path(self::STORAGE_PATH . $fileName),
                 ZipArchive::CREATE
             ) === true
         ) {
-            $archive = DB::table('user_archives')
+            $existArchive = DB::table('user_archives')
                 ->where('user_id', Auth::id())
                 ->first();
 
-            if ($archive !== null && $archive->filename != $fileName) {
+            if (isset($existArchive)) {
                 unlink(
-                    storage_path('app/exported-archives/' . $archive->filename)
+                    storage_path(self::STORAGE_PATH . $existArchive->filename)
                 );
             }
+
             DB::table('user_archives')
                 ->where('user_id', Auth::id())
                 ->delete();
 
             foreach ($this->selectedData as $category) {
-                $zip = $this->getData($category, $zip);
-            }
+                $data = json_encode(
+                    $dataHelper->getData(DataCategory::from($category))
+                );
 
+                if ($category == 'profile') {
+                    $zip->addEmptyDir('profile');
+                    $zip->addFromString('profile/profile-info.json', $data);
+
+                    $profilePhoto = Auth::user()->profile_photo_path;
+
+                    if (isset($profilePhoto)) {
+                        $zip->addFile(
+                            public_path('storage/' . $profilePhoto),
+                            'profile/profile-photo.' .
+                                explode('.', $profilePhoto)[1]
+                        );
+                    }
+                } else {
+                    $zip->addFromString("$category.json", $data);
+                }
+            }
             $zip->close();
 
             DB::table('user_archives')->insert([
@@ -96,206 +102,38 @@ class MyData extends Component
 
             $this->dispatchBrowserEvent('started-download');
             return response()->download(
-                storage_path('app/exported-archives/' . $fileName)
-            );
-        } else {
-            $this->emit(
-                'toastMessage',
-                'Something went wrong. Please try that action again.'
+                storage_path(self::STORAGE_PATH . $fileName)
             );
         }
+
+        $this->emit(
+            'toastMessage',
+            'Something went wrong. Please try that action again.'
+        );
+        return null;
     }
 
     /**
-     * Delete specified category of data
+     * Delete a specified category's data
      *
      * @param string $category
      * @return void
      */
     public function deleteData(string $category): void
     {
-        switch ($category) {
-            case 'assignments':
-                foreach (Auth::user()->assignments as $assignment) {
-                    $assignment->delete();
-                }
-                $this->emit(
-                    'toastMessage',
-                    'Your assignments have been successfully deleted'
-                );
-            case 'classes':
-                foreach (Auth::user()->classes as $class) {
-                    $class->delete();
-                }
-                $this->emit(
-                    'toastMessage',
-                    'Your classes have been successfully deleted'
-                );
-                break;
-            case 'events':
-                Event::where('owner', Auth::id())->delete();
-                EventUser::where('user_id', Auth::id())->delete();
-                $this->emit(
-                    'toastMessage',
-                    'Your events have been successfully deleted and unshared'
-                );
-                break;
-            case 'schedules':
-                foreach (Auth::user()->schedules as $schedule) {
-                    $schedule->delete();
-                }
-                $this->emit(
-                    'toastMessage',
-                    'Your schedules have been successfully deleted'
-                );
-                break;
+        $dataHelper = new DataHelper(Auth::user());
+        try {
+            $dataHelper->deleteData(DataCategory::from($category));
+            $this->emit(
+                'toastMessage',
+                "Your $category have been successfully deleted."
+            );
+        } catch (Error) {
+            $this->emit(
+                'toastMessage',
+                'Unable to delete the data you requested.'
+            );
         }
-    }
-
-    public function getData(string $category, ZipArchive $zip): ZipArchive
-    {
-        $data = [];
-        switch ($category) {
-            case 'assignments':
-                $classes = $this->user->classes;
-
-                foreach ($this->user->assignments as $assignment) {
-                    $notes = [];
-                    foreach ($assignment->notes as $note) {
-                        $notes[] = ['content' => $note->content];
-                    }
-
-                    $data[] = [
-                        'name' => $assignment->name,
-                        'class' => [
-                            'name' =>
-                                $classes->find($assignment->class_id) != null
-                                    ? $classes->find($assignment->class_id)[
-                                        'name'
-                                    ]
-                                    : '',
-                        ],
-                        'description' => $assignment->description,
-                        'due' => $assignment->due,
-                        'link' => $assignment->link,
-                        '' => strtolower($assignment->status->name),
-                        'notes' => $notes,
-                    ];
-                }
-                $zip->addFromString($category . '.json', json_encode($data));
-                break;
-
-            case 'classes':
-                foreach ($this->user->classes as $class) {
-                    $links = [];
-                    foreach ($class->links as $link) {
-                        $links[] = [
-                            'name' => $link->name,
-                            'link' => $link->link,
-                        ];
-                    }
-
-                    $times = [];
-                    foreach ($class->times as $time) {
-                        $times[] = [
-                            'day_of_week' => $this->isoDays[$time->day_of_week],
-                            'start_time' => $time->start_time,
-                            'end_time' => $time->end_time,
-                        ];
-                    }
-
-                    $data[] = [
-                        'name' => $class->name,
-                        'period' => $class->period,
-                        'location' => $class->class_location,
-                        'teacher' => [
-                            'name' => $class->teacher,
-                            'email' => $class->teacher_email,
-                        ],
-                        'video_link' => $class->video_link,
-                        'color' => $class->color,
-                        'schedule_id' => $class->schedule_id,
-                        'links' => $links,
-                        'times' => $times,
-                    ];
-                }
-                $zip->addFromString($category . '.json', json_encode($data));
-                break;
-
-            case 'events':
-                foreach ($this->user->events as $event) {
-                    $eventData = [
-                        'name' => $event->name,
-                        'category' => $event->category->formattedName(),
-                        'time' => [
-                            'date' => $event->date,
-                            'start' => $event->start_time,
-                            'end' => $event->end_time,
-                        ],
-                        'sharing' => [
-                            'is_owner' =>
-                                (string) Auth::id() == $event->creator->id,
-                            'owner' => $event->creator->name,
-                        ],
-                        'color' => $event->color,
-                        'frequency' => [
-                            'repeats' => strtolower($event->frequency->name),
-                            'interval' => $event->interval,
-                            'end_date' => $event->end_date ?? 'never',
-                        ],
-                    ];
-
-                    if ($event->frequency == EventFrequency::Weekly) {
-                        $eventData['frequency']['days'] = json_encode(
-                            $event->days
-                        );
-                    }
-
-                    $data[] = $eventData;
-                }
-                $zip->addFromString($category . '.json', json_encode($data));
-                break;
-
-            case 'schedules':
-                foreach ($this->user->schedules as $schedule) {
-                    $data[] = [
-                        'name' => $schedule->name,
-                        'start_date' => $schedule->start_date,
-                        'end_date' => $schedule->end_date,
-                    ];
-                }
-                $zip->addFromString($category . '.json', json_encode($data));
-                break;
-
-            case 'profile':
-                $user = $this->user;
-                $data = [
-                    'first_name' => $user->firstname,
-                    'last_name' => $user->lastname,
-                    'email' => $user->email,
-                    'phone' => [
-                        'number' => $user->phone,
-                        'carrier' => $user->carrier,
-                    ],
-                    'school' => [
-                        'name' => $user->school,
-                        'gradeLevel' => $user->grade_level->formattedName(),
-                    ],
-                ];
-                $zip->addEmptyDir('profile');
-                $zip->addFromString(
-                    'profile/profile-info.json',
-                    json_encode($data)
-                );
-                if ($user->avatar !== null) {
-                    $zip->addFile(
-                        public_path('storage/' . $user->profile_photo_path),
-                        'profile/profile-photo.' .
-                            explode('.', $user->profile_photo_path)[1]
-                    );
-                }
-        }
-        return $zip;
     }
 
     /**
@@ -306,25 +144,23 @@ class MyData extends Component
     public function redownload(): BinaryFileResponse
     {
         $this->dispatchBrowserEvent('finished-redownload');
+        $archive = DB::table('user_archives')
+            ->where('user_id', Auth::id())
+            ->first();
         return response()->download(
-            storage_path(
-                'app/exported-archives/' . $this->existingBackup['filename']
-            )
+            storage_path(self::STORAGE_PATH . $archive->filename)
         );
     }
 
     public function render()
     {
-        $this->user = Auth::user()
-            ->with(['assignments', 'classes', 'events', 'schedules'])
+        $archive = DB::table('user_archives')
+            ->where('user_id', Auth::id())
             ->first();
-
-        $archiveRecord = DB::table('user_archives')
-            ->where('user_id', $this->user->id)
-            ->first();
-        if ($archiveRecord != null) {
+        if (isset($archive)) {
             $contains = '';
-            $exploded = explode(',', $archiveRecord->backup_contains);
+
+            $exploded = explode(',', $archive->backup_contains);
             sort($exploded);
             foreach ($exploded as $key => $data) {
                 if ($key != count($exploded) - 1) {
@@ -335,17 +171,16 @@ class MyData extends Component
                     $contains = $data;
                 }
             }
-            $existingBackup = [
-                'filename' => $archiveRecord->filename,
-                'created' => Carbon::parse($archiveRecord->created_at)->format(
+            $this->existingBackup = [
+                'filename' => $archive->filename,
+                'created' => Carbon::parse($archive->created_at)->format(
                     'F jS, Y'
                 ),
-                'daysOld' => Carbon::parse(
-                    $archiveRecord->created_at
-                )->diffInDays(Carbon::now()),
+                'daysOld' => Carbon::parse($archive->created_at)->diffInDays(
+                    Carbon::now()
+                ),
                 'contains' => $contains,
             ];
-            $this->existingBackup = $existingBackup;
         }
         return view('livewire.profile.my-data')
             ->layout('layouts.app')
