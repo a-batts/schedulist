@@ -3,50 +3,74 @@
 namespace App\Classes;
 
 use Dusterio\LinkPreview\Client;
+use Dusterio\LinkPreview\Exceptions\ConnectionErrorException;
+use GuzzleHttp\Exception\ClientException;
+use ValueError;
 
 /**
  * Get An Image and Title Preview of Link
  */
 class LinkPreview
 {
+    /**
+     * Link to generate preview for
+     *
+     * @var string
+     */
     private string $link;
-    private string $previewImage;
-    private string $text;
+
+    /**
+     * Link preview image
+     *
+     * @var string|null
+     */
+    private ?string $previewImage;
+
+    /**
+     * Link preview text
+     *
+     * @var string|null
+     */
+    private ?string $text;
+
+    private const FALLBACK_IMAGE = 'id=link-icon-theme';
 
     public function __construct(string $link)
     {
         $this->link = $link;
-        $this->previewImage = 'id=link-icon-theme';
-        $this->text = 'Unable to Load Preview';
     }
 
     /**
-     * Static constructor/ factory
+     * Static constructor
      *
      * @param string|null $link
-     * @return LinkPreview
+     * @return static
      */
-    public static function create(?string $link = ''): LinkPreview
+    public static function create(?string $link = ''): static
     {
         return new self($link ?? '');
     }
 
-    public function withExisting(string $image, string $text): LinkPreview
+    /**
+     * Create a preview with existing data
+     *
+     * @param string $image
+     * @param string $text
+     * @return static
+     */
+    public function withExisting(string $image, string $text): static
     {
-        if ($image == 'style=background-image:url();') {
-            $this->previewImage = 'id=link-icon-theme';
-        } else {
-            $this->previewImage = $image;
-        }
+        $this->previewImage =
+            $image == 'style=background-image:url();' ? null : $image;
         $this->text = $text;
         return $this;
     }
 
     /**
-     * Generate new preview image and text when nonexistant
-     * @return $this
+     * Create a preview with fetched data
+     * @return static
      */
-    public function withoutExisting(): LinkPreview
+    public function withoutExisting(): static
     {
         $this->updatePreview($this->link);
         return $this;
@@ -54,11 +78,11 @@ class LinkPreview
 
     /**
      * Return error on validation failure
-     * @return $this
+     * @return static
      */
-    public function withError(): LinkPreview
+    public function withError(): static
     {
-        $this->previewImage = 'id=link-icon-theme';
+        $this->previewImage = null;
         $this->text = 'Invalid URL';
         return $this;
     }
@@ -66,25 +90,19 @@ class LinkPreview
     /**
      * Update preview with new link
      * @param  string $link
-     * @return $this
+     * @return static
      */
-    public function updatePreview(string $link): LinkPreview
+    public function updatePreview(string $link): static
     {
-        $this->link = $link;
-
-        if ($this->link == null || $this->link == '') {
-            $this->previewImage = 'id=link-icon-theme';
-            $this->text = 'Unable to Load Preview';
-            return $this;
-        }
         if (
+            !isset($link) ||
             (substr($link, 0, 7) != 'http://' &&
                 substr($link, 0, 8) != 'https://') ||
             strlen($link) <= 9 ||
             str_contains($link, ' ')
         ) {
-            $this->previewImage = 'id=link-icon-theme';
-            $this->text = 'Invalid URL';
+            $this->previewImage = null;
+            $this->text = null;
             return $this;
         }
 
@@ -99,20 +117,19 @@ class LinkPreview
 
         try {
             $preview = $client->getPreview('general');
-        } catch (\Dusterio\LinkPreview\Exceptions\ConnectionErrorException $e) {
-            $this->text = 'Unable to Load Preview';
-            return $this;
+            $this->link = $link;
+
+            $preview = $preview->toArray();
+            $this->text = $preview['title'];
+            $this->previewImage =
+                @get_headers($preview['cover']) == false
+                    ? null
+                    : 'style=background-image:url(' . $preview['cover'] . ');';
+        } catch (ConnectionErrorException | ClientException) {
+            $this->text = null;
+        } catch (ValueError) {
+            $this->previewImage = null;
         }
-        $preview = $preview->toArray();
-
-        $this->text = $preview['title'];
-
-        if (@get_headers($preview['cover']) == false) {
-            $this->previewImage = 'id=link-icon-theme';
-        }
-        $this->previewImage =
-            'style=background-image:url(' . $preview['cover'] . ');';
-
         return $this;
     }
 
@@ -123,11 +140,11 @@ class LinkPreview
 
     public function getPreview(): string
     {
-        return $this->previewImage;
+        return $this->previewImage ?? self::FALLBACK_IMAGE;
     }
 
     public function getText(): string
     {
-        return $this->text;
+        return $this->text ?? 'Unable to Load Preview';
     }
 }

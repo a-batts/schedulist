@@ -2,20 +2,18 @@
 
 namespace App\View\Components;
 
+use App\Classes\LinkPreview as Preview;
 use Illuminate\View\Component;
 
 class LinkPreview extends Component
 {
-    public $preview;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($preview)
+    public function __construct(public Preview $preview)
     {
-        $this->preview = $preview;
     }
 
     /**
