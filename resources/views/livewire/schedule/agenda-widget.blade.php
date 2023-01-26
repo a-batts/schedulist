@@ -4,7 +4,7 @@
 
     <div class="fixed w-full" wire:ignore>
         <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
-            <div class="flex self-center flex-grow space-x-2 md:ml-16">
+            <div class="flex self-center flex-grow mt-2 space-x-2 md:ml-16">
                 <div class="w-full">
                     <p class="font-medium sm:text-lg"
                         :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }">
