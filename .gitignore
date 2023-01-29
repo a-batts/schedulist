@@ -15,3 +15,4 @@ _ide_helper.php
 /public/storage
 /bootstrap/cache
 /public/hot
+/config/ide-helper.php
