@@ -4,7 +4,7 @@
 
     <div class="fixed w-full" wire:ignore>
         <div class="mdc-elevation--z2 agenda-header flex w-full pt-2 pb-3 pl-6 md:pr-5">
-            <div class="flex self-center flex-grow mt-2 space-x-2 md:ml-16">
+            <div class="mt-2 flex flex-grow space-x-2 self-center md:ml-16">
                 <div class="w-full">
                     <p class="font-medium sm:text-lg"
                         :class="{ 'agenda-date-active': isToday && view == 'day', 'md:text-2xl': view == 'day' }">
@@ -22,12 +22,12 @@
                         x-text="view == 'day' ? date.format('dddd') : ''">
                     </p>
                     <template x-if="view == 'week'">
-                        <div class="grid w-full grid-cols-7 pt-2 -ml-1 text-sm select-none lg:text-base">
+                        <div class="-ml-1 grid w-full select-none grid-cols-7 pt-2 text-sm lg:text-base">
                             <template x-for="day in weekDays">
                                 <div
                                     class="flex w-full items-center justify-center space-x-0.5 text-center text-gray-600 lg:space-x-2">
                                     <span x-text="day.format('ddd')"></span>
-                                    <div class="flex items-center justify-center w-6 h-6 rounded-full cursor-pointer lg:h-8 lg:w-8"
+                                    <div class="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full lg:h-8 lg:w-8"
                                         @click="jumpToDate(day)"
                                         :class="{
                                             'bg-primary-theme': day.format('YYYY-MM-DD') == new dayjs().format(
@@ -78,7 +78,7 @@
             <div class="p-6">
                 <x-agenda.mini-calendar />
             </div>
-            <div class="flex-grow py-8 mt-4 overflow-y-auto border-t border-gray-200">
+            <div class="mt-4 flex-grow overflow-y-auto border-t border-gray-200 py-8">
                 <div class="px-6">
                     <p class="mb-2 text-xl font-bold">Your calendars</p>
                     <template x-for="(item, index) in userCalendars">
@@ -121,14 +121,14 @@
             </div>
         </div>
         <div class="agenda-padding sm:px-6 lg:px-8">
-            <div class="outer-agenda-container relative pb-20 overflow-x-hidden overflow-y-scroll sm:pb-12"
+            <div class="outer-agenda-container relative overflow-x-hidden overflow-y-scroll pb-20 sm:pb-12"
                 style="height: calc(100vh - 154px);" x-ref="outerAgenda">
                 <div class="inner-agenda-container relative">
                     <div class="absolute w-full">
                         @for ($i = 0; $i < 24; $i++)
                             <div class="flex">
                                 <div
-                                    class="agenda-clockslot pr-2 mb-2 -mt-2 text-xs text-right text-gray-400 align-middle select-none">
+                                    class="agenda-clockslot mb-2 -mt-2 select-none pr-2 text-right align-middle text-xs text-gray-400">
                                     @if ($i == 12)
                                         12 PM
                                     @elseif($i == 0)
@@ -145,11 +145,11 @@
                         @endfor
                     </div>
 
-                    <div class="relative h-full ml-12">
+                    <div class="relative ml-12 h-full">
                         <div class="absolute grid h-full" style="width:calc(100%)"
                             :class="{ 'grid-cols-7': view == 'week' }">
                             <template x-for="(day, index) in weekDays">
-                                <div class="week-column relative w-full h-full transition-all border-solid"
+                                <div class="week-column relative h-full w-full border-solid transition-all"
                                     :class="{
                                         'border-l': index != 0 && view == 'week',
                                         'hidden': view == 'day' && day.format('YYYY-MM-DD') != date
@@ -158,7 +158,7 @@
                                     <template x-if="day.format('YYYY-MM-DD') == new dayjs().format('YYYY-MM-DD')">
                                         <div class="absolute z-[4] flex w-full items-center"
                                             :style="`top: ${todaySeconds -5}px`;">
-                                            <div class="bg-text w-4 h-4 -mr-1 rounded-full"></div>
+                                            <div class="bg-text -mr-1 h-4 w-4 rounded-full"></div>
                                             <div class="bg-text h-0.5 w-full"></div>
                                         </div>
                                     </template>

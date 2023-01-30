@@ -41,7 +41,13 @@ class Event extends Model
         'end_date' => 'date',
     ];
 
-    protected $guarded = ['date'];
+    protected $fillable = [
+        'date',
+        'start_time',
+        'end_time',
+        'frequency',
+        'interval',
+    ];
 
     protected $table = 'events';
 
