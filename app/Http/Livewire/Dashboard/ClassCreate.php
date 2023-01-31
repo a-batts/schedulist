@@ -16,13 +16,6 @@ class ClassCreate extends Component
     public Classes $class;
 
     /**
-     * Array of the class's links
-     *
-     * @var array
-     */
-    public array $links = [];
-
-    /**
      * Valid color options for the class
      *
      * @var array
@@ -42,21 +35,6 @@ class ClassCreate extends Component
     public array $errorMessages = [];
 
     /**
-     * Validation messages
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'links.*.name.required' => 'Link name is required',
-            'links.*.link.required' => 'Link is required',
-            'links.*.link.url' => 'Link must be valid URL',
-            'links.*.link.distinct' => 'You\'ve already added this link',
-        ];
-    }
-
-    /**
      * Validation rules
      *
      * @return array
@@ -70,9 +48,6 @@ class ClassCreate extends Component
             'class.video_link' => 'nullable|url',
             'class.location' => 'nullable',
             'class.color' => 'required',
-            'links.*' => 'array',
-            'links.*.name' => 'required',
-            'links.*.link' => 'required|url|distinct',
         ];
     }
 
@@ -107,16 +82,9 @@ class ClassCreate extends Component
             $class->video_link = null;
         }
 
-        $newClass = Auth::user()
+        Auth::user()
             ->classes()
             ->save($class);
-
-        foreach ($this->links as $link) {
-            $newClass->links()->create([
-                'name' => $link['name'],
-                'link' => $link['link'],
-            ]);
-        }
 
         $this->emit('refreshClasses');
         $this->dispatchBrowserEvent('close-add-diag');
@@ -146,20 +114,6 @@ class ClassCreate extends Component
     public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
-    }
-
-    /**
-     * Validate when links are updated
-     *
-     * @return void
-     */
-    public function updatedLinks(): void
-    {
-        $this->validate([
-            'links.*' => 'array',
-            'links.*.name' => 'required',
-            'links.*.link' => 'required|url|distinct',
-        ]);
     }
 
     /**

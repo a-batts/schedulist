@@ -19,13 +19,6 @@ class ClassEdit extends Component
     public Classes $editClass;
 
     /**
-     * Array of the class's links
-     *
-     * @var array
-     */
-    public array $links = [];
-
-    /**
      * Valid color options for the class
      *
      * @var array
@@ -47,21 +40,6 @@ class ClassEdit extends Component
     protected $listeners = ['deleteClass' => 'mount'];
 
     /**
-     * Validation messages
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'links.*.name.required' => 'Link name is required',
-            'links.*.link.required' => 'Link is required',
-            'links.*.link.url' => 'Link must be valid URL',
-            'links.*.link.distinct' => 'You\'ve already added this link',
-        ];
-    }
-
-    /**
      * Validation rules
      *
      * @return array
@@ -75,9 +53,6 @@ class ClassEdit extends Component
             'editClass.video_link' => 'nullable|url',
             'editClass.location' => 'nullable',
             'editClass.color' => 'required',
-            'links.*' => 'array',
-            'links.*.name' => 'required',
-            'links.*.link' => 'required|url|distinct',
         ];
     }
 
@@ -113,14 +88,6 @@ class ClassEdit extends Component
         }
 
         $class->save();
-
-        $class->links()->delete();
-        foreach ($this->links as $link) {
-            $class->links()->create([
-                'name' => $link['name'],
-                'link' => $link['link'],
-            ]);
-        }
 
         $this->emit('refreshClasses');
         $this->dispatchBrowserEvent('close-dialog');
@@ -163,20 +130,6 @@ class ClassEdit extends Component
     public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
-    }
-
-    /**
-     * Validate when links are updated
-     *
-     * @return void
-     */
-    public function updatedLinks(): void
-    {
-        $this->validate([
-            'links.*' => 'array',
-            'links.*.name' => 'required',
-            'links.*.link' => 'required|url|distinct',
-        ]);
     }
 
     /**

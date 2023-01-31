@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\ClassLink;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -58,14 +60,34 @@ class ClassDetails extends Component
             ->toArray();
     }
 
+    /**
+     * Remove a link by id
+     *
+     * @param integer $id
+     * @return bool
+     */
+    public function removeLink(int $id): bool
+    {
+        try {
+            return ClassLink::findOrFail($id)->delete();
+        } catch (ModelNotFoundException) {
+        }
+        return false;
+    }
+
     public function getScheduleNames(): array
     {
+        $names = [];
         foreach ($this->schedules as $schedule) {
             $names[] = $schedule['name'];
         }
         return $names;
     }
 
+    /**
+     * Render the component
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.dashboard.class-details');
