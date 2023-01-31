@@ -1,4 +1,4 @@
- <div x-data="classEdit()" @edit-class.window="selectClass(event.detail.id)">
+ <div x-data="classEdit()" @edit-class.window="selectClass(event.detail.id)" wire:ignore>
      <x-ui.modal class="top-3 bottom-3" title="Edit Class" bind="dialog">
          <x-slot name="actions">
              <button class="mdc-icon-button material-icons float-left mr-3 -mt-1" type="button"
@@ -78,7 +78,7 @@
          <x-ui.validation-error for="editClass.video_link" />
 
          <div class="ml-1 text-lg font-medium text-gray-700">Color</div>
-         <div class="px-auto py-3 mx-auto mb-2">
+         <div class="px-auto mx-auto mb-2 py-3">
              @foreach ($colorOptions as $color)
                  <div class="background-{{ $color }} mdc-icon-button mx-1 h-11 w-11 rounded-full"
                      :class="{ 'border-white border-solid border-3': color == '{{ $color }}' }"
@@ -87,7 +87,7 @@
                  </div>
              @endforeach
          </div>
-         <div class="text-primary pt-4 mb-5 ml-1 text-base font-medium border-t border-gray-100">Links for this class
+         <div class="text-primary mb-5 ml-1 border-t border-gray-100 pt-4 text-base font-medium">Links for this class
          </div>
          <div wire:ignore>
              <template x-if="links.length > 0">
