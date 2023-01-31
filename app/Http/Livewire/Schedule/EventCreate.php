@@ -113,6 +113,8 @@ class EventCreate extends Component
 
         if ($event->frequency != EventFrequency::Weekly) {
             $event->days = null;
+        } else {
+            $event->days = array_unique($event->days);
         }
 
         $this->dispatchBrowserEvent('close-create-modal');

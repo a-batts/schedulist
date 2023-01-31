@@ -121,6 +121,8 @@ class EventEdit extends Component
             $this->dispatchBrowserEvent('close-edit-modal');
             if ($event->frequency != EventFrequency::Weekly) {
                 $event->days = null;
+            } else {
+                $event->days = array_unique($event->days);
             }
             $event->save();
 
