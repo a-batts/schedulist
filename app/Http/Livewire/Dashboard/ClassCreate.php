@@ -82,7 +82,7 @@ class ClassCreate extends Component
             $class->video_link = null;
         }
 
-        $newClass = Auth::user()
+        Auth::user()
             ->classes()
             ->save($class);
 
