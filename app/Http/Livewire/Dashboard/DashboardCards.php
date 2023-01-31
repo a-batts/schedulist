@@ -189,7 +189,7 @@ class DashboardCards extends Component
             $this->nextClass = null;
             $class = Auth::user()
                 ->classes()
-                ->firstOrFail($id);
+                ->findOrFail($id);
             $class->times()->delete();
             $class->delete();
 
