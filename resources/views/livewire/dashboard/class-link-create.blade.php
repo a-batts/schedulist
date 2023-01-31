@@ -6,7 +6,7 @@
         <div class="mb-2 py-2">
             <p class="text-2xl font-semibold">New link</p>
         </div>
-        <div class="mt-4 flex flex-col space-y-2">
+        <div class="mt-4 flex flex-col space-y-1">
             <div>
                 <label class="mdc-text-field mdc-text-field--outlined w-full" wire:ignore>
                     <span class="mdc-notched-outline">
@@ -26,7 +26,7 @@
                     <span class="mdc-notched-outline">
                         <span class="mdc-notched-outline__leading"></span>
                         <span class="mdc-notched-outline__notch">
-                            <span class="mdc-floating-label" id="link-link-label">Link</span>
+                            <span class="mdc-floating-label" id="link-link-label">URL</span>
                         </span>
                         <span class="mdc-notched-outline__trailing"></span>
                     </span>
