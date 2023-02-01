@@ -12,7 +12,6 @@ use App\Http\Livewire\Profile\MyData;
 use App\Http\Livewire\Profile\Schedule\EditSchedules;
 use App\Http\Livewire\Profile\TwoFactorAuth;
 use App\Http\Livewire\Profile\UpdatePassword;
-use App\Http\Livewire\Schedule\EventInvite;
 use App\Models\Classes;
 use App\Models\Event;
 use Carbon\Carbon;
@@ -169,8 +168,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         $view = null
     ) {
         $initDate = Carbon::now()
-            ->setDay($day)
             ->setMonth($month)
+            ->setDay($day)
             ->setYear($year);
         return view('schedule')->with([
             'initDate' => $initDate,
