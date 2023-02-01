@@ -80,7 +80,7 @@ export default () => ({
             7 - ((this.monthDays + this.startingBlankDays.length) % 7);
         var blankDays = [];
 
-        if (unfilledSlots != 0) {
+        if (unfilledSlots != 0 && unfilledSlots != 7) {
             for (var i = 1; i <= unfilledSlots; i++) {
                 blankDays.push(i);
             }
