@@ -8,15 +8,15 @@
                 <form method="POST" action="{{ route('password.confirm') }}">
                     @csrf
                     <div class="w-full pt-4">
-                        <div class="w-16 h-16 mx-auto"><img class="rounded-full"
+                        <div class="mx-auto h-16 w-16"><img class="rounded-full"
                                 src="{{ Auth::user()->profile_photo_url }}" alt="Profile photo"></div>
-                        <p class="mx-auto mt-3 text-xl font-medium text-center">
+                        <p class="mx-auto mt-3 text-center text-xl font-medium">
                             {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</p>
-                        <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{ Auth::user()->email }}</p>
+                        <p class="mx-auto mt-1 text-center text-sm text-gray-700">{{ Auth::user()->email }}</p>
                     </div>
 
                     <label
-                        class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-8"
+                        class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full"
                         wire:ignore>
                         <input class="mdc-text-field__input" name="password" aria-labelledby="password-label"
                             :type="passwordField" required autocomplete="current-password" />
@@ -37,8 +37,8 @@
                         </span>
                     </label>
                     <x-ui.validation-error for="password" />
-                    <div class="forgot-password w-full mr-2 text-right">
-                        <a class="theme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
+                    <div class="forgot-password mr-2 w-full text-right">
+                        <a class="theme-color-text text-sm" href="{{ route('forgot-password') }}">Forgot password?</a>
                     </div>
 
                     <div class="">

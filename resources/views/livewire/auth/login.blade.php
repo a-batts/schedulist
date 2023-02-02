@@ -64,9 +64,9 @@
                         </div>
                         <label class="check_label" for="remember_me">Keep me signed in</label>
                     </div>
-                    <div class="forgot-password flex items-center justify-end mt-2 mr-2">
+                    <div class="forgot-password mt-2 mr-2 flex items-center justify-end">
                         <a class="text-primary-theme text-sm hover:underline"
-                            href="{{ route('password.request') }}">Forgot password?</a>
+                            href="{{ route('forgot-password') }}">Forgot password?</a>
                     </div>
                 </div>
                 <div class="logincontainer mt-10">

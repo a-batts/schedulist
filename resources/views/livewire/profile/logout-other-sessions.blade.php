@@ -10,14 +10,14 @@
                 <div class="mt-5 ml-5 space-y-6">
                     @foreach ($this->sessions as $index => $session)
                         <div class="flex items-center">
-                            <div class="w-full h-20">
-                                <div class="block float-left mt-1 mr-5 select-none">
+                            <div class="h-20 w-full">
+                                <div class="float-left mt-1 mr-5 block select-none">
                                     @if ($session->agent->isDesktop())
-                                        <span class="material-icons" class="w-8 h-8">desktop_windows</span>
+                                        <span class="material-icons" class="h-8 w-8">desktop_windows</span>
                                     @elseif ($session->agent->isTablet())
-                                        <span class="material-icons" class="w-8 h-8">tablet_mac</span>
+                                        <span class="material-icons" class="h-8 w-8">tablet_mac</span>
                                     @else
-                                        <span class="material-icons" class="w-8 h-8">smartphone</span>
+                                        <span class="material-icons" class="h-8 w-8">smartphone</span>
                                     @endif
                                 </div>
                                 <div class="block">
@@ -29,7 +29,7 @@
                                         @endisset {{ $session->details->city ?? '' }},
                                         {{ $session->details->region ?? '' }}
                                     </div>
-                                    <div class="text-gray-500 ml-11">{{ $session->ip_address }},
+                                    <div class="ml-11 text-gray-500">{{ $session->ip_address }},
                                         {{ $session->agent->device() }} - {{ $session->agent->browser() }}</div>
                                 </div>
                                 <div class="block sm:float-right sm:mr-1 sm:-mt-9">
@@ -58,24 +58,24 @@
     </x-ui.settings-card>
     <div class="modal-skim inset-0 hidden bg-gray-500 opacity-75" style="display: none" x-show="passwordConfirmation"
         x-cloak></div>
-    <div class="modal-container fixed w-screen h-screen pb-6 overflow-y-auto top-12" x-transition
+    <div class="modal-container fixed top-12 h-screen w-screen overflow-y-auto pb-6" x-transition
         x-show.important="passwordConfirmation" x-trap.noscroll="passwordConfirmation" x-cloak wire:ignore.self>
         <div class="mdc-card mdc-card--outlined modal-card px-6 pt-6">
             <div>
                 <h6 class="text-3xl font-bold">Confirm your password</h6>
-                <div class="mt-3 text-base text-left text-gray-600">Before we can sign out your other devices, we need
+                <div class="mt-3 text-left text-base text-gray-600">Before we can sign out your other devices, we need
                     you to verify your identity.</div>
             </div>
             <div class="mt-5 mb-2 border-t border-gray-200"></div>
             <div class="w-full pt-4">
-                <div class="w-16 h-16 mx-auto"><img class="rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                <div class="mx-auto h-16 w-16"><img class="rounded-full" src="{{ Auth::user()->profile_photo_url }}"
                         alt="Profile photo"></div>
-                <p class="mx-auto mt-3 text-xl font-medium text-center">
+                <p class="mx-auto mt-3 text-center text-xl font-medium">
                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</p>
-                <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{ Auth::user()->email }}</p>
+                <p class="mx-auto mt-1 text-center text-sm text-gray-700">{{ Auth::user()->email }}</p>
             </div>
 
-            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-8"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full"
                 wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"
                     wire:model="password" required autocomplete="current-password" x-ref="password" />
@@ -94,8 +94,8 @@
                 </span>
             </label>
             <x-ui.validation-error for="password" />
-            <div class="forgot-password w-full mr-2 text-right">
-                <a class="theme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
+            <div class="forgot-password mr-2 w-full text-right">
+                <a class="theme-color-text text-sm" href="{{ route('forgot-password') }}">Forgot password?</a>
             </div>
 
             <div class="mt-5">

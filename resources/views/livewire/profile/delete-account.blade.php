@@ -6,13 +6,13 @@
     <x-ui.settings-card title="Delete account"
         description="You are deleting your account, which will permanently remove access to your account and data. You will not be able to recover anything once deleted."
         back-button>
-        <div class="pb-4 border-b border-gray-200">
+        <div class="border-b border-gray-200 pb-4">
             <p class="mt-4 text-lg">You will lose all of the following when you delete your account</p>
             <p class="text-sm text-gray-500">Any data saved to your account is at risk of being erased, including items
                 not listed below.</p>
         </div>
         <div style="max-width: 600px">
-            <ul class="mdc-deprecated-list mdc-deprecated-list--icon-list security-list w-full mt-2">
+            <ul class="mdc-deprecated-list mdc-deprecated-list--icon-list security-list mt-2 w-full">
                 <li class="security-list mdc-deprecated-list-item border-b border-gray-200"
                     href="{{ route('account.set-password') }}" tabindex="0">
                     <span class="mdc-deprecated-list-item__graphic material-icons -mt-0.5 text-gray-600 text-inherit"
@@ -69,10 +69,10 @@
             </ul>
             <div class="background-red rounded-md">
                 <div class="flex items-center px-4 py-4 text-sm sm:py-0">
-                    <div class="material-icons flex-none w-14">history</div>
+                    <div class="material-icons w-14 flex-none">history</div>
                     <div class="font-medium">You can download an archive of your data before deleting your account</div>
                     <div>
-                        <a class="mdc-icon-button material-icons flex-none mt-1 ml-4 h-14"
+                        <a class="mdc-icon-button material-icons mt-1 ml-4 h-14 flex-none"
                             href="{{ route('account.manage-data') }}" aria-describedby="back-arrow">
                             <div class="mdc-icon-button__ripple"></div>
                             navigate_next
@@ -114,24 +114,24 @@
     </x-ui.settings-card>
     <div class="modal-skim inset-0 hidden bg-gray-500 opacity-75" style="display: none" x-show="passwordConfirmation"
         x-cloak></div>
-    <div class="modal-container fixed w-screen h-screen pb-6 overflow-y-auto top-12" x-transition
+    <div class="modal-container fixed top-12 h-screen w-screen overflow-y-auto pb-6" x-transition
         x-show="passwordConfirmation" x-trap.noscroll="passwordConfirmation" x-cloak wire:ignore.self>
         <div class="mdc-card mdc-card--outlined modal-card px-6 pt-6">
             <div>
                 <h6 class="text-3xl font-medium">Confirm your password</h6>
-                <div class="mt-3 text-base text-left text-gray-600">Before we can delete your account, we need you to
+                <div class="mt-3 text-left text-base text-gray-600">Before we can delete your account, we need you to
                     verify your identity.</div>
             </div>
             <div class="mt-5 mb-2 border-t border-gray-200"></div>
             <div class="w-full pt-4">
-                <div class="w-16 h-16 mx-auto"><img class="rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                <div class="mx-auto h-16 w-16"><img class="rounded-full" src="{{ Auth::user()->profile_photo_url }}"
                         alt="Profile photo"></div>
-                <p class="mx-auto mt-3 text-xl font-medium text-center">
+                <p class="mx-auto mt-3 text-center text-xl font-medium">
                     {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</p>
-                <p class="mx-auto mt-1 text-sm text-center text-gray-700">{{ Auth::user()->email }}</p>
+                <p class="mx-auto mt-1 text-center text-sm text-gray-700">{{ Auth::user()->email }}</p>
             </div>
 
-            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon w-full mt-8"
+            <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mt-8 w-full"
                 wire:ignore>
                 <input class="mdc-text-field__input" aria-labelledby="password-label" :type="passwordField"
                     wire:model="password" required autocomplete="current-password" x-ref="password" />
@@ -150,8 +150,8 @@
                 </span>
             </label>
             <x-ui.validation-error for="password" />
-            <div class="forgot-password w-full mr-2 text-right">
-                <a class="theme-color-text text-sm" href="{{ route('password.request') }}">Forgot password?</a>
+            <div class="forgot-password mr-2 w-full text-right">
+                <a class="theme-color-text text-sm" href="{{ route('forgot-password') }}">Forgot password?</a>
             </div>
 
             <div class="mt-5">

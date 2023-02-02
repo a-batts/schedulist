@@ -74,7 +74,7 @@ Route::get('login/confirm-password', function () {
 
 Route::get('login/forgot-password', function () {
     return view('auth.forgot-password');
-})->name('password.request');
+})->name('forgot-password');
 
 Route::get('logout', function () {
     return redirect()->intended('login');

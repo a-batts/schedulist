@@ -130,7 +130,7 @@ class UpdatePassword extends Component
                     Auth::user()
                 )
                     ->sendText()
-                    ->addText(route('password.request'));
+                    ->addText(route('forgot-password'));
             }
 
             if ($userSettings->account_alert_emails === 1) {
@@ -139,7 +139,7 @@ class UpdatePassword extends Component
                         'heading' => 'Password was changed',
                         'body' =>
                             'Your Schedulist password was just changed. If this was you, you can safely ignore this message. If you did not just update your password, someone else has access to your account, and you should reset your password as soon as possible.',
-                        'link' => route('password.request'),
+                        'link' => route('forgot-password'),
                         'link_title' => 'Password reset',
                         'subject' =>
                             'Security alert - Account password changed',
