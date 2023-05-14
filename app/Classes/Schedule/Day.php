@@ -20,7 +20,6 @@ class Day implements Countable
     private Carbon $date;
 
     /**
-     *
      * @var array<Event>
      */
     public array $events = [];
@@ -29,8 +28,10 @@ class Day implements Countable
 
     public function __construct(Carbon $date, array $queriedData)
     {
+        $splits = 100;
         $this->date = $date->startOfDay();
 
+        // Merge all the possible events into a single array
         $items = array_merge(
             $this->getAssignments(
                 $queriedData['assignments'],
@@ -40,35 +41,54 @@ class Day implements Countable
             $this->getOtherEvents($queriedData['events'])
         );
 
+        // Sort the events by start time
         usort($items, function ($a, $b) {
             return $a->top <=> $b->top;
         });
 
+        // Sort events into columns for proper display on the front end
         $columns = [];
-        foreach ($items as $item) {
+        foreach ($items as $index => $item) {
             $isInserted = false;
             for ($i = 0; $i < count($columns); $i++) {
                 if (
                     $item->top > $columns[$i][count($columns[$i]) - 1]->bottom
                 ) {
                     $columns[$i][] = $item;
+
+                    // If there isn't an item next to the current item,
+                    // make it span the remaining columns
+                    // This fixes the current issue with empty columns next to
+                    // items that could easily fill them all
+                    if (
+                        (count($items) > $index + 1 &&
+                            $items[$index + 1]->top > $item->bottom) ||
+                        $index + 1 == count($items)
+                    ) {
+                        $item->fullWidth = true;
+                    }
+
+                    // The item has been inserted so we break the loop
                     $isInserted = true;
                     break;
                 }
             }
+            // If the item could not be inserted into an existing column, add it to a new one
             if (!$isInserted) {
                 $columns[] = [$item];
             }
         }
 
+        // Determine the width of each column
         if (count($columns) > 0) {
             $splits = floor(100 / count($columns));
         }
 
+        // Get the proper position for each item and add it to an array
         foreach ($columns as $index => $column) {
             foreach ($column as $item) {
-                $item->width = $splits;
                 $item->left = $splits * $index;
+                $item->width = $item->fullWidth ? 100 - $item->left : $splits;
                 $this->events[] = $item;
             }
         }
@@ -94,15 +114,16 @@ class Day implements Countable
                 ->subHour()
                 ->subMinute();
 
+            // Create an event for any assignments due on the requested date
             if ($this->date->toDateString() == $date->toDateString()) {
                 $event = new Event(
                     date: $this->date,
                     id: $item->id,
                     type: 'assignment',
                     name: $item->name,
-                    link: route('assignmentPage') . '/' . $item->url_string,
                     color: 'green',
                     start: $date,
+                    link: route('assignmentPage') . '/' . $item->url_string,
                     data: [
                         'className' =>
                             $classes->find($item->class_id)->name ??
@@ -131,16 +152,17 @@ class Day implements Countable
     /**
      * Get the occurring classes for date
      *
-     * @param Collection $data
-     * @param ClassScheduleHelper $schedule
+     * @param ClassScheduleHelper $scheduleHelper
      * @return array<Event>
      */
     private function getClasses(ClassScheduleHelper $scheduleHelper): array
     {
         $events = [];
 
+        // Get the classes that occur on the requested date
         $data = $scheduleHelper->getDayClasses($this->date);
 
+        // Create an event for each class
         foreach ($data as $item) {
             $start = $item['start'];
             $end = $item['end'];
@@ -173,12 +195,15 @@ class Day implements Countable
         $events = [];
 
         foreach ($items as $item) {
+            // If the event does not occur on this date at all skip to the next item
             if (
                 $this->date < $item->date ||
                 ($item->end_date != null && $this->date > $item->end_date)
             ) {
                 continue;
             }
+
+            // Keep track of all the events that occur on the provided date
             if (
                 $this->eventOccursToday(
                     date: $this->date,
@@ -191,6 +216,7 @@ class Day implements Countable
                 $start = Carbon::parse($item->start_time);
                 $end = Carbon::parse($item->end_time);
 
+                // Get the proper frequency description depending on how often the event happens
                 $frequency = match ($item->frequency) {
                     EventFrequency::Never => null,
                     EventFrequency::Daily => $item->interval == 1
@@ -247,9 +273,10 @@ class Day implements Countable
      * Determine if an event occurs on a day or not
      *
      * @param Carbon $date
+     * @param Carbon $eventDate
      * @param EventFrequency $frequency
      * @param integer $interval
-     * @param array $days
+     * @param array|null $days
      * @return boolean
      */
     public static function eventOccursToday(
@@ -261,6 +288,7 @@ class Day implements Countable
     ): bool {
         $diffInDays = $date->diffInDays($eventDate);
 
+        // Determine if the event occurs on the provided date based on its frequency
         switch ($frequency) {
             case EventFrequency::Never:
                 return $diffInDays == 0;
@@ -278,9 +306,8 @@ class Day implements Countable
             case EventFrequency::Yearly:
                 return $eventDate->day == $date->day &&
                     $eventDate->month == $date->month;
-            default:
-                return false;
         }
+        return false;
     }
 
     /**
