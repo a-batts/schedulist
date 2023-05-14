@@ -53,7 +53,7 @@ class Day implements Countable
             $isInserted = false;
             for ($i = 0; $i < count($columns); $i++) {
                 if (
-                    $item->top > $columns[$i][count($columns[$i]) - 1]->bottom
+                    $item->top >= $columns[$i][count($columns[$i]) - 1]->bottom
                 ) {
                     $columns[$i][] = $item;
 
