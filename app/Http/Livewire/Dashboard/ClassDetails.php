@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\ClassLink;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -86,9 +88,9 @@ class ClassDetails extends Component
 
     /**
      * Render the component
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Factory|View
      */
-    public function render()
+    public function render(): View|Factory
     {
         return view('livewire.dashboard.class-details');
     }

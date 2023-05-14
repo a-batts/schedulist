@@ -260,7 +260,8 @@ class Day implements Countable
                     data: [
                         'category' => $item->category->formattedName(),
                         'repeat' =>
-                            'Repeats ' . ("every $frequency" ?? 'never'),
+                            'Repeats ' .
+                            ($frequency != '' ? "every $frequency" : 'never'),
                         'location' => $item->location,
                     ]
                 );
@@ -298,9 +299,9 @@ class Day implements Countable
             case EventFrequency::Weekly:
                 $diffInWeeks = $date
                     ->copy()
-                    ->startOfWeek(Carbon::SUNDAY)
+                    ->startOfWeek(CarbonInterface::SUNDAY)
                     ->diffInWeeks(
-                        $eventDate->copy()->startOfWeek(Carbon::SUNDAY)
+                        $eventDate->copy()->startOfWeek(CarbonInterface::SUNDAY)
                     );
                 return $diffInWeeks % $interval == 0 &&
                     in_array($date->dayOfWeekIso % 7, $days);
