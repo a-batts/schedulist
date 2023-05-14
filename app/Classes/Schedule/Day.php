@@ -5,6 +5,7 @@ namespace App\Classes\Schedule;
 use App\Enums\EventFrequency;
 use App\Helpers\ClassScheduleHelper;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Countable;
 use Illuminate\Database\Eloquent\Collection;
@@ -297,10 +298,12 @@ class Day implements Countable
             case EventFrequency::Weekly:
                 $diffInWeeks = $date
                     ->copy()
-                    ->startOfWeek()
-                    ->diffInWeeks($eventDate->copy()->startOfWeek());
+                    ->startOfWeek(Carbon::SUNDAY)
+                    ->diffInWeeks(
+                        $eventDate->copy()->startOfWeek(Carbon::SUNDAY)
+                    );
                 return $diffInWeeks % $interval == 0 &&
-                    in_array($date->dayOfWeekIso, $days);
+                    in_array($date->dayOfWeekIso % 7, $days);
             case EventFrequency::Monthly:
                 return $eventDate->day == $date->day;
             case EventFrequency::Yearly:
