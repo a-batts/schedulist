@@ -13,6 +13,10 @@ class Event
 
     public int $bottom;
 
+    public int $width;
+
+    public bool $fullWidth = false;
+
     public function __construct(
         public Carbon $date,
         public int $id,
