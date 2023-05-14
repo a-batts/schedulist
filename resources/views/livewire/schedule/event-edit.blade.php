@@ -76,7 +76,7 @@
                       <span>edit</span>
                   </button>
               </div>
-              <div class="px-2 mt-6">
+              <div class="mt-6 px-2">
 
               </div>
           </div>
@@ -223,7 +223,11 @@
                               this.endDate = new Date(result.end_date);
                               this.frequency = result.frequency;
                               this.interval = result.interval;
-                              this.days = result.days;
+
+                              // Set the days array after a slight delay to prevent the date
+                              // being updated causing that to get messed up
+                              setTimeout(() => this.days = Object.values(result.days), 100);
+
                               const start = result.start_time.split(':');
                               this.startTime = {
                                   h: parseInt(start[0]),
@@ -259,18 +263,18 @@
                   },
 
                   isCurrentWeekday: function(val) {
-                      return val == new dayjs(this.date).day();
+                      return val === new dayjs(this.date).day();
                   },
 
                   set intervalInput(val) {
                       if (val < 1)
-                          val == 1;
+                          val = 1;
 
-                      if (val % 1 != 0 || val > 99)
+                      if (val % 1 !== 0 || val > 99)
                           val = this.interval;
 
-                      if (this.frequency == 1 && val % 7 == 0) {
-                          this.frequency = this.frequencies.find(el => el.unit == 'week').value;
+                      if (this.frequency === 1 && val % 7 === 0) {
+                          this.frequency = this.frequencies.find(el => el.unit === 'week').value;
                           val = Math.floor(val / 7);
                       }
                       this.interval = val;
@@ -286,23 +290,23 @@
 
                       switch (frequency) {
                           case 'day':
-                              str = str + `${this.interval == 1 ? 'day' : this.interval + ' days'} `;
+                              str = str + `${this.interval === 1 ? 'day' : this.interval + ' days'} `;
                               break;
                           case 'week':
                               const days = [];
                               this.days.forEach((item) => {
-                                  days[item + 1] = dayjs().date(item + 1).format('ddd');
+                                  days[item + 1] = dayjs().date(item).format('ddd');
                               });
                               str = str +
-                                  `${this.interval == 1 ? 'week' : this.interval + ' weeks'} on ${days.filter(i => i != null).join(', ')} `;
+                                  `${this.interval === 1 ? 'week' : this.interval + ' weeks'} on ${days.filter(i => i != null).join(', ')} `;
                               break;
                           case 'month':
                               str = str +
-                                  `${this.interval == 1 ? 'month' : this.interval + ' months'} on the ${dayjs(this.date).format('Do')} day `;
+                                  `${this.interval === 1 ? 'month' : this.interval + ' months'} on the ${dayjs(this.date).format('Do')} day `;
                               break;
                           case 'year':
                               str = str +
-                                  `${this.interval == 1 ? 'year' : this.interval + ' years'} on ${dayjs(this.date).format('MMMM Do')} `;
+                                  `${this.interval === 1 ? 'year' : this.interval + ' years'} on ${dayjs(this.date).format('MMMM Do')} `;
                               break;
                       }
 
