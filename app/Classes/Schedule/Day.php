@@ -51,16 +51,18 @@ class Day implements Countable
         $columns = [];
         foreach ($items as $index => $item) {
             $isInserted = false;
+            // Iterate through each column to find which one this event should belong in
             for ($i = 0; $i < count($columns); $i++) {
+                // Check if this event starts after the last event in the current column
                 if (
                     $item->top >= $columns[$i][count($columns[$i]) - 1]->bottom
                 ) {
                     $columns[$i][] = $item;
 
-                    // If there isn't an item next to the current item,
+                    // If there isn't an event next to the current item,
                     // make it span the remaining columns
                     // This fixes the current issue with empty columns next to
-                    // items that could easily fill them all
+                    // events that could easily fill them all
                     if (
                         (count($items) > $index + 1 &&
                             $items[$index + 1]->top > $item->bottom) ||
