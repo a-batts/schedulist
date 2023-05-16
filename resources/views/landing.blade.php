@@ -63,7 +63,7 @@
     @scroll.window="scrolled()">
     <div class="swup-transition-fade" id="swup">
         <header>
-            @if (!Auth::check())
+            @guest
                 <div id="g_id_onload"
                     data-client_id="827540481261-uhs04f4uecph0vpigh7tcek6jdfp7ggl.apps.googleusercontent.com"
                     data-login_uri="login/callback/onetap" data-auto_select="true" data-prompt_parent_id="g_id_onload"
@@ -71,7 +71,7 @@
                     style="position: fixed; top: 70px; right: 400px;
               width: 0; height: 0; z-index: 1001;">
                 </div>
-            @endif
+            @endguest
 
             <nav class="nav-border base-bg fixed z-10 w-screen py-4" :class="{ 'border-b': aboveContent }">
                 <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -90,7 +90,7 @@
                             </div>
                             <div>
                                 @auth
-                                    <a href="{{ route('dashboard') }}"class="max-w-xs text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                    <a href="{{ route('dashboard') }}"class="max-w-xs block text-sm transition duration-150 ease-in-out bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                         aria-label="User menu" aria-haspopup="true">
                                         <img class="h-8 w-8 rounded-full object-cover"
                                             src="{{ Auth::user()->profile_photo_url }}"
@@ -115,13 +115,13 @@
         <x-ui.snackbar />
         <x-pwa-snackbar />
 
-        <main class="min-h-screen overflow-y-auto overflow-x-hidden pt-40 pl-8 md:pl-20">
+        <main class="min-h-screen overflow-y-auto overflow-x-hidden pl-8 pt-40 md:pl-20">
             <div class="xl:flex">
                 <div class="mb-12 max-w-xl pr-2 2xl:max-w-3xl">
                     <div class="mt-12 text-6xl font-bold md:text-7xl">School organization made easy</div>
                     <p class="mt-6 text-2xl text-gray-600">You have enough to worry about during the school year. Don't
                         make
-                        keeping track of everything more stressful then it needs to be.</p>
+                        keeping track of everything more stressful than it needs to be.</p>
                     <p class="mt-6 text-2xl text-gray-600">Meet Schedulist: The easiest way to organize all of your
                         classes,
                         assignments, events, and more.</p>
@@ -135,7 +135,7 @@
                         <i class="material-icons mdc-button__icon" aria-hidden="true">arrow_forward</i>
                     </a>
                 </div>
-                <div class="float-right -mr-12 h-fit pb-12 xl:mr-0 xl:-mt-6 xl:h-auto">
+                <div class="float-right -mr-12 h-fit pb-12 xl:-mt-6 xl:mr-0 xl:h-auto">
                     <img class="show-light" src="{{ asset('images/landing/landing.png') }}"
                         alt="Schedulist homepage preview" height="1071" width="787" />
                     <img class="show-dark" src="{{ asset('images/landing/landing-dark.png') }}"
