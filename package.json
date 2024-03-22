@@ -73,7 +73,7 @@
         "postcss": "^8.4.31",
         "swup": "^2.0.19",
         "turbolinks": "^5.2.0",
-        "webpack-dev-middleware": "^4.1.0",
+        "webpack-dev-middleware": "^5.3.4",
         "workbox-cacheable-response": "^6.1.2",
         "workbox-expiration": "^6.1.2",
         "workbox-precaching": "^6.1.2",
